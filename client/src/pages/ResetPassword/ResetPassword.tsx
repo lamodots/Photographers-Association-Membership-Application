@@ -6,52 +6,47 @@ import LoginAsset from "../../assets/loginassets.svg";
 import Button from "../../components/Button/Button";
 import { Link } from "react-router-dom";
 
-function Login() {
-  const [userEmail, setUserEmail] = useState("");
+function ResetPassword() {
+  const [userPassword, setUserPassword] = useState("");
+  const [userConfirmPsssword, setUserConfirmPassword] = useState("");
   return (
     <main className=" bg-[#F4F6F7] w-screen grid grid-cols-2 gap-8 items-center pl-[7rem] h-screen overflow-hidden">
       <div className="userform">
         <h1 className=" text-2xl text-[#212529] text-center font-bold">
-          Welcome Back !
+          Reset A New Password
         </h1>
         <form className="flex flex-col gap-6">
-          <div className=" flex flex-col gap-2">
-            <Lable label="Email" />
+          <div className="password flex flex-col gap-2">
+            <Lable label="Password" />
             <TextInput
-              type="text"
-              placeholderText="Enter your email"
+              type="password"
+              placeholderText="Enter new password"
               name="email"
-              value={userEmail}
+              value={userPassword}
               handleInputChange={(event: React.FormEvent<HTMLInputElement>) =>
-                setUserEmail("hello")
+                setUserPassword("hello")
               }
             />
           </div>
           <div className="password flex flex-col gap-2">
-            <Lable label="Password" />
+            <Lable label="Confirm Password" />
             <TextInput
-              type="text"
-              placeholderText="Enter your email"
-              name="email"
-              value={userEmail}
+              type="password"
+              placeholderText="Confirm new password"
+              name="ConfirmPass"
+              value={userConfirmPsssword}
               handleInputChange={(event: React.FormEvent<HTMLInputElement>) =>
-                setUserEmail("hello")
+                setUserConfirmPassword("hello")
               }
             />
           </div>
 
-          <Button text="Login" />
+          <Button text="Reset" />
         </form>
 
         <p className=" text-center text-base mt-8">
-          <Link to="forgot-password" className="text-base text-[#1A4F83]">
-            Forgot your password? we will help you reset it
-          </Link>
-        </p>
-        <p className="text-center text-sm mt-6">
-          Dont have an account ?{" "}
-          <Link to="/register" className="text-[#1A4F83]">
-            Register
+          <Link to="/" className="text-base text-[#1A4F83]">
+            Back to Login
           </Link>
         </p>
       </div>
@@ -63,4 +58,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default ResetPassword;

@@ -1,11 +1,12 @@
 import React from "react";
-type LableProp = {
+type LableProp = React.LabelHTMLAttributes<HTMLLabelElement> & {
   label: string;
+  className?: string;
 };
 
-function Lable({ label }: LableProp) {
+function Lable({ label, className, ...props }: LableProp) {
   return (
-    <label className=" text-sm text-[#212529] font-medium rounded-sm">
+    <label className={` ${className} text-[#212529] `} {...props}>
       {label}
     </label>
   );

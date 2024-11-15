@@ -1,10 +1,11 @@
-import React from "react";
-type InputProp = {
+import React, { InputHTMLAttributes } from "react";
+type InputProp = React.InputHTMLAttributes<HTMLInputElement> & {
   type: string;
-  placeholderText: string;
+  placeholderText?: string;
   name: string;
   value: string;
-  handleInputChange: (event: React.FormEvent<HTMLInputElement>) => void;
+  className?: string;
+  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 function TextInput({
   type,
@@ -12,6 +13,7 @@ function TextInput({
   name,
   value,
   handleInputChange,
+  className,
 }: InputProp) {
   return (
     <input
@@ -20,7 +22,7 @@ function TextInput({
       name={name}
       value={value}
       onChange={handleInputChange}
-      className=" w-full h-14 px-3 py-2  rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]"
+      className={`w-full h-14 px-3 py-2  rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]  ${className}`}
     />
   );
 }

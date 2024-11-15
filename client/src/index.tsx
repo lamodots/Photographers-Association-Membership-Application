@@ -6,6 +6,11 @@ import Login from "./pages/Login/Login";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Register from "./pages/Register/Register";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword/ResetPassword";
+import OnboardingWelcome from "./pages/Onboarding/OnboardingWelcome";
+import OnboardingStepOne from "./pages/Onboarding/OnboardingStepOne";
+import OnboardingStepTwo from "./pages/Onboarding/OnboardingStepTwo";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
@@ -13,8 +18,22 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+
+        <Route path="/member-onboarding">
+          <Route index element={<OnboardingWelcome />} />
+          <Route
+            path="/member-onboarding/step-1"
+            element={<OnboardingStepOne />}
+          />
+          <Route
+            path="/member-onboarding/step-2"
+            element={<OnboardingStepTwo />}
+          />
+        </Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
