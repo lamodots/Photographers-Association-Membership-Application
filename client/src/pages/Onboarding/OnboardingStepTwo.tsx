@@ -53,7 +53,7 @@ function OnboardingStepTwo() {
                       name=""
                       value=""
                       handleInputChange={() => console.log("herllo")}
-                      className="w-6"
+                      className="w-6 h-14"
                     />
                     <Lable
                       label="People Photography"
@@ -66,7 +66,7 @@ function OnboardingStepTwo() {
                       name=""
                       value=""
                       handleInputChange={() => console.log("herllo")}
-                      className="w-6"
+                      className="w-6 h-14"
                     />
                     <Lable label="Manmade Objects" />
                   </div>
@@ -76,7 +76,7 @@ function OnboardingStepTwo() {
                       name=""
                       value=""
                       handleInputChange={() => console.log("herllo")}
-                      className="w-6"
+                      className="w-6 h-14"
                     />
                     <Lable label="Nature Photography" />
                   </div>

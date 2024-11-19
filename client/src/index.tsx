@@ -11,6 +11,8 @@ import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import OnboardingWelcome from "./pages/Onboarding/OnboardingWelcome";
 import OnboardingStepOne from "./pages/Onboarding/OnboardingStepOne";
 import OnboardingStepTwo from "./pages/Onboarding/OnboardingStepTwo";
+import DashboardLayout from "./layouts/DashboardLayout/DashboardLayout";
+import Content from "./pages/Content/Content";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
@@ -34,6 +36,8 @@ root.render(
             element={<OnboardingStepTwo />}
           />
         </Route>
+        <Route path="/user" element={<DashboardLayout />} />
+        <Route path="/content" element={<Content />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
