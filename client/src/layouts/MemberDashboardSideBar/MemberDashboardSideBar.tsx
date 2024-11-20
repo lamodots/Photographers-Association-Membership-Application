@@ -1,11 +1,23 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import BrandLogo from "../../components/BrandLogo/BrandLogo";
 import { Link, NavLink } from "react-router-dom";
 import Icon from "../../components/Icon/Icon";
 import { userDashboardMenus } from "../../util/menus/menus";
-function MemberDashboardSideBar() {
+import { SidebarCloseIcon } from "lucide-react";
+
+type MemberDashboardSideBarProp = {
+  handleToggleSideBar: () => void;
+};
+
+function MemberDashboardSideBar({
+  handleToggleSideBar,
+}: MemberDashboardSideBarProp) {
   return (
-    <aside className=" w-60 bg-[#F5F7FA] border-r-2 border-r-[#C4DCF3]">
+    <aside className=" absolute z-50 shadow-lg bg-[#F5F7FA] border-r-2 border-r-[#C4DCF3] md:static md:z-0 md:shadow-none w-60 transition ease-in-out delay-150 duration-300">
+      <SidebarCloseIcon
+        className="relative left-6 mt-8 md:hidden"
+        onClick={handleToggleSideBar}
+      />
       <div className="brand py-8 px-6 mb-8 flex items-center border-b-2 border-b-[#C4DCF3] gap-3">
         <BrandLogo />
         <span className="text-2xl text-[#1A4F83] font-bold">Brand</span>
@@ -13,7 +25,7 @@ function MemberDashboardSideBar() {
       <div className="  px-6 links flex flex-col gap-6">
         {userDashboardMenus.map((menu) => (
           <NavLink
-            to={`/${menu.path}`}
+            to={`${menu.path}`}
             key={menu.key}
             className="cursor-pointer hover:text-[#5BD3CF]"
           >
@@ -26,7 +38,7 @@ function MemberDashboardSideBar() {
                 />
                 <span
                   className={`${
-                    isActive ? "text-[#1A4F83] font-bold" : "text-[#537BA2]"
+                    isActive ? "text-[#1A4F83] " : "text-[#537BA2]"
                   } text-lg`}
                 >
                   {menu.label}

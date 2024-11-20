@@ -1,5 +1,6 @@
 import { CircleUser, LogOut } from "lucide-react";
 import React from "react";
+import { Link } from "react-router-dom";
 
 type PopupProp = {
   className?: string;
@@ -12,15 +13,15 @@ function Popup({ className, handlShowPopup }: PopupProp) {
         className="flex items-center gap-1 cursor-pointer hover:text-[#5BD3CF]"
         onClick={handlShowPopup}
       >
-        <LogOut size={32} />
+        <LogOut size={24} />
         <span>Logout</span>
       </div>
       <div
         className="flex items-center gap-1 cursor-pointer hover:text-[#5BD3CF] "
         onClick={handlShowPopup}
       >
-        <CircleUser size={32} />
-        <span>Profile</span>
+        <CircleUser size={24} />
+        <Link to="/profile">Profile</Link>
       </div>
     </div>
   );

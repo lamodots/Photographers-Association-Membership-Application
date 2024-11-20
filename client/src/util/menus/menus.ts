@@ -11,7 +11,7 @@ export const userDashboardMenus: userRoutes[] = [
   {
     key: "overview",
     label: "Overview",
-    path: "user",
+    path: "/",
     menuIcon: "LayoutDashboard",
   },
   {

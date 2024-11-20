@@ -48,8 +48,22 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 TODO
 
 - Refactor handlShowPopup and showMorePop use useContext for global state managemenet
-- On mobile Avater sould be in the annoucement link shoulkd be at the side bar
-- Hello lamodot welcome display none
-- position sidebar so main content shows fully
-- Configure dashbaord shared route and protected route
-- Display route icon
+- On mobile Avater sould be in the annoucement link shoulkd be at the side bar ✔️
+- Hello lamodot welcome display none ✔️
+- position sidebar so main content shows fully ✔️
+- Configure dashbaord shared route and protected route ✔️
+- Display route icon ✔️
+
+TODO 2
+
+- Validate all form input YUP and Formik and show user friendly error messages
+- Start work on Admin dashboard
+  - Dublicate pages
+  - Update all imports
+  - Create admin login page
+  - Update dashboard sidebar with admin navigations
+- Begin working on backend end API
+  - Set up basic route.
+  - Deploy app on Render
+  - Begin work on user and Admin Authentication
+  - Begin work on API main routes. You can start from admin settings, get all users
