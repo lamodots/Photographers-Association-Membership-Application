@@ -58,11 +58,36 @@ TODO 2
 
 - Validate all form input YUP and Formik and show user friendly error messages ✔️
 - Start work on Admin dashboard ✔️
+
   - Create admin pages ✔️
   - Update all imports ✔️
   - Create admin login page ✔️
   - Update dashboard sidebar with admin navigations ✔️
   - Work on admin sidebar nested links ✔️
+
+  TODO 3
+
+- Begin working on Admin pages and validations
+
+  - Overview
+  - Content
+  - Members
+    - All
+    - Add Member
+  - Subscription
+    - All
+    - Create Subscription
+  - Announcement
+    - All
+    - Craete Announcement
+  - Events
+    - All
+    - Craete Events
+  - ID Card
+  - Settings
+
+  TODO 4
+
 - Begin working on backend end API
   - Set up basic route.
   - Deploy app on Render
