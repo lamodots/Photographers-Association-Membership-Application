@@ -7,6 +7,12 @@ interface userRoutes {
   path: string;
   menuIcon: IconName;
 }
+interface adminRoutes {
+  key: string;
+  label: string;
+  path: string;
+  menuIcon: IconName;
+}
 export const userDashboardMenus: userRoutes[] = [
   {
     key: "overview",
@@ -57,4 +63,59 @@ export const userDashboardMenus: userRoutes[] = [
     menuIcon: "Settings",
   },
 ];
-export const adminDashboardMenus = [];
+export const adminDashboardMenus: adminRoutes[] = [
+  {
+    key: "overview",
+    label: "Overview",
+    path: "/secure",
+    menuIcon: "LayoutDashboard",
+  },
+  {
+    key: "content",
+    label: "Content",
+    path: "content",
+    menuIcon: "Book",
+  },
+  {
+    key: "members",
+    label: "Members",
+    path: "members",
+    menuIcon: "UsersRound",
+  },
+  {
+    key: "subscription",
+    label: "Subscription",
+    path: "subscription",
+    menuIcon: "HandCoins",
+  },
+  {
+    key: "announcement",
+    label: "Announcement",
+    path: "announcement",
+    menuIcon: "Bell",
+  },
+  {
+    key: "events",
+    label: "Events",
+    path: "events",
+    menuIcon: "Video",
+  },
+  {
+    key: "certificate",
+    label: "Certificate",
+    path: "certificate",
+    menuIcon: "GraduationCap",
+  },
+  {
+    key: "idcard",
+    label: "ID Card",
+    path: "id_card",
+    menuIcon: "IdCard",
+  },
+  {
+    key: "settings",
+    label: "Settings",
+    path: "settings",
+    menuIcon: "Settings",
+  },
+];

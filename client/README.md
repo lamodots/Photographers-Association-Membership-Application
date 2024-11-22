@@ -56,12 +56,13 @@ TODO
 
 TODO 2
 
-- Validate all form input YUP and Formik and show user friendly error messages
-- Start work on Admin dashboard
-  - Dublicate pages
-  - Update all imports
-  - Create admin login page
-  - Update dashboard sidebar with admin navigations
+- Validate all form input YUP and Formik and show user friendly error messages ✔️
+- Start work on Admin dashboard ✔️
+  - Create admin pages ✔️
+  - Update all imports ✔️
+  - Create admin login page ✔️
+  - Update dashboard sidebar with admin navigations ✔️
+  - Work on admin sidebar nested links ✔️
 - Begin working on backend end API
   - Set up basic route.
   - Deploy app on Render

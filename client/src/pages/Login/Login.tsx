@@ -14,8 +14,13 @@ interface ValuesProps {
 
 function Login() {
   const loginSchema = Yup.object().shape({
-    email: Yup.string().email().required(),
-    password: Yup.string().min(8).max(16).required(),
+    email: Yup.string()
+      .email("Please enter a valid email address.")
+      .required("Email is required."),
+    password: Yup.string()
+      .min(8, "Password must be at least 8 characters long.")
+      .max(16, "Password cannot be longer than 16 characters.")
+      .required("Password is required."),
   });
 
   const initialValues = {

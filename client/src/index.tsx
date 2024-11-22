@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./layouts/ProtectedRoute/ProtectedRoute";
 import DashboardLayout from "./layouts/DashboardLayout/DashboardLayout";
 import FallbackLoadingComponent from "./components/FallbackLoadingComponent/FallbackLoadingComponent";
+import AdminDashboardLayout from "./layouts/AdminDashboardLayout/AdminDashboardLayout";
 
 // import Login from "./pages/Login/Login";
 // import Register from "./pages/Register/Register";
@@ -26,7 +27,9 @@ import FallbackLoadingComponent from "./components/FallbackLoadingComponent/Fall
 
 // Auth Pages
 const Register = lazy(() => import("./pages/Register/Register"));
+
 const Login = lazy(() => import("./pages/Login/Login"));
+const AdminLogin = lazy(() => import("./pages/Admin/Login/Login"));
 const ForgotPassword = lazy(
   () => import("./pages/ForgotPassword/ForgotPassword")
 );
@@ -42,13 +45,19 @@ const OnboardingStepOne = lazy(
 const OnboardingStepTwo = lazy(
   () => import("./pages/Onboarding/OnboardingStepTwo")
 );
+const AdminOnboardingStepTwo = lazy(
+  () => import("./pages/Admin/Onboarding/OnboardingStepTwo")
+);
 
 // Dashboard Pages
 const OverViewPage = lazy(() => import("./pages/OverViewPage/OverViewPage"));
+const AdminOverViewPage = lazy(
+  () => import("./pages/Admin/OverViewPage/OverViewPage")
+);
 const Content = lazy(() => import("./pages/Content/Content"));
 const Members = lazy(() => import("./pages/Members/Members"));
 const Subscription = lazy(() => import("./pages/Subscription/Subscription"));
-const Events = lazy(() => import("./pages/Subscription/Events"));
+const Events = lazy(() => import("./pages/Events/Events"));
 const Certificate = lazy(() => import("./pages/Certificate/Certificate"));
 const IdCard = lazy(() => import("./pages/IdCard/IdCard"));
 const Settings = lazy(() => import("./pages/Settings/Settings"));
@@ -90,6 +99,45 @@ root.render(
               <Route path="id_card" element={<IdCard />} />
               <Route path="settings" element={<Settings />} />
               <Route path="announcement" element={<Announcement />} />
+              <Route
+                path="announcement/:id"
+                element={<AnnouncementDetails />}
+              />
+              <Route path="profile" element={<Profile />} />
+            </Route>
+          </Route>
+        </Routes>
+      </Suspense>
+      <Suspense>
+        <Routes>
+          <Route path="/secure/login" element={<AdminLogin />} />
+          {/* register should be protected */}
+          <Route path="/secure/register" element={<AdminOnboardingStepTwo />} />
+          <Route element={<ProtectedRoute />}>
+            {/* Dashboard */}
+            <Route path="/secure" element={<AdminDashboardLayout />}>
+              <Route index element={<AdminOverViewPage />} />
+              <Route path="content" element={<Content />} />
+              <Route path="members" element={<Members />} />
+              <Route
+                path="members/create"
+                element={<div>Craete memeber</div>}
+              />
+              <Route path="subscription" element={<Subscription />} />
+              <Route
+                path="subscription/create"
+                element={<div>Create Subscription</div>}
+              />
+              <Route path="events" element={<Events />} />
+              <Route path="events/create" element={<div>Create Events</div>} />
+              <Route path="certificate" element={<Certificate />} />
+              <Route path="id_card" element={<IdCard />} />
+              <Route path="settings" element={<Settings />} />
+              <Route path="announcement" element={<Announcement />} />
+              <Route
+                path="announcement"
+                element={<div>Create Announcements</div>}
+              />
               <Route
                 path="announcement/:id"
                 element={<AnnouncementDetails />}
