@@ -16,7 +16,7 @@ function AdminDashboardLayout() {
   return (
     <div className=" flex w-full h-[auto] min-h-screen">
       <div
-        className={`h-screen overflow-y-auto md:${
+        className={`h-screen overflow-y-auto overflow-x-hidden md:${
           showSideBar ? "w-[296px]" : "w-0"
         } bg-[#1A4F83] `}
       >

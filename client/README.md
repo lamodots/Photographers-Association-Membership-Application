@@ -69,14 +69,16 @@ TODO 2
 
 - Begin working on Admin pages and validations
 
-  - Overview
+  - Overview ✔️
   - Content
   - Members
-    - All
-    - Add Member
-  - Subscription
-    - All
-    - Create Subscription
+    - All ✔️
+    - Add Member ✔️
+    - Member details
+  - Subscription ✔️
+    - All ✔️
+    - Create Subscription ✔️
+    - Subscription detail ✔️
   - Announcement
     - All
     - Craete Announcement
@@ -84,7 +86,7 @@ TODO 2
     - All
     - Craete Events
   - ID Card
-  - Settings
+  - Settings ✔️
 
   TODO 4
 

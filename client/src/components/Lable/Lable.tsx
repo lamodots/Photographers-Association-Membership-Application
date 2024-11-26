@@ -6,7 +6,7 @@ type LableProp = React.LabelHTMLAttributes<HTMLLabelElement> & {
 
 function Lable({ label, className, ...props }: LableProp) {
   return (
-    <label className={` ${className} text-[#212529] `} {...props}>
+    <label className={` ${className} text-[#1A4F83] `} {...props}>
       {label}
     </label>
   );

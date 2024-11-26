@@ -7,8 +7,33 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./layouts/ProtectedRoute/ProtectedRoute";
 import DashboardLayout from "./layouts/DashboardLayout/DashboardLayout";
 import FallbackLoadingComponent from "./components/FallbackLoadingComponent/FallbackLoadingComponent";
-import AdminDashboardLayout from "./layouts/AdminDashboardLayout/AdminDashboardLayout";
 
+//******** */ Admin Dashboard Page Imports
+import AdminDashboardLayout from "./layouts/AdminDashboardLayout/AdminDashboardLayout";
+const AdminOverViewPage = lazy(
+  () => import("./pages/Admin/OverViewPage/OverViewPage")
+);
+const AdminOnboardingStepTwo = lazy(
+  () => import("./pages/Admin/Onboarding/OnboardingStepTwo")
+);
+
+const AdminLogin = lazy(() => import("./pages/Admin/Login/Login"));
+
+const AdminSettings = lazy(() => import("./pages/Admin/Settings/Settings"));
+const AdminSubscription = lazy(
+  () => import("./pages/Admin/Subscription/CreateSubScriptions")
+);
+const AdminSubscriptionList = lazy(
+  () => import("./pages/Admin/Subscription/Subscription")
+);
+
+const AdminSubscriptionDetails = lazy(
+  () => import("./pages/Admin/Subscription/SubscriptionDetails")
+);
+const AdminMembers = lazy(() => import("./pages/Admin/Members/Members"));
+const AdminCreateMember = lazy(
+  () => import("./pages/Admin/Members/CreateNewMember")
+);
 // import Login from "./pages/Login/Login";
 // import Register from "./pages/Register/Register";
 // import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
@@ -25,11 +50,11 @@ import AdminDashboardLayout from "./layouts/AdminDashboardLayout/AdminDashboardL
 // import IdCard from "./pages/IdCard/IdCard";
 // import Settings from "./pages/Settings/Settings";
 
-// Auth Pages
+//********** * Auth Pages
 const Register = lazy(() => import("./pages/Register/Register"));
 
 const Login = lazy(() => import("./pages/Login/Login"));
-const AdminLogin = lazy(() => import("./pages/Admin/Login/Login"));
+
 const ForgotPassword = lazy(
   () => import("./pages/ForgotPassword/ForgotPassword")
 );
@@ -45,15 +70,10 @@ const OnboardingStepOne = lazy(
 const OnboardingStepTwo = lazy(
   () => import("./pages/Onboarding/OnboardingStepTwo")
 );
-const AdminOnboardingStepTwo = lazy(
-  () => import("./pages/Admin/Onboarding/OnboardingStepTwo")
-);
 
-// Dashboard Pages
+//********* USER Dashboard Pages
 const OverViewPage = lazy(() => import("./pages/OverViewPage/OverViewPage"));
-const AdminOverViewPage = lazy(
-  () => import("./pages/Admin/OverViewPage/OverViewPage")
-);
+
 const Content = lazy(() => import("./pages/Content/Content"));
 const Members = lazy(() => import("./pages/Members/Members"));
 const Subscription = lazy(() => import("./pages/Subscription/Subscription"));
@@ -108,6 +128,8 @@ root.render(
           </Route>
         </Routes>
       </Suspense>
+
+      {/* //ADMIN ROUTES */}
       <Suspense>
         <Routes>
           <Route path="/secure/login" element={<AdminLogin />} />
@@ -118,21 +140,22 @@ root.render(
             <Route path="/secure" element={<AdminDashboardLayout />}>
               <Route index element={<AdminOverViewPage />} />
               <Route path="content" element={<Content />} />
-              <Route path="members" element={<Members />} />
-              <Route
-                path="members/create"
-                element={<div>Craete memeber</div>}
-              />
-              <Route path="subscription" element={<Subscription />} />
+              <Route path="members" element={<AdminMembers />} />
+              <Route path="members/create" element={<AdminCreateMember />} />
+              <Route path="subscription" element={<AdminSubscriptionList />} />
               <Route
                 path="subscription/create"
-                element={<div>Create Subscription</div>}
+                element={<AdminSubscription />}
+              />
+              <Route
+                path="subscription/details/:subId"
+                element={<AdminSubscriptionDetails />}
               />
               <Route path="events" element={<Events />} />
               <Route path="events/create" element={<div>Create Events</div>} />
               <Route path="certificate" element={<Certificate />} />
               <Route path="id_card" element={<IdCard />} />
-              <Route path="settings" element={<Settings />} />
+              <Route path="settings" element={<AdminSettings />} />
               <Route path="announcement" element={<Announcement />} />
               <Route
                 path="announcement"

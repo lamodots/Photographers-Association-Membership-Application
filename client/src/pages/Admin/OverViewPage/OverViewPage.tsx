@@ -1,9 +1,19 @@
-import React from "react";
+import React, { lazy } from "react";
 import TextInput from "../../../components/Input/TextInput";
 import TopStats from "../../../components/Admin-Components/TopStats/TopStats";
 import { CircleDollarSign, Pen, RefreshCw, RotateCcw } from "lucide-react";
 import MemberStats from "../../../components/Admin-Components/MemberStats/MemberStats";
 import Chart from "../../../components/Admin-Components/MemberStats/Chart";
+import { Suspense } from "react";
+import FallbackLoadingComponent from "../../../components/FallbackLoadingComponent/FallbackLoadingComponent";
+import Button from "../../../components/Button/Button";
+import { Link } from "react-router-dom";
+import { FAKE_MEMBERS } from "../../../util/data";
+// import NewMemberCard from "../../../components/Admin-Components/NewMemberCard/NewMemberCard";
+const NewMemberCard = lazy(
+  () =>
+    import("../../../components/Admin-Components/NewMemberCard/NewMemberCard")
+);
 
 function OverViewPage() {
   return (
@@ -45,21 +55,51 @@ function OverViewPage() {
         </div>
       </header>
       <section>
-        <div className="bg-white rounded-lg mt-8">
+        <div className="bg-white rounded-lg mt-8 w-full">
           <div className="border-b border-[#A6B4BA] p-6">
             <h3 className="text-[#3E454C] text-lg">Member statistics</h3>
           </div>
-          <div className="member-type-stats p-6 grid grid-cols-2 gap-20">
-            <div className="left grid grid-cols-2 gap-6">
-              <MemberStats />
-              <MemberStats />
-              <MemberStats />
-              <MemberStats />
+
+          <Suspense fallback={<FallbackLoadingComponent />}>
+            <div className="member-type-stats p-6 grid grid-cols-1 md:grid-cols-[9fr,3fr] gap-7">
+              <div className="left grid grid-cols-2 w-full gap-6">
+                <MemberStats />
+                <MemberStats />
+                <MemberStats />
+                <MemberStats />
+              </div>
+              <div className="right bg-[#F5F7FA] px-4 py-8 rounded-lg w-full">
+                <Chart />
+              </div>
             </div>
-            <div className="right">
-              <Chart />
-            </div>
-          </div>
+          </Suspense>
+        </div>
+      </section>
+      <section className="pt-8">
+        <div className="flex justify-between items-center">
+          <h2 className="text-lg text-[#1A4F83] font-bold capitalize ">
+            New members
+          </h2>
+          <Link
+            to="/secure/members"
+            className="border border-[#A5BCD4] text-[#1A4F83] font-bold px-2 py-1 rounded-lg"
+          >
+            View All
+          </Link>
+        </div>
+
+        <div className="grid gap-4 grid-cols-1 md:grid-cols-3 mt-6">
+          {FAKE_MEMBERS.map((user) => {
+            return (
+              <Suspense fallback={<FallbackLoadingComponent />}>
+                <NewMemberCard
+                  image={user.photo}
+                  name={user.name}
+                  date={user.date}
+                />
+              </Suspense>
+            );
+          })}
         </div>
       </section>
     </main>

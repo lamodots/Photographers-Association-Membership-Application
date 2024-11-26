@@ -22,7 +22,7 @@ function TextInput({
       name={name}
       value={value}
       onChange={handleInputChange}
-      className={` px-3 py-2  rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]  ${className}`}
+      className={` px-3 py-2  outline-[#90BFE9] rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]  ${className}`}
     />
   );
 }
