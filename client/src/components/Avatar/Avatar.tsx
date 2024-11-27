@@ -4,7 +4,7 @@ import Popup from "../Popup/Popup";
 import NotificationComponent from "../NotificationComponent/NotificationComponent";
 
 type AvatarProps = {
-  className: string;
+  className?: string;
   image?: string;
   handlShowPopup?: () => void;
   showMorePopUp?: boolean;

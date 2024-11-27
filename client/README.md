@@ -74,17 +74,19 @@ TODO 2
   - Members
     - All ✔️
     - Add Member ✔️
-    - Member details
+    - Member details ✔️
   - Subscription ✔️
     - All ✔️
     - Create Subscription ✔️
     - Subscription detail ✔️
   - Announcement
-    - All
-    - Craete Announcement
+    - All ✔️
+    - Announcment details ✔️
+    - Create Announcement✔️
   - Events
-    - All
-    - Craete Events
+    - All ✔️
+    - Craete Events ✔️
+    - Event detail ✔️
   - ID Card
   - Settings ✔️
 

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import TextInput from "../../../components/Input/TextInput";
 import NewMemberCard from "../../../components/Admin-Components/NewMemberCard/NewMemberCard";
 import { FAKE_MEMBERS } from "../../../util/data";
+import { Link } from "react-router-dom";
 
 function Members() {
   const [userData, setUserData] = useState(FAKE_MEMBERS);
@@ -68,13 +69,13 @@ function Members() {
         <div className="grid gap-6 grid-cols-2 md:grid-cols-3">
           {userData.map((user) => {
             return (
-              <React.Fragment key={user.id}>
+              <Link to="/secure/members/details/1" key={user.id}>
                 <NewMemberCard
                   name={user.name}
                   image={user.photo}
                   email={user.email}
                 />
-              </React.Fragment>
+              </Link>
             );
           })}
         </div>

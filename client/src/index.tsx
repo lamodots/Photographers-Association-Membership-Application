@@ -34,6 +34,30 @@ const AdminMembers = lazy(() => import("./pages/Admin/Members/Members"));
 const AdminCreateMember = lazy(
   () => import("./pages/Admin/Members/CreateNewMember")
 );
+
+const AdminMembersDetails = lazy(
+  () => import("./pages/Admin/Members/AdminMembersDetails")
+);
+
+const AdminAnnouncements = lazy(
+  () => import("./pages/Admin/Announcement/Announcement")
+);
+const AdminAnnouncementsDetails = lazy(
+  () => import("./pages/Admin/Announcement/AnnouncementDetails")
+);
+const AdminCreateAnnouncement = lazy(
+  () => import("./pages/Admin/Announcement/CreateAnnouncement")
+);
+const AdminCreateEvent = lazy(() => import("./pages/Admin/Events/CreateEvent"));
+
+const AdminEvents = lazy(() => import("./pages/Admin/Events/Events"));
+
+const AdminEventDetails = lazy(
+  () => import("./pages/Admin/Events/EventDetails")
+);
+const AdminCertificate = lazy(
+  () => import("./pages/Admin/Certificate/Certificate")
+);
 // import Login from "./pages/Login/Login";
 // import Register from "./pages/Register/Register";
 // import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
@@ -142,6 +166,10 @@ root.render(
               <Route path="content" element={<Content />} />
               <Route path="members" element={<AdminMembers />} />
               <Route path="members/create" element={<AdminCreateMember />} />
+              <Route
+                path="members/details/:memberId"
+                element={<AdminMembersDetails />}
+              />
               <Route path="subscription" element={<AdminSubscriptionList />} />
               <Route
                 path="subscription/create"
@@ -151,19 +179,23 @@ root.render(
                 path="subscription/details/:subId"
                 element={<AdminSubscriptionDetails />}
               />
-              <Route path="events" element={<Events />} />
-              <Route path="events/create" element={<div>Create Events</div>} />
-              <Route path="certificate" element={<Certificate />} />
+              <Route path="events" element={<AdminEvents />} />
+              <Route path="events/create" element={<AdminCreateEvent />} />
+              <Route
+                path="events/details/:id"
+                element={<AdminEventDetails />}
+              />
+              <Route path="certificate" element={<AdminCertificate />} />
               <Route path="id_card" element={<IdCard />} />
               <Route path="settings" element={<AdminSettings />} />
-              <Route path="announcement" element={<Announcement />} />
+              <Route path="announcement" element={<AdminAnnouncements />} />
               <Route
-                path="announcement"
-                element={<div>Create Announcements</div>}
+                path="announcement/create"
+                element={<AdminCreateAnnouncement />}
               />
               <Route
-                path="announcement/:id"
-                element={<AnnouncementDetails />}
+                path="announcement/details/:id"
+                element={<AdminAnnouncementsDetails />}
               />
               <Route path="profile" element={<Profile />} />
             </Route>

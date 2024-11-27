@@ -3,7 +3,7 @@ import { ChevronLeft, Delete, Trash, Pencil } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import FallbackLoadingComponent from "../../../components/FallbackLoadingComponent/FallbackLoadingComponent";
 
-function AnnouncementDetails() {
+function EventDetails() {
   const navigate = useNavigate();
 
   const handleBackClick = () => {
@@ -20,10 +20,10 @@ function AnnouncementDetails() {
       </header>
       <main>
         <section>
-          <div className="top flex justify-between mt-8 ">
+          <div className="top  md:flex md:justify-between mt-8 space-y-4 ">
             <div className="left">
               <h1 className="text-2xl text-[#212529] font-bold">
-                Indigo Digital photo albums
+                LASPPAN End of the year party
               </h1>
             </div>
             <div className="right flex gap-10  ">
@@ -37,6 +37,13 @@ function AnnouncementDetails() {
             </div>
           </div>
           <Suspense fallback={<FallbackLoadingComponent />}>
+            <div className="mt-6 rounded-lg">
+              <img
+                className=" rounded-lg aspect-auto"
+                src="https://cdn.thecollector.com/wp-content/uploads/2023/05/tips-to-become-a-great-photographer.jpg?width=1200&quality=70"
+                alt=""
+              />
+            </div>
             <p className="mt-8 text-sm">
               Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel,
               voluptatum? Eveniet perspiciatis quod inventore repellendus
@@ -52,4 +59,4 @@ function AnnouncementDetails() {
   );
 }
 
-export default AnnouncementDetails;
+export default EventDetails;
