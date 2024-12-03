@@ -91,3 +91,47 @@ An all-in-one platform connecting photographers to a vibrant community, professi
 - package.json: Configuration for npm scripts and dependencies.
 
 - README.md: Project documentation.
+
+### routes
+
+- ### Auth
+
+      -   /api/v1/user/login:
+      -   /api/v1/user/signup:
+      -   /api/v1/secure/add:
+            - Secure user can be added to database as moderator
+            - The add route should be protect for only admin user
+
+      -   /api/v1/secure/login:
+            - Secure user sould be able to login using email and password.
+            - Secure user login access token and refresh token should stored on session
+
+            - Only loggedin moderator or admin user role can access secure dashboard
+      -   /api/v1/user/forgot-password
+      -   /api/v1/user/reset-password
+      -   /api/v1/secure/forgot-password
+      -   /api/v1/secure/reset-password
+
+<!-- https://www.linkedin.com/pulse/software-testing-101-beginners-guide-types-techniques-wgphc/ -->
+
+```js
+
+{
+  "image": "https://placehold.co/400",
+  "firstname": "john",
+  "lastname": "doe",
+  "email": "john@gmail.com",
+  "password": "1234567890",
+  "Dob": "2010-10-20",
+  "phone": "08080808089",
+  "location": "Lagos",
+  "address": "Ikeja mall",
+  "aboutuser": "Tall and lanky",
+  "social": [
+    {"facebook": "https://www.facebook.com"},
+    {"linkedIn": "https://linkedin.com"}
+  ],
+  "interest": ["landscape", "event"]
+}
+
+```
