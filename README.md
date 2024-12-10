@@ -96,21 +96,27 @@ An all-in-one platform connecting photographers to a vibrant community, professi
 
 - ### Auth
 
-      -   /api/v1/user/login:
-      -   /api/v1/user/signup:
+      ### SECURE
       -   /api/v1/secure/add:
-            - Secure user can be added to database as moderator
-            - The add route should be protect for only admin user
+            - Secure user can be added to database as moderator ✔️
+            - The add route should be protect for only admin user ✔️
 
       -   /api/v1/secure/login:
-            - Secure user sould be able to login using email and password.
-            - Secure user login access token and refresh token should stored on session
+            - Secure user sould be able to login using email and password.✔️
+            - Secure user login access token and refresh token should stored on session ✔️
 
-            - Only loggedin moderator or admin user role can access secure dashboard
-      -   /api/v1/user/forgot-password
-      -   /api/v1/user/reset-password
+            - Only loggedin moderator or admin user role can access secure dashboard ✔️
+            - /api/v1/secure/logout ✔️
+
       -   /api/v1/secure/forgot-password
       -   /api/v1/secure/reset-password
+
+
+      ### USERS
+      -   /api/v1/user/login:
+      -   /api/v1/user/signup:
+      -   /api/v1/user/forgot-password
+      -   /api/v1/user/reset-password
 
 <!-- https://www.linkedin.com/pulse/software-testing-101-beginners-guide-types-techniques-wgphc/ -->
 

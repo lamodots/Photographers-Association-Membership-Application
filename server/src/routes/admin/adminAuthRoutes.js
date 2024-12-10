@@ -2,15 +2,22 @@ const express = require("express");
 const {
   addAdminController,
   loginAdminController,
-} = require("../controllers/adminAuthController");
-const { authenticateUser } = require("../middlewares/adminAuthMiddleware");
+  logOutController,
+} = require("../../controllers");
+const { authenticateUser, authorizaPermissions } = require("../../middlewares");
 
 const adminRoute = express.Router();
 
 adminRoute.post("/login", loginAdminController);
 
-adminRoute.post("/add", addAdminController);
+adminRoute.post(
+  "/add",
+  authenticateUser,
+  authorizaPermissions("admin"),
+  addAdminController
+);
 
+adminRoute.get("/logout", logOutController);
 adminRoute.post("/forgot-password", (req, res) => {
   console.log("Admin forgot password");
   res.json({ ok: true });

@@ -1,4 +1,5 @@
 import React, { lazy, Suspense } from "react";
+import { Toaster } from "react-hot-toast";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
@@ -203,6 +204,7 @@ root.render(
         </Routes>
       </Suspense>
     </BrowserRouter>
+    <Toaster />
   </React.StrictMode>
 );
 // I want user to only access Dashboard if they have completed onboarding and the onboarding will not show again if user complete it

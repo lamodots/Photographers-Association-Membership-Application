@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import TextInput from "../../components/Input/TextInput";
@@ -28,12 +29,19 @@ function Login() {
     password: "",
   };
 
-  const handleFormSubmit = (
+  const handleFormSubmit = async (
     values: ValuesProps,
     { setSubmitting }: FormikHelpers<ValuesProps>
   ) => {
     // same shape as initial values
     console.log(values);
+    await fetch("http://localhost:5000/api/v1/user/auth/login", {
+      method: "POST",
+      body: JSON.stringify(values),
+    });
+
+    // toast("Login successful! Good to see you again.");
+    alert("Success");
   };
   return (
     <main className=" bg-[#F4F6F7] w-screen grid grid-cols-2 gap-8 items-center pl-[7rem] h-screen overflow-hidden">
@@ -85,7 +93,7 @@ function Login() {
                 </span>
               </div>
 
-              <Button text="Login" disableBtn={isSubmitting} />
+              <Button type="submit" text="Login" />
             </form>
           )}
         </Formik>

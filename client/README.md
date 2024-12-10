@@ -93,7 +93,14 @@ TODO 2
   TODO 4
 
 - Begin working on backend end API
+
   - Set up basic route. ✔️
   - Deploy app on Render
   - Begin work on user and Admin Authentication
   - Begin work on API main routes. You can start from admin settings, get all users
+
+  TODO 5
+
+  - Add option to select app color code
+  - Create ID card and dynamically display color, and user info
+  - User can register for events and scan bar code to confirm

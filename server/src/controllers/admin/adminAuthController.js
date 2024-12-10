@@ -1,7 +1,7 @@
 const { StatusCodes } = require("http-status-codes");
-const adminAuthServices = require("../services/adminAuthServices");
-const { BadRequestError } = require("../errors");
-const { attachCookiesToResponse } = require("../utils/jwt");
+const { addAdminUserService, loginAdminServices } = require("../../services");
+const { BadRequestError } = require("../../errors");
+const { attachCookiesToResponse } = require("../../utils/jwt");
 
 async function addAdminController(req, res, next) {
   const {
@@ -31,9 +31,14 @@ async function addAdminController(req, res, next) {
     let role = "user";
     if (req.user && req.user.role === "admin") {
       // Admin can assign "admin" role
-      role = req.body.role === "admin" ? "admin" : "user"; // Ensure only admins can set role to "admin"
+      role = role =
+        req.body.role === "admin"
+          ? "admin"
+          : req.body.role === "moderator"
+          ? "moderator"
+          : "user"; // Ensure only admins can set role to "admin"
     }
-    await adminAuthServices.addAdminUserService({
+    await addAdminUserService({
       image,
       firstname,
       lastname,
@@ -65,11 +70,9 @@ async function loginAdminController(req, res, next) {
       return next(new BadRequestError("Please provide email and password"));
     }
     // Return user token from login services
-    const tokenUser = await adminAuthServices.loginAdminServices(
-      email,
-      password
-    );
+    const tokenUser = await loginAdminServices(email, password);
 
+    console.log("client token", tokenUser);
     // attach user token to cookie response pass down res to enable you access res.cookie
     attachCookiesToResponse(res, tokenUser);
     res
@@ -80,4 +83,11 @@ async function loginAdminController(req, res, next) {
   }
 }
 
-module.exports = { addAdminController, loginAdminController };
+async function logOutController(req, res, next) {
+  res.cookie("token", process.env.COOKIE_RESET, {
+    httpOnly: true,
+    maxAge: new Date(Date.now() + 1000),
+  });
+  res.json({ ok: true, message: "You have been loggedOut" });
+}
+module.exports = { addAdminController, loginAdminController, logOutController };

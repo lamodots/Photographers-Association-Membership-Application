@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
+import Select from "react-select";
 import Lable from "../../../components/Lable/Lable";
 import TextInput from "../../../components/Input/TextInput";
-import { Formik } from "formik";
+import { Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import Button from "../../../components/Button/Button";
-import Select from "react-select";
+import useWordCount from "../../../hooks/useWordCount";
+import { Oval } from "react-loader-spinner";
+import toast from "react-hot-toast";
 
 function CreateAnnouncement() {
+  const { wordCount, handleWordCount } = useWordCount();
+
   const settingsSchema = Yup.object().shape({
     title: Yup.string()
+      .min(10)
       .max(
         65,
         "Annoucement name must be a string with a maximum of 65 characters"
@@ -16,16 +22,53 @@ function CreateAnnouncement() {
       .required("Annoucement  title is required"),
 
     description: Yup.string()
-      .min(120)
-      .max(400)
-      .required("Annoucement  description is required"),
+      .required("Annoucement  description is required")
+      .test("max-words", "Description cannot exceed 400 words", (value) => {
+        if (value) {
+          const wordCount = value.trim().split(/\s+/).length;
+          return wordCount <= 400;
+        }
+        return true;
+      }),
   });
 
   const initialValues = {
     title: "",
-
     description: "",
   };
+
+  async function handleSubmitAnnouncement(
+    values: { title: string; description: string },
+    { setSubmitting }: FormikHelpers<{ title: string; description: string }>
+  ) {
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      const res = await fetch("/api/v1/secure/announcement", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(values),
+
+        credentials: "include",
+      });
+
+      console.log(await res);
+      if (res.ok) {
+        const { message } = await res.json();
+        toast.success(message);
+      } else {
+        const errorData = await res.json();
+
+        toast.error(errorData.msg || "An error occurred. Please try again.");
+      }
+    } catch (error) {
+      toast.error("An error occurred");
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   return (
     <main>
       <section>
@@ -36,7 +79,7 @@ function CreateAnnouncement() {
           <Formik
             initialValues={initialValues}
             validationSchema={settingsSchema}
-            onSubmit={(value) => console.log(value)}
+            onSubmit={handleSubmitAnnouncement}
           >
             {({ values, errors, handleChange, handleSubmit, isSubmitting }) => (
               <form onSubmit={handleSubmit}>
@@ -69,23 +112,47 @@ function CreateAnnouncement() {
                           className=" w-full border-0 outline-0 bg-[#F4F6F7] "
                           name="description"
                           value={values.description}
-                          onChange={handleChange}
+                          onChange={(e) => {
+                            handleChange(e);
+                            handleWordCount(e.target.value);
+                          }}
                         />
                       </div>
                       <div className="flex justify-between">
                         <span className="text-[10px] text-red-400">
                           {errors.description && errors.description}
                         </span>
-                        <small className="text-[#1A4F83]">0/400</small>
+                        <small className="text-[#1A4F83]">
+                          {wordCount}/400
+                        </small>
                       </div>
                     </div>
                   </div>
                 </div>
-                <Button
+                {/* <Button
                   text="Create Announcement "
                   className="w-full mt-8"
                   disableBtn={isSubmitting}
-                />
+                /> */}
+                <Button
+                  type="submit"
+                  text="Create Announcement"
+                  isSubmitting={isSubmitting}
+                  disableBtn={isSubmitting}
+                  className="w-full"
+                >
+                  {isSubmitting && (
+                    <Oval
+                      visible={true}
+                      height="24"
+                      width="24"
+                      color="#4fa94d"
+                      ariaLabel="oval-loading"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                    />
+                  )}
+                </Button>
               </form>
             )}
           </Formik>

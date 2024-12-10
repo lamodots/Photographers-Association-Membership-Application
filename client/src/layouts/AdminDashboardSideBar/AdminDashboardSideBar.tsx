@@ -27,7 +27,7 @@ function AdminDashboardSideBar({ handleToggleSideBar }: DashboardSideBarProp) {
       </div>
       <div className="  px-6 links flex flex-col gap-6 ">
         {adminDashboardMenus.map((menu) => (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2" key={menu.key}>
             <div>
               <div className="flex items-center gap-3">
                 <NavLink

@@ -4,17 +4,17 @@ const CustomError = require("../errors");
 function authenticateUser(req, res, next) {
   const token = req.signedCookies.token;
 
+  console.log("HERE", token);
+
   if (!token) {
     throw new CustomError.UnAuthenticatedError("Authentication Invalid");
   }
 
-  console.log("token", isTokenValid.isTokenValid(token));
   try {
-    const { firstname, lastname, userId, role } = isTokenValid.isTokenValid({
-      token,
-    });
-    console.log("user,", req.user);
-    req.user = { firstname, lastname, userId, role };
+    const decoded = isTokenValid.isTokenValid(token);
+
+    req.user = decoded.payload;
+
     next();
   } catch (error) {
     throw new CustomError.UnAuthenticatedError("Authentication Invalid");

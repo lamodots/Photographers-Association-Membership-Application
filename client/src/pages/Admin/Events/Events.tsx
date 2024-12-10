@@ -67,7 +67,7 @@ function Events() {
             return (
               <Link to="/secure/events/details/1" key={event.id}>
                 <AnnouncementList
-                  announcement={event.body}
+                  description={event.body}
                   title={event.title}
                 />
               </Link>

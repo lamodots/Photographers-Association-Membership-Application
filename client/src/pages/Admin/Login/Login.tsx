@@ -1,11 +1,13 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
+import { Oval } from "react-loader-spinner";
 import { Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import TextInput from "../../../components/Input/TextInput";
 import Lable from "../../../components/Lable/Lable";
 import LoginAsset from "../../../assets/loginassets.svg";
 import Button from "../../../components/Button/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface ValuesProps {
   email: string;
@@ -13,6 +15,8 @@ interface ValuesProps {
 }
 
 function Login() {
+  const navigate = useNavigate();
+
   const loginSchema = Yup.object().shape({
     email: Yup.string()
       .email("Please enter a valid email address.")
@@ -28,12 +32,42 @@ function Login() {
     password: "",
   };
 
-  const handleFormSubmit = (
+  const handleFormSubmit = async (
     values: ValuesProps,
     { setSubmitting }: FormikHelpers<ValuesProps>
   ) => {
     // same shape as initial values
-    console.log(values);
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+
+      const res = await fetch(
+        "http://localhost:5000/api/v1/secure/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
+            email: values.email,
+            password: values.password,
+          }),
+          credentials: "include",
+        }
+      );
+
+      if (res.ok) {
+        const { message } = await res.json();
+        toast.success(message);
+        navigate("/secure");
+      } else {
+        const errorData = await res.json();
+        toast.error(errorData.msg || "An error occurred. Please try again.");
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setSubmitting(false);
+    }
   };
   return (
     <main className=" bg-[#F4F6F7] w-screen grid grid-cols-1 items-center mx-auto px-[1.8rem]  max-w-lg h-screen overflow-hidden">
@@ -73,7 +107,7 @@ function Login() {
               <div className="password flex flex-col gap-2">
                 <Lable label="Password" />
                 <TextInput
-                  type="text"
+                  type="password"
                   placeholderText="Enter your email"
                   name="password"
                   value={values.password}
@@ -85,7 +119,24 @@ function Login() {
                 </span>
               </div>
 
-              <Button text="Login" disableBtn={isSubmitting} />
+              <Button
+                type="submit"
+                text="Login"
+                isSubmitting={isSubmitting}
+                disableBtn={isSubmitting}
+              >
+                {isSubmitting && (
+                  <Oval
+                    visible={true}
+                    height="24"
+                    width="24"
+                    color="#4fa94d"
+                    ariaLabel="oval-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                  />
+                )}
+              </Button>
             </form>
           )}
         </Formik>
@@ -95,12 +146,12 @@ function Login() {
             Forgot your password? we will help you reset it
           </Link>
         </p>
-        <p className="text-center text-sm mt-6">
+        {/* <p className="text-center text-sm mt-6">
           Dont have an account ?{" "}
           <Link to="/secure/register" className="text-[#1A4F83]">
             Register
           </Link>
-        </p>
+        </p> */}
       </div>
 
       {/* <div className="loginFormIllutration w-[614px] h-screen">

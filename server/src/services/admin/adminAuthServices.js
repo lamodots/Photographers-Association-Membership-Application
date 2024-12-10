@@ -1,8 +1,7 @@
-const { BadRequestError } = require("../errors");
-const UnAuthenticatedError = require("../errors/unAuthenticated-error");
-const User = require("../models/usersModel");
-const createTokenUser = require("../utils/createTokenUser");
-const { attachCookiesToResponse } = require("../utils/jwt");
+const { User } = require("../../models");
+const { createTokenUser } = require("../../utils");
+const { attachCookiesToResponse } = require("../../utils");
+const { BadRequestError, UnAuthenticatedError } = require("../../errors");
 
 async function addAdminUserService(body) {
   try {
@@ -33,12 +32,12 @@ async function loginAdminServices(email, password) {
 
   try {
     if (!user) {
-      throw new UnAuthenticatedError("Invalid Credential");
+      throw new UnAuthenticatedError("Invalid Credential email or password");
     }
 
     const isPasswordCorrect = await user.comparePassword(password);
     if (!isPasswordCorrect) {
-      throw new UnAuthenticatedError("Invalid Credential");
+      throw new UnAuthenticatedError("Invalid Credential email or password");
     }
 
     const tokenUser = createTokenUser(user);
