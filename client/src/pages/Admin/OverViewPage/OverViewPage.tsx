@@ -15,6 +15,21 @@ const NewMemberCard = lazy(
     import("../../../components/Admin-Components/NewMemberCard/NewMemberCard")
 );
 
+function getCookie(name: string): string | null {
+  console.log("Document Cookie:", document.cookie); // Log the document.cookie value for debugging
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) {
+    console.log("Cookie Parts:", parts); // Log parts for debugging
+    const result = parts.pop()?.split(";").shift() || null;
+    console.log("Retrieved Cookie Value:", result); // Log the retrieved cookie value
+    return result;
+  }
+  return null;
+}
+
+console.log("The token is", getCookie("token"));
+
 function OverViewPage() {
   return (
     <main>

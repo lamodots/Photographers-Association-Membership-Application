@@ -62,7 +62,7 @@ function Events() {
         </div>
       </header>
       <section className="py-8">
-        <div className="grid gap-6 grid-cols-2 md:grid-cols-3">
+        <div className="grid gap-6 grid-cols-1 md:grid-cols-3">
           {filteredAnnouncements.map((event) => {
             return (
               <Link to="/secure/events/details/1" key={event.id}>

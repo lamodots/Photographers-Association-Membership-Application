@@ -11,6 +11,7 @@ import FallbackLoadingComponent from "./components/FallbackLoadingComponent/Fall
 
 //******** */ Admin Dashboard Page Imports
 import AdminDashboardLayout from "./layouts/AdminDashboardLayout/AdminDashboardLayout";
+import { AuthContext } from "./context/AdminContext";
 const AdminOverViewPage = lazy(
   () => import("./pages/Admin/OverViewPage/OverViewPage")
 );
@@ -49,6 +50,9 @@ const AdminAnnouncementsDetails = lazy(
 const AdminCreateAnnouncement = lazy(
   () => import("./pages/Admin/Announcement/CreateAnnouncement")
 );
+const AdminEditAnnouncement = lazy(
+  () => import("./pages/Admin/Announcement/EditAnnouncement")
+);
 const AdminCreateEvent = lazy(() => import("./pages/Admin/Events/CreateEvent"));
 
 const AdminEvents = lazy(() => import("./pages/Admin/Events/Events"));
@@ -58,6 +62,10 @@ const AdminEventDetails = lazy(
 );
 const AdminCertificate = lazy(
   () => import("./pages/Admin/Certificate/Certificate")
+);
+
+const AdminProtectedRoute = lazy(
+  () => import("./layouts/AdminProtectedRoute/AdminProtectedRoute")
 );
 // import Login from "./pages/Login/Login";
 // import Register from "./pages/Register/Register";
@@ -160,9 +168,16 @@ root.render(
           <Route path="/secure/login" element={<AdminLogin />} />
           {/* register should be protected */}
           <Route path="/secure/register" element={<AdminOnboardingStepTwo />} />
-          <Route element={<ProtectedRoute />}>
+          <Route element={<AdminProtectedRoute />}>
             {/* Dashboard */}
-            <Route path="/secure" element={<AdminDashboardLayout />}>
+            <Route
+              path="/secure"
+              element={
+                <AuthContext>
+                  <AdminDashboardLayout />
+                </AuthContext>
+              }
+            >
               <Route index element={<AdminOverViewPage />} />
               <Route path="content" element={<Content />} />
               <Route path="members" element={<AdminMembers />} />
@@ -197,6 +212,10 @@ root.render(
               <Route
                 path="announcement/details/:id"
                 element={<AdminAnnouncementsDetails />}
+              />
+              <Route
+                path="announcement/details/:id/edit"
+                element={<AdminEditAnnouncement />}
               />
               <Route path="profile" element={<Profile />} />
             </Route>

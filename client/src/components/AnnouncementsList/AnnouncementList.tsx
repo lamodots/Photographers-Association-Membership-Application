@@ -3,10 +3,16 @@ import React from "react";
 function AnnouncementList({
   description,
   title,
+  createdBy,
 }: {
   description: string;
   title: string;
+  createdBy?: {
+    firstname: string;
+    lastname: string;
+  };
 }) {
+  console.log(createdBy, title);
   const textToShow = 172;
   return (
     <div className="w-full py-3 px-3 bg-white rounded-lg">
@@ -15,6 +21,9 @@ function AnnouncementList({
         {description.length > textToShow
           ? `${description.slice(0, textToShow)} ...`
           : description}
+      </p>
+      <p className="text-xs text-gray-400 mt-3 capitalize">
+        Created By: {createdBy?.firstname + " " + createdBy?.lastname}
       </p>
     </div>
   );

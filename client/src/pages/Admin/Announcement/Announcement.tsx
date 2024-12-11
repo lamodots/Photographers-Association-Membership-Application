@@ -14,7 +14,12 @@ interface AnnouncementProps {
   description: string;
   startDate: string;
   endDate: string;
+  createdBy: {
+    firstname: string;
+    lastname: string;
+  };
 }
+
 function Announcement() {
   const [announcement, setAnnouncementData] = useState<AnnouncementProps[]>([]);
   const [loading, setIsLoading] = useState(false);
@@ -22,23 +27,27 @@ function Announcement() {
   const [showPopup, setShowPopUp] = useState(false);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [filterStartDate, setFilterStartDate] = useState("");
+  const [filterEndDate, setFilterEndDate] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
-  // const filteredAnnouncements = FAKE_ANNOUNCEMENTS.filter(
-  //   (announcement) =>
-  //     announcement.title.toLowerCase().includes(iputText.toLowerCase()) ||
-  //     announcement.body.toLowerCase().includes(iputText.toLowerCase())
-  // );
 
   async function getAllAnnoucements() {
     try {
       setIsLoading(true);
-      const res = await fetch("/api/v1/secure/announcement", {
-        method: "GET",
-        headers: {
-          "Content-type": "appliacation/json",
-        },
-      });
+      const query = new URLSearchParams();
+      if (filterStartDate) query.append("startDate", filterStartDate);
+      if (filterEndDate) query.append("endDate", filterEndDate);
+
+      const res = await fetch(
+        `/api/v1/secure/announcement?${query.toString()}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-type": "appliacation/json",
+          },
+        }
+      );
 
       const { announcements } = await res.json();
 
@@ -52,30 +61,20 @@ function Announcement() {
 
   useEffect(() => {
     getAllAnnoucements();
-  }, []);
+  }, [filterStartDate, filterEndDate]);
   // Funcrionality for flter and search
-  // const filteredAnnouncements = FAKE_ANNOUNCEMENTS.filter((announcement) => {
-  //   const matchText =
-  //     announcement.title.toLowerCase().includes(iputText.toLowerCase()) ||
-  //     announcement.body.toLowerCase().includes(iputText.toLowerCase());
-
-  //   const matchDate =
-  //     (!startDate || new Date(announcement.date) >= new Date(startDate)) &&
-  //     (!endDate || new Date(announcement.date) <= new Date(endDate));
-  //   return matchText && matchDate;
-  // });
-
+  const handleApplyFilter = () => {
+    setFilterStartDate(startDate);
+    setFilterEndDate(endDate);
+    setShowPopUp(false);
+  };
   const filteredAnnouncements: AnnouncementProps[] =
     announcement?.filter((announcement: AnnouncementProps) => {
       const matchText =
         announcement.title.toLowerCase().includes(iputText.toLowerCase()) ||
         announcement.description.toLowerCase().includes(iputText.toLowerCase());
 
-      const matchDate =
-        (!startDate ||
-          new Date(announcement.startDate) >= new Date(startDate)) &&
-        (!endDate || new Date(announcement.endDate) <= new Date(endDate));
-      return matchText && matchDate;
+      return matchText;
     }) || [];
 
   // Pagination logic
@@ -83,6 +82,7 @@ function Announcement() {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentPageData = filteredAnnouncements.slice(startIndex, endIndex);
+
   const handlePageChange = (pageNumber: number) => {
     setIsLoading(true);
     setCurrentPage(pageNumber);
@@ -116,7 +116,21 @@ function Announcement() {
               <small>Filter</small>
             </div>
 
-            {showPopup && <FilterPopUp />}
+            {showPopup && (
+              <FilterPopUp
+                valueStart={startDate}
+                handleStartChange={(e: React.FormEvent<HTMLInputElement>) => {
+                  console.log(e.currentTarget.value);
+                  setStartDate(e.currentTarget.value);
+                }}
+                valueEnd={endDate}
+                handleEndChange={(e: React.FormEvent<HTMLInputElement>) => {
+                  console.log(e.currentTarget.value);
+                  setEndDate(e.currentTarget.value);
+                }}
+                handleApply={() => handleApplyFilter()}
+              />
+            )}
           </div>
           {/* the popup end */}
         </div>
@@ -139,6 +153,7 @@ function Announcement() {
                     <AnnouncementList
                       description={announcement?.description}
                       title={announcement?.title}
+                      createdBy={announcement.createdBy}
                     />
                   </Link>
                 );

@@ -9,6 +9,7 @@ const {
   addAdminController,
   loginAdminController,
   logOutController,
+  currentUserController,
 } = require("./admin/adminAuthController");
 const {
   appSettingsController,
@@ -23,6 +24,7 @@ module.exports = {
   editAnnouncement,
   addAdminController,
   loginAdminController,
+  currentUserController,
   logOutController,
   appSettingsController,
   getAppSettingsController,

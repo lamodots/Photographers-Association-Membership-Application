@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import Select from "react-select";
+import React, { useEffect, useState } from "react";
+
 import Lable from "../../../components/Lable/Lable";
 import TextInput from "../../../components/Input/TextInput";
 import { Formik, FormikHelpers } from "formik";
@@ -8,17 +8,31 @@ import Button from "../../../components/Button/Button";
 import useWordCount from "../../../hooks/useWordCount";
 import { Oval } from "react-loader-spinner";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-function CreateAnnouncement() {
+interface AnnouncementProps {
+  _id: string;
+  title: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+}
+function EditAnnouncement() {
   const { wordCount, handleWordCount } = useWordCount();
+  const [annoucementData, setAnnouncementData] =
+    useState<AnnouncementProps | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { id } = useParams();
   const navigate = useNavigate();
+
+  console.log(id);
   const settingsSchema = Yup.object().shape({
     title: Yup.string()
       .min(10)
       .max(
-        150,
-        "Annoucement name must be a string with a maximum of 150 characters"
+        65,
+        "Annoucement name must be a string with a maximum of 65 characters"
       )
       .required("Annoucement  title is required"),
 
@@ -33,22 +47,41 @@ function CreateAnnouncement() {
       }),
   });
 
-  let initialValues = {
-    title: "",
-    description: "",
+  const initialValues = {
+    title: annoucementData?.title || "",
+    description: annoucementData?.description || "",
   };
+
+  async function getAnnoucement() {
+    try {
+      setIsLoading(true);
+      const res = await fetch(`/api/v1/secure/announcement/${id}`);
+      if (!res.ok) {
+        throw new Error(`Error fetching announcement`);
+      }
+      const { announcement } = await res.json();
+      setAnnouncementData(announcement);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
+    }
+  }
+
+  useEffect(() => {
+    getAnnoucement();
+  }, []);
 
   async function handleSubmitAnnouncement(
     values: { title: string; description: string },
-    {
-      setSubmitting,
-      resetForm,
-    }: FormikHelpers<{ title: string; description: string }>
+    { setSubmitting }: FormikHelpers<{ title: string; description: string }>
   ) {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      const res = await fetch("/api/v1/secure/announcement", {
-        method: "POST",
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      const res = await fetch(`/api/v1/secure/announcement/${id}`, {
+        method: "PUT",
         headers: {
           "Content-type": "application/json",
         },
@@ -61,7 +94,6 @@ function CreateAnnouncement() {
       if (res.ok) {
         const { message } = await res.json();
         toast.success(message);
-        resetForm();
       } else {
         const errorData = await res.json();
 
@@ -71,19 +103,19 @@ function CreateAnnouncement() {
       toast.error("An error occurred");
     } finally {
       setSubmitting(false);
+      navigate(-1);
     }
   }
 
   return (
     <main>
       <section>
-        <h1 className="text-2xl text-[#212529] font-bold">
-          Create Annoucement
-        </h1>
+        <h1 className="text-2xl text-[#212529] font-bold">Edit Annoucement</h1>
         <div className="form mt-8 w-full max-w-[600px]">
           <Formik
             initialValues={initialValues}
             validationSchema={settingsSchema}
+            enableReinitialize
             onSubmit={handleSubmitAnnouncement}
           >
             {({ values, errors, handleChange, handleSubmit, isSubmitting }) => (
@@ -141,7 +173,7 @@ function CreateAnnouncement() {
                 /> */}
                 <Button
                   type="submit"
-                  text="Create Announcement"
+                  text="Update"
                   isSubmitting={isSubmitting}
                   disableBtn={isSubmitting}
                   className="w-full"
@@ -167,4 +199,4 @@ function CreateAnnouncement() {
   );
 }
 
-export default CreateAnnouncement;
+export default EditAnnouncement;

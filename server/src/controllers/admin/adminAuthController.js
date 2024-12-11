@@ -83,6 +83,9 @@ async function loginAdminController(req, res, next) {
   }
 }
 
+async function currentUserController(req, res) {
+  res.json(req.user);
+}
 async function logOutController(req, res, next) {
   res.cookie("token", process.env.COOKIE_RESET, {
     httpOnly: true,
@@ -90,4 +93,9 @@ async function logOutController(req, res, next) {
   });
   res.json({ ok: true, message: "You have been loggedOut" });
 }
-module.exports = { addAdminController, loginAdminController, logOutController };
+module.exports = {
+  addAdminController,
+  loginAdminController,
+  logOutController,
+  currentUserController,
+};

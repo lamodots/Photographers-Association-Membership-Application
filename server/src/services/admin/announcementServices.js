@@ -10,7 +10,11 @@ async function createAnnouncmentsService(body) {
 }
 async function getAllAnnouncmentsService() {
   try {
-    const announcements = await AnnouncementModel.find({});
+    const announcements = await AnnouncementModel.find({}).populate({
+      path: "createdBy",
+      select: "firstname lastname -_id",
+    });
+
     return announcements;
   } catch (error) {
     throw new Error("Failed to fetch announcements. Please try again later.");
@@ -27,11 +31,16 @@ async function getSingleAnnouncmentService(id) {
     throw error;
   }
 }
-async function editAnnouncmentService(id) {
+async function editAnnouncmentService(id, body) {
   try {
-    const announcement = await AnnouncementModel.findByIdAndDelete(id);
+    const announcement = await AnnouncementModel.findByIdAndUpdate(id, body, {
+      returnDocument: "after",
+      runValidators: true,
+    });
     if (!announcement) {
-      throw new BadRequestError(`Announcement with ${id} does not exist`);
+      throw new BadRequestError(
+        ` Failed to edit Announcement with ${id} try again`
+      );
     }
     return announcement;
   } catch (error) {

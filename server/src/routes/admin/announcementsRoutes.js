@@ -7,12 +7,28 @@ const {
   deleteAnnouncement,
 } = require("../../controllers");
 
+const { authenticateUser, authorizaPermissions } = require("../../middlewares");
 const announcementsRoute = express.Router();
 
-announcementsRoute.post("/", createAnnouncment);
+announcementsRoute.post(
+  "/",
+  authenticateUser,
+  authorizaPermissions("admin"),
+  createAnnouncment
+);
 announcementsRoute.get("/", getAllAnnoucements);
 announcementsRoute.get("/:id", getSingleAnnouncement);
-announcementsRoute.put("/:id", editAnnouncement);
-announcementsRoute.delete("/:id", deleteAnnouncement);
+announcementsRoute.put(
+  "/:id",
+  authenticateUser,
+  authorizaPermissions("admin"),
+  editAnnouncement
+);
+announcementsRoute.delete(
+  "/:id",
+  authenticateUser,
+  authorizaPermissions("admin"),
+  deleteAnnouncement
+);
 
 module.exports = announcementsRoute;

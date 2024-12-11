@@ -9,6 +9,11 @@ const announcementSchema = new mongoose.Schema(
     },
     startDate: { type: Date, default: Date.now },
     endDate: { type: Date, default: Date.now },
+    createdBy: {
+      type: mongoose.Types.ObjectId,
+      ref: "Users",
+      required: true,
+    },
   },
   { timestamps: true }
 );

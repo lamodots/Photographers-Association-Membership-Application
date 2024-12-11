@@ -3,6 +3,7 @@ const {
   addAdminController,
   loginAdminController,
   logOutController,
+  currentUserController,
 } = require("../../controllers");
 const { authenticateUser, authorizaPermissions } = require("../../middlewares");
 
@@ -17,6 +18,12 @@ adminRoute.post(
   addAdminController
 );
 
+adminRoute.get(
+  "/currentUser",
+  authenticateUser,
+  authorizaPermissions("admin"),
+  currentUserController
+);
 adminRoute.get("/logout", logOutController);
 adminRoute.post("/forgot-password", (req, res) => {
   console.log("Admin forgot password");

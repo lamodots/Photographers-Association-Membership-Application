@@ -5,12 +5,13 @@ const {
   getAllAnnouncmentsService,
   getSingleAnnouncmentService,
   deletAnnouncmentService,
+  editAnnouncmentService,
 } = require("../../services");
 const mongoose = require("mongoose");
 
 async function createAnnouncment(req, res, next) {
   const { title, description } = req.body;
-
+  console.log(req.user.userId);
   if (!title || !description) {
     throw new BadRequestError("Title and description required");
   }
@@ -19,6 +20,7 @@ async function createAnnouncment(req, res, next) {
     const announcement = await createAnnouncmentsService({
       title: title,
       description: description,
+      createdBy: req.user.userId,
     });
 
     res.status(StatusCodes.OK).json({
@@ -60,15 +62,16 @@ async function getSingleAnnouncement(req, res, next) {
 async function editAnnouncement(req, res, next) {
   try {
     const { id } = req.params;
+    const body = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return next(new BadRequestError("ID is not a valid ID"));
     }
-    const announcement = await deletAnnouncmentService(id);
+    const announcement = await editAnnouncmentService(id, body);
 
     res
       .status(StatusCodes.OK)
-      .json({ ok: true, message: "Announcement Deleted" });
+      .json({ ok: true, message: "Announcement Edited", announcement });
   } catch (error) {
     return next(error);
   }

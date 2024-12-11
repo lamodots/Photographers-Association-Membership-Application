@@ -93,9 +93,13 @@ function AnnouncementDetails() {
                 </h1>
               </div>
               <div className="right flex gap-10 mt-6 md:mt-0 ">
-                <span className="flex items-center cursor-pointer font-bold">
-                  <Pencil /> Edit
-                </span>
+                <Link
+                  to={`/secure/announcement/details/${annoucementData?._id}/edit`}
+                >
+                  <span className="flex items-center cursor-pointer font-bold">
+                    <Pencil /> Edit
+                  </span>
+                </Link>
                 <button
                   className="flex items-center cursor-pointer text-red-300 px-2 py-1 rounded-lg font-medium"
                   onClick={() => handleDelete(annoucementData?._id)}
