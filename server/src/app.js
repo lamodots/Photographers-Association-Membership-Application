@@ -20,9 +20,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.JWT_SECRET));
 
-app.get("/", (req, res) => {
-  res.send({ message: "Welcome to the MembershipCMS backend API" });
-});
+// app.get("/", (req, res) => {
+//   res.send({ message: "Welcome to the MembershipCMS backend API" });
+// });
 app.use("/api/v1/secure/auth", adminAuthRoutes);
 app.use("/api/v1/secure/settings", appSettingsRoutes);
 app.use("/api/v1/secure/announcement", announcementsRoutes);
@@ -36,7 +36,7 @@ if (process.env.NODE_ENV === "production") {
   );
 } else {
   app.get("/", (req, res) => {
-    res.json({ message: "Welcome to the Support Desk API" });
+    res.json({ message: "Welcome to the MembershipCMS backend API" });
   });
 }
 app.use(notfoundHandlerMiddleware);
