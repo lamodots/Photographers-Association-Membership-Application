@@ -9,6 +9,8 @@ import LoginAsset from "../../../assets/loginassets.svg";
 import Button from "../../../components/Button/Button";
 import { Link, useNavigate } from "react-router-dom";
 
+const API_URL = process.env.REACT_APP_CLIENT_URL;
+
 interface ValuesProps {
   email: string;
   password: string;
@@ -40,20 +42,17 @@ function Login() {
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
 
-      const res = await fetch(
-        "http://localhost:5000/api/v1/secure/auth/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify({
-            email: values.email,
-            password: values.password,
-          }),
-          credentials: "include",
-        }
-      );
+      const res = await fetch(`${API_URL}/api/v1/secure/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          email: values.email,
+          password: values.password,
+        }),
+        credentials: "include",
+      });
 
       if (res.ok) {
         const { message } = await res.json();

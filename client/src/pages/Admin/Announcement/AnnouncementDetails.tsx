@@ -5,6 +5,7 @@ import FallbackLoadingComponent from "../../../components/FallbackLoadingCompone
 import { Oval } from "react-loader-spinner";
 import toast from "react-hot-toast";
 
+const API_URL = process.env.REACT_APP_CLIENT_URL;
 interface AnnouncementProps {
   _id: string;
   title: string;
@@ -27,7 +28,7 @@ function AnnouncementDetails() {
   async function getAnnoucement() {
     try {
       setIsLoading(true);
-      const res = await fetch(`/api/v1/secure/announcement/${id}`);
+      const res = await fetch(`${API_URL}/api/v1/secure/announcement/${id}`);
       if (!res.ok) {
         throw new Error(`Error fetching announcement`);
       }
@@ -50,7 +51,7 @@ function AnnouncementDetails() {
     console.log(id);
     setIsDeleteting(true);
     try {
-      const res = await fetch(`/api/v1/secure/announcement/${id}`, {
+      const res = await fetch(`${API_URL}/api/v1/secure/announcement/${id}`, {
         method: "DELETE",
       });
 

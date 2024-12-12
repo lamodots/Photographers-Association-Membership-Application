@@ -4,8 +4,6 @@ const CustomError = require("../errors");
 function authenticateUser(req, res, next) {
   const token = req.signedCookies.token;
 
-  console.log("HERE", token);
-
   if (!token) {
     throw new CustomError.UnAuthenticatedError("Authentication Invalid");
   }

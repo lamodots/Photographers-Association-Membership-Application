@@ -10,6 +10,7 @@ import { Oval } from "react-loader-spinner";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
+const API_URL = process.env.REACT_APP_CLIENT_URL;
 function CreateAnnouncement() {
   const { wordCount, handleWordCount } = useWordCount();
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ function CreateAnnouncement() {
   ) {
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
-      const res = await fetch("/api/v1/secure/announcement", {
+      const res = await fetch(`${API_URL}/api/v1/secure/announcement`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",

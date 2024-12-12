@@ -8,6 +8,7 @@ import FilterPopUp from "../../../components/FilterPopUp/FilterPopUp";
 import AnnouncementList from "../../../components/AnnouncementsList/AnnouncementList";
 import { Oval } from "react-loader-spinner";
 
+const API_URL = process.env.REACT_APP_CLIENT_URL;
 interface AnnouncementProps {
   _id: string;
   title: string;
@@ -40,7 +41,7 @@ function Announcement() {
       if (filterEndDate) query.append("endDate", filterEndDate);
 
       const res = await fetch(
-        `/api/v1/secure/announcement?${query.toString()}`,
+        `${API_URL}/api/v1/secure/announcement?${query.toString()}`,
         {
           method: "GET",
           headers: {

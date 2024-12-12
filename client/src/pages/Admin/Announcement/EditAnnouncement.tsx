@@ -10,6 +10,8 @@ import { Oval } from "react-loader-spinner";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 
+const API_URL = process.env.REACT_APP_CLIENT_URL;
+
 interface AnnouncementProps {
   _id: string;
   title: string;
@@ -55,7 +57,7 @@ function EditAnnouncement() {
   async function getAnnoucement() {
     try {
       setIsLoading(true);
-      const res = await fetch(`/api/v1/secure/announcement/${id}`);
+      const res = await fetch(`${API_URL}/api/v1/secure/announcement/${id}`);
       if (!res.ok) {
         throw new Error(`Error fetching announcement`);
       }
@@ -80,7 +82,7 @@ function EditAnnouncement() {
   ) {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
-      const res = await fetch(`/api/v1/secure/announcement/${id}`, {
+      const res = await fetch(`${API_URL}/api/v1/secure/announcement/${id}`, {
         method: "PUT",
         headers: {
           "Content-type": "application/json",
