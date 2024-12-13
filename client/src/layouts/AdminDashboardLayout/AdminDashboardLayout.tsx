@@ -6,7 +6,7 @@ import TopNavBar from "../TopNavBar/TopNavBar";
 import { Outlet } from "react-router-dom";
 
 function AdminDashboardLayout() {
-  const [showSideBar, setShowSideBar] = useState(true);
+  const [showSideBar, setShowSideBar] = useState(false);
   const [showMorePopUp, setShowMorePopUp] = useState(false);
   const toggleSideBar = () => {
     setShowSideBar(!showSideBar);
@@ -17,7 +17,9 @@ function AdminDashboardLayout() {
   return (
     <div className=" flex w-full h-[auto] min-h-screen">
       <div
-        className={`h-screen overflow-y-auto overflow-x-hidden md:${
+        className={`h-screen  ${
+          showSideBar ? "block" : "hidden"
+        }  md:block  overflow-x-hidden md:${
           showSideBar ? "w-[296px]" : "w-0"
         } bg-[#1A4F83] `}
       >

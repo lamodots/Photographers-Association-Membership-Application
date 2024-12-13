@@ -95,8 +95,9 @@ TODO 2
 - Begin working on backend end API
 
   - Set up basic route. ✔️
-  - Deploy app on Render
-  - Begin work on user and Admin Authentication
+  - Deploy app on Render ✔️
+  - Begin work on Admin Authentication ✔️
+  - Begin work on user Authentication
   - Begin work on API main routes. You can start from admin settings, get all users
 
   TODO 5

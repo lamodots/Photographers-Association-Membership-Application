@@ -4,6 +4,7 @@ import { Trash, MonitorPause } from "lucide-react";
 import Badge from "../../../components/Badge/Badge";
 import Avatar from "../../../components/Avatar/Avatar";
 
+const API_URL = process.env.REACT_APP_CLIENT_URL;
 function AdminMembersDetails() {
   return (
     <div>

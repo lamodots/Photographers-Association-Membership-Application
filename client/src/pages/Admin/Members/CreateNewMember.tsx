@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { Oval } from "react-loader-spinner";
 
+const API_URL = process.env.REACT_APP_CLIENT_URL;
 const options = [
   { value: "user", label: "User" },
   { value: "admin", label: "Administrator" },
@@ -77,7 +78,7 @@ function CreateNewMember() {
   ) => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
-      const res = await fetch("/api/v1/secure/auth/add", {
+      const res = await fetch(`${API_URL}/api/v1/secure/auth/add`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
