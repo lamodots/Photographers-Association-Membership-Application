@@ -16,9 +16,7 @@ interface CurrentUserContextType {
   currentUser: CurrentUser | null;
 }
 
-const CurrentUserContext = createContext<CurrentUserContextType | undefined>(
-  undefined
-);
+const CurrentUserContext = createContext<CurrentUserContextType | null>(null);
 
 interface AuthContextProps {
   children: ReactNode;
@@ -26,7 +24,7 @@ interface AuthContextProps {
 
 export const AuthContext = ({ children }: AuthContextProps) => {
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
-
+  console.log("HEY FROM CONTEXT", currentUser);
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
@@ -37,13 +35,17 @@ export const AuthContext = ({ children }: AuthContextProps) => {
         if (res.ok) {
           const data: CurrentUser = await res.json();
           setCurrentUser(data);
+        } else {
+          setCurrentUser(null); // Handle unauthorized access
         }
       } catch (error) {
         console.error("Failed to fetch current user:", error);
+        setCurrentUser(null);
       }
     };
     fetchCurrentUser();
   }, []);
+
   return (
     <CurrentUserContext.Provider value={{ currentUser }}>
       {children}
@@ -52,9 +54,17 @@ export const AuthContext = ({ children }: AuthContextProps) => {
 };
 
 // export const useCurrentUser = () => useContext(CurrentUserContext);
+// export const useCurrentUser = () => {
+//   const context = useContext(CurrentUserContext);
+//   if (context === undefined) {
+//     throw new Error("useCurrentUser must be used within an AuthContext");
+//   }
+//   return context;
+// };
+
 export const useCurrentUser = () => {
   const context = useContext(CurrentUserContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error("useCurrentUser must be used within an AuthContext");
   }
   return context;

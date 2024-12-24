@@ -56,6 +56,7 @@ function Login() {
 
       if (res.ok) {
         const { message } = await res.json();
+
         toast.success(message);
         navigate("/secure");
       } else {

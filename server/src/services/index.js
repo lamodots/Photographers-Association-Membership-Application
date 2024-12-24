@@ -15,6 +15,23 @@ const {
   deletAnnouncmentService,
 } = require("./admin/announcementServices");
 
+const {
+  createSubscriptionServices,
+  getAllSubscriptionServices,
+  getSingleSubscriptionServices,
+  editSubscriptionServices,
+  deleteSubscriptionServices,
+  verifyPaymentServices,
+} = require("./admin/subscriptionServices");
+
+const {
+  createEventService,
+  getAllEventService,
+  getSingleEventService,
+  editEventService,
+  deletEventService,
+} = require("./admin/eventServices");
+
 module.exports = {
   addAdminUserService,
   loginAdminServices,
@@ -25,4 +42,15 @@ module.exports = {
   getSingleAnnouncmentService,
   editAnnouncmentService,
   deletAnnouncmentService,
+  createSubscriptionServices,
+  getAllSubscriptionServices,
+  getSingleSubscriptionServices,
+  editSubscriptionServices,
+  deleteSubscriptionServices,
+  createEventService,
+  getAllEventService,
+  getSingleEventService,
+  editEventService,
+  deletEventService,
+  verifyPaymentServices,
 };

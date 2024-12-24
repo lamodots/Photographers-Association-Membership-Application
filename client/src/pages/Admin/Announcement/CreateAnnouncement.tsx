@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 const API_URL = process.env.REACT_APP_CLIENT_URL;
+
 function CreateAnnouncement() {
   const { wordCount, handleWordCount } = useWordCount();
   const navigate = useNavigate();
@@ -58,7 +59,6 @@ function CreateAnnouncement() {
         credentials: "include",
       });
 
-      console.log(await res);
       if (res.ok) {
         const { message } = await res.json();
         toast.success(message);

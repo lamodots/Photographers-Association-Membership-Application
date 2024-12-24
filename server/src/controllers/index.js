@@ -6,6 +6,14 @@ const {
   editAnnouncement,
 } = require("./admin/announcementController");
 const {
+  createSubscriptions,
+  getAllSubscriptions,
+  getSingleSubscriptions,
+  deleteSubscriptions,
+  editSubscriptions,
+  verifyPayment,
+} = require("./admin/subscriptionsController");
+const {
   addAdminController,
   loginAdminController,
   logOutController,
@@ -16,6 +24,13 @@ const {
   getAppSettingsController,
 } = require("./admin/appSettingsController");
 
+const {
+  createEvents,
+  getAllEvents,
+  getSingleEvent,
+  editEvent,
+  deleteEvent,
+} = require("./admin/eventController");
 module.exports = {
   createAnnouncment,
   getAllAnnoucements,
@@ -28,4 +43,15 @@ module.exports = {
   logOutController,
   appSettingsController,
   getAppSettingsController,
+  createSubscriptions,
+  getAllSubscriptions,
+  getSingleSubscriptions,
+  deleteSubscriptions,
+  editSubscriptions,
+  createEvents,
+  getAllEvents,
+  getSingleEvent,
+  editEvent,
+  deleteEvent,
+  verifyPayment,
 };

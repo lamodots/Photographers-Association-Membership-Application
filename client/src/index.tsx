@@ -168,16 +168,15 @@ root.render(
           <Route path="/secure/login" element={<AdminLogin />} />
           {/* register should be protected */}
           <Route path="/secure/register" element={<AdminOnboardingStepTwo />} />
-          <Route element={<AdminProtectedRoute />}>
+          <Route
+            element={
+              <AuthContext>
+                <AdminProtectedRoute />
+              </AuthContext>
+            }
+          >
             {/* Dashboard */}
-            <Route
-              path="/secure"
-              element={
-                <AuthContext>
-                  <AdminDashboardLayout />
-                </AuthContext>
-              }
-            >
+            <Route path="/secure" element={<AdminDashboardLayout />}>
               <Route index element={<AdminOverViewPage />} />
               <Route path="content" element={<Content />} />
               <Route path="members" element={<AdminMembers />} />

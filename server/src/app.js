@@ -11,6 +11,8 @@ const {
   adminAuthRoutes,
   appSettingsRoutes,
   announcementsRoutes,
+  subscriptionsRoutes,
+  eventRoutes,
 } = require("./routes");
 
 const corsOptions = { origin: "http://localhost:3000", credentials: true };
@@ -26,6 +28,8 @@ app.use(cookieParser(process.env.JWT_SECRET));
 app.use("/api/v1/secure/auth", adminAuthRoutes);
 app.use("/api/v1/secure/settings", appSettingsRoutes);
 app.use("/api/v1/secure/announcement", announcementsRoutes);
+app.use("/api/v1/secure/subscriptions", subscriptionsRoutes);
+app.use("/api/v1/secure/events", eventRoutes);
 
 if (process.env.NODE_ENV === "production") {
   const __dirname = path.resolve();
