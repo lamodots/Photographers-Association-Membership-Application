@@ -87,10 +87,12 @@ async function currentUserController(req, res) {
   res.json(req.user);
 }
 async function logOutController(req, res, next) {
-  res.cookie("token", process.env.COOKIE_RESET, {
+  res.cookie("token", "", {
     httpOnly: true,
-    maxAge: new Date(Date.now() + 1000),
+    expires: new Date(Date.now() + 1000),
   });
+
+  console.log(res);
   res.json({ ok: true, message: "You have been loggedOut" });
 }
 module.exports = {

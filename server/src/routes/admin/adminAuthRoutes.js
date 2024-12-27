@@ -24,7 +24,7 @@ adminRoute.get(
   authorizaPermissions("admin"),
   currentUserController
 );
-adminRoute.get("/logout", logOutController);
+adminRoute.get("/logout", authenticateUser, logOutController);
 adminRoute.post("/forgot-password", (req, res) => {
   console.log("Admin forgot password");
   res.json({ ok: true });

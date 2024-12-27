@@ -6,6 +6,7 @@ import {
   useState,
 } from "react";
 
+const API_URL = process.env.REACT_APP_CLIENT_URL;
 interface CurrentUser {
   firstname: string;
   lastname: string;
@@ -14,6 +15,7 @@ interface CurrentUser {
 }
 interface CurrentUserContextType {
   currentUser: CurrentUser | null;
+  handleLogout: () => void;
 }
 
 const CurrentUserContext = createContext<CurrentUserContextType | null>(null);
@@ -46,8 +48,26 @@ export const AuthContext = ({ children }: AuthContextProps) => {
     fetchCurrentUser();
   }, []);
 
+  // const logout = async () => {
+  //   setCurrentUser(null);
+  // };
+  async function handleLogout() {
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1200));
+      const res = await fetch(`${API_URL}/api/v1/secure/auth/logout`, {
+        method: "GET",
+        credentials: "include",
+      });
+
+      if (res.ok) {
+        setCurrentUser(null);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
-    <CurrentUserContext.Provider value={{ currentUser }}>
+    <CurrentUserContext.Provider value={{ currentUser, handleLogout }}>
       {children}
     </CurrentUserContext.Provider>
   );

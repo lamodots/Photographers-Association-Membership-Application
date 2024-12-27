@@ -40,14 +40,16 @@ function AdminProtectedRoute({ children }: PropsWithChildren<{}>) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (currentUser !== null) {
+    const timer = setTimeout(() => {
       setLoading(false);
-    }
-  }, [currentUser]);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   if (loading) {
     return (
-      <div>
+      <div className=" w-screen h-screen flex justify-center items-center">
         <Oval height="40" width="40" />
       </div>
     );
@@ -61,3 +63,4 @@ function AdminProtectedRoute({ children }: PropsWithChildren<{}>) {
 }
 
 export default AdminProtectedRoute;
+// https://www.gov.uk/government/publications/skilled-worker-visa-immigration-salary-list/skilled-worker-visa-immigration-salary-list
