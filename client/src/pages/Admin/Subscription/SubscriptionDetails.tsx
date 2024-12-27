@@ -1,11 +1,11 @@
 import { ChevronLeft, Delete, Trash, Pencil } from "lucide-react";
 import React, { Suspense, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import FallbackLoadingComponent from "../../../components/FallbackLoadingComponent/FallbackLoadingComponent";
 
 import PaystackPop from "@paystack/inline-js";
 import { Oval } from "react-loader-spinner";
 import toast from "react-hot-toast";
+import { useCurrentUser } from "../../../context/AdminContext";
 const API_URL = process.env.REACT_APP_CLIENT_URL;
 const publicKey =
   process.env.REACT_APP_PAYSTACK_PUBLIC_KEY ||
@@ -19,17 +19,8 @@ interface ValuesProps {
   description: string;
 }
 
-interface CustomPaystackProps {
-  email: string;
-  amount: number;
-
-  publicKey: string;
-  text: string;
-  onSuccess: () => void;
-  onClose: () => void;
-}
-
 function SubscriptionDetails() {
+  const { currentUser } = useCurrentUser();
   const navigate = useNavigate();
   const { subId } = useParams();
   console.log(subId);
@@ -104,17 +95,6 @@ function SubscriptionDetails() {
     });
   };
 
-  // const componentProps: CustomPaystackProps = {
-  //   email: "test@gmail.com",
-  //   amount: 5000 * 100,
-
-  //   publicKey: "pk_test_a718b2a462bbb16a6011a5e7bea3610f8120fbe1",
-  //   text: "Pay Now",
-  //   onSuccess: () =>
-  //     alert("Thanks for doing business with us! Come back soon!!"),
-  //   onClose: () => alert("Wait! You need this oil, don't go!!!!"),
-  // };
-
   return (
     <div className="w-full">
       <header className="w-full">
@@ -166,10 +146,6 @@ function SubscriptionDetails() {
               >
                 Subscribe
               </button>
-              {/* <PaystackButton
-                {...componentProps}
-                className={` cursor-pointer px-9 rounded-lg h-14 flex justify-center items-center bg-[#1A4F83] text-center text-sm font-bold text-[#F4F6F7] `}
-              /> */}
             </div>
           </section>
         )}
