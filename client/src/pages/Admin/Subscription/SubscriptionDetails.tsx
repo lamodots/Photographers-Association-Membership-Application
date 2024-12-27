@@ -2,7 +2,7 @@ import { ChevronLeft, Delete, Trash, Pencil } from "lucide-react";
 import React, { Suspense, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-import PaystackPop from "@paystack/inline-js";
+import Paystack from "@paystack/inline-js";
 import { Oval } from "react-loader-spinner";
 import toast from "react-hot-toast";
 import { useCurrentUser } from "../../../context/AdminContext";
@@ -59,9 +59,9 @@ function SubscriptionDetails() {
     subId: string | undefined,
     amount: string | undefined
   ) => {
-    const paystack = new PaystackPop();
+    const popup = new Paystack();
 
-    const handler = paystack.newTransaction({
+    const handler = popup.newTransaction({
       key: publicKey,
       email: "system@gmail.com",
       amount: Number(subscriptionData?.amount) * 100,
