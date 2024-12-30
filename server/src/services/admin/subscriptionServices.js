@@ -67,10 +67,6 @@ async function verifyPaymentServices(userId, planId, startDate, expiryDate) {
       expiryDate,
       status: "active",
     });
-    console.log("Start Date:", startDate);
-    console.log("Expiry Date:", expiryDate);
-    console.log("USER ID:", userId);
-    console.log("PLAN ID:", planId);
 
     await subscription.save();
   } catch (error) {

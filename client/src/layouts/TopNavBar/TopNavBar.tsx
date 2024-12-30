@@ -28,7 +28,7 @@ function TopNavBar({
           />
         </div>
         <span className="hidden md:inline-block capitalize">
-          Hello {currentUser?.firstname}, Welcome !
+          Hello {currentUser?.user?.firstname}, Welcome !
         </span>
       </div>
       <div className="flex items-center gap-6 cursor-pointer">

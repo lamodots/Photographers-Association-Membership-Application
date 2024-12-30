@@ -41,6 +41,10 @@ const AdminMembersDetails = lazy(
   () => import("./pages/Admin/Members/AdminMembersDetails")
 );
 
+const AdminEditSubscription = lazy(
+  () => import("./pages/Admin/Subscription/EditSubcription")
+);
+
 const AdminAnnouncements = lazy(
   () => import("./pages/Admin/Announcement/Announcement")
 );
@@ -193,6 +197,10 @@ root.render(
               <Route
                 path="subscription/details/:subId"
                 element={<AdminSubscriptionDetails />}
+              />
+              <Route
+                path="subscription/details/:subId/edit"
+                element={<AdminEditSubscription />}
               />
               <Route path="events" element={<AdminEvents />} />
               <Route path="events/create" element={<AdminCreateEvent />} />

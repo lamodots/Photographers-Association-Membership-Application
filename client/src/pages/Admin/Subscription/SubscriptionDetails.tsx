@@ -6,6 +6,7 @@ import Paystack from "@paystack/inline-js";
 import { Oval } from "react-loader-spinner";
 import toast from "react-hot-toast";
 import { useCurrentUser } from "../../../context/AdminContext";
+import { CountdownTimer } from "../../../util/timer";
 const API_URL = process.env.REACT_APP_CLIENT_URL;
 const publicKey =
   process.env.REACT_APP_PAYSTACK_PUBLIC_KEY ||
@@ -27,6 +28,7 @@ function SubscriptionDetails() {
   const [subscriptionData, setSubscription] = useState<ValuesProps>();
   const [error, setError] = useState(null);
   const [isLoading, setLoading] = useState(true);
+  const [isDeleteting, setIsDeleteting] = useState(false);
 
   useEffect(() => {
     const getSubscriptions = async () => {
@@ -95,6 +97,40 @@ function SubscriptionDetails() {
     });
   };
 
+  async function handleDelete(id: string | undefined) {
+    setIsDeleteting(true);
+    try {
+      if (
+        window.confirm("Are you sure you want to delete this subscription?")
+      ) {
+        const res = await fetch(
+          `${API_URL}/api/v1/secure/subscriptions/${subId}`,
+          {
+            method: "DELETE",
+
+            credentials: "include",
+          }
+        );
+
+        if (!res.ok) {
+          throw new Error(`Error Deleting subscription`);
+        }
+
+        // navigate(-1);
+
+        navigate("/secure/subscription");
+        toast.success("Subscription Deleted");
+      } else {
+        // User clicked "Cancel"
+        console.log("Deletion cancelled by user.");
+      }
+    } catch (error) {
+    } finally {
+      setTimeout(() => {
+        setIsDeleteting(false);
+      }, 500);
+    }
+  }
   return (
     <div className="w-full">
       <header className="w-full">
@@ -111,7 +147,7 @@ function SubscriptionDetails() {
           </div>
         ) : (
           <section className="bg-white shadow-sm p-6 rounded-lg w-full">
-            <div className="top flex justify-between mt-8 ">
+            <div className="top md:flex md:justify-between mt-8 ">
               <div className="left">
                 <h1 className="text-2xl text-[#212529] font-bold capitalize">
                   {subscriptionData?.name}
@@ -123,29 +159,48 @@ function SubscriptionDetails() {
                   </span>
                 </div>
               </div>
-              <div className="right flex gap-10  ">
-                <span className="flex items-center cursor-pointer font-bold">
-                  <Pencil /> Edit
-                </span>
-                <span className="flex items-center cursor-pointer text-red-300 px-2 py-1 rounded-lg font-medium">
+              <div className="right  items-center flex gap-10 mt-6 md:mt-0 ">
+                <Link
+                  to={`/secure/subscription/details/${subscriptionData?._id}/edit`}
+                >
+                  <span className="flex items-center cursor-pointer font-bold">
+                    <Pencil /> Edit
+                  </span>
+                </Link>
+                <button
+                  className="flex items-center cursor-pointer text-red-300 px-2 py-1 rounded-lg font-medium"
+                  onClick={() => handleDelete(subscriptionData?._id)}
+                >
                   <Trash className="text-red-300" />
                   Delete
-                </span>
+                </button>
               </div>
             </div>
             <div className="py-10">{subscriptionData?.description}</div>
             <div className="mt-6">
-              <button
-                onClick={() =>
-                  handleSubscribeWithPaystack(
-                    `${subscriptionData?._id}`,
-                    `${subscriptionData?.amount}`
-                  )
-                }
-                className={` cursor-pointer px-9 rounded-lg h-14 flex justify-center items-center bg-[#1A4F83] text-center text-sm font-bold text-[#F4F6F7] `}
-              >
-                Subscribe
-              </button>
+              {currentUser?.subscription ? (
+                <div className="flex items-center gap-3">
+                  <span className=" bg-green-400 text-xs px-3 py-2 rounded-lg">
+                    Active
+                  </span>
+                  <CountdownTimer
+                    startDate={currentUser.subscription.startDate}
+                    expiryDate={currentUser.subscription.expiryDate}
+                  />
+                </div>
+              ) : (
+                <button
+                  onClick={() =>
+                    handleSubscribeWithPaystack(
+                      `${subscriptionData?._id}`,
+                      `${subscriptionData?.amount}`
+                    )
+                  }
+                  className={` cursor-pointer px-9 rounded-lg h-14 flex justify-center items-center bg-[#1A4F83] text-center text-sm font-bold text-[#F4F6F7] `}
+                >
+                  Subscribe
+                </button>
+              )}
             </div>
           </section>
         )}

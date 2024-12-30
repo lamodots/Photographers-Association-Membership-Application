@@ -1,32 +1,261 @@
-import React from "react";
+// import React from "react";
+// import Lable from "../../../components/Lable/Lable";
+// import TextInput from "../../../components/Input/TextInput";
+// import { Formik } from "formik";
+// import * as Yup from "yup";
+// import Button from "../../../components/Button/Button";
+// import Select from "react-select";
+
+// function EditSubcription() {
+//   const settingsSchema = Yup.object().shape({
+//     title: Yup.string()
+//       .max(
+//         65,
+//         "Subscription name must be a string with a maximum of 65 characters"
+//       )
+//       .required("Subscription name is required"),
+//     duration: Yup.string().required("Subscription duration is required."),
+//     amount: Yup.number().required("Subscription amount is required."),
+//     description: Yup.string()
+//       .min(120)
+//       .max(400)
+//       .required("Subcription description is required"),
+//   });
+
+//   const initialValues = {
+//     title: "",
+//     duration: "",
+//     amount: "",
+//     description: "",
+//   };
+//   return (
+//     <main>
+//       <section>
+//         <h1 className="text-2xl text-[#212529] font-bold">
+//           Update Subscription
+//         </h1>
+//         <div className="form mt-8 w-full max-w-[600px]">
+//           <Formik
+//             initialValues={initialValues}
+//             validationSchema={settingsSchema}
+//             onSubmit={(value) => console.log(value)}
+//           >
+//             {({ values, errors, handleChange, handleSubmit, isSubmitting }) => (
+//               <form onSubmit={handleSubmit}>
+//                 <div className="flex flex-col gap-6">
+//                   <div className=" space-y-2">
+//                     <Lable label="Subscription Title *" className=" text-xs" />
+//                     <TextInput
+//                       type="text"
+//                       placeholderText="Enter subscription title"
+//                       name="title"
+//                       value={values.title}
+//                       handleInputChange={handleChange}
+//                       className="w-full"
+//                     />
+//                     <span className="text-[10px] text-red-400">
+//                       {errors.title && errors.title}
+//                     </span>
+//                   </div>
+//                   <div className=" space-y-2">
+//                     <Lable label="Duration Period *" className=" text-xs" />
+//                     <TextInput
+//                       type="text"
+//                       placeholderText="Enter period EG. 30d"
+//                       name="duration"
+//                       value={values.duration}
+//                       handleInputChange={handleChange}
+//                       className="w-full"
+//                     />
+//                     <span className="text-[10px] text-red-400">
+//                       {errors.duration && errors.duration}
+//                     </span>
+//                   </div>
+//                   <div className=" space-y-2">
+//                     <Lable label="Subscription Amount *" className=" text-xs" />
+//                     <TextInput
+//                       type="text"
+//                       placeholderText="Enter subscription  amount EG 5000"
+//                       name="amount"
+//                       value={values.amount}
+//                       handleInputChange={handleChange}
+//                       className="w-full"
+//                     />
+//                     <span className="text-[10px] text-red-400">
+//                       {errors.amount && errors.amount}
+//                     </span>
+//                   </div>
+
+//                   <div className=" space-y-2">
+//                     <Lable
+//                       label="Subscription Description*"
+//                       className=" text-xs"
+//                     />
+//                     <div>
+//                       <div className="w-full px-3 py-2  rounded-lg  border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA] border mb-2">
+//                         <textarea
+//                           rows={8}
+//                           placeholder="Subscription Description"
+//                           className=" w-full border-0 outline-0 bg-[#F4F6F7] "
+//                           name="description"
+//                           value={values.description}
+//                           onChange={handleChange}
+//                         />
+//                       </div>
+//                       <div className="flex justify-between">
+//                         <span className="text-[10px] text-red-400">
+//                           {errors.description && errors.description}
+//                         </span>
+//                         <small className="text-[#1A4F83]">0/400</small>
+//                       </div>
+//                     </div>
+//                   </div>
+//                 </div>
+//                 <Button
+//                   text="Create Subscription "
+//                   className="w-full mt-8"
+//                   disableBtn={isSubmitting}
+//                 />
+//               </form>
+//             )}
+//           </Formik>
+//         </div>
+//       </section>
+//     </main>
+//   );
+// }
+
+// export default EditSubcription;
+
+import React, { useEffect, useState } from "react";
 import Lable from "../../../components/Lable/Lable";
 import TextInput from "../../../components/Input/TextInput";
-import { Formik } from "formik";
+import { Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import Button from "../../../components/Button/Button";
 import Select from "react-select";
+import { Oval } from "react-loader-spinner";
+import useWordCount from "../../../hooks/useWordCount";
+import toast from "react-hot-toast";
+import { useNavigate, useParams } from "react-router-dom";
+const API_URL = process.env.REACT_APP_CLIENT_URL;
 
+interface ValuesProps {
+  name: string;
+  interval: string;
+  amount: string;
+  description: string;
+}
+
+interface SubScriptionProps {
+  _id: string;
+  name: string;
+  interval: string;
+  amount: string;
+  description: string;
+}
 function EditSubcription() {
-  const settingsSchema = Yup.object().shape({
-    title: Yup.string()
+  const { wordCount, handleWordCount } = useWordCount();
+  const [subscriptionData, setSubscriptionData] =
+    useState<SubScriptionProps | null>(null);
+
+  console.log("Single sub", subscriptionData);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { subId } = useParams();
+  console.log(subscriptionData);
+  const navigate = useNavigate();
+
+  const options = [
+    { value: "daily", label: "Daily" },
+    { value: "quarterly", label: "Quarterly" },
+    { value: "monthly", label: "Monthly" },
+    { value: "annually", label: "Annually" },
+  ];
+
+  const subscriptionSchema = Yup.object().shape({
+    name: Yup.string()
       .max(
         65,
         "Subscription name must be a string with a maximum of 65 characters"
       )
       .required("Subscription name is required"),
-    duration: Yup.string().required("Subscription duration is required."),
+    interval: Yup.string().required("Subscription duration is required."),
     amount: Yup.number().required("Subscription amount is required."),
     description: Yup.string()
-      .min(120)
-      .max(400)
-      .required("Subcription description is required"),
+      .required("Annoucement  description is required")
+      .test("max-words", "Description cannot exceed 400 words", (value) => {
+        if (value) {
+          const wordCount = value.trim().split(/\s+/).length;
+          return wordCount <= 400;
+        }
+        return true;
+      }),
   });
 
   const initialValues = {
-    title: "",
-    duration: "",
-    amount: "",
-    description: "",
+    name: subscriptionData?.name || "",
+    interval: subscriptionData?.interval || "",
+    amount: subscriptionData?.amount || "",
+    description: subscriptionData?.description || "",
+  };
+
+  async function getSubscription() {
+    try {
+      setIsLoading(true);
+      const res = await fetch(
+        `${API_URL}/api/v1/secure/subscriptions/${subId}`
+      );
+      if (!res.ok) {
+        throw new Error(`Error fetching announcement`);
+      }
+      const { subscription } = await res.json();
+      setSubscriptionData(subscription);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
+    }
+  }
+
+  useEffect(() => {
+    getSubscription();
+  }, []);
+
+  const handleCreateSubscriptionPlan = async (
+    values: ValuesProps,
+    { setSubmitting, resetForm }: FormikHelpers<ValuesProps>
+  ) => {
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      const res = await fetch(
+        `${API_URL}/api/v1/secure/subscriptions/${subId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+          credentials: "include",
+        }
+      );
+
+      if (res.ok) {
+        const { message } = await res.json();
+        toast.success(message);
+        resetForm();
+      } else {
+        const errorData = await res.json();
+        toast.error(errorData.msg || "An error occured , try again!");
+      }
+    } catch (error) {
+      toast.error("An error occurred");
+    } finally {
+      setSubmitting(false);
+      navigate(-1);
+    }
   };
   return (
     <main>
@@ -37,10 +266,18 @@ function EditSubcription() {
         <div className="form mt-8 w-full max-w-[600px]">
           <Formik
             initialValues={initialValues}
-            validationSchema={settingsSchema}
-            onSubmit={(value) => console.log(value)}
+            validationSchema={subscriptionSchema}
+            enableReinitialize
+            onSubmit={handleCreateSubscriptionPlan}
           >
-            {({ values, errors, handleChange, handleSubmit, isSubmitting }) => (
+            {({
+              values,
+              errors,
+              handleChange,
+              setFieldValue,
+              handleSubmit,
+              isSubmitting,
+            }) => (
               <form onSubmit={handleSubmit}>
                 <div className="flex flex-col gap-6">
                   <div className=" space-y-2">
@@ -48,27 +285,40 @@ function EditSubcription() {
                     <TextInput
                       type="text"
                       placeholderText="Enter subscription title"
-                      name="title"
-                      value={values.title}
+                      name="name"
+                      value={values.name}
                       handleInputChange={handleChange}
                       className="w-full"
                     />
                     <span className="text-[10px] text-red-400">
-                      {errors.title && errors.title}
+                      {errors.name && errors.name}
                     </span>
                   </div>
                   <div className=" space-y-2">
                     <Lable label="Duration Period *" className=" text-xs" />
-                    <TextInput
+                    {/* <TextInput
                       type="text"
                       placeholderText="Enter period EG. 30d"
-                      name="duration"
-                      value={values.duration}
+                      name="interval"
+                      value={values.interval.value}
                       handleInputChange={handleChange}
                       className="w-full"
+                    /> */}
+                    <Select
+                      options={options}
+                      name="interval"
+                      // value={values.interval}
+                      // onChange={(option) => setFieldValue("interval", option)}
+                      value={options.find(
+                        (option) => option.value === values.interval
+                      )}
+                      onChange={(option) =>
+                        setFieldValue("interval", option ? option.value : "")
+                      }
+                      className=" bg-[#F4F6F7]"
                     />
                     <span className="text-[10px] text-red-400">
-                      {errors.duration && errors.duration}
+                      {errors.interval && errors.interval}
                     </span>
                   </div>
                   <div className=" space-y-2">
@@ -99,23 +349,42 @@ function EditSubcription() {
                           className=" w-full border-0 outline-0 bg-[#F4F6F7] "
                           name="description"
                           value={values.description}
-                          onChange={handleChange}
+                          onChange={(e) => {
+                            handleChange(e);
+                            handleWordCount(e.target.value);
+                          }}
                         />
                       </div>
                       <div className="flex justify-between">
                         <span className="text-[10px] text-red-400">
                           {errors.description && errors.description}
                         </span>
-                        <small className="text-[#1A4F83]">0/400</small>
+                        <small className="text-[#1A4F83]">
+                          {wordCount}/400
+                        </small>
                       </div>
                     </div>
                   </div>
                 </div>
                 <Button
-                  text="Create Subscription "
-                  className="w-full mt-8"
+                  type="submit"
+                  text="Update Subscription"
+                  isSubmitting={isSubmitting}
                   disableBtn={isSubmitting}
-                />
+                  className="w-full"
+                >
+                  {isSubmitting && (
+                    <Oval
+                      visible={true}
+                      height="24"
+                      width="24"
+                      color="#4fa94d"
+                      ariaLabel="oval-loading"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                    />
+                  )}
+                </Button>
               </form>
             )}
           </Formik>

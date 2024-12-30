@@ -31,6 +31,9 @@ const {
   editEvent,
   deleteEvent,
 } = require("./admin/eventController");
+
+const getUserProfileDetails = require("./admin/userController");
+
 module.exports = {
   createAnnouncment,
   getAllAnnoucements,
@@ -54,4 +57,5 @@ module.exports = {
   editEvent,
   deleteEvent,
   verifyPayment,
+  getUserProfileDetails,
 };

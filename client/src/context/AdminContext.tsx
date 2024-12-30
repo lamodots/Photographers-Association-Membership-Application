@@ -7,12 +7,57 @@ import {
 } from "react";
 
 const API_URL = process.env.REACT_APP_CLIENT_URL;
-interface CurrentUser {
+// interface CurrentUser {
+//   firstname: string;
+//   lastname: string;
+//   userId: string;
+//   role: string;
+// }
+interface SocialLink {
+  facebook?: string;
+  linkedIn?: string;
+}
+
+interface User {
+  _id: string;
+  image: string;
   firstname: string;
   lastname: string;
-  userId: string;
+  email: string;
+  Dob: Date;
+  phone: string;
+  location: string;
+  address: string;
+  aboutuser: string;
+  social: SocialLink[];
+  interest: string[];
   role: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
+
+interface Plan {
+  _id: string;
+  name: string;
+  interval: string;
+  amount: number;
+  description: string;
+}
+
+interface Subscription {
+  _id: string;
+  userId: string;
+  planId: Plan;
+  startDate: Date;
+  expiryDate: Date;
+  status: string;
+}
+
+interface CurrentUser {
+  user: User;
+  subscription: Subscription;
+}
+
 interface CurrentUserContextType {
   currentUser: CurrentUser | null;
   handleLogout: () => void;
@@ -30,7 +75,7 @@ export const AuthContext = ({ children }: AuthContextProps) => {
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
-        const res = await fetch("/api/v1/secure/auth/currentUser", {
+        const res = await fetch("/api/v1/secure/profile", {
           method: "GET",
           credentials: "include",
         });
@@ -48,9 +93,6 @@ export const AuthContext = ({ children }: AuthContextProps) => {
     fetchCurrentUser();
   }, []);
 
-  // const logout = async () => {
-  //   setCurrentUser(null);
-  // };
   async function handleLogout() {
     try {
       await new Promise((resolve) => setTimeout(resolve, 1200));
@@ -72,15 +114,6 @@ export const AuthContext = ({ children }: AuthContextProps) => {
     </CurrentUserContext.Provider>
   );
 };
-
-// export const useCurrentUser = () => useContext(CurrentUserContext);
-// export const useCurrentUser = () => {
-//   const context = useContext(CurrentUserContext);
-//   if (context === undefined) {
-//     throw new Error("useCurrentUser must be used within an AuthContext");
-//   }
-//   return context;
-// };
 
 export const useCurrentUser = () => {
   const context = useContext(CurrentUserContext);

@@ -47,30 +47,71 @@ function AnnouncementDetails() {
     getAnnoucement();
   }, []);
 
+  // async function handleDelete(id: string | undefined) {
+  //   window.confirm();
+  //   console.log(id);
+  //   setIsDeleteting(true);
+
+  //   try {
+  //     const res = await fetch(`${API_URL}/api/v1/secure/announcement/${id}`, {
+  //       method: "DELETE",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       credentials: "include",
+  //     });
+
+  //     if (!res.ok) {
+  //       throw new Error(`Error Deleting announcement`);
+  //     }
+
+  //     // navigate(-1);
+
+  //     navigate("/secure/announcement");
+  //   } catch (error) {
+  //   } finally {
+  //     setTimeout(() => {
+  //       setIsDeleteting(false);
+  //     }, 500);
+
+  //     toast.success("Announcement Deleted");
+  //   }
+  // }
   async function handleDelete(id: string | undefined) {
     console.log(id);
     setIsDeleteting(true);
+
     try {
-      const res = await fetch(`${API_URL}/api/v1/secure/announcement/${id}`, {
-        method: "DELETE",
-      });
+      if (
+        window.confirm("Are you sure you want to delete this announcement?")
+      ) {
+        const res = await fetch(`${API_URL}/api/v1/secure/announcement/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
 
-      if (!res.ok) {
-        throw new Error(`Error Deleting announcement`);
+        if (!res.ok) {
+          throw new Error(`Error Deleting announcement`);
+        }
+
+        navigate("/secure/announcement");
+        toast.success("Announcement Deleted");
+      } else {
+        // User clicked "Cancel"
+        console.log("Deletion cancelled by user.");
       }
-
-      // navigate(-1);
-
-      navigate("/secure/announcement");
     } catch (error) {
+      console.error(error);
     } finally {
       setTimeout(() => {
         setIsDeleteting(false);
       }, 500);
-
-      toast.success("Announcement Deleted");
     }
   }
+
   return (
     <div>
       <header>
@@ -87,7 +128,7 @@ function AnnouncementDetails() {
           </div>
         ) : (
           <section>
-            <div className="top md:flex md:justify-between mt-8 ">
+            <div className="top md:flex md:justify-between md:items-center mt-8 ">
               <div className="left">
                 <h1 className="text-2xl text-[#212529] font-bold">
                   {annoucementData?.title}

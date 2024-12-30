@@ -92,7 +92,6 @@ function EditAnnouncement() {
         credentials: "include",
       });
 
-      console.log(await res);
       if (res.ok) {
         const { message } = await res.json();
         toast.success(message);

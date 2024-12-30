@@ -13,6 +13,7 @@ const {
   announcementsRoutes,
   subscriptionsRoutes,
   eventRoutes,
+  adminUserRoute,
 } = require("./routes");
 
 const corsOptions = { origin: "http://localhost:3000", credentials: true };
@@ -26,6 +27,7 @@ app.use(cookieParser(process.env.JWT_SECRET));
 //   res.send({ message: "Welcome to the MembershipCMS backend API" });
 // });
 app.use("/api/v1/secure/auth", adminAuthRoutes);
+app.use("/api/v1/secure/profile", adminUserRoute);
 app.use("/api/v1/secure/settings", appSettingsRoutes);
 app.use("/api/v1/secure/announcement", announcementsRoutes);
 app.use("/api/v1/secure/subscriptions", subscriptionsRoutes);
