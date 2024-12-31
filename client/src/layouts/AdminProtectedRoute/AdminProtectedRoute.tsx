@@ -47,7 +47,7 @@ function AdminProtectedRoute({ children }: PropsWithChildren<{}>) {
   //   return () => clearTimeout(timer);
   // }, []);
   useEffect(() => {
-    if (currentUser !== undefined) {
+    if (currentUser !== null) {
       setLoading(false);
     }
   }, [currentUser]);
