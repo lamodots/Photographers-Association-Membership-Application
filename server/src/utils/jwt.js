@@ -23,6 +23,7 @@ function attachCookiesToResponse(res, user) {
     maxAge: oneDay,
     secure: process.env.NODE_ENV === "production",
     signed: true,
+    path: "/",
   });
 }
 

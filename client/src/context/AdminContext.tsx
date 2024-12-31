@@ -5,8 +5,8 @@ import {
   useEffect,
   useState,
 } from "react";
+import { date } from "yup";
 
-const API_URL = process.env.REACT_APP_CLIENT_URL;
 // interface CurrentUser {
 //   firstname: string;
 //   lastname: string;
@@ -69,6 +69,7 @@ interface AuthContextProps {
   children: ReactNode;
 }
 
+const API_URL = process.env.REACT_APP_CLIENT_URL;
 export const AuthContext = ({ children }: AuthContextProps) => {
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
   console.log("HEY FROM CONTEXT", currentUser);
@@ -81,6 +82,7 @@ export const AuthContext = ({ children }: AuthContextProps) => {
         });
         if (res.ok) {
           const data: CurrentUser = await res.json();
+          console.log("User data:", data);
           setCurrentUser(data);
         } else {
           setCurrentUser(null); // Handle unauthorized access
