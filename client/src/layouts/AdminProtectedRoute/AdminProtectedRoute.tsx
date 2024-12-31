@@ -39,14 +39,18 @@ function AdminProtectedRoute({ children }: PropsWithChildren<{}>) {
   const { currentUser } = useCurrentUser();
   const [loading, setLoading] = useState(true);
 
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setLoading(false);
+  //   }, 500);
+
+  //   return () => clearTimeout(timer);
+  // }, []);
   useEffect(() => {
-    const timer = setTimeout(() => {
+    if (currentUser !== undefined) {
       setLoading(false);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
+    }
+  }, [currentUser]);
   if (loading) {
     return (
       <div className=" w-screen h-screen flex justify-center items-center">
