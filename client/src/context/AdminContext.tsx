@@ -80,6 +80,10 @@ export const AuthContext = ({ children }: AuthContextProps) => {
           method: "GET",
           credentials: "include",
         });
+        if (res.status === 304) {
+          console.log("Server returned 304; resource not modified.");
+          return; // Or utilize previously fetched data from a state/cache
+        }
         if (res.ok) {
           const data: CurrentUser = await res.json();
           console.log("User data:", data);

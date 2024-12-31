@@ -16,6 +16,7 @@ const {
   adminUserRoute,
 } = require("./routes");
 
+app.disable("etag");
 const corsOptions = { origin: "http://localhost:3000", credentials: true };
 //Import exprss middlewares
 app.use(cors(corsOptions));
