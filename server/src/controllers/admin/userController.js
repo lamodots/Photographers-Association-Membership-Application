@@ -18,17 +18,6 @@ async function getUserProfileDetails(req, res) {
 
     const subscription = await getUserSubscriptionServices(userId);
 
-    // if (!subscription) {
-    //   return res
-    //     .status(StatusCodes.NOT_FOUND)
-    //     .json({ ok: true, message: "Subscription not found" });
-    // }
-    // if (!subscription) {
-    //   return res
-    //     .status(StatusCodes.NOT_FOUND)
-    //     .json({ ok: true, message: "Subscription not found" });
-    // }
-
     return res.status(StatusCodes.OK).json({ user, subscription });
   } catch (error) {
     return res

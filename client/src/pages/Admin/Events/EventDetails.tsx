@@ -2,6 +2,7 @@ import React, { Suspense } from "react";
 import { ChevronLeft, Delete, Trash, Pencil } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import FallbackLoadingComponent from "../../../components/FallbackLoadingComponent/FallbackLoadingComponent";
+import Button from "../../../components/Button/Button";
 
 function EventDetails() {
   const navigate = useNavigate();
@@ -53,6 +54,7 @@ function EventDetails() {
               ut accusamus?
             </p>
           </Suspense>
+          <Button text="Register" className="px-6 mt-6" />
         </section>
       </main>
     </div>
