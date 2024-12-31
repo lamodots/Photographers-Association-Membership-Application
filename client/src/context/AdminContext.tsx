@@ -75,10 +75,7 @@ export const AuthContext = ({ children }: AuthContextProps) => {
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
-        const res = await fetch("/api/v1/secure/profile", {
-          method: "GET",
-          credentials: "include",
-        });
+        const res = await fetch("/api/v1/secure/profile");
         if (res.ok) {
           const data: CurrentUser = await res.json();
           setCurrentUser(data);

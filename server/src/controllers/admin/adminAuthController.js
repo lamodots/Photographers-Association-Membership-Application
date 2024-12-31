@@ -72,7 +72,6 @@ async function loginAdminController(req, res, next) {
     // Return user token from login services
     const tokenUser = await loginAdminServices(email, password);
 
-    console.log("client token", tokenUser);
     // attach user token to cookie response pass down res to enable you access res.cookie
     attachCookiesToResponse(res, tokenUser);
     res

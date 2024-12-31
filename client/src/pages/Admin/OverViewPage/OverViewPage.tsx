@@ -15,21 +15,6 @@ const NewMemberCard = lazy(
     import("../../../components/Admin-Components/NewMemberCard/NewMemberCard")
 );
 
-function getCookie(name: string): string | null {
-  console.log("Document Cookie:", document.cookie); // Log the document.cookie value for debugging
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) {
-    console.log("Cookie Parts:", parts); // Log parts for debugging
-    const result = parts.pop()?.split(";").shift() || null;
-    console.log("Retrieved Cookie Value:", result); // Log the retrieved cookie value
-    return result;
-  }
-  return null;
-}
-
-console.log("The token is", getCookie("token"));
-
 function OverViewPage() {
   return (
     <main>
@@ -106,7 +91,7 @@ function OverViewPage() {
         <div className="grid gap-4 grid-cols-1 md:grid-cols-3 mt-6">
           {FAKE_MEMBERS.map((user) => {
             return (
-              <Suspense fallback={<FallbackLoadingComponent />}>
+              <Suspense fallback={<FallbackLoadingComponent />} key={user.id}>
                 <NewMemberCard
                   image={user.photo}
                   name={user.name}
