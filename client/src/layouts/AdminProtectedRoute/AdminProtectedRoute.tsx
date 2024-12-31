@@ -56,7 +56,7 @@ function AdminProtectedRoute({ children }: PropsWithChildren<{}>) {
   }
 
   if (!currentUser) {
-    return <Navigate to="/secure/login" />;
+    return <Navigate to="/secure/login" replace />;
   }
 
   return <Outlet />;
