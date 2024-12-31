@@ -90,8 +90,6 @@ async function logOutController(req, res, next) {
     httpOnly: true,
     expires: new Date(Date.now() + 1000),
   });
-
-  console.log(res);
   res.json({ ok: true, message: "You have been loggedOut" });
 }
 module.exports = {
