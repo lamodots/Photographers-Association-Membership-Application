@@ -92,7 +92,7 @@ An all-in-one platform connecting photographers to a vibrant community, professi
 
 - README.md: Project documentation.
 
-### routes
+### BACKEND routes
 
 - ### Auth
 
@@ -108,6 +108,8 @@ An all-in-one platform connecting photographers to a vibrant community, professi
             - Only loggedin moderator or admin user role can access secure dashboard ✔️
             - /api/v1/secure/logout ✔️
 
+      -
+
       -   /api/v1/secure/forgot-password
       -   /api/v1/secure/reset-password
 
@@ -117,6 +119,26 @@ An all-in-one platform connecting photographers to a vibrant community, professi
       -   /api/v1/user/signup:
       -   /api/v1/user/forgot-password
       -   /api/v1/user/reset-password
+
+# FRONT-END
+
+      - EVENT
+            - Admin can Create event
+            - Admin can delete and edit event
+            - Users can view and apply for an event
+            - Users can recieve email containing  the QR code of the applied event
+            - There will be a portal(page )to verify user event application.(protected to admin alone)
+      - List all members for users.
+      - List all for admin and functionality to suspend and delete user.
+      - Remove the timer / make it stop when user subscriptions ends
+      - Admin should be able to store and and retrive configuration files in from DB
+            - Whatsapp key
+            - Paystack key
+            - Cloundinary key
+      - Pass correct WhatsApp message configuration file and test brith day message.
+
+      - CERTIFICATE
+            - members can print certifcate.
 
 <!-- https://www.linkedin.com/pulse/software-testing-101-beginners-guide-types-techniques-wgphc/ -->
 
@@ -141,3 +163,8 @@ An all-in-one platform connecting photographers to a vibrant community, professi
 }
 
 ```
+
+DALLAS SOFTWARE APPLICATION
+https://docs.google.com/forms/d/e/1FAIpQLSdICY7jRl7wdsYtOm6ebz3iMyf4KGZ7tLB5cIZrUUO1tThD7g/viewform
+
+The goal is to understand your vision, validate compatibility, align expectations, and assess if the partnership is mutually beneficial.

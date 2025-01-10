@@ -13,6 +13,14 @@ const eventsSchema = new mongoose.Schema(
       //   required: true,
     },
     photoImage: String,
+    time: {
+      type: String,
+      required: true,
+    },
+    venue: {
+      type: String,
+      required: true,
+    },
     description: {
       type: String,
       max: 400,
@@ -20,11 +28,8 @@ const eventsSchema = new mongoose.Schema(
     duration: String,
     applicants: [
       {
-        id: { type: mongoose.Types.ObjectId, auto: true },
-        name: { type: String },
-        email: { type: String },
-        appliedAt: { type: Date, default: Date.now },
-        barCode: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Applicants",
       },
     ],
 

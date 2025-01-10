@@ -5,7 +5,7 @@ type ButtonProp = {
   className?: string;
   type?: "submit" | "reset" | "button";
   isSubmitting?: boolean;
-  handleClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  handleClick?: () => void;
 };
 
 /*** isSubmitting will enable you set the loading spinner when form is submitting */
@@ -21,9 +21,9 @@ function Button({
   return (
     <button
       type={type}
-      className={` cursor-pointer rounded-lg h-14 flex justify-center items-center bg-[#1A4F83] text-center text-sm font-bold text-[#F4F6F7] ${className}`}
+      className={` cursor-pointer rounded-lg h-12 flex justify-center items-center bg-[#1A4F83] text-center text-sm font-bold text-[#F4F6F7] ${className}`}
       disabled={disableBtn}
-      onSubmit={handleClick}
+      onClick={handleClick}
     >
       {isSubmitting ? children : text}
     </button>

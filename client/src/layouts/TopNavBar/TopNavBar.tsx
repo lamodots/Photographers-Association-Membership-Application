@@ -16,7 +16,7 @@ function TopNavBar({
   handlePopUp,
   showMorePopUp,
 }: TopNavBarProp) {
-  const { currentUser } = useCurrentUser();
+  const { profile } = useCurrentUser();
   return (
     <nav className=" bg-[#F5F7FA] flex items-center justify-between px-8 h-[114px]  w-full ">
       <div className="flex items-center gap-8">
@@ -28,7 +28,7 @@ function TopNavBar({
           />
         </div>
         <span className="hidden md:inline-block capitalize">
-          Hello {currentUser?.user?.firstname}, Welcome !
+          Hello {profile?.user?.firstname}, Welcome !
         </span>
       </div>
       <div className="flex items-center gap-6 cursor-pointer">

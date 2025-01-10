@@ -1,4 +1,4 @@
-// import React from "react";
+// import React, { useEffect, useState } from "react";
 // import Lable from "../../../components/Lable/Lable";
 // import TextInput from "../../../components/Input/TextInput";
 // import { Formik, FormikHelpers } from "formik";
@@ -7,6 +7,8 @@
 // import useWordCount from "../../../hooks/useWordCount";
 // import toast from "react-hot-toast";
 // import { Oval } from "react-loader-spinner";
+// import { useNavigate, useParams } from "react-router-dom";
+// import { formatTimeWithAmPm } from "../../../util/formatTimeWithAMPM";
 
 // const API_URL = process.env.REACT_APP_CLIENT_URL;
 // interface EventProps {
@@ -14,11 +16,19 @@
 //   startDate: string;
 //   endDate: string;
 //   photoImage: string;
+//   time: string;
+//   venue: string;
 //   description: string;
 // }
 
-// function CreateEvent() {
+// function EditEvents() {
 //   const { wordCount, handleWordCount } = useWordCount();
+//   const [eventData, setEventData] = useState<EventProps | null>(null);
+//   const [isLoading, setIsLoading] = useState(false);
+//   console.log("New event data", eventData);
+//   const { id } = useParams();
+//   const navigate = useNavigate();
+
 //   const eventSchema = Yup.object().shape({
 //     title: Yup.string()
 //       .trim()
@@ -27,7 +37,8 @@
 //     startDate: Yup.date().required("Start date is required"),
 //     endDate: Yup.date().required("Start date is required"),
 //     photoImage: Yup.string(),
-
+//     time: Yup.string().required("Event time required"),
+//     venue: Yup.string().required("Where is the Event happening ? Add venue"),
 //     description: Yup.string()
 //       .trim()
 
@@ -36,22 +47,50 @@
 //   });
 
 //   const initialValues = {
-//     title: "",
-//     startDate: "",
-//     endDate: "",
+//     title: eventData?.title || "",
+//     startDate: eventData?.startDate
+//       ? new Date(eventData.startDate).toISOString().split("T")[0]
+//       : "",
+//     endDate: eventData?.endDate
+//       ? new Date(eventData.endDate).toISOString().split("T")[0]
+//       : "",
 //     photoImage: "",
-//     description: "",
+//     time: eventData?.time ? eventData?.time.split(" ")[0] : "",
+//     venue: eventData?.venue || "",
+//     description: eventData?.description || "",
 //   };
 
-//   console.log(initialValues.photoImage);
+//   async function getEvent() {
+//     try {
+//       setIsLoading(true);
+//       const res = await fetch(`${API_URL}/api/v1/secure/events/${id}`);
+//       if (!res.ok) {
+//         throw new Error(`Error fetching Event`);
+//       }
+//       const { event } = await res.json();
+
+//       setEventData(event);
+//     } catch (error) {
+//       console.log(error);
+//     } finally {
+//       setTimeout(() => {
+//         setIsLoading(false);
+//       }, 500);
+//     }
+//   }
+
+//   useEffect(() => {
+//     getEvent();
+//   }, []);
+
 //   async function handleEventSubmit(
 //     values: EventProps,
 //     { setSubmitting, resetForm }: FormikHelpers<EventProps>
 //   ) {
 //     try {
 //       await new Promise((resolve) => setTimeout(resolve, 500));
-//       const res = await fetch(`${API_URL}/api/v1/secure/events`, {
-//         method: "POST",
+//       const res = await fetch(`${API_URL}/api/v1/secure/events/${id}`, {
+//         method: "PUT",
 //         headers: {
 //           "Content-Type": "application/json",
 //         },
@@ -78,11 +117,12 @@
 //   return (
 //     <main>
 //       <section>
-//         <h1 className="text-2xl text-[#212529] font-bold">Create Event</h1>
+//         <h1 className="text-2xl text-[#212529] font-bold">Update Event</h1>
 //         <div className="form mt-8 w-full max-w-[600px]">
 //           <Formik
 //             initialValues={initialValues}
 //             validationSchema={eventSchema}
+//             enableReinitialize
 //             onSubmit={handleEventSubmit}
 //           >
 //             {({ values, errors, handleChange, handleSubmit, isSubmitting }) => (
@@ -131,21 +171,49 @@
 //                       </span>
 //                     </div>
 //                   </div>
-//                   <div className=" space-y-2">
-//                     <Lable
-//                       label="Upload app logo 600 x 600 size *"
-//                       className=" text-xs"
-//                     />
+//                   <div className="grid md:grid-cols-2 gap-6">
+//                     <div className=" space-y-2">
+//                       <Lable
+//                         label="Upload app logo 600 x 600 size *"
+//                         className=" text-xs"
+//                       />
+//                       <TextInput
+//                         type="file"
+//                         name="file"
+//                         value={values.photoImage}
+//                         handleInputChange={handleChange}
+//                         className="w-full"
+//                       />
+//                       <span className="text-[10px] text-red-400">
+//                         {errors.photoImage && errors.photoImage}
+//                       </span>
+//                     </div>
+//                     <div className="space-y-2  ">
+//                       <Lable label="Set Event time *" className="text-xs" />
+//                       <TextInput
+//                         type="time"
+//                         name="time"
+//                         value={values.time}
+//                         handleInputChange={handleChange}
+//                         className="w-full"
+//                       />
+//                       <span className="text-[10px] text-red-400">
+//                         {errors.time && errors.time}
+//                       </span>
+//                     </div>
+//                   </div>
+//                   <div className="space-y-2 ">
+//                     <Lable label="Event Venue *" className="text-xs" />
 //                     <TextInput
-//                       type="file"
-//                       accept="image/*"
-//                       name="photoImage"
-//                       value={values.photoImage}
+//                       type="text"
+//                       name="venue"
+//                       value={values.venue}
 //                       handleInputChange={handleChange}
+//                       placeholderText="Enter event Venue"
 //                       className="w-full"
 //                     />
 //                     <span className="text-[10px] text-red-400">
-//                       {errors.photoImage && errors.photoImage}
+//                       {errors.venue && errors.venue}
 //                     </span>
 //                   </div>
 //                   <div className=" space-y-2">
@@ -177,7 +245,7 @@
 //                 </div>
 //                 <Button
 //                   type="submit"
-//                   text="Create Event"
+//                   text="Update Event"
 //                   isSubmitting={isSubmitting}
 //                   disableBtn={isSubmitting}
 //                   className="w-full"
@@ -203,9 +271,9 @@
 //   );
 // }
 
-// export default CreateEvent;
+// export default EditEvents;
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
@@ -215,6 +283,7 @@ import Lable from "../../../components/Lable/Lable";
 import Button from "../../../components/Button/Button";
 import useWordCount from "../../../hooks/useWordCount";
 import { formatTimeWithAmPm } from "../../../util/formatTimeWithAMPM";
+import { useNavigate, useParams } from "react-router-dom";
 
 const API_URL = process.env.REACT_APP_CLIENT_URL;
 
@@ -228,8 +297,13 @@ interface EventProps {
   description: string;
 }
 
-function CreateEvent() {
+function EditEvents() {
   const { wordCount, handleWordCount } = useWordCount();
+  const [eventData, setEventData] = useState<EventProps | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  console.log("New event data", eventData);
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   const eventSchema = Yup.object().shape({
     title: Yup.string()
@@ -247,15 +321,52 @@ function CreateEvent() {
       .required("Event description is required"),
   });
 
+  // const initialValues: EventProps = {
+  //   title: "",
+  //   startDate: "",
+  //   endDate: "",
+  //   photoImage: null,
+  //   time: "",
+  //   venue: "",
+  //   description: "",
+  // };
+
   const initialValues: EventProps = {
-    title: "",
-    startDate: "",
-    endDate: "",
+    title: eventData?.title || "",
+    startDate: eventData?.startDate
+      ? new Date(eventData.startDate).toISOString().split("T")[0]
+      : "",
+    endDate: eventData?.endDate
+      ? new Date(eventData.endDate).toISOString().split("T")[0]
+      : "",
     photoImage: null,
-    time: "",
-    venue: "",
-    description: "",
+    time: eventData?.time ? eventData?.time.split(" ")[0] : "",
+    venue: eventData?.venue || "",
+    description: eventData?.description || "",
   };
+
+  async function getEvent() {
+    try {
+      setIsLoading(true);
+      const res = await fetch(`${API_URL}/api/v1/secure/events/${id}`);
+      if (!res.ok) {
+        throw new Error(`Error fetching Event`);
+      }
+      const { event } = await res.json();
+
+      setEventData(event);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
+    }
+  }
+
+  useEffect(() => {
+    getEvent();
+  }, []);
 
   async function handleEventSubmit(
     values: EventProps,
@@ -271,8 +382,9 @@ function CreateEvent() {
       formData.append("venue", values.venue);
       formData.append("description", values.description);
 
-      const res = await fetch(`${API_URL}/api/v1/secure/events`, {
-        method: "POST",
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      const res = await fetch(`${API_URL}/api/v1/secure/events/${id}`, {
+        method: "PUT",
         body: formData,
         credentials: "include",
       });
@@ -283,6 +395,7 @@ function CreateEvent() {
         resetForm();
       } else {
         const errorData = await res.json();
+
         toast.error(errorData.msg || "An error occurred. Please try again.");
       }
     } catch (error) {
@@ -300,6 +413,7 @@ function CreateEvent() {
           <Formik
             initialValues={initialValues}
             validationSchema={eventSchema}
+            enableReinitialize
             onSubmit={handleEventSubmit}
           >
             {({
@@ -436,7 +550,7 @@ function CreateEvent() {
                 </div>
                 <Button
                   type="submit"
-                  text="Create Event"
+                  text="Update Event"
                   isSubmitting={isSubmitting}
                   disableBtn={isSubmitting}
                   className="w-full mt-6"
@@ -462,4 +576,4 @@ function CreateEvent() {
   );
 }
 
-export default CreateEvent;
+export default EditEvents;

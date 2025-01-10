@@ -1,3 +1,5 @@
+const path = require("path");
+const fs = require("fs");
 const { StatusCodes } = require("http-status-codes");
 const { BadRequestError } = require("../../errors");
 const {
@@ -10,18 +12,58 @@ const {
 const mongoose = require("mongoose");
 
 async function createEvents(req, res, next) {
-  console.log(req.body);
-  const { title, startDate, endDate, photoImage, description } = req.body;
-  if (!title || !startDate || !endDate || !description) {
+  const { title, startDate, endDate, time, venue, description } = req.body;
+  if (!title || !startDate || !endDate || !time || !venue || !description) {
     return next(new BadRequestError("All fileds are required"));
   }
+
   try {
+    const eventImage = req.files.photoImage;
+    if (!eventImage.mimetype.startsWith("image")) {
+      return next(new BadRequestError("Please upload image"));
+    }
+
+    const maxSize = 5 * 1024 * 1024;
+
+    if (eventImage.size > maxSize) {
+      return next(new BadRequestError("Please upload image smaller than 5MB"));
+    }
+
+    // construct the folder (uploads) where we want to upload the image
+    const uploadsDir = path.join(
+      __dirname,
+      "..",
+      "..",
+      "..",
+      "..",
+      "client",
+      "public",
+      "uploads"
+    );
+
+    // Check if it exists if not create uploads folder
+    if (!fs.existsSync(uploadsDir)) {
+      fs.mkdirSync(uploadsDir, { recursive: true });
+    }
+
+    const uniqueImage =
+      eventImage.name.split(".")[0] +
+      eventImage.md5 +
+      "." +
+      eventImage.name.split(".")[1];
+
+    const imagePath = path.join(uploadsDir, uniqueImage);
+
+    await eventImage.mv(imagePath);
+
     const event = await createEventService({
       title: title,
       startDate: startDate,
       endDate: endDate,
       description: description,
-      photoImage: photoImage,
+      time: time,
+      venue: venue,
+      photoImage: uniqueImage,
       createdBy: req.user.userId,
     });
 
@@ -60,14 +102,55 @@ async function getSingleEvent(req, res, next) {
 }
 
 async function editEvent(req, res, next) {
+  const { id } = req.params;
+  // const body = req.body;
+  const { title, startDate, endDate, time, venue, description } = req.body;
   try {
-    const { id } = req.params;
-    const body = req.body;
-
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return next(new BadRequestError("ID is not a valid ID"));
     }
-    const event = await editEventService(id, body);
+
+    const eventImage = req.files.photoImage;
+    if (!eventImage.mimetype.startsWith("image")) {
+      return next(new BadRequestError("Please upload image"));
+    }
+
+    const maxSize = 5 * 1024 * 1024;
+    if (eventImage.size > maxSize) {
+      return next(new BadRequestError("Please upload image smaller than 5MB"));
+    }
+
+    // construct the folder (uploads)
+    const uploadsDir = path.join(
+      __dirname,
+      "..",
+      "..",
+      "..",
+      "..",
+      "client",
+      "public",
+      "uploads"
+    );
+
+    const uniqueImage =
+      eventImage.name.split(".")[0] +
+      eventImage.md5 +
+      "." +
+      eventImage.name.split(".")[1];
+
+    const imagePath = path.join(uploadsDir, uniqueImage);
+    await eventImage.mv(imagePath);
+
+    const event = await editEventService(id, {
+      title: title,
+      startDate: startDate,
+      endDate: endDate,
+      description: description,
+      time: time,
+      venue: venue,
+      photoImage: uniqueImage,
+      createdBy: req.user.userId,
+    });
 
     res
       .status(StatusCodes.OK)

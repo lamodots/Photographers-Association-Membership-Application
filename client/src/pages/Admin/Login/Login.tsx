@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Oval } from "react-loader-spinner";
 import { Formik, FormikHelpers } from "formik";
@@ -8,6 +8,7 @@ import Lable from "../../../components/Lable/Lable";
 import LoginAsset from "../../../assets/loginassets.svg";
 import Button from "../../../components/Button/Button";
 import { Link, useNavigate } from "react-router-dom";
+import { useCurrentUser } from "../../../context/AdminContext";
 
 const API_URL = process.env.REACT_APP_CLIENT_URL;
 
@@ -18,6 +19,7 @@ interface ValuesProps {
 
 function Login() {
   const navigate = useNavigate();
+  const { currentUser, setCurrentUser } = useCurrentUser();
 
   const loginSchema = Yup.object().shape({
     email: Yup.string()
@@ -54,10 +56,12 @@ function Login() {
         credentials: "include",
       });
 
+      // console.log(await res.json());
       if (res.ok) {
-        const { message } = await res.json();
-
+        const { message, tokenUser } = await res.json();
+        setCurrentUser(tokenUser);
         toast.success(message);
+
         navigate("/secure");
       } else {
         const errorData = await res.json();

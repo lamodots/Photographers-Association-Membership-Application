@@ -3,6 +3,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const path = require("path");
 const app = express();
+const fileUpload = require("express-fileupload");
 const {
   notfoundHandlerMiddleware,
   errorHandlerMiddleware,
@@ -20,7 +21,14 @@ app.disable("etag");
 const corsOptions = { origin: "http://localhost:3000", credentials: true };
 //Import exprss middlewares
 app.use(cors(corsOptions));
+app.use(
+  express.static(
+    path.join(__dirname, "..", "..", "..", "..", "client", "public", "uploads")
+  )
+);
+
 app.use(express.json());
+app.use(fileUpload());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.JWT_SECRET));
 

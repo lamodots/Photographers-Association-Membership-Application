@@ -214,7 +214,7 @@ function AdminDashboardSideBar({ handleToggleSideBar }: DashboardSideBarProp) {
                 <>
                   {openEventMenu && (
                     <div className=" relative bg-[#f2f7fd1a] w-full  transition-all p-3 rounded-tl rounded-br rounded-bl">
-                      <ul>
+                      <ul className="space-y-6">
                         <li>
                           <Link
                             to="events"
@@ -229,6 +229,14 @@ function AdminDashboardSideBar({ handleToggleSideBar }: DashboardSideBarProp) {
                             className="text-[#cdcdcdf9] font-normal"
                           >
                             Create
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="events/approve"
+                            className="text-[#cdcdcdf9] font-normal"
+                          >
+                            Approve
                           </Link>
                         </li>
                       </ul>

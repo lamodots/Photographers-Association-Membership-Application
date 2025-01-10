@@ -8,7 +8,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./layouts/ProtectedRoute/ProtectedRoute";
 import DashboardLayout from "./layouts/DashboardLayout/DashboardLayout";
 import FallbackLoadingComponent from "./components/FallbackLoadingComponent/FallbackLoadingComponent";
-
+import AdminProtectedRoute from "./layouts/AdminProtectedRoute/AdminProtectedRoute";
 //******** */ Admin Dashboard Page Imports
 import AdminDashboardLayout from "./layouts/AdminDashboardLayout/AdminDashboardLayout";
 import { AuthContext } from "./context/AdminContext";
@@ -68,9 +68,12 @@ const AdminCertificate = lazy(
   () => import("./pages/Admin/Certificate/Certificate")
 );
 
-const AdminProtectedRoute = lazy(
-  () => import("./layouts/AdminProtectedRoute/AdminProtectedRoute")
+const AdminEditEvent = lazy(() => import("./pages/Admin/Events/EditEvents"));
+const AdminApprove = lazy(() => import("./pages/Admin/Events/ApproveEvent"));
+const AdminRegisterEvent = lazy(
+  () => import("./pages/Admin/Events/RegisterEvent")
 );
+
 // import Login from "./pages/Login/Login";
 // import Register from "./pages/Register/Register";
 // import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
@@ -137,6 +140,16 @@ root.render(
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="events/details/:id" element={<h1>Event details</h1>} />
+          <Route
+            path="events/:id/register"
+            element={<h1>Register events</h1>}
+          />
+          <Route path="events" element={<h1>Events</h1>} />
+          <Route
+            path="events/details/:id/register"
+            element={<h1>Register events</h1>}
+          />
           {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>
             {/* Onboarding */}
@@ -168,19 +181,25 @@ root.render(
 
       {/* //ADMIN ROUTES */}
       <Suspense>
-        <Routes>
-          <Route path="/secure/login" element={<AdminLogin />} />
-          {/* register should be protected */}
-          <Route path="/secure/register" element={<AdminOnboardingStepTwo />} />
-          <Route
-            element={
-              <AuthContext>
-                <AdminProtectedRoute />
-              </AuthContext>
-            }
-          >
+        <AuthContext>
+          <Routes>
+            <Route path="/secure/login" element={<AdminLogin />} />
+
+            {/* register should be protected */}
+            <Route
+              path="/secure/register"
+              element={<AdminOnboardingStepTwo />}
+            />
+
             {/* Dashboard */}
-            <Route path="/secure" element={<AdminDashboardLayout />}>
+            <Route
+              path="/secure"
+              element={
+                <AdminProtectedRoute>
+                  <AdminDashboardLayout />
+                </AdminProtectedRoute>
+              }
+            >
               <Route index element={<AdminOverViewPage />} />
               <Route path="content" element={<Content />} />
               <Route path="members" element={<AdminMembers />} />
@@ -208,6 +227,15 @@ root.render(
                 path="events/details/:id"
                 element={<AdminEventDetails />}
               />
+              <Route
+                path="events/:id/register"
+                element={<AdminRegisterEvent />}
+              />
+              <Route
+                path="events/details/:id/edit"
+                element={<AdminEditEvent />}
+              />
+              <Route path="events/approve" element={<AdminApprove />} />
               <Route path="certificate" element={<AdminCertificate />} />
               <Route path="id_card" element={<IdCard />} />
               <Route path="settings" element={<AdminSettings />} />
@@ -226,8 +254,8 @@ root.render(
               />
               <Route path="profile" element={<Profile />} />
             </Route>
-          </Route>
-        </Routes>
+          </Routes>
+        </AuthContext>
       </Suspense>
     </BrowserRouter>
     <Toaster />

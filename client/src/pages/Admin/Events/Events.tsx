@@ -1,40 +1,205 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
+// import { Filter } from "lucide-react";
+// import TextInput from "../../../components/Input/TextInput";
+// import NewMemberCard from "../../../components/Admin-Components/NewMemberCard/NewMemberCard";
+// import { FAKE_EVENTS } from "../../../util/data";
+// import { Link } from "react-router-dom";
+// import FilterPopUp from "../../../components/FilterPopUp/FilterPopUp";
+// import AnnouncementList from "../../../components/AnnouncementsList/AnnouncementList";
+
+// function Events() {
+//   const [userData, setUserData] = useState("");
+//   const [iputText, setInputText] = useState("");
+//   const [showPopup, setShowPopUp] = useState(false);
+//   const [startDate, setStartDate] = useState("");
+//   const [endDate, setEndDate] = useState("");
+//   // const filteredAnnouncements = FAKE_ANNOUNCEMENTS.filter(
+//   //   (announcement) =>
+//   //     announcement.title.toLowerCase().includes(iputText.toLowerCase()) ||
+//   //     announcement.body.toLowerCase().includes(iputText.toLowerCase())
+//   // );
+
+//   // Funcrionality for flter and search
+//   const filteredAnnouncements = FAKE_EVENTS.filter((event) => {
+//     const matchText =
+//       event.title.toLowerCase().includes(iputText.toLowerCase()) ||
+//       event.body.toLowerCase().includes(iputText.toLowerCase());
+
+//     const matchDate =
+//       (!startDate || new Date(event.date) >= new Date(startDate)) &&
+//       (!endDate || new Date(event.date) <= new Date(endDate));
+//     return matchText && matchDate;
+//   });
+
+//   return (
+//     <main>
+//       <header>
+//         <h1 className="text-2xl text-[#212529] font-bold">All Events</h1>
+//         <div className="flex  justify-between items-center gap-4 w-full max-w-[600px] mt-8">
+//           <div className="left w-full">
+//             <TextInput
+//               className=" w-full"
+//               type="text"
+//               placeholderText="Search Event"
+//               name="search-annoucement"
+//               value={iputText}
+//               handleInputChange={(e) => setInputText(e.target.value)}
+//             />
+//           </div>
+//           {/* the popup */}
+//           {/* <div>
+//             <div
+//               className="right py-3 px-2 bg-white rounded-lg shadow-lg flex items-center justify-center cursor-pointer"
+//               onClick={() => setShowPopUp(!showPopup)}
+//             >
+//               <Filter />
+//               <small>Filter</small>
+//             </div>
+
+//             {showPopup && <FilterPopUp />}
+//           </div> */}
+//           {/* the popup end */}
+//         </div>
+//       </header>
+//       <section className="py-8">
+//         <div className="grid gap-6 grid-cols-1 md:grid-cols-3">
+//           {filteredAnnouncements.map((event) => {
+//             return (
+//               <Link to="/secure/events/details/1" key={event.id}>
+//                 <AnnouncementList
+//                   description={event.body}
+//                   title={event.title}
+//                 />
+//               </Link>
+//             );
+//           })}
+//         </div>
+//         <div className="flex items-center space-x-4 pt-10">
+//           <span>1 of 10</span>
+//           <ul className="space-x-2">
+//             <li className=" inline">
+//               <Link
+//                 to={""}
+//                 className="py-2 px-3 rounded-lg text-white font-semibold bg-[#2067A9]"
+//               >
+//                 1
+//               </Link>
+//             </li>
+//             <li className=" inline">
+//               <Link
+//                 to={""}
+//                 className="py-2 px-3 rounded-lg text-white font-semibold bg-[#2067A9]"
+//               >
+//                 2
+//               </Link>
+//             </li>
+//           </ul>
+//         </div>
+//       </section>
+//     </main>
+//   );
+// }
+
+// export default Events;
+
+import React, { useEffect, useState } from "react";
 import { Filter } from "lucide-react";
 import TextInput from "../../../components/Input/TextInput";
 import NewMemberCard from "../../../components/Admin-Components/NewMemberCard/NewMemberCard";
-import { FAKE_EVENTS } from "../../../util/data";
+import { FAKE_MEMBERS, FAKE_ANNOUNCEMENTS } from "../../../util/data";
 import { Link } from "react-router-dom";
 import FilterPopUp from "../../../components/FilterPopUp/FilterPopUp";
 import AnnouncementList from "../../../components/AnnouncementsList/AnnouncementList";
+import { Oval } from "react-loader-spinner";
+
+const API_URL = process.env.REACT_APP_CLIENT_URL;
+interface AnnouncementProps {
+  _id: string;
+  title: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  createdBy: {
+    firstname: string;
+    lastname: string;
+  };
+}
 
 function Events() {
-  const [userData, setUserData] = useState("");
+  const [announcement, setAnnouncementData] = useState<AnnouncementProps[]>([]);
+  const [loading, setIsLoading] = useState(false);
   const [iputText, setInputText] = useState("");
   const [showPopup, setShowPopUp] = useState(false);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  // const filteredAnnouncements = FAKE_ANNOUNCEMENTS.filter(
-  //   (announcement) =>
-  //     announcement.title.toLowerCase().includes(iputText.toLowerCase()) ||
-  //     announcement.body.toLowerCase().includes(iputText.toLowerCase())
-  // );
+  const [filterStartDate, setFilterStartDate] = useState("");
+  const [filterEndDate, setFilterEndDate] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
 
+  async function getAllAnnoucements() {
+    try {
+      setIsLoading(true);
+      const query = new URLSearchParams();
+      if (filterStartDate) query.append("startDate", filterStartDate);
+      if (filterEndDate) query.append("endDate", filterEndDate);
+
+      const res = await fetch(
+        `${API_URL}/api/v1/secure/events?${query.toString()}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-type": "appliacation/json",
+          },
+        }
+      );
+
+      const { event } = await res.json();
+
+      setAnnouncementData(event);
+    } catch (error) {
+      throw new Error("Something went wrong");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getAllAnnoucements();
+  }, [filterStartDate, filterEndDate]);
   // Funcrionality for flter and search
-  const filteredAnnouncements = FAKE_EVENTS.filter((event) => {
-    const matchText =
-      event.title.toLowerCase().includes(iputText.toLowerCase()) ||
-      event.body.toLowerCase().includes(iputText.toLowerCase());
+  const handleApplyFilter = () => {
+    setFilterStartDate(startDate);
+    setFilterEndDate(endDate);
+    setShowPopUp(false);
+  };
+  const filteredAnnouncements: AnnouncementProps[] =
+    announcement?.filter((announcement: AnnouncementProps) => {
+      const matchText =
+        announcement.title.toLowerCase().includes(iputText.toLowerCase()) ||
+        announcement.description.toLowerCase().includes(iputText.toLowerCase());
 
-    const matchDate =
-      (!startDate || new Date(event.date) >= new Date(startDate)) &&
-      (!endDate || new Date(event.date) <= new Date(endDate));
-    return matchText && matchDate;
-  });
+      return matchText;
+    }) || [];
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredAnnouncements.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentPageData = filteredAnnouncements.slice(startIndex, endIndex);
+
+  const handlePageChange = (pageNumber: number) => {
+    setIsLoading(true);
+    setCurrentPage(pageNumber);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+  };
 
   return (
     <main>
       <header>
-        <h1 className="text-2xl text-[#212529] font-bold">All Events</h1>
+        <h1 className="text-2xl text-[#212529] font-bold">Events</h1>
         <div className="flex  justify-between items-center gap-4 w-full max-w-[600px] mt-8">
           <div className="left w-full">
             <TextInput
@@ -56,43 +221,69 @@ function Events() {
               <small>Filter</small>
             </div>
 
-            {showPopup && <FilterPopUp />}
+            {showPopup && (
+              <FilterPopUp
+                valueStart={startDate}
+                handleStartChange={(e: React.FormEvent<HTMLInputElement>) => {
+                  console.log(e.currentTarget.value);
+                  setStartDate(e.currentTarget.value);
+                }}
+                valueEnd={endDate}
+                handleEndChange={(e: React.FormEvent<HTMLInputElement>) => {
+                  console.log(e.currentTarget.value);
+                  setEndDate(e.currentTarget.value);
+                }}
+                handleApply={() => handleApplyFilter()}
+              />
+            )}
           </div>
           {/* the popup end */}
         </div>
       </header>
       <section className="py-8">
-        <div className="grid gap-6 grid-cols-1 md:grid-cols-3">
-          {filteredAnnouncements.map((event) => {
-            return (
-              <Link to="/secure/events/details/1" key={event.id}>
-                <AnnouncementList
-                  description={event.body}
-                  title={event.title}
-                />
-              </Link>
-            );
-          })}
-        </div>
+        {currentPageData.length == 0 && <p>No Events</p>}
+        {loading ? (
+          <div className=" flex justify-center items-center w-full py-8">
+            <Oval height="48" width="48" />
+          </div>
+        ) : (
+          <>
+            <div className="grid gap-6 grid-cols-1 md:grid-cols-3">
+              {currentPageData.map((announcement) => {
+                return (
+                  <Link
+                    to={`/secure/events/details/${announcement?._id}`}
+                    key={announcement?._id}
+                  >
+                    <AnnouncementList
+                      description={announcement?.description}
+                      title={announcement?.title}
+                      createdBy={announcement.createdBy}
+                    />
+                  </Link>
+                );
+              })}
+            </div>
+          </>
+        )}
+        {/* Pagination */}
+
         <div className="flex items-center space-x-4 pt-10">
-          <span>1 of 10</span>
+          <span>{`${currentPage} of ${totalPages}`}</span>{" "}
           <ul className="space-x-2">
-            <li className=" inline">
-              <Link
-                to={""}
-                className="py-2 px-3 rounded-lg text-white font-semibold bg-[#2067A9]"
-              >
-                1
-              </Link>
-            </li>
-            <li className=" inline">
-              <Link
-                to={""}
-                className="py-2 px-3 rounded-lg text-white font-semibold bg-[#2067A9]"
-              >
-                2
-              </Link>
-            </li>
+            {Array.from({ length: totalPages }, (_, index) => (
+              <li key={index} className="inline">
+                {" "}
+                <button
+                  onClick={() => handlePageChange(index + 1)}
+                  className={`py-2 px-3 rounded-lg text-white font-semibold ${
+                    currentPage === index + 1 ? "bg-[#2067A9]" : "bg-gray-500"
+                  }`}
+                >
+                  {index + 1}
+                </button>
+              </li>
+            ))}
           </ul>
         </div>
       </section>

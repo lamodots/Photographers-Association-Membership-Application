@@ -76,7 +76,7 @@ async function loginAdminController(req, res, next) {
     attachCookiesToResponse(res, tokenUser);
     res
       .status(StatusCodes.OK)
-      .json({ ok: true, message: "User logged in successfull" });
+      .json({ ok: true, message: "User logged in successfull", tokenUser });
   } catch (error) {
     return next(error);
   }
@@ -88,7 +88,9 @@ async function currentUserController(req, res) {
 async function logOutController(req, res, next) {
   res.cookie("token", "", {
     httpOnly: true,
-    expires: new Date(Date.now() + 1000),
+    sameSite: "Strict",
+    // expires: new Date(Date.now() + 1000),
+    expires: new Date(0),
   });
   res.json({ ok: true, message: "You have been loggedOut" });
 }

@@ -30,34 +30,65 @@
 
 // export default AdminProtectedRoute;
 
-import React, { PropsWithChildren, useEffect, useState } from "react";
-import { useCurrentUser } from "../../context/AdminContext";
+// import React, { PropsWithChildren, useEffect, useState } from "react";
+// import { useCurrentUser } from "../../context/AdminContext";
+// import { Navigate, Outlet } from "react-router-dom";
+// import { Oval } from "react-loader-spinner";
+
+// function AdminProtectedRoute({ children }: PropsWithChildren<{}>) {
+//   const { currentUser, loading, fetchCurrentUser } = useCurrentUser();
+//   // const [loading, setLoading] = useState(true);
+//   console.log("Protected", currentUser);
+//   // useEffect(() => {
+//   //   const timer = setTimeout(() => {
+//   //     // setLoading(false);
+//   //     if (currentUser !== null) {
+//   //       return setLoading(false);
+//   //     }
+//   //   }, 500);
+
+//   //   return () => clearTimeout(timer);
+//   // }, [currentUser]);
+//   useEffect(() => {
+//     if (!currentUser?.user) {
+//       fetchCurrentUser();
+//     }
+//   }, [currentUser?.user, fetchCurrentUser]);
+//   if (loading) {
+//     return (
+//       <div className=" w-screen h-screen flex justify-center items-center">
+//         <Oval height="40" width="40" />
+//       </div>
+//     );
+//   }
+
+//   if (!currentUser?.user) {
+//     return <Navigate to="/secure/login" replace />;
+//   } else {
+//     return <>{children}</>;
+//   }
+
+//   // return <Outlet />;
+// }
+
+import React, { PropsWithChildren, useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import { useCurrentUser } from "../../context/AdminContext";
 import { Oval } from "react-loader-spinner";
 
 function AdminProtectedRoute({ children }: PropsWithChildren<{}>) {
-  const { currentUser } = useCurrentUser();
-  const [loading, setLoading] = useState(true);
-
+  const { currentUser, profile, loading, fetchCurrentUser } = useCurrentUser();
+  console.log(currentUser);
   useEffect(() => {
-    const timer = setTimeout(() => {
-      // setLoading(false);
-      if (currentUser !== null) {
-        setLoading(false);
-      }
-    }, 500);
+    if (!profile) {
+      fetchCurrentUser(); // Ensure currentUser is always fetched
+    }
+  }, [currentUser, fetchCurrentUser]);
 
-    return () => clearTimeout(timer);
-  }, [currentUser]);
-  // useEffect(() => {
-  //   if (currentUser !== null) {
-  //     setLoading(false);
-  //   }
-  // }, [currentUser]);
   if (loading) {
     return (
-      <div className=" w-screen h-screen flex justify-center items-center">
-        <Oval height="40" width="40" />
+      <div className="w-screen h-screen flex justify-center items-center">
+        <Oval height="40" width="40" color="#4A90E2" />
       </div>
     );
   }
@@ -66,7 +97,7 @@ function AdminProtectedRoute({ children }: PropsWithChildren<{}>) {
     return <Navigate to="/secure/login" replace />;
   }
 
-  return <Outlet />;
+  return <>{children || <Outlet />}</>;
 }
 
 export default AdminProtectedRoute;

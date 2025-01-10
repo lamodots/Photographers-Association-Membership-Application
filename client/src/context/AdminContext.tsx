@@ -5,6 +5,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { Navigate } from "react-router-dom";
 import { date } from "yup";
 
 // interface CurrentUser {
@@ -60,48 +61,63 @@ interface CurrentUser {
 
 interface CurrentUserContextType {
   currentUser: CurrentUser | null;
+  profile: CurrentUser | null;
+  setCurrentUser: React.Dispatch<React.SetStateAction<CurrentUser | null>>;
+  loading: boolean;
+  fetchCurrentUser: () => void;
   handleLogout: () => void;
 }
 
-const CurrentUserContext = createContext<CurrentUserContextType | null>(null);
+const CurrentUserContext = createContext<CurrentUserContextType | undefined>(
+  undefined
+);
 
 interface AuthContextProps {
   children: ReactNode;
 }
 
 const API_URL = process.env.REACT_APP_CLIENT_URL;
+
 export const AuthContext = ({ children }: AuthContextProps) => {
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
-  console.log("HEY FROM CONTEXT", currentUser);
-  useEffect(() => {
-    const fetchCurrentUser = async () => {
-      try {
-        const res = await fetch(`${API_URL}/api/v1/secure/profile`, {
-          method: "GET",
-          credentials: "include",
-        });
-        if (res.status === 304) {
-          console.log("Server returned 304; resource not modified.");
-          return; // Or utilize previously fetched data from a state/cache
-        }
-        if (res.ok) {
-          const data: CurrentUser = await res.json();
-          console.log("User data:", data);
-          setCurrentUser(data);
-        } else {
-          setCurrentUser(null); // Handle unauthorized access
-        }
-      } catch (error) {
-        console.error("Failed to fetch current user:", error);
-        setCurrentUser(null);
+  const [profile, setProfile] = useState<CurrentUser | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const fetchCurrentUser = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(`${API_URL}/api/v1/secure/profile`, {
+        method: "GET",
+        credentials: "include",
+      });
+      if (res.status === 304) {
+        console.log("Server returned 304; resource not modified.");
+        return; // Or utilize previously fetched data from a state/cache
       }
-    };
+      if (res.ok) {
+        const data: CurrentUser = await res.json();
+        console.log("User data:", data);
+        // setCurrentUser(data);
+        setProfile(data);
+      } else {
+        // setCurrentUser(null);
+        setProfile(null);
+      }
+    } catch (error) {
+      console.error("Failed to fetch current user:", error);
+      // setCurrentUser(null);
+      setProfile(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
     fetchCurrentUser();
   }, []);
 
   async function handleLogout() {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1200));
+      // await new Promise((resolve) => setTimeout(resolve, 1200));
       const res = await fetch(`${API_URL}/api/v1/secure/auth/logout`, {
         method: "GET",
         credentials: "include",
@@ -115,7 +131,16 @@ export const AuthContext = ({ children }: AuthContextProps) => {
     }
   }
   return (
-    <CurrentUserContext.Provider value={{ currentUser, handleLogout }}>
+    <CurrentUserContext.Provider
+      value={{
+        currentUser,
+        loading,
+        profile,
+        setCurrentUser,
+        fetchCurrentUser,
+        handleLogout,
+      }}
+    >
       {children}
     </CurrentUserContext.Provider>
   );

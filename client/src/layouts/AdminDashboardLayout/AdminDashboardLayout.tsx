@@ -17,7 +17,7 @@ function AdminDashboardLayout() {
   return (
     <div className=" flex w-full h-[auto] min-h-screen">
       <div
-        className={`h-screen  ${
+        className={`h-screen   ${
           showSideBar ? "block" : "hidden"
         }  md:block  overflow-x-hidden md:${
           showSideBar ? "w-[296px]" : "w-0"
