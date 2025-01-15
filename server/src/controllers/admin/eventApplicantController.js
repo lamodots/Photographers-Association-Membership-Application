@@ -11,9 +11,6 @@ const nodemailer = require("nodemailer");
 const sgMail = require("@sendgrid/mail");
 const { sendEmailSendGridServices } = require("../../config");
 const { sendGridEmailTemplate } = require("../../utils");
-sgMail.setApiKey(
-  "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"
-);
 
 exports.createApplicant = async (req, res, next) => {
   const {
