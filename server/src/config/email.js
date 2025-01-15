@@ -12,8 +12,8 @@ exports.sendEmailNodemailerServices = async () => {
     host: "sandbox.smtp.mailtrap.io",
     port: 587,
     auth: {
-      user: "f43c396cea590c",
-      pass: "96af4e5367ec48",
+      user: "",
+      pass: "",
     },
   });
 
