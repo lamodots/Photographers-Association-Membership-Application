@@ -2,9 +2,7 @@ const nodemailer = require("nodemailer");
 const sgMail = require("@sendgrid/mail");
 
 exports.sendEmailSendGridServices = async (msg) => {
-  sgMail.setApiKey(
-    "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"
-  );
+  sgMail.setApiKey(process.env.SEND_GRID);
 
   await sgMail.send(msg);
 };
