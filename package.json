@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/lamodots/Photographers-Association-Membership-Application#readme",
   "dependencies": {
+    "@sendgrid/mail": "^8.1.4",
     "axios": "^1.7.9",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.7",

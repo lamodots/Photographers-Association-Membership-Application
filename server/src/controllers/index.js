@@ -32,6 +32,12 @@ const {
   deleteEvent,
 } = require("./admin/eventController");
 
+const {
+  createApplicant,
+  getApplicantsByEvent,
+  approveApplicant,
+} = require("./admin/eventApplicantController");
+
 const getUserProfileDetails = require("./admin/userController");
 
 module.exports = {
@@ -58,4 +64,7 @@ module.exports = {
   deleteEvent,
   verifyPayment,
   getUserProfileDetails,
+  createApplicant,
+  getApplicantsByEvent,
+  approveApplicant,
 };

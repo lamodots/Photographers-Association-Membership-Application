@@ -235,7 +235,7 @@ root.render(
                 path="events/details/:id/edit"
                 element={<AdminEditEvent />}
               />
-              <Route path="events/approve" element={<AdminApprove />} />
+              <Route path="events/:id/approve" element={<AdminApprove />} />
               <Route path="certificate" element={<AdminCertificate />} />
               <Route path="id_card" element={<IdCard />} />
               <Route path="settings" element={<AdminSettings />} />

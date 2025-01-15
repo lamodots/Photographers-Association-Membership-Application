@@ -4,7 +4,11 @@ import Lable from "../../../components/Lable/Lable";
 import Button from "../../../components/Button/Button";
 import toast from "react-hot-toast";
 import { Oval } from "react-loader-spinner";
+import { useLocation, useParams } from "react-router-dom";
+import { dateFormater } from "../../../util/DateFormater";
+import { Calendar, Locate } from "lucide-react";
 
+const API_URL = process.env.REACT_APP_CLIENT_URL;
 // Define types for form values and attendees
 interface FormValues {
   fullname: string;
@@ -32,6 +36,10 @@ function RegisterEvent() {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { id: eventId } = useParams();
+  const location = useLocation();
+  const { annoucementData: eventData } = location.state;
+  console.log("i am the hehehehehehe", eventData);
 
   // Handle changes in form inputs
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -65,8 +73,6 @@ function RegisterEvent() {
     e.preventDefault();
 
     try {
-      setIsSubmitting(true);
-      await new Promise((resolve) => setTimeout(resolve, 1500));
       const attendeeCount = parseInt(formValues.number || "0", 10);
 
       if (attendees.length !== attendeeCount) {
@@ -84,13 +90,40 @@ function RegisterEvent() {
       }
 
       // Example form submission logic
+      // const formData = {
+      //   ...formValues,
+      //   attendees: attendees.map((attendee) => attendee.name),
+      // };
+
       const formData = {
-        ...formValues,
-        attendees: attendees.map((attendee) => attendee.name),
+        full_name: formValues.fullname,
+        email: formValues.email,
+        phone_number: formValues.phone,
+        whatsapp_number: formValues.whatsappphone,
+        number_of_family_members: formValues.number,
+
+        attendees: attendees.map((attendee) => ({
+          attendee_full_name: attendee.name,
+        })),
+
+        event: eventId,
       };
 
-      console.log("Form submitted:", formData);
-      toast.success("Registration successful!, check your email");
+      setIsSubmitting(true);
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const res = await fetch(`${API_URL}/api/v1/secure/events/applicants`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+        credentials: "include",
+      });
+      const result = await res.json();
+      if (res.ok) {
+        console.log("Form submitted:", formData);
+        toast.success("Registration successful!, check your email");
+      } else {
+        toast.error(result.error || "An error occurred during registration.");
+      }
     } catch (error: any) {
       console.log(error.message);
     } finally {
@@ -101,36 +134,51 @@ function RegisterEvent() {
   return (
     <div className="p-6 max-w-4xl mx-auto bg-zinc-50 rounded-lg shadow-sm font-sans">
       <header className="mb-8">
-        <h1 className="text-2xl font-bold mb-4 text-shark-950">
-          Indian Association of Nigeria New Year Meet
+        <div className="h-[360px] flex items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-500 rounded-lg to-pink-500 mb-6">
+          <img
+            className=" rounded-lg  w-full max-w-[940px] h-full"
+            src={`../../../uploads/${eventData?.photoImage}`}
+            alt={eventData.title}
+          />
+        </div>
+        <small className="font-semibold">
+          {dateFormater(eventData.startDate)}
+        </small>
+        <h1 className="text-4xl font-bold mb-4 text-shark-950 capitalize">
+          {eventData.title}
         </h1>
         <div className="mb-2">
-          <strong className="font-medium text-shark-600">
-            Start/End Date:{" "}
-          </strong>
-          <span className="font-medium text-shark-600">08/01/2025</span>
+          <h3 className="text-xl font-bold text-shark-950">Date and Time</h3>
+          <div className="flex items-center gap-4 mt-2">
+            <Calendar />
+            <div>
+              <strong className="font-medium text-shark-600">
+                {dateFormater(eventData.startDate)}
+              </strong>
+              -
+              <span className="font-medium text-shark-600">
+                {eventData.time}
+              </span>
+            </div>
+          </div>
         </div>
-        <div className="mb-2">
-          <strong className="font-medium text-shark-600">Time: </strong>
-          <span className="font-medium text-shark-600">To be announced</span>
+
+        <div className="mb-2 mt-6">
+          <h3 className="text-xl font-bold text-shark-950">Location</h3>
+          <div className="flex items-center gap-4 mt-2">
+            <Locate />
+            <div>
+              <span className="font-medium text-shark-600">
+                {eventData.venue}
+              </span>
+            </div>
+          </div>
         </div>
-        <div>
-          <strong className="font-medium text-shark-600">Venue: </strong>
-          <span className="font-medium text-shark-600">To be announced</span>
-        </div>
+        <h3 className="text-xl font-bold text-shark-950">About this event</h3>
+        <p className="text-shark-600">{eventData.description}</p>
       </header>
 
       <main>
-        <h2 className="font-semibold text-4xl text-shark-800 uppercase mb-6 font-mono">
-          Welcome
-        </h2>
-        <p className="text-shark-600">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque
-          cupiditate nesciunt esse. Iste exercitationem modi nam suscipit
-          tenetur impedit esse a reiciendis dicta ad explicabo, facere quo in
-          quos ab quaerat! Atque obcaecati iste quia earum quidem velit saepe
-          ex?
-        </p>
         <form onSubmit={handleSubmit}>
           {/* Personal Information */}
           <section className="py-8 space-y-6">
@@ -185,7 +233,7 @@ function RegisterEvent() {
               Attendee Information
             </h3>
             <div className="mb-4 flex flex-col gap-2">
-              <Lable label="Number of people attending from your family" />
+              <Lable label="Number of people attending from your family should be 0 if none" />
               <TextInput
                 type="number"
                 name="number"

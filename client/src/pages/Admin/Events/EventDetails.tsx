@@ -64,12 +64,22 @@
 // export default EventDetails;
 
 import React, { Suspense, useEffect, useState } from "react";
-import { ChevronLeft, Delete, Trash, Pencil } from "lucide-react";
+import {
+  ChevronLeft,
+  Delete,
+  Trash,
+  Pencil,
+  Locate,
+  Calendar,
+  MapPinCheckInside,
+  Stamp,
+} from "lucide-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import FallbackLoadingComponent from "../../../components/FallbackLoadingComponent/FallbackLoadingComponent";
 import { Oval } from "react-loader-spinner";
 import toast from "react-hot-toast";
 import Button from "../../../components/Button/Button";
+import { dateFormater } from "../../../util/DateFormater";
 
 const API_URL = process.env.REACT_APP_CLIENT_URL;
 interface AnnouncementProps {
@@ -79,6 +89,8 @@ interface AnnouncementProps {
   description: string;
   startDate: string;
   endDate: string;
+  time: string;
+  venue: string;
 }
 function EventDetails() {
   const [annoucementData, setAnnouncementData] = useState<AnnouncementProps>();
@@ -194,13 +206,18 @@ function EventDetails() {
           </div>
         ) : (
           <section>
-            <div className="top md:flex md:justify-between md:items-center mt-8 ">
+            <div className="top md:flex md:justify-between md:items-center mt-8 mb-8">
               <div className="left">
                 <h1 className="text-2xl text-[#212529] font-bold">
-                  {annoucementData?.title}
+                  {/* {annoucementData?.title} */}
                 </h1>
               </div>
               <div className="right flex gap-10 mt-6 md:mt-0 ">
+                <Link to={`/secure/events/${annoucementData?._id}/approve`}>
+                  <span className="flex items-center cursor-pointer font-bold">
+                    <Stamp /> Approve Application
+                  </span>
+                </Link>
                 <Link
                   to={`/secure/events/details/${annoucementData?._id}/edit`}
                 >
@@ -219,20 +236,61 @@ function EventDetails() {
             </div>
 
             <Suspense fallback={<FallbackLoadingComponent />}>
-              <div className="mt-6 rounded-lg w-full">
-                <img
-                  className=" rounded-lg aspect-auto w-full"
-                  src={`../../../uploads/${annoucementData?.photoImage}`}
-                  alt=""
-                />
-              </div>
-              <p className="mt-8 text-sm">{annoucementData?.description}</p>
+              <header className="mb-8">
+                <div className="h-[360px] flex items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-500 rounded-lg to-pink-500 mb-6">
+                  <img
+                    className=" rounded-lg  w-full max-w-[940px] h-full"
+                    src={`../../../uploads/${annoucementData?.photoImage}`}
+                    alt={annoucementData?.title}
+                  />
+                </div>
+                <small className="font-semibold">
+                  {dateFormater(annoucementData?.startDate)}
+                </small>
+                <h1 className="text-4xl font-bold mb-4 text-shark-950 capitalize">
+                  {annoucementData?.title}
+                </h1>
+                <div className="mb-2">
+                  <h3 className="text-xl font-bold text-shark-950">
+                    Date and Time
+                  </h3>
+                  <div className="flex items-center gap-4 mt-2">
+                    <Calendar />
+                    <div>
+                      <strong className="font-medium text-shark-600">
+                        {dateFormater(annoucementData?.startDate)}
+                      </strong>
+                      -
+                      <span className="font-medium text-shark-600">
+                        {annoucementData?.time}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mb-2 mt-6">
+                  <h3 className="text-xl font-bold text-shark-950">Location</h3>
+                  <div className="flex items-center gap-4 mt-2">
+                    <MapPinCheckInside />
+                    <div>
+                      <span className="font-medium text-shark-600">
+                        {annoucementData?.venue}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <h3 className="text-xl font-bold text-shark-950">
+                  About this event
+                </h3>
+                <p className="text-shark-600">{annoucementData?.description}</p>
+              </header>
             </Suspense>
             <Link
               to={`/secure/events/${annoucementData?._id}/register`}
+              state={{ annoucementData }}
               className="px-6 mt-6 cursor-pointer rounded-lg h-14 flex justify-center items-center bg-[#1A4F83] text-center text-sm font-bold text-[#F4F6F7] "
             >
-              Register
+              Get tickets
             </Link>
           </section>
         )}

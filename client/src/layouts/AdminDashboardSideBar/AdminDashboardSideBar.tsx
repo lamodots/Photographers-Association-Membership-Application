@@ -231,14 +231,6 @@ function AdminDashboardSideBar({ handleToggleSideBar }: DashboardSideBarProp) {
                             Create
                           </Link>
                         </li>
-                        <li>
-                          <Link
-                            to="events/approve"
-                            className="text-[#cdcdcdf9] font-normal"
-                          >
-                            Approve
-                          </Link>
-                        </li>
                       </ul>
                     </div>
                   )}

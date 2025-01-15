@@ -119,6 +119,9 @@ interface AnnouncementProps {
   description: string;
   startDate: string;
   endDate: string;
+  photoImage?: string;
+  time?: string;
+  venue?: string;
   createdBy: {
     firstname: string;
     lastname: string;
@@ -225,7 +228,6 @@ function Events() {
               <FilterPopUp
                 valueStart={startDate}
                 handleStartChange={(e: React.FormEvent<HTMLInputElement>) => {
-                  console.log(e.currentTarget.value);
                   setStartDate(e.currentTarget.value);
                 }}
                 valueEnd={endDate}
@@ -256,9 +258,12 @@ function Events() {
                     key={announcement?._id}
                   >
                     <AnnouncementList
-                      description={announcement?.description}
+                      // description={announcement?.description}
                       title={announcement?.title}
+                      photoImage={announcement.photoImage}
                       createdBy={announcement.createdBy}
+                      time={announcement.startDate}
+                      venue={announcement.venue}
                     />
                   </Link>
                 );

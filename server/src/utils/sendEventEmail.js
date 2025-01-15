@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
 const QRCode = require("qrcode");
-
+// WE ARE NOT USING THIS
 const app = express();
 app.use(bodyParser.json());
 
@@ -45,11 +45,9 @@ app.post("/register", async (req, res) => {
     await transporter.sendMail(mailOptions);
 
     // Respond to the client
-    res
-      .status(200)
-      .json({
-        message: "Registration successful! QR code sent to your email.",
-      });
+    res.status(200).json({
+      message: "Registration successful! QR code sent to your email.",
+    });
   } catch (error) {
     console.error("Error sending email:", error);
     res

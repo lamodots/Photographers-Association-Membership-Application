@@ -32,6 +32,12 @@ const {
   deletEventService,
 } = require("./admin/eventServices");
 
+const {
+  createApplicantService,
+  approveApplicantService,
+  getApplicantsByEventService,
+} = require("./admin/eventApplicantService");
+
 const getUserDetailsService = require("./admin/userServices");
 const getUserSubscriptionServices = require("./admin/userSubscriptionServices");
 
@@ -55,6 +61,9 @@ module.exports = {
   getSingleEventService,
   editEventService,
   deletEventService,
+  createApplicantService,
+  approveApplicantService,
+  getApplicantsByEventService,
   verifyPaymentServices,
   getUserDetailsService,
   getUserSubscriptionServices,

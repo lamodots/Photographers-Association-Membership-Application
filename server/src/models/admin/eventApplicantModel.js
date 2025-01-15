@@ -18,13 +18,16 @@ const eventApplicantSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  number_of_family_members: [
+  number_of_family_members: Number,
+
+  attendees: [
     {
-      id: { type: mongoose.Types.ObjectId, auto: true },
+      // id: { type: mongoose.Types.ObjectId, auto: true },
       attendee_full_name: String,
     },
   ],
-  eventId: {
+  isapproved: { type: Boolean, default: false },
+  event: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Events",
   },
