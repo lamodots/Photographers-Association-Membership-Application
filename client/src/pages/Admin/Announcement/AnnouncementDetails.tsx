@@ -47,36 +47,6 @@ function AnnouncementDetails() {
     getAnnoucement();
   }, []);
 
-  // async function handleDelete(id: string | undefined) {
-  //   window.confirm();
-  //   console.log(id);
-  //   setIsDeleteting(true);
-
-  //   try {
-  //     const res = await fetch(`${API_URL}/api/v1/secure/announcement/${id}`, {
-  //       method: "DELETE",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       credentials: "include",
-  //     });
-
-  //     if (!res.ok) {
-  //       throw new Error(`Error Deleting announcement`);
-  //     }
-
-  //     // navigate(-1);
-
-  //     navigate("/secure/announcement");
-  //   } catch (error) {
-  //   } finally {
-  //     setTimeout(() => {
-  //       setIsDeleteting(false);
-  //     }, 500);
-
-  //     toast.success("Announcement Deleted");
-  //   }
-  // }
   async function handleDelete(id: string | undefined) {
     console.log(id);
     setIsDeleteting(true);

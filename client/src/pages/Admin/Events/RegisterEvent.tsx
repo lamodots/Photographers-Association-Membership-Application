@@ -39,7 +39,6 @@ function RegisterEvent() {
   const { id: eventId } = useParams();
   const location = useLocation();
   const { annoucementData: eventData } = location.state;
-  console.log("i am the hehehehehehe", eventData);
 
   // Handle changes in form inputs
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -119,7 +118,6 @@ function RegisterEvent() {
       });
       const result = await res.json();
       if (res.ok) {
-        console.log("Form submitted:", formData);
         toast.success("Registration successful!, check your email");
       } else {
         toast.error(result.error || "An error occurred during registration.");

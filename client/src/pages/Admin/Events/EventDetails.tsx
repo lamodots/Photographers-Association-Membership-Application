@@ -90,7 +90,6 @@ function EventDetails() {
   }, []);
 
   async function handleDelete(id: string | undefined) {
-    console.log(id);
     setIsDeleteting(true);
 
     try {
