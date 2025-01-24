@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+const { BadRequestError } = require("../../errors");
 const Applicant = require("../../models");
 
 exports.createApplicantService = async (applicantData) => {
@@ -14,9 +16,6 @@ exports.approveApplicantService = async (applicantId) => {
     "title photoImage time venue"
   );
 
-  console.log(applicant);
-  console.log(applicant.eventId);
-
   if (!applicant) {
     throw new Error("Applicant not found");
   }
@@ -29,6 +28,25 @@ exports.approveApplicantService = async (applicantId) => {
   return { applicant };
 };
 
+exports.getApplicantService = async (eventId, applicantQRCode) => {
+  try {
+    const applicant = await Applicant.Applicants.findOne({
+      event: eventId,
+      _id: applicantQRCode,
+    });
+
+    // Return null if no applicant is found
+    if (!applicant) {
+      return null;
+    }
+
+    return applicant; // Return the applicant object to the controller
+  } catch (error) {
+    console.error("Error in getApplicantService:", error);
+    throw new Error("Failed to fetch applicant");
+  }
+};
+// get all aplicant for an event
 exports.getApplicantsByEventService = async (event) => {
   return await Applicant.Applicants.find({ event });
 };

@@ -26,12 +26,12 @@ const eventsSchema = new mongoose.Schema(
       max: 400,
     },
     duration: String,
-    // applicants: [
-    //   {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "Applicants",
-    //   },
-    // ],
+    applicants: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Applicants",
+      },
+    ],
 
     createdBy: {
       type: mongoose.Types.ObjectId,

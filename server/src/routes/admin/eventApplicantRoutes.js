@@ -12,5 +12,6 @@ eventsRoute.get(
   "/:eventId/applicants",
   applicantController.getApplicantsByEvent
 );
+eventsRoute.put("/:eventId/applicant", applicantController.getApplicantByEvent);
 
 // module.exports = router;

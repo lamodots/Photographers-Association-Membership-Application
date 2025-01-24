@@ -1,68 +1,3 @@
-// import React, { Suspense } from "react";
-// import { ChevronLeft, Delete, Trash, Pencil } from "lucide-react";
-// import { Link, useNavigate } from "react-router-dom";
-// import FallbackLoadingComponent from "../../../components/FallbackLoadingComponent/FallbackLoadingComponent";
-// import Button from "../../../components/Button/Button";
-
-// function EventDetails() {
-//   const navigate = useNavigate();
-
-//   const handleBackClick = () => {
-//     navigate(-1);
-//   };
-//   return (
-//     <div>
-//       <header>
-//         <button className="flex space-x-2" onClick={handleBackClick}>
-//           {" "}
-//           <ChevronLeft />
-//           Back
-//         </button>
-//       </header>
-//       <main>
-//         <section>
-//           <div className="top  md:flex md:justify-between mt-8 space-y-4 ">
-//             <div className="left">
-//               <h1 className="text-2xl text-[#212529] font-bold">
-//                 LASPPAN End of the year party
-//               </h1>
-//             </div>
-//             <div className="right flex gap-10  ">
-//               <span className="flex items-center cursor-pointer font-bold">
-//                 <Pencil /> Edit
-//               </span>
-//               <span className="flex items-center cursor-pointer text-red-300 px-2 py-1 rounded-lg font-medium">
-//                 <Trash className="text-red-300" />
-//                 Delete
-//               </span>
-//             </div>
-//           </div>
-//           <Suspense fallback={<FallbackLoadingComponent />}>
-//             <div className="mt-6 rounded-lg">
-//               <img
-//                 className=" rounded-lg aspect-auto"
-//                 src="https://cdn.thecollector.com/wp-content/uploads/2023/05/tips-to-become-a-great-photographer.jpg?width=1200&quality=70"
-//                 alt=""
-//               />
-//             </div>
-//             <p className="mt-8 text-sm">
-//               Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel,
-//               voluptatum? Eveniet perspiciatis quod inventore repellendus
-//               officiis id officia? Dolore, fugiat itaque! Facere veritatis
-//               voluptatibus maiores atque sed omnis, est optio rerum
-//               exercitationem modi temporibus impedit ipsum asperiores voluptatum
-//               ut accusamus?
-//             </p>
-//           </Suspense>
-//           <Button text="Register" className="px-6 mt-6" />
-//         </section>
-//       </main>
-//     </div>
-//   );
-// }
-
-// export default EventDetails;
-
 import React, { Suspense, useEffect, useState } from "react";
 import {
   ChevronLeft,
@@ -73,6 +8,8 @@ import {
   Calendar,
   MapPinCheckInside,
   Stamp,
+  Camera,
+  Menu,
 } from "lucide-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import FallbackLoadingComponent from "../../../components/FallbackLoadingComponent/FallbackLoadingComponent";
@@ -80,8 +17,10 @@ import { Oval } from "react-loader-spinner";
 import toast from "react-hot-toast";
 import Button from "../../../components/Button/Button";
 import { dateFormater } from "../../../util/DateFormater";
+import { useCurrentUser } from "../../../context/AdminContext";
 
 const API_URL = process.env.REACT_APP_CLIENT_URL;
+
 interface AnnouncementProps {
   _id: string;
   title: string;
@@ -91,20 +30,43 @@ interface AnnouncementProps {
   endDate: string;
   time: string;
   venue: string;
+  applicant: string[];
+}
+
+interface AttendeesInfo {
+  attendee_full_name: string;
+  _id: string;
+}
+interface ApplicantProps {
+  _id: string;
+  full_name: string;
+  email: string;
+  phone_number: string;
+  whatsapp_number: string;
+  number_of_family_members: number;
+  attendees: AttendeesInfo[];
+  isapproved: Boolean;
+  appliedAt: string;
+  event: string;
+  barCode: string;
+  attended: Boolean;
 }
 function EventDetails() {
   const [annoucementData, setAnnouncementData] = useState<AnnouncementProps>();
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleteting, setIsDeleteting] = useState(false);
+  const [showAction, setShowAction] = useState(false);
+  const [eventStats, setEventStats] = useState<ApplicantProps[]>([]);
   const { id } = useParams();
+  const { currentUser } = useCurrentUser();
 
-  console.log(annoucementData?.photoImage);
   const navigate = useNavigate();
 
   const handleBackClick = () => {
     navigate(-1);
   };
 
+  console.log(annoucementData);
   async function getAnnoucement() {
     try {
       setIsLoading(true);
@@ -127,36 +89,6 @@ function EventDetails() {
     getAnnoucement();
   }, []);
 
-  // async function handleDelete(id: string | undefined) {
-  //   window.confirm();
-  //   console.log(id);
-  //   setIsDeleteting(true);
-
-  //   try {
-  //     const res = await fetch(`${API_URL}/api/v1/secure/announcement/${id}`, {
-  //       method: "DELETE",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       credentials: "include",
-  //     });
-
-  //     if (!res.ok) {
-  //       throw new Error(`Error Deleting announcement`);
-  //     }
-
-  //     // navigate(-1);
-
-  //     navigate("/secure/announcement");
-  //   } catch (error) {
-  //   } finally {
-  //     setTimeout(() => {
-  //       setIsDeleteting(false);
-  //     }, 500);
-
-  //     toast.success("Announcement Deleted");
-  //   }
-  // }
   async function handleDelete(id: string | undefined) {
     console.log(id);
     setIsDeleteting(true);
@@ -190,6 +122,38 @@ function EventDetails() {
     }
   }
 
+  const handleOpenAction = () => {
+    setShowAction(!showAction);
+  };
+
+  const getEventStats = async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetch(
+        `${API_URL}/api/v1/secure/events/${id}/applicants`
+      );
+      if (!res.ok) {
+        throw new Error("Error fetching data");
+      }
+
+      const { applicants } = await res.json();
+      setEventStats(applicants);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getEventStats();
+  }, []);
+
+  // stats
+  const approvedStat = eventStats.filter((attendees) => attendees.isapproved);
+  const attendedStat = eventStats.filter((attendees) => attendees.attended);
+  const attendeesStat = eventStats.filter((attendees) => attendees.attendees);
+
   return (
     <div>
       <header>
@@ -198,6 +162,74 @@ function EventDetails() {
           <ChevronLeft />
           Back
         </button>
+        <div className="flex justify-between gap-4 items-center px-6 mt-8">
+          <div className="flex  gap-4 items-center ">
+            <div className="space-y-6 px-6 py-8 bg-white border border-zinc-400 rounded-lg">
+              <h3>No of people registered</h3>
+              <strong className=" block text-2xl">{eventStats.length}</strong>
+
+              {/* <span>Attendees: {attendeesStat.length}</span> */}
+            </div>
+            <div className="space-y-6 px-6 py-8 bg-white border border-zinc-400 rounded-lg">
+              <h3>No of people Attended</h3>
+              <strong className=" block text-2xl">{attendedStat.length}</strong>
+            </div>
+            <div className="space-y-6 px-6 py-8 bg-white border border-zinc-400 rounded-lg">
+              <h3>No of people Approved</h3>
+              <strong className=" block text-2xl">{approvedStat.length}</strong>
+            </div>
+          </div>
+          <div className="relative">
+            <div
+              className="bg-white p-4 rounded-lg cursor-pointer flex items-center"
+              onClick={handleOpenAction}
+            >
+              <Menu /> <span>Action</span>
+            </div>
+            {/* action */}
+            {showAction && (
+              <div className="bg-white shadow-lg rounded-lg p-6 w-[220px] max-w-[240px] flex flex-col space-y-3 absolute mt-2 right-[1px] z-50">
+                <ul className="space-y-6">
+                  <li>
+                    <Link
+                      to={`/secure/events/${annoucementData?._id}/scan`}
+                      className="flex items-center text-sm space-x-2 font-bold"
+                    >
+                      <Camera size={24} />{" "}
+                      <span className="text-sm">Scan QRCODE</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={`/secure/events/${annoucementData?._id}/approve`}>
+                      <span className="flex items-center text-sm cursor-pointer font-bold">
+                        <Stamp size={24} /> Approve Application
+                      </span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to={`/secure/events/details/${annoucementData?._id}/edit`}
+                    >
+                      <span className="flex items-center text-sm cursor-pointer font-bold">
+                        <Pencil size={24} /> Edit
+                      </span>
+                    </Link>
+                  </li>
+                  <li>
+                    <button
+                      className="flex items-center cursor-pointer text-sm text-red-300  py-1 rounded-lg font-medium"
+                      onClick={() => handleDelete(annoucementData?._id)}
+                    >
+                      <Trash className="text-red-300" size={24} />
+                      <span>Delete</span>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            )}
+            {/* action pop close */}
+          </div>
+        </div>
       </header>
       <main>
         {isLoading ? (
@@ -211,27 +243,6 @@ function EventDetails() {
                 <h1 className="text-2xl text-[#212529] font-bold">
                   {/* {annoucementData?.title} */}
                 </h1>
-              </div>
-              <div className="right flex gap-10 mt-6 md:mt-0 ">
-                <Link to={`/secure/events/${annoucementData?._id}/approve`}>
-                  <span className="flex items-center cursor-pointer font-bold">
-                    <Stamp /> Approve Application
-                  </span>
-                </Link>
-                <Link
-                  to={`/secure/events/details/${annoucementData?._id}/edit`}
-                >
-                  <span className="flex items-center cursor-pointer font-bold">
-                    <Pencil /> Edit
-                  </span>
-                </Link>
-                <button
-                  className="flex items-center cursor-pointer text-red-300 px-2 py-1 rounded-lg font-medium"
-                  onClick={() => handleDelete(annoucementData?._id)}
-                >
-                  <Trash className="text-red-300" />
-                  Delete
-                </button>
               </div>
             </div>
 

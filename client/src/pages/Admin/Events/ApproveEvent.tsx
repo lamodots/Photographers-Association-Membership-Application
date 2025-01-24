@@ -1,137 +1,42 @@
-// import React, { useState } from "react";
-// import { FAKE_APPLICANTS } from "../../../util/data";
-// import Button from "../../../components/Button/Button";
-// import { ChevronDown, Delete, DeleteIcon, Trash } from "lucide-react";
-// import TextInput from "../../../components/Input/TextInput";
-// function ApproveEvent() {
-//   const [isShow, setIsShow] = useState<{ [key: string]: boolean }>({});
-
-//   const handleShow = (email: string) => {
-//     setIsShow((prevState) => ({
-//       ...prevState,
-//       [email]: !prevState[email],
-//     }));
-//   };
-//   return (
-//     <main className="space-y-6">
-//       <div className="flex justify-end">
-//         <TextInput
-//           type="text"
-//           placeholderText="Serach Applicant by email"
-//           handleInputChange={() => console.log("")}
-//           className="w-1/3"
-//         />
-//       </div>
-//       <div className="space-y-4">
-//         {FAKE_APPLICANTS.map((applicant) => {
-//           return (
-//             <div>
-//               <div className="flex justify-between items-center bg-white border border-slate-200 rounded px-2 h-14">
-//                 <strong>{applicant.full_name}</strong>
-//                 <div className="flex items-center space-x-4">
-//                   <Button text="Approve" className="px-2 h-10" />
-//                   <button className="flex items-center border border-slate-950 rounded-lg  px-2 h-10">
-//                     Delete
-//                     <Trash />
-//                   </button>
-//                   <button
-//                     className=" cursor-pointer"
-//                     onClick={() => handleShow(applicant.email)}
-//                   >
-//                     <ChevronDown />
-//                   </button>
-//                 </div>
-//               </div>
-//               {/* show application info */}
-
-//               {isShow[applicant.email] && (
-//                 <div className="bg-white shadow rounded px-2 py-4 space-y-6">
-//                   <h2>Registered details</h2>
-//                   <table className="border-collapse border border-slate-400 table-auto w-full text-sm text-left text-gray-500">
-//                     <thead className="bg-gray-100 text-gray-700 uppercase">
-//                       <tr>
-//                         <th className="border border-slate-300 px-4 py-2">
-//                           Full Name
-//                         </th>
-//                         <th className="border border-slate-300 px-4 py-2">
-//                           Email
-//                         </th>
-//                         <th className="border border-slate-300 px-4 py-2">
-//                           Phone Number
-//                         </th>
-//                         <th className="border border-slate-300 px-4 py-2">
-//                           WhatsApp Number
-//                         </th>
-//                         <th className="border border-slate-300 px-4 py-2">
-//                           Number of family members attending
-//                         </th>
-//                         <th className="border border-slate-300 px-4 py-2">
-//                           Family members
-//                         </th>
-//                       </tr>
-//                     </thead>
-//                     <tbody className="divide-y divide-gray-200">
-//                       <tr className="hover:bg-gray-50">
-//                         <td className="border border-slate-300 px-4 py-2">
-//                           John Doe
-//                         </td>
-//                         <td className="border border-slate-300 px-4 py-2">
-//                           john@example.com
-//                         </td>
-//                         <td className="border border-slate-300 px-4 py-2">
-//                           123-456-7890
-//                         </td>
-//                         <td className="border border-slate-300 px-4 py-2">
-//                           123-456-7890
-//                         </td>
-//                         <td className="border border-slate-300 px-4 py-2">3</td>
-//                         <td className="border border-slate-300 px-4 py-2">
-//                           Jane, Alice, Bob
-//                         </td>
-//                       </tr>
-//                       <tr className="hover:bg-gray-50">
-//                         <td className="border border-slate-300 px-4 py-2">
-//                           Alice Smith
-//                         </td>
-//                         <td className="border border-slate-300 px-4 py-2">
-//                           alice@example.com
-//                         </td>
-//                         <td className="border border-slate-300 px-4 py-2">
-//                           987-654-3210
-//                         </td>
-//                         <td className="border border-slate-300 px-4 py-2">
-//                           987-654-3210
-//                         </td>
-//                         <td className="border border-slate-300 px-4 py-2">2</td>
-//                         <td className="border border-slate-300 px-4 py-2">
-//                           Tom, Jerry
-//                         </td>
-//                       </tr>
-//                     </tbody>
-//                   </table>
-//                 </div>
-//               )}
-//               {/* show application info */}
-//             </div>
-//           );
-//         })}
-//       </div>
-//     </main>
-//   );
-// }
-
-// export default ApproveEvent;
-
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FAKE_APPLICANTS } from "../../../util/data";
 import Button from "../../../components/Button/Button";
-import { ChevronDown, Trash } from "lucide-react";
+import { ChevronDown, ChevronLeft, Trash } from "lucide-react";
 import TextInput from "../../../components/Input/TextInput";
+import { useNavigate, useParams } from "react-router-dom";
+import { Oval } from "react-loader-spinner";
+import toast from "react-hot-toast";
 
+const API_URL = process.env.REACT_APP_CLIENT_URL;
+interface AttendeesInfo {
+  attendee_full_name: string;
+  _id: string;
+}
+interface ApplicantProps {
+  _id: string;
+  full_name: string;
+  email: string;
+  phone_number: string;
+  whatsapp_number: string;
+  number_of_family_members: number;
+  attendees: AttendeesInfo[];
+  isapproved: Boolean;
+  appliedAt: string;
+  event: string;
+  barCode: string;
+}
 function ApproveEvent() {
   const [isShow, setIsShow] = useState<{ [key: string]: boolean }>({});
   const [searchQuery, setSearchQuery] = useState(""); // For search
   const [currentPage, setCurrentPage] = useState(1); // For pagination
+  const { id } = useParams();
+  const [loading, setLoading] = useState(false);
+  const [eventApplicants, setEventApplicants] = useState<ApplicantProps[]>([]);
+  const navigate = useNavigate();
+
+  const handleBackClick = () => {
+    navigate(-1);
+  };
   const itemsPerPage = 5; // Number of applicants per page
 
   const handleShow = (email: string) => {
@@ -142,7 +47,10 @@ function ApproveEvent() {
   };
 
   // Filter applicants based on search query
-  const filteredApplicants = FAKE_APPLICANTS.filter((applicant) =>
+  // const filteredApplicants = FAKE_APPLICANTS.filter((applicant) =>
+  //   applicant.email.toLowerCase().includes(searchQuery.toLowerCase())
+  // );
+  const filteredApplicants = eventApplicants.filter((applicant: any) =>
     applicant.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -155,10 +63,75 @@ function ApproveEvent() {
     startIndex + itemsPerPage
   );
 
+  // fecth all user related to event using the get user by event resorces
+  async function getApplicantsByEvent() {
+    try {
+      setLoading(true);
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const res = await fetch(
+        `${API_URL}/api/v1/secure/events/${id}/applicants`
+      );
+      if (!res.ok) {
+        throw new Error(" Error fetching data");
+      }
+      const { applicants } = await res.json();
+      console.log("all", applicants);
+      setEventApplicants(applicants);
+    } catch (err) {
+      return toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  }
+  useEffect(() => {
+    getApplicantsByEvent();
+  }, []);
+
+  // approave their application usin the approave resources.
+  async function handleSubmit(applicationId: string) {
+    try {
+      setLoading(true);
+      await new Promise((resolve) => setTimeout(resolve, 300));
+      const res = await fetch(
+        `${API_URL}/api/v1/secure/events/applicants/${applicationId}/m/approve`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+
+      if (!res.ok) {
+        return toast.error("Failed to approve this application!");
+      }
+
+      const { message, applicant } = await res.json();
+      toast.success(message);
+      // Update the state here. Reason been that the applicant list do not update afer approval.
+      setEventApplicants((prevApplicants) =>
+        prevApplicants.map((app) =>
+          app._id === applicant?._id
+            ? { ...app, isapproved: applicant.isapproved }
+            : app
+        )
+      );
+    } catch (error) {
+      return toast.error("Failed, something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  }
   return (
     <main className="space-y-6">
       {/* Search Input */}
-      <div className="flex justify-end">
+      <div className="flex justify-between items-center">
+        <button className="flex space-x-2" onClick={handleBackClick}>
+          {" "}
+          <ChevronLeft />
+          Back
+        </button>
         <TextInput
           type="text"
           placeholderText="Search Applicant by email"
@@ -169,95 +142,112 @@ function ApproveEvent() {
 
       {/* Applicants List */}
       <div className="space-y-4">
-        {paginatedApplicants.map((applicant) => (
-          <div key={applicant.email}>
-            <div className="flex justify-between items-center bg-white border border-slate-200 rounded px-2 h-14">
-              <strong>{applicant.full_name}</strong>
-              <div className="flex items-center space-x-4">
-                <Button text="Approve" className="px-2 h-10" />
-                <button className="flex items-center border border-slate-950 rounded-lg px-2 h-10">
-                  Delete
-                  <Trash />
-                </button>
-                <button
-                  className="cursor-pointer"
-                  onClick={() => handleShow(applicant.email)}
-                >
-                  <ChevronDown />
-                </button>
-              </div>
-            </div>
-
-            {/* Show Application Info */}
-            {isShow[applicant.email] && (
-              <div className="bg-white shadow rounded px-2 py-4 space-y-6">
-                <h2>Registered Details</h2>
-                <table className="border-collapse border border-slate-400 table-auto w-full text-sm text-left text-gray-500">
-                  <thead className="bg-gray-100 text-gray-700 uppercase">
-                    <tr>
-                      <th className="border border-slate-300 px-4 py-2">
-                        Full Name
-                      </th>
-                      <th className="border border-slate-300 px-4 py-2">
-                        Email
-                      </th>
-                      <th className="border border-slate-300 px-4 py-2">
-                        Phone Number
-                      </th>
-                      <th className="border border-slate-300 px-4 py-2">
-                        WhatsApp Number
-                      </th>
-                      <th className="border border-slate-300 px-4 py-2">
-                        Number of family members attending
-                      </th>
-                      <th className="border border-slate-300 px-4 py-2">
-                        Family members
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200">
-                    <tr className="hover:bg-gray-50">
-                      <td className="border border-slate-300 px-4 py-2">
-                        John Doe
-                      </td>
-                      <td className="border border-slate-300 px-4 py-2">
-                        john@example.com
-                      </td>
-                      <td className="border border-slate-300 px-4 py-2">
-                        123-456-7890
-                      </td>
-                      <td className="border border-slate-300 px-4 py-2">
-                        123-456-7890
-                      </td>
-                      <td className="border border-slate-300 px-4 py-2">3</td>
-                      <td className="border border-slate-300 px-4 py-2">
-                        Jane, Alice, Bob
-                      </td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="border border-slate-300 px-4 py-2">
-                        Alice Smith
-                      </td>
-                      <td className="border border-slate-300 px-4 py-2">
-                        alice@example.com
-                      </td>
-                      <td className="border border-slate-300 px-4 py-2">
-                        987-654-3210
-                      </td>
-                      <td className="border border-slate-300 px-4 py-2">
-                        987-654-3210
-                      </td>
-                      <td className="border border-slate-300 px-4 py-2">2</td>
-                      <td className="border border-slate-300 px-4 py-2">
-                        Tom, Jerry
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            )}
+        {eventApplicants.length == 0 && <p>No Applicant</p>}
+        {loading ? (
+          <div className=" flex justify-center items-center w-full py-8">
+            <Oval height="48" width="48" />
           </div>
-        ))}
+        ) : (
+          <>
+            {paginatedApplicants.map((applicant) => (
+              <div key={applicant._id}>
+                <div className="flex justify-between items-center bg-white border border-slate-200 rounded px-2 h-14">
+                  <strong>{applicant.full_name}</strong>
+
+                  <div className="flex items-center space-x-4">
+                    {/* <span>
+                      {applicant.isapproved && (
+                        <small className=" bg-green-300 px-2 py-1 rounded-full text-xs">
+                          Approved
+                        </small>
+                      )}
+                    </span> */}
+                    {!applicant.isapproved ? (
+                      <Button
+                        text="Approve"
+                        className="px-2 h-8"
+                        handleClick={() => handleSubmit(applicant._id)}
+                      />
+                    ) : (
+                      <small className=" bg-green-300 px-2 py-1 rounded-full text-xs">
+                        Approved
+                      </small>
+                    )}
+                    <button className="flex items-center border border-slate-950 rounded-lg px-2 h-8">
+                      Delete
+                      <Trash />
+                    </button>
+                    <button
+                      className="cursor-pointer"
+                      onClick={() => handleShow(applicant._id)}
+                    >
+                      <ChevronDown />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Show Application Info */}
+                {isShow[applicant._id] && (
+                  <div className="bg-white shadow rounded px-2 py-4 space-y-6">
+                    <h2>Registered Details</h2>
+                    <table className="border-collapse border border-slate-400 table-auto w-full text-sm text-left text-gray-500">
+                      <thead className="bg-gray-100 text-gray-700 uppercase">
+                        <tr>
+                          <th className="border border-slate-300 px-4 py-2">
+                            Full Name
+                          </th>
+                          <th className="border border-slate-300 px-4 py-2">
+                            Email
+                          </th>
+                          <th className="border border-slate-300 px-4 py-2">
+                            Phone Number
+                          </th>
+                          <th className="border border-slate-300 px-4 py-2">
+                            WhatsApp Number
+                          </th>
+                          <th className="border border-slate-300 px-4 py-2">
+                            Number of family members attending
+                          </th>
+                          <th className="border border-slate-300 px-4 py-2">
+                            Family members
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-200">
+                        <tr className="hover:bg-gray-50">
+                          <td className="border border-slate-300 px-4 py-2">
+                            {applicant.full_name}
+                          </td>
+                          <td className="border border-slate-300 px-4 py-2">
+                            {applicant.email}
+                          </td>
+                          <td className="border border-slate-300 px-4 py-2">
+                            {applicant.phone_number}
+                          </td>
+                          <td className="border border-slate-300 px-4 py-2">
+                            {applicant.whatsapp_number}
+                          </td>
+                          <td className="border border-slate-300 px-4 py-2">
+                            {applicant.number_of_family_members}
+                          </td>
+                          <td className="border border-slate-300 px-4 py-2">
+                            <ul className="capitalize">
+                              {applicant.attendees.map((attendee) => (
+                                <li key={attendee._id}>
+                                  {attendee.attendee_full_name}
+                                </li>
+                              ))}
+                            </ul>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            ))}
+          </>
+        )}
       </div>
 
       {/* Pagination */}

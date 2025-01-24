@@ -5,11 +5,14 @@ function createJWT(payload) {
     expiresIn: "1d",
     // expiresIn: "120000",
   });
-
+  console.log("From create Token", token);
   return token;
 }
 
 function isTokenValid(token) {
+  console.log("from verify token", jwt.verify(token, process.env.JWT_SECRET));
+  console.log("from verify token", token);
+
   return jwt.verify(token, process.env.JWT_SECRET);
 }
 function attachCookiesToResponse(res, user) {
@@ -23,7 +26,8 @@ function attachCookiesToResponse(res, user) {
     maxAge: oneDay,
     secure: process.env.NODE_ENV === "production",
     signed: true,
-    path: "/",
+
+    sameSite: "Strict",
   });
 }
 

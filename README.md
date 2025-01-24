@@ -168,3 +168,8 @@ DALLAS SOFTWARE APPLICATION
 https://docs.google.com/forms/d/e/1FAIpQLSdICY7jRl7wdsYtOm6ebz3iMyf4KGZ7tLB5cIZrUUO1tThD7g/viewform
 
 The goal is to understand your vision, validate compatibility, align expectations, and assess if the partnership is mutually beneficial.
+
+// scan qrcode, when processing scan`Scanning processing...`
+// update user attended property only if the user have been approved
+// if user have been marked as attended it should respond with `Dublicate Entry Detected`
+//

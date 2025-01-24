@@ -13,7 +13,7 @@ function MemberDashboardSideBar({
   handleToggleSideBar,
 }: MemberDashboardSideBarProp) {
   return (
-    <aside className=" absolute z-50 shadow-lg bg-[#F5F7FA] border-r-2 border-r-[#C4DCF3] md:static md:z-0 md:shadow-none w-60 transition ease-in-out delay-150 duration-300">
+    <aside className=" fixed overflow-y-auto pb-8  z-50 shadow-lg bg-[#F5F7FA] border-r-2 border-r-[#C4DCF3] md:static md:z-0 md:shadow-none   transition ease-in-out delay-150 duration-300 w-[240px]  md:w-[296px] h-full">
       <SidebarCloseIcon
         className="relative left-6 mt-8 md:hidden"
         onClick={handleToggleSideBar}

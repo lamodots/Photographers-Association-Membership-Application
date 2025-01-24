@@ -82,7 +82,8 @@ export const AuthContext = ({ children }: AuthContextProps) => {
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
   const [profile, setProfile] = useState<CurrentUser | null>(null);
   const [loading, setLoading] = useState(true);
-
+  console.log("I AM C", currentUser);
+  console.log("I AM Profile", profile);
   const fetchCurrentUser = async () => {
     try {
       setLoading(true);

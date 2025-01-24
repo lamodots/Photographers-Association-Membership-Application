@@ -36,6 +36,7 @@ const {
   createApplicant,
   getApplicantsByEvent,
   approveApplicant,
+  getApplicantByEvent,
 } = require("./admin/eventApplicantController");
 
 const getUserProfileDetails = require("./admin/userController");
@@ -67,4 +68,5 @@ module.exports = {
   createApplicant,
   getApplicantsByEvent,
   approveApplicant,
+  getApplicantByEvent,
 };

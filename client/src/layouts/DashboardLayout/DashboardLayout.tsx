@@ -14,9 +14,20 @@ function DashboardLayout() {
   };
   return (
     <div className=" flex w-full h-[auto] min-h-screen">
-      {showSideBar && (
+      {/* {showSideBar && (
         <MemberDashboardSideBar handleToggleSideBar={toggleSideBar} />
-      )}
+      )} */}
+      <div
+        className={`h-screen border-r-2 border-r-[#C4DCF3]  ${
+          showSideBar ? "block" : "hidden"
+        }  md:block  overflow-x-hidden md:${
+          showSideBar ? "w-[296px]" : "w-0"
+        } bg-[#1A4F83] `}
+      >
+        {showSideBar && (
+          <MemberDashboardSideBar handleToggleSideBar={toggleSideBar} />
+        )}
+      </div>
       <main className=" bg-[#F5F7FA] max-h-screen overflow-y-scroll w-full">
         <TopNavBar
           handleToggleSideBar={toggleSideBar}

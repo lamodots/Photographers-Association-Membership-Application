@@ -36,6 +36,7 @@ const {
   createApplicantService,
   approveApplicantService,
   getApplicantsByEventService,
+  getApplicantService,
 } = require("./admin/eventApplicantService");
 
 const getUserDetailsService = require("./admin/userServices");
@@ -67,4 +68,5 @@ module.exports = {
   verifyPaymentServices,
   getUserDetailsService,
   getUserSubscriptionServices,
+  getApplicantService,
 };

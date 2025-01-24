@@ -73,6 +73,7 @@ const AdminApprove = lazy(() => import("./pages/Admin/Events/ApproveEvent"));
 const AdminRegisterEvent = lazy(
   () => import("./pages/Admin/Events/RegisterEvent")
 );
+const AdminQRCodeScanner = lazy(() => import("./pages/Admin/Events/Scan"));
 
 // import Login from "./pages/Login/Login";
 // import Register from "./pages/Register/Register";
@@ -126,7 +127,8 @@ const AnnouncementDetails = lazy(
   () => import("./pages/Announcement/AnnouncementDetails")
 );
 const Profile = lazy(() => import("./pages/Profile/Profile"));
-
+const EventDetails = lazy(() => import("./pages/Events/EventDetails"));
+const UserEventRegister = lazy(() => import("./pages/Events/Register"));
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
@@ -140,12 +142,9 @@ root.render(
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="events/details/:id" element={<h1>Event details</h1>} />
-          <Route
-            path="events/:id/register"
-            element={<h1>Register events</h1>}
-          />
-          <Route path="events" element={<h1>Events</h1>} />
+          <Route path="events/details/:id" element={<EventDetails />} />
+          <Route path="events/:id/register" element={<UserEventRegister />} />
+          <Route path="events" element={<Events />} />
           <Route
             path="events/details/:id/register"
             element={<h1>Register events</h1>}
@@ -236,6 +235,7 @@ root.render(
                 element={<AdminEditEvent />}
               />
               <Route path="events/:id/approve" element={<AdminApprove />} />
+              <Route path="events/:id/scan" element={<AdminQRCodeScanner />} />
               <Route path="certificate" element={<AdminCertificate />} />
               <Route path="id_card" element={<IdCard />} />
               <Route path="settings" element={<AdminSettings />} />

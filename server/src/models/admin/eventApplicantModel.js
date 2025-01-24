@@ -27,6 +27,7 @@ const eventApplicantSchema = new mongoose.Schema({
     },
   ],
   isapproved: { type: Boolean, default: false },
+  attended: { type: Boolean, default: false },
   event: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Events",
