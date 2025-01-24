@@ -91,12 +91,6 @@ export const FAKE_EVENTS = [
   },
 ];
 
-// const text =
-//   "If you are just starting out in photography and you don't know where to begin,or perhaps you have been taking pictures with your camera for a while and want to improve your"
-//     .length;
-
-// console.log(text);
-
 export const FAKE_APPLICANTS = [
   {
     full_name: "John Doe",
