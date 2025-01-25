@@ -45,11 +45,19 @@ app.use("/api/v1/secure/events", eventRoutes);
 if (process.env.NODE_ENV === "production") {
   const __dirname = path.resolve();
   app.use(express.static(path.join(__dirname, "client/build")));
+  app.use(
+    "/uploads",
+    express.static(path.join(__dirname, "client", "public", "uploads"))
+  );
 
   app.get("*", (req, res) =>
     res.sendFile(path.resolve(__dirname, "client/build/index.html"))
   );
 } else {
+  app.use(
+    "/uploads",
+    express.static(path.join(__dirname, "client", "public", "uploads"))
+  );
   app.get("/", (req, res) => {
     res.json({ message: "Welcome to the MembershipCMS backend API" });
   });
