@@ -187,7 +187,7 @@ function EventDetails() {
             </div>
             {/* action */}
             {showAction && (
-              <div className=" left-0 bg-white shadow-lg rounded-lg p-6 w-[220px] max-w-[240px] flex flex-col space-y-3 absolute mt-2 md:right-[1px] z-50">
+              <div className="  bg-white shadow-lg rounded-lg p-6 w-[220px] max-w-[240px] flex flex-col space-y-3 absolute mt-2 md:right-[1px] z-50">
                 <ul className="space-y-6">
                   <li>
                     <Link
