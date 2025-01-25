@@ -27,7 +27,7 @@ interface ValuesProps {
 }
 function Settings() {
   const [appData, setAppData] = useState<ValuesProps | null>(null);
-  console.log(appData);
+
   const navigate = useNavigate();
   const settingsSchema = Yup.object().shape({
     appname: Yup.string()
@@ -233,7 +233,7 @@ function Settings() {
                   {/* </div> */}
                   <div className=" space-y-2">
                     <Lable
-                      label="Upload app logo 32 x 32 size *"
+                      label="Upload app logo 32 x 32 size with transparent background *"
                       className=" text-xs"
                     />
                     <TextInput

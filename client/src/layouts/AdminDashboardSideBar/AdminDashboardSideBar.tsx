@@ -4,7 +4,7 @@ import { Link, NavLink } from "react-router-dom";
 import Icon from "../../components/Icon/Icon";
 import { adminDashboardMenus } from "../../util/menus/menus";
 import { ChevronDown, ChevronUp, SidebarCloseIcon } from "lucide-react";
-
+import useFetchAppData from "../../hooks/useFetchAppData";
 type DashboardSideBarProp = {
   handleToggleSideBar: () => void;
 };
@@ -14,6 +14,7 @@ function AdminDashboardSideBar({ handleToggleSideBar }: DashboardSideBarProp) {
   const [openSubscriptionMenu, setOpenSubscriptionMenu] = useState(false);
   const [openEventMenu, setOpenEventMenu] = useState(false);
   const [openMembersMenu, setOpenMembersMenu] = useState(false);
+  const { appData, loading, error } = useFetchAppData();
 
   return (
     <aside className=" fixed overflow-y-auto pb-8  z-50 shadow-lg bg-[#1A4F83] border-r-2 border-r-[#C4DCF3] md:static md:z-0 md:shadow-none   transition ease-in-out delay-150 duration-300 w-[240px]  md:w-[296px] h-full">
@@ -23,7 +24,9 @@ function AdminDashboardSideBar({ handleToggleSideBar }: DashboardSideBarProp) {
       />
       <div className="brand py-8 px-6 mb-8 flex items-center border-b-2 border-b-[#C4DCF3] gap-3">
         <BrandLogo color="#F5F7FA" />
-        <span className="text-2xl text-[#F5F7FA] font-bold">Brand</span>
+        <span className="text-2xl text-[#F5F7FA] font-bold">
+          {appData ? appData?.appname : "Band"}
+        </span>
       </div>
       <div className="  px-6 links flex flex-col gap-6 ">
         {adminDashboardMenus.map((menu) => (
