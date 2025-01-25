@@ -161,7 +161,7 @@ function EventDetails() {
           <ChevronLeft />
           Back
         </button>
-        <div className=" space-y-3 md:flex md:justify-between md:gap-4 md:items-center md:px-6 mt-8">
+        <div className=" space-y-3 md:flex md:justify-between md:gap-4 md:items-center  mt-8">
           <div className=" md:flex  md:gap-4 md:items-center  space-y-2">
             <div className="space-y-6 px-6 py-8 bg-white border border-zinc-400 rounded-lg">
               <h3>No of people registered</h3>

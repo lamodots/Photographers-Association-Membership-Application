@@ -80,7 +80,7 @@ function AdminProtectedRoute({ children }: PropsWithChildren<{}>) {
   const { currentUser, profile, loading, fetchCurrentUser } = useCurrentUser();
   console.log(currentUser);
   useEffect(() => {
-    if (!profile) {
+    if (!currentUser) {
       fetchCurrentUser(); // Ensure currentUser is always fetched
     }
   }, [currentUser, fetchCurrentUser]);

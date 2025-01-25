@@ -82,8 +82,7 @@ export const AuthContext = ({ children }: AuthContextProps) => {
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
   const [profile, setProfile] = useState<CurrentUser | null>(null);
   const [loading, setLoading] = useState(true);
-  console.log("I AM C", currentUser);
-  console.log("I AM Profile", profile);
+
   const fetchCurrentUser = async () => {
     try {
       setLoading(true);
@@ -97,16 +96,16 @@ export const AuthContext = ({ children }: AuthContextProps) => {
       }
       if (res.ok) {
         const data: CurrentUser = await res.json();
-        console.log("User data:", data);
-        // setCurrentUser(data);
+
+        setCurrentUser(data);
         setProfile(data);
       } else {
-        // setCurrentUser(null);
+        setCurrentUser(null);
         setProfile(null);
       }
     } catch (error) {
       console.error("Failed to fetch current user:", error);
-      // setCurrentUser(null);
+      setCurrentUser(null);
       setProfile(null);
     } finally {
       setLoading(false);
