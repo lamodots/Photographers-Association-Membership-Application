@@ -6,6 +6,7 @@ const appSettingsSchema = new mongoose.Schema({
   whatsappapi: String,
   pagelink: [String],
   applogo: String,
+  sendgridapi: String,
 });
 
 module.exports = mongoose.model("AppSettings", appSettingsSchema);

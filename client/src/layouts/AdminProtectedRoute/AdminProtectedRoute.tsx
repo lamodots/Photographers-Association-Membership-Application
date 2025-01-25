@@ -78,7 +78,7 @@ import { Oval } from "react-loader-spinner";
 
 function AdminProtectedRoute({ children }: PropsWithChildren<{}>) {
   const { currentUser, profile, loading, fetchCurrentUser } = useCurrentUser();
-  console.log(currentUser);
+  console.log(currentUser?.user?.role);
   useEffect(() => {
     if (!currentUser) {
       fetchCurrentUser(); // Ensure currentUser is always fetched

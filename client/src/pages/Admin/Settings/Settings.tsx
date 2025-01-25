@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Lable from "../../../components/Lable/Lable";
 import TextInput from "../../../components/Input/TextInput";
-import { Form, Formik, FormikHelpers } from "formik";
+import { Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import Button from "../../../components/Button/Button";
 import Select from "react-select";
@@ -22,50 +22,91 @@ interface ValuesProps {
   paymentapi: string;
   whatsappapi: string;
   pagelink: string[];
-  applogo: string;
+  applogo: File | null;
+  sendgridapi: string;
 }
 function Settings() {
+  const [appData, setAppData] = useState<ValuesProps | null>(null);
+  console.log(appData);
   const navigate = useNavigate();
   const settingsSchema = Yup.object().shape({
     appname: Yup.string()
+      .trim()
       .max(
         8,
         "Application name must be a string with a maximum of 8 characters"
       )
       .required("Application name is required"),
-    paymentapi: Yup.string().required("API key is required."),
-    whatsappapi: Yup.string().required("WhatsApp API key is required."),
+    paymentapi: Yup.string().required("API key is required.").trim(),
+    whatsappapi: Yup.string().required("WhatsApp API key is required.").trim(),
+    sendgridapi: Yup.string().required("Sendgrid API key is required.").trim(),
     pagelink: Yup.array().of(Yup.string()),
-    applogo: Yup.string(),
+    applogo: Yup.mixed().required("Event image is required"),
   });
 
   const initialValues: ValuesProps = {
-    appname: "",
-    paymentapi: "",
-    whatsappapi: "",
+    appname: appData?.appname || "",
+    paymentapi: appData?.paymentapi || "",
+    whatsappapi: appData?.whatsappapi || "",
     pagelink: [],
-    applogo: "",
+    applogo: null,
+    sendgridapi: appData?.sendgridapi || "",
   };
+  // const initialValues: ValuesProps = {
+  //   appname: "",
+  //   paymentapi: "",
+  //   whatsappapi: "",
+  //   pagelink: [],
+  //   applogo: null,
+  //   sendgridapi: "",
+  // };
+
+  async function getAppSettings() {
+    try {
+      const res = await fetch(`${API_URL}/api/v1/secure/settings`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      if (!res.ok) {
+        throw new Error(`Error fetching App settings`);
+      }
+      const { appDetails } = await res.json();
+      setAppData(appDetails[0]);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    getAppSettings();
+  }, []);
 
   async function handleSubmitSettings(
     values: ValuesProps,
     { setSubmitting }: FormikHelpers<ValuesProps>
   ) {
-    console.log(values);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+      const formData = new FormData();
+
+      formData.append("appname", values.appname);
+      formData.append("paymentapi", values.paymentapi);
+      formData.append("whatsappapi", values.whatsappapi);
+      formData.append("applogo", values.applogo as File);
+      formData.append("sendgridapi", values.sendgridapi);
+      // formData.append("pagelink", values.pagelink.filter((p)=> {p}));
+      console.log(formData);
+      // await new Promise((resolve) => setTimeout(resolve, 3000));
       const res = await fetch(`${API_URL}/api/v1/secure/settings`, {
         method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(values),
+        body: formData,
         credentials: "include",
       });
       if (res.ok) {
         const { message } = await res.json();
         toast.success(message);
-        navigate("/secure/settings");
+        // navigate("/secure/settings");
       } else {
         const errorData = await res.json();
         toast.error(errorData.msg || "An error occurred. Please try again.");
@@ -85,6 +126,7 @@ function Settings() {
             initialValues={initialValues}
             validationSchema={settingsSchema}
             onSubmit={handleSubmitSettings}
+            enableReinitialize
           >
             {({
               values,
@@ -94,7 +136,7 @@ function Settings() {
               isSubmitting,
               setFieldValue,
             }) => (
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} encType="multipart/form-data">
                 <div className="flex flex-col gap-6">
                   <div className=" space-y-2">
                     <Lable
@@ -119,8 +161,8 @@ function Settings() {
                       className=" text-xs"
                     />
                     <TextInput
-                      type="text"
-                      placeholderText="Enter payment API"
+                      type="password"
+                      placeholderText="Enter payment API Key"
                       name="paymentapi"
                       value={values.paymentapi}
                       handleInputChange={handleChange}
@@ -132,11 +174,11 @@ function Settings() {
                   </div>
                   <div className=" space-y-2">
                     <Lable
-                      label="Setup WhatsApp API (For sending Birthday WhatsApp Text Message) *"
+                      label="Setup WhatsApp API Key (For sending Birthday WhatsApp Text Message) *"
                       className=" text-xs"
                     />
                     <TextInput
-                      type="text"
+                      type="password"
                       placeholderText="Enter WhatsApp API"
                       name="whatsappapi"
                       value={values.whatsappapi}
@@ -148,9 +190,26 @@ function Settings() {
                     </span>
                   </div>
                   <div className=" space-y-2">
-                    <Lable label="Add pages to disable" className=" text-xs" />
-                    {/* https://react-select.com/home */}
-                    <Select
+                    <Lable
+                      label="Setup SendGrid API (For sending Transactional emails) *"
+                      className=" text-xs"
+                    />
+                    <TextInput
+                      type="password"
+                      placeholderText="Enter sendgrid API Key"
+                      name="sendgridapi"
+                      value={values.sendgridapi}
+                      handleInputChange={handleChange}
+                      className="w-full"
+                    />
+                    <span className="text-[10px] text-red-400">
+                      {errors.sendgridapi && errors.sendgridapi}
+                    </span>
+                  </div>
+                  {/* <div className=" space-y-2"> */}
+                  {/* <Lable label="Add pages to disable" className=" text-xs" /> */}
+                  {/* https://react-select.com/home */}
+                  {/* <Select
                       options={options}
                       isMulti
                       name="pagelink"
@@ -166,12 +225,12 @@ function Settings() {
                             : []
                         )
                       }
-                    />
-
+                    /> */}
+                  {/* 
                     <span className="text-[10px] text-red-400">
                       {errors.pagelink && errors.pagelink}
-                    </span>
-                  </div>
+                    </span> */}
+                  {/* </div> */}
                   <div className=" space-y-2">
                     <Lable
                       label="Upload app logo 32 x 32 size *"
@@ -180,8 +239,15 @@ function Settings() {
                     <TextInput
                       type="file"
                       name="applogo"
-                      value={values.applogo}
-                      handleInputChange={handleChange}
+                      accept="image/*"
+                      handleInputChange={(event) => {
+                        const file =
+                          event.currentTarget.files &&
+                          event.currentTarget.files[0];
+                        if (file) {
+                          setFieldValue("applogo", file);
+                        }
+                      }}
                       className="w-full"
                     />
                     <span className="text-[10px] text-red-400">

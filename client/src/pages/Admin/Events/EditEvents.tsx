@@ -26,7 +26,7 @@ function EditEvents() {
   const { wordCount, handleWordCount } = useWordCount();
   const [eventData, setEventData] = useState<EventProps | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  console.log("New event data", eventData);
+
   const { id } = useParams();
   const navigate = useNavigate();
 
