@@ -6,7 +6,7 @@ function BrandLogo({ color }: { color?: string }) {
     <>
       {appData ? (
         <img
-          src={`/uploads/${appData.applogo}`}
+          src={`../../../uploads/${appData.applogo}`}
           alt={`${appData.appname}`}
           width={48}
           height={48}
