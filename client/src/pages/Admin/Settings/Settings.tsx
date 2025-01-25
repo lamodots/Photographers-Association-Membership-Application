@@ -27,6 +27,11 @@ interface ValuesProps {
 }
 function Settings() {
   const [appData, setAppData] = useState<ValuesProps | null>(null);
+  const [showSettingsData, setShowSettingsData] = useState({
+    paymentapi: false,
+    whatsappapi: false,
+    sendgridapi: false,
+  });
 
   const navigate = useNavigate();
   const settingsSchema = Yup.object().shape({
@@ -117,6 +122,14 @@ function Settings() {
       setSubmitting(false);
     }
   }
+
+  // handleshow Config data
+  const handleShowSettingsData = (field: keyof typeof showSettingsData) => {
+    setShowSettingsData((prevData) => ({
+      ...prevData,
+      [field]: !prevData[field],
+    }));
+  };
   return (
     <main>
       <section>
@@ -160,14 +173,22 @@ function Settings() {
                       label="Setup payment API (For Handing payments) *"
                       className=" text-xs"
                     />
-                    <TextInput
-                      type="password"
-                      placeholderText="Enter payment API Key"
-                      name="paymentapi"
-                      value={values.paymentapi}
-                      handleInputChange={handleChange}
-                      className="w-full"
-                    />
+                    <div className="flex space-x-2 border border-[#515F69] bg-[#F4F6F7] rounded-lg pr-2 ">
+                      <TextInput
+                        type={showSettingsData.paymentapi ? "text" : "password"}
+                        placeholderText="Enter payment API Key"
+                        name="paymentapi"
+                        value={values.paymentapi}
+                        handleInputChange={handleChange}
+                        className="w-full rounded-tr-none rounded-br-none border-none"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleShowSettingsData("paymentapi")}
+                      >
+                        {showSettingsData.paymentapi ? "hide" : "show"}
+                      </button>
+                    </div>
                     <span className="text-[10px] text-red-400">
                       {errors.paymentapi && errors.paymentapi}
                     </span>
@@ -177,14 +198,25 @@ function Settings() {
                       label="Setup WhatsApp API Key (For sending Birthday WhatsApp Text Message) *"
                       className=" text-xs"
                     />
-                    <TextInput
-                      type="password"
-                      placeholderText="Enter WhatsApp API"
-                      name="whatsappapi"
-                      value={values.whatsappapi}
-                      handleInputChange={handleChange}
-                      className="w-full"
-                    />
+                    <div className="flex space-x-2 border border-[#515F69] bg-[#F4F6F7] rounded-lg pr-2 ">
+                      <TextInput
+                        type={
+                          showSettingsData.whatsappapi ? "text" : "password"
+                        }
+                        placeholderText="Enter WhatsApp API"
+                        name="whatsappapi"
+                        value={values.whatsappapi}
+                        handleInputChange={handleChange}
+                        className="w-full rounded-tr-none rounded-br-none border-none"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleShowSettingsData("whatsappapi")}
+                      >
+                        {showSettingsData.whatsappapi ? "hide" : "show"}
+                      </button>
+                    </div>
+
                     <span className="text-[10px] text-red-400">
                       {errors.whatsappapi && errors.whatsappapi}
                     </span>
@@ -194,14 +226,25 @@ function Settings() {
                       label="Setup SendGrid API (For sending Transactional emails) *"
                       className=" text-xs"
                     />
-                    <TextInput
-                      type="password"
-                      placeholderText="Enter sendgrid API Key"
-                      name="sendgridapi"
-                      value={values.sendgridapi}
-                      handleInputChange={handleChange}
-                      className="w-full"
-                    />
+                    <div className="flex space-x-2 border border-[#515F69] bg-[#F4F6F7] rounded-lg pr-2 ">
+                      <TextInput
+                        type={
+                          showSettingsData.sendgridapi ? "text" : "password"
+                        }
+                        placeholderText="Enter sendgrid API Key"
+                        name="sendgridapi"
+                        value={values.sendgridapi}
+                        handleInputChange={handleChange}
+                        className="w-full rounded-tr-none rounded-br-none border-none"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleShowSettingsData("sendgridapi")}
+                      >
+                        {showSettingsData.sendgridapi ? "hide" : "show"}
+                      </button>
+                    </div>
+
                     <span className="text-[10px] text-red-400">
                       {errors.sendgridapi && errors.sendgridapi}
                     </span>
@@ -248,7 +291,7 @@ function Settings() {
                           setFieldValue("applogo", file);
                         }
                       }}
-                      className="w-full"
+                      className="w-full border-none"
                     />
                     <span className="text-[10px] text-red-400">
                       {errors.applogo && errors.applogo}
