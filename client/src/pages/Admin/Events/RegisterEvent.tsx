@@ -132,7 +132,7 @@ function RegisterEvent() {
   return (
     <div className="p-6 max-w-4xl mx-auto bg-zinc-50 rounded-lg shadow-sm font-sans">
       <header className="mb-8">
-        <div className="h-[360px] flex items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-500 rounded-lg to-pink-500 mb-6">
+        <div className=" h-1/4 md:h-[360px] flex items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-500 rounded-lg to-pink-500 mb-6">
           <img
             className=" rounded-lg  w-full max-w-[940px] h-full"
             src={`../../../uploads/${eventData?.photoImage}`}

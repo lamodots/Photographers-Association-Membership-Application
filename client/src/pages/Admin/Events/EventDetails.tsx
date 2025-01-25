@@ -247,7 +247,7 @@ function EventDetails() {
 
             <Suspense fallback={<FallbackLoadingComponent />}>
               <header className="mb-8">
-                <div className="h-[360px] flex items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-500 rounded-lg to-pink-500 mb-6">
+                <div className=" h-40 md:h-[360px] flex items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-500 rounded-lg to-pink-500 mb-6">
                   <img
                     className=" rounded-lg  w-full max-w-[940px] h-full"
                     src={`../../../uploads/${annoucementData?.photoImage}`}
