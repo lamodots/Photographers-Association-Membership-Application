@@ -73,7 +73,11 @@ function AnnouncementList({
   const textToShow = 172;
 
   return (
-    <div className="w-full h-[350px] bg-white rounded-lg flex flex-col p-3">
+    <div
+      className={`w-full ${
+        photoImage && "h-[350px]"
+      } bg-white rounded-lg flex flex-col p-3`}
+    >
       {photoImage && (
         <img
           src={`../../../uploads/${photoImage}`}
@@ -87,7 +91,11 @@ function AnnouncementList({
       <small className="text-gray-500">{dateFormater(time)}</small>
       <p className="text-gray-600 text-sm mb-2">{venue}</p>
       {description && (
-        <p className="text-sm text-gray-700 flex-grow overflow-hidden">
+        <p
+          className={`text-sm text-gray-700 ${
+            photoImage ? `flex-grow` : ""
+          } overflow-hidden`}
+        >
           {description.length > textToShow
             ? `${description.slice(0, textToShow)} ...`
             : description}

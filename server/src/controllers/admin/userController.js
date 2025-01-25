@@ -5,7 +5,6 @@ const {
 } = require("../../services");
 
 async function getUserProfileDetails(req, res) {
-  console.log(req.user);
   const userId = req.user.userId;
 
   try {
