@@ -173,3 +173,7 @@ The goal is to understand your vision, validate compatibility, align expectation
 // update user attended property only if the user have been approved
 // if user have been marked as attended it should respond with `Dublicate Entry Detected`
 //
+
+# build script before dependency issue
+
+`"build": "npm install &&  npm --prefix client install && npm run build --prefix client",`

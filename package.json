@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node server/src/index.js",
-    "build": "npm install &&  npm --prefix client install && npm run build --prefix client",
+    
+    "build": "npm install && npm --prefix client install --legacy-peer-deps && npm --prefix client run build",
     "server": "nodemon server/src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
