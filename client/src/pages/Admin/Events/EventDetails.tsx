@@ -161,8 +161,8 @@ function EventDetails() {
           <ChevronLeft />
           Back
         </button>
-        <div className="flex justify-between gap-4 items-center px-6 mt-8">
-          <div className="flex  gap-4 items-center ">
+        <div className=" space-y-3 md:flex md:justify-between md:gap-4 md:items-center md:px-6 mt-8">
+          <div className=" md:flex  md:gap-4 md:items-center  space-y-2">
             <div className="space-y-6 px-6 py-8 bg-white border border-zinc-400 rounded-lg">
               <h3>No of people registered</h3>
               <strong className=" block text-2xl">{eventStats.length}</strong>
@@ -187,7 +187,7 @@ function EventDetails() {
             </div>
             {/* action */}
             {showAction && (
-              <div className="bg-white shadow-lg rounded-lg p-6 w-[220px] max-w-[240px] flex flex-col space-y-3 absolute mt-2 right-[1px] z-50">
+              <div className=" left-0 bg-white shadow-lg rounded-lg p-6 w-[220px] max-w-[240px] flex flex-col space-y-3 absolute mt-2 md:right-[1px] z-50">
                 <ul className="space-y-6">
                   <li>
                     <Link

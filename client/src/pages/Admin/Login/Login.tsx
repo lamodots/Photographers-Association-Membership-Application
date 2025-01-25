@@ -74,93 +74,91 @@ function Login() {
     }
   };
   return (
-    <main className=" bg-[#F4F6F7] w-screen grid grid-cols-1 items-center mx-auto px-[1.8rem]  max-w-lg h-screen overflow-hidden">
-      <div className="userform">
-        <h1 className=" text-2xl text-[#212529] text-center font-bold">
-          Admin Portal Login
-        </h1>
-        <Formik
-          initialValues={initialValues}
-          onSubmit={handleFormSubmit}
-          validationSchema={loginSchema}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            isSubmitting,
-          }) => (
-            <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
-              <div className=" flex flex-col gap-2">
-                <Lable label="Email" />
-                <TextInput
-                  type="email"
-                  placeholderText="Enter your email"
-                  name="email"
-                  value={values.email}
-                  handleInputChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                <span className="text-sm text-red-400">
-                  {errors.email && touched.email && errors.email}
-                </span>
-              </div>
-              <div className="password flex flex-col gap-2">
-                <Lable label="Password" />
-                <TextInput
-                  type="password"
-                  placeholderText="Enter your email"
-                  name="password"
-                  value={values.password}
-                  handleInputChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                <span className="text-sm text-red-400">
-                  {errors.password && touched.password && errors.password}
-                </span>
-              </div>
-
-              <Button
-                type="submit"
-                text="Login"
-                isSubmitting={isSubmitting}
-                disableBtn={isSubmitting}
-              >
-                {isSubmitting && (
-                  <Oval
-                    visible={true}
-                    height="24"
-                    width="24"
-                    color="#4fa94d"
-                    ariaLabel="oval-loading"
-                    wrapperStyle={{}}
-                    wrapperClass=""
+    <main className=" bg-[#F4F6F7] w-screen grid grid-cols-1 items-center mx-auto md:px-[1.5rem]  max-w-lg h-screen overflow-hidden">
+      <div className="userform ">
+        <div className="userform bg-white shadow-sm rounded-lg p-8">
+          <div className="mb-8">
+            <h1 className=" text-2xl text-[#212529] text-center font-bold">
+              Admin Portal Login
+            </h1>
+            <small className="text-center flex justify-center">
+              Security is a process, not a product.
+            </small>
+          </div>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={handleFormSubmit}
+            validationSchema={loginSchema}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
+            }) => (
+              <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
+                <div className=" flex flex-col gap-2">
+                  <Lable label="Email" />
+                  <TextInput
+                    type="email"
+                    placeholderText="Enter your email"
+                    name="email"
+                    value={values.email}
+                    handleInputChange={handleChange}
+                    onBlur={handleBlur}
                   />
-                )}
-              </Button>
-            </form>
-          )}
-        </Formik>
+                  <span className="text-sm text-red-400">
+                    {errors.email && touched.email && errors.email}
+                  </span>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <Lable label="Password" />
+                  <TextInput
+                    type="password"
+                    placeholderText="Enter your email"
+                    name="password"
+                    value={values.password}
+                    handleInputChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  <span className="text-sm text-red-400">
+                    {errors.password && touched.password && errors.password}
+                  </span>
+                </div>
+
+                <Button
+                  type="submit"
+                  text="Login"
+                  isSubmitting={isSubmitting}
+                  disableBtn={isSubmitting}
+                  className="mt-4"
+                >
+                  {isSubmitting && (
+                    <Oval
+                      visible={true}
+                      height="24"
+                      width="24"
+                      color="#4fa94d"
+                      ariaLabel="oval-loading"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                    />
+                  )}
+                </Button>
+              </form>
+            )}
+          </Formik>
+        </div>
 
         <p className=" text-center text-base mt-8">
           <Link to="forgot-password" className="text-base text-[#1A4F83]">
             Forgot your password? we will help you reset it
           </Link>
         </p>
-        {/* <p className="text-center text-sm mt-6">
-          Dont have an account ?{" "}
-          <Link to="/secure/register" className="text-[#1A4F83]">
-            Register
-          </Link>
-        </p> */}
       </div>
-
-      {/* <div className="loginFormIllutration w-[614px] h-screen">
-        <img src={LoginAsset} className="w-[614px] h-full" />
-      </div> */}
     </main>
   );
 }
