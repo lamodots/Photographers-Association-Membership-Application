@@ -29,7 +29,12 @@ const UserSchema = new mongoose.Schema(
       enum: ["user", "moderator", "admin"],
       default: "user",
     },
+    userSubscription: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "UserSubscription",
+    },
   },
+
   { timestamps: true }
 );
 

@@ -4,6 +4,7 @@ const API_URL = process.env.REACT_APP_CLIENT_URL;
 
 interface ValuesProps {
   appname: string;
+  appname_acronym: string;
   paymentapi: string;
   whatsappapi: string;
   pagelink: string[];

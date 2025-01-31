@@ -1,10 +1,11 @@
 import React from "react";
 import { Trash, MonitorPause } from "lucide-react";
 
-import Badge from "../../../components/Badge/Badge";
-import Avatar from "../../../components/Avatar/Avatar";
-import { useLocation, useSearchParams } from "react-router-dom";
-import { dateFormater } from "../../../util/DateFormater";
+import Badge from "../../components/Badge/Badge";
+import Avatar from "../../components/Avatar/Avatar";
+import { useLocation } from "react-router-dom";
+import { dateFormater } from "../../util/DateFormater";
+import { DOBFormater } from "../../util/DOBFormater";
 
 const API_URL = process.env.REACT_APP_CLIENT_URL;
 
@@ -28,7 +29,7 @@ interface UserProps {
   interest: Interest;
 }
 
-function AdminMembersDetails() {
+function MembersDetails() {
   const location = useLocation();
   const user: UserProps = location?.state;
   return (
@@ -58,7 +59,7 @@ function AdminMembersDetails() {
                 <td>Date of Birth:</td>
               </th>
               <td className="border border-slate-300">
-                {dateFormater(user.Dob)}
+                {DOBFormater(user.Dob)}
               </td>
             </tr>
             <tr>
@@ -81,7 +82,7 @@ function AdminMembersDetails() {
             </tr>
             <tr>
               <th className="border border-slate-300 py-2  px-3 bg-[#eaf1f4]">
-                <td>Interests:</td>
+                <td>Interests</td>
               </th>
               <td className="border border-slate-300">
                 {user.interest.map((userInterests) => userInterests).join(", ")}
@@ -92,7 +93,7 @@ function AdminMembersDetails() {
             <h2 className="font-bold">About member</h2>
             <p className="mt-3 leading-6">{user.aboutuser}</p>
           </div>
-          <div className="flex items-center justify-end space-x-10 mt-6">
+          {/* <div className="flex items-center justify-end space-x-10 mt-6">
             <button
               className="flex items-center gap-2 text-[#FFAE80]"
               onClick={() => console.log(user._id)}
@@ -106,11 +107,11 @@ function AdminMembersDetails() {
               <Trash />
               <span>Delete</span>
             </button>
-          </div>
+          </div> */}
         </div>
       </main>
     </div>
   );
 }
 
-export default AdminMembersDetails;
+export default MembersDetails;

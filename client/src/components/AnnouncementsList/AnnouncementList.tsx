@@ -80,7 +80,7 @@ function AnnouncementList({
     >
       {photoImage && (
         <img
-          src={`../../../uploads/${photoImage}`}
+          src={`${photoImage}`}
           alt={title}
           className="h-48 w-full object-cover rounded-lg mb-2"
         />

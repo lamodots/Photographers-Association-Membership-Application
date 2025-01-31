@@ -1,4 +1,4 @@
-import React, { lazy } from "react";
+import React, { lazy, useEffect, useState } from "react";
 import TextInput from "../../../components/Input/TextInput";
 import TopStats from "../../../components/Admin-Components/TopStats/TopStats";
 import { CircleDollarSign, Pen, RefreshCw, RotateCcw } from "lucide-react";
@@ -9,13 +9,70 @@ import FallbackLoadingComponent from "../../../components/FallbackLoadingCompone
 import Button from "../../../components/Button/Button";
 import { Link } from "react-router-dom";
 import { FAKE_MEMBERS } from "../../../util/data";
+import { formatDistanceToNowformat } from "../../../util/dataAndTimeFormater";
 // import NewMemberCard from "../../../components/Admin-Components/NewMemberCard/NewMemberCard";
 const NewMemberCard = lazy(
   () =>
     import("../../../components/Admin-Components/NewMemberCard/NewMemberCard")
 );
 
+const API_URL = process.env.REACT_APP_CLIENT_URL;
+type SocialLink = {
+  facebook?: string;
+  linkedIn?: string;
+};
+type Interest = string[];
+interface UserProps {
+  _id: string;
+  image: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  Dob: string;
+  phone: string;
+  location: string;
+  address: string;
+  aboutuser: string;
+  social: SocialLink[];
+  interest: Interest;
+  createdAt: string;
+}
+
 function OverViewPage() {
+  const [userData, setUserData] = useState<UserProps[]>([]);
+  const [loading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  /** Get all members 3 only */
+  const getAllUsers = async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/api/v1/secure/users`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+        throw new Error("Error fetching data");
+      }
+
+      const { users } = await res.json();
+
+      setUserData(users.slice(0, 3));
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getAllUsers();
+  }, []);
+
   return (
     <main>
       <header>
@@ -89,7 +146,7 @@ function OverViewPage() {
         </div>
 
         <div className="grid gap-4 grid-cols-1 md:grid-cols-3 mt-6">
-          {FAKE_MEMBERS.map((user) => {
+          {/* {FAKE_MEMBERS.map((user) => {
             return (
               <Suspense fallback={<FallbackLoadingComponent />} key={user.id}>
                 <NewMemberCard
@@ -99,7 +156,24 @@ function OverViewPage() {
                 />
               </Suspense>
             );
-          })}
+          })} */}
+          {userData &&
+            userData.map((user) => {
+              return (
+                <Suspense
+                  fallback={<FallbackLoadingComponent />}
+                  key={user._id}
+                >
+                  <NewMemberCard
+                    image={user.image}
+                    name={user.firstname + " " + user.lastname}
+                    date={
+                      "Joined" + " " + formatDistanceToNowformat(user.createdAt)
+                    }
+                  />
+                </Suspense>
+              );
+            })}
         </div>
       </section>
     </main>

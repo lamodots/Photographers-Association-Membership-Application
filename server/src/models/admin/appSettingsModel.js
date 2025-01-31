@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const appSettingsSchema = new mongoose.Schema({
   appname: String,
+  appname_acronym: String,
   paymentapi: String,
   whatsappapi: String,
   pagelink: [String],

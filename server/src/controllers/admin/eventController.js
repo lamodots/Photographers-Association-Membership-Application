@@ -10,6 +10,8 @@ const {
   editEventService,
 } = require("../../services");
 const mongoose = require("mongoose");
+const cloudinary = require("cloudinary").v2;
+const crypto = require("crypto");
 
 async function createEvents(req, res, next) {
   const { title, startDate, endDate, time, venue, description } = req.body;
@@ -29,32 +31,48 @@ async function createEvents(req, res, next) {
       return next(new BadRequestError("Please upload image smaller than 5MB"));
     }
 
-    // construct the folder (uploads) where we want to upload the image
-    const uploadsDir = path.join(
-      __dirname,
-      "..",
-      "..",
-      "..",
-      "..",
-      "client",
-      "public",
-      "uploads"
-    );
+    // // construct the folder (uploads) where we want to upload the image
+    // const uploadsDir = path.join(
+    //   __dirname,
+    //   "..",
+    //   "..",
+    //   "..",
+    //   "..",
+    //   "client",
+    //   "public",
+    //   "uploads"
+    // );
 
-    // Check if it exists if not create uploads folder
-    if (!fs.existsSync(uploadsDir)) {
-      fs.mkdirSync(uploadsDir, { recursive: true });
-    }
+    // // Check if it exists if not create uploads folder
+    // if (!fs.existsSync(uploadsDir)) {
+    //   fs.mkdirSync(uploadsDir, { recursive: true });
+    // }
 
-    const uniqueImage =
-      eventImage.name.split(".")[0] +
-      eventImage.md5 +
-      "." +
-      eventImage.name.split(".")[1];
+    // const uniqueImage =
+    //   eventImage.name.split(".")[0] +
+    //   eventImage.md5 +
+    //   "." +
+    //   eventImage.name.split(".")[1];
 
-    const imagePath = path.join(uploadsDir, uniqueImage);
+    // const imagePath = path.join(uploadsDir, uniqueImage);
 
-    await eventImage.mv(imagePath);
+    // await eventImage.mv(imagePath);
+
+    /***save image to cloud** */
+
+    // Generate a dynamic filename
+
+    const dynamicFilename = `${title.replace(/\s+/g, "_")}-${crypto
+      .randomBytes(8)
+      .toString("hex")}`;
+    const result = await cloudinary.uploader.upload(eventImage.tempFilePath, {
+      use_filename: true,
+      folder: "lasppan-folder",
+      public_id: dynamicFilename,
+    });
+    fs.unlinkSync(req.files.photoImage.tempFilePath);
+
+    console.log(result);
 
     const event = await createEventService({
       title: title,
@@ -63,7 +81,7 @@ async function createEvents(req, res, next) {
       description: description,
       time: time,
       venue: venue,
-      photoImage: uniqueImage,
+      photoImage: result.secure_url,
       createdBy: req.user.userId,
     });
 
@@ -73,7 +91,8 @@ async function createEvents(req, res, next) {
       event,
     });
   } catch (error) {
-    return next(error);
+    console.error("Error uploading to Cloudinary:", error);
+    return next(error.message);
   }
 }
 
@@ -121,25 +140,39 @@ async function editEvent(req, res, next) {
     }
 
     // construct the folder (uploads)
-    const uploadsDir = path.join(
-      __dirname,
-      "..",
-      "..",
-      "..",
-      "..",
-      "client",
-      "public",
-      "uploads"
+    // const uploadsDir = path.join(
+    //   __dirname,
+    //   "..",
+    //   "..",
+    //   "..",
+    //   "..",
+    //   "client",
+    //   "public",
+    //   "uploads"
+    // );
+
+    // const uniqueImage =
+    //   eventImage.name.split(".")[0] +
+    //   eventImage.md5 +
+    //   "." +
+    //   eventImage.name.split(".")[1];
+
+    // const imagePath = path.join(uploadsDir, uniqueImage);
+    // await eventImage.mv(imagePath);
+
+    // save to cloud
+    const dynamicFilename = `${title.replace(/\s+/g, "_")}-${crypto
+      .randomBytes(8)
+      .toString("hex")}`;
+    const result = await cloudinary.uploader.upload(
+      req.files.photoImage.tempFilePath,
+      {
+        use_filename: true,
+        folder: "lasppan-folder",
+        public_id: dynamicFilename,
+      }
     );
-
-    const uniqueImage =
-      eventImage.name.split(".")[0] +
-      eventImage.md5 +
-      "." +
-      eventImage.name.split(".")[1];
-
-    const imagePath = path.join(uploadsDir, uniqueImage);
-    await eventImage.mv(imagePath);
+    fs.unlinkSync(req.files.photoImage.tempFilePath);
 
     const event = await editEventService(id, {
       title: title,
@@ -148,7 +181,7 @@ async function editEvent(req, res, next) {
       description: description,
       time: time,
       venue: venue,
-      photoImage: uniqueImage,
+      photoImage: result.secure_url,
       createdBy: req.user.userId,
     });
 

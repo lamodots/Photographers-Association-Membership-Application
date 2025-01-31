@@ -1,15 +1,116 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import Button from "../../components/Button/Button";
 import { Link } from "react-router-dom";
 import { FAKE_MEMBERS } from "../../util/data";
 import FallbackLoadingComponent from "../../components/FallbackLoadingComponent/FallbackLoadingComponent";
 import { Calendar, Clock, Handshake } from "lucide-react";
 import MembershipTypeCard from "../../components/MembershipTypeCard/MembershipTypeCard";
+import { formatDistanceToNowformat } from "../../util/dataAndTimeFormater";
 const NewMemberCard = lazy(
   () => import("../../components/Admin-Components/NewMemberCard/NewMemberCard")
 );
 
+const API_URL = process.env.REACT_APP_CLIENT_URL;
+interface AnnouncementProps {
+  _id: string;
+  title: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  createdBy: {
+    firstname: string;
+    lastname: string;
+  };
+}
+
+type SocialLink = {
+  facebook?: string;
+  linkedIn?: string;
+};
+type Interest = string[];
+interface UserProps {
+  _id: string;
+  image: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  Dob: string;
+  phone: string;
+  location: string;
+  address: string;
+  aboutuser: string;
+  social: SocialLink[];
+  interest: Interest;
+  createdAt: string;
+}
+
 function OverViewPage() {
+  const [announcement, setAnnouncementData] = useState<AnnouncementProps>();
+  const [userData, setUserData] = useState<UserProps[]>([]);
+  const [loading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  /** Get all announcement */
+
+  async function getAllAnnoucements() {
+    try {
+      setIsLoading(true);
+
+      const res = await fetch(`${API_URL}/api/v1/secure/announcement`, {
+        method: "GET",
+        headers: {
+          "Content-type": "appliacation/json",
+        },
+
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+        setError(true);
+      }
+      const { announcements } = await res.json();
+
+      setAnnouncementData(announcements[0]);
+    } catch (error) {
+      console.log("Something went wrong:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getAllAnnoucements();
+  }, []);
+
+  /** Get all members 3 only */
+  const getAllUsers = async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/api/v1/secure/users`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+        throw new Error("Error fetching data");
+      }
+
+      const { users } = await res.json();
+
+      setUserData(users.slice(0, 3));
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getAllUsers();
+  }, []);
   return (
     <main>
       <header>
@@ -42,22 +143,25 @@ function OverViewPage() {
             View All
           </Link>
         </div>
-
-        <div className="w-full mt-6 bg-white p-6 rounded-lg space-y-2">
-          <p>
-            I’ve written a few thousand words on why traditional “semantic class
-            names” are the reason CSS is hard to maintain, but the truth is
-            you’re never going to believe me until you
-          </p>
-          <div className="flex justify-end">
-            <Link
-              to="/annoucement/details/1"
-              className="text-[#FFAE80] font-bold"
-            >
-              Read more
-            </Link>
+        {error ? (
+          <div className="bg-blue-50 px-4 py-2 w-full rounded-sm mt-4">
+            <p className="text-xs">
+              Something went wrong : Could not get Announcement
+            </p>
           </div>
-        </div>
+        ) : (
+          <div className="w-full mt-6 bg-white p-6 rounded-lg space-y-2">
+            <p>{announcement?.description.slice(0, 170)}...</p>
+            <div className="flex justify-end">
+              <Link
+                to={`/announcement/details/${announcement?._id}`}
+                className="text-[#FFAE80] font-bold"
+              >
+                Read more
+              </Link>
+            </div>
+          </div>
+        )}
       </section>
       <section className="pt-8">
         <div className="flex justify-between items-center">
@@ -73,17 +177,23 @@ function OverViewPage() {
         </div>
 
         <div className="grid gap-6 grid-cols-1 md:grid-cols-3 mt-6">
-          {FAKE_MEMBERS.map((user) => {
-            return (
-              <Suspense fallback={<FallbackLoadingComponent />} key={user.id}>
-                <NewMemberCard
-                  image={user.photo}
-                  name={user.name}
-                  date={user.date}
-                />
-              </Suspense>
-            );
-          })}
+          {userData &&
+            userData.map((user) => {
+              return (
+                <Suspense
+                  fallback={<FallbackLoadingComponent />}
+                  key={user._id}
+                >
+                  <NewMemberCard
+                    image={user.image}
+                    name={user.firstname + " " + user.lastname}
+                    date={
+                      "Joined" + " " + formatDistanceToNowformat(user.createdAt)
+                    }
+                  />
+                </Suspense>
+              );
+            })}
         </div>
       </section>
     </main>

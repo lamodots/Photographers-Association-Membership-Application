@@ -18,7 +18,7 @@ function NewMemberCard({
         <Avatar className="w-12 h-12" image={image} />
       </div>
       <div>
-        <h3 className="text-[#1A4F83] font-bold">{name}</h3>
+        <h3 className="text-[#1A4F83] capitalize font-bold">{name}</h3>
         {date && <small className="text-[#A6B4BA]">{date}</small>}
         {email && <small className="text-[#A6B4BA]">{email}</small>}
       </div>

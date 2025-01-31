@@ -20,12 +20,12 @@ export const userDashboardMenus: userRoutes[] = [
     path: "/",
     menuIcon: "LayoutDashboard",
   },
-  {
-    key: "content",
-    label: "Content",
-    path: "content",
-    menuIcon: "Book",
-  },
+  // {
+  //   key: "content",
+  //   label: "Content",
+  //   path: "content",
+  //   menuIcon: "Book",
+  // },
   {
     key: "members",
     label: "Members",
@@ -56,12 +56,12 @@ export const userDashboardMenus: userRoutes[] = [
     path: "id_card",
     menuIcon: "IdCard",
   },
-  {
-    key: "settings",
-    label: "Settings",
-    path: "settings",
-    menuIcon: "Settings",
-  },
+  // {
+  //   key: "settings",
+  //   label: "Settings",
+  //   path: "settings",
+  //   menuIcon: "Settings",
+  // },
 ];
 export const adminDashboardMenus: adminRoutes[] = [
   {
@@ -70,12 +70,12 @@ export const adminDashboardMenus: adminRoutes[] = [
     path: "/secure",
     menuIcon: "LayoutDashboard",
   },
-  {
-    key: "content",
-    label: "Content",
-    path: "content",
-    menuIcon: "Book",
-  },
+  // {
+  //   key: "content",
+  //   label: "Content",
+  //   path: "content",
+  //   menuIcon: "Book",
+  // },
   {
     key: "members",
     label: "Members",

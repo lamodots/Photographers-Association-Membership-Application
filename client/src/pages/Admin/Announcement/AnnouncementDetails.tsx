@@ -122,7 +122,9 @@ function AnnouncementDetails() {
               </div>
             </div>
             <Suspense fallback={<FallbackLoadingComponent />}>
-              <p className="mt-8 text-sm">{annoucementData?.description}</p>
+              <p className="mt-8 text-sm leading-8">
+                {annoucementData?.description}
+              </p>
             </Suspense>
           </section>
         )}

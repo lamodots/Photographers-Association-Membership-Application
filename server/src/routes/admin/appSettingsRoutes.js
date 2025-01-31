@@ -16,7 +16,7 @@ appSettings.post(
 appSettings.get(
   "/",
   authenticateUser,
-  authorizaPermissions("admin"),
+  // authorizaPermissions("admin"),
   getAppSettingsController
 );
 

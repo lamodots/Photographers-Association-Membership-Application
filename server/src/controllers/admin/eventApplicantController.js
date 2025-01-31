@@ -28,7 +28,6 @@ exports.createApplicant = async (req, res, next) => {
     !full_name ||
     !email ||
     !phone_number ||
-    !whatsapp_number ||
     !number_of_family_members ||
     !event
   ) {

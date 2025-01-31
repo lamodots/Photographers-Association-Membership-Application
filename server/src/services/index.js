@@ -42,6 +42,8 @@ const {
 const getUserDetailsService = require("./admin/userServices");
 const getUserSubscriptionServices = require("./admin/userSubscriptionServices");
 
+const getAllUsersService = require("./usersServices");
+
 module.exports = {
   addAdminUserService,
   loginAdminServices,

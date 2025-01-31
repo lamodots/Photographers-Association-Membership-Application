@@ -16,7 +16,8 @@ const eventApplicantSchema = new mongoose.Schema({
   },
   whatsapp_number: {
     type: String,
-    required: true,
+
+    // required: true,
   },
   number_of_family_members: Number,
 

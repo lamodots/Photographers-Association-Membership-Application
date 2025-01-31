@@ -9,6 +9,7 @@ import { CircleUserRound, SquarePen } from "lucide-react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { Oval } from "react-loader-spinner";
+import useWordCount from "../../../hooks/useWordCount";
 
 const API_URL = process.env.REACT_APP_CLIENT_URL;
 const options = [
@@ -36,6 +37,7 @@ interface ValueProps {
 
 function CreateNewMember() {
   const navigate = useNavigate();
+  const { wordCount, handleWordCount } = useWordCount();
 
   const addAdminUserSchema = Yup.object().shape({
     firstname: Yup.string().required("First name is required"),
@@ -49,7 +51,15 @@ function CreateNewMember() {
     phone: Yup.string(),
     location: Yup.string().required("Location is required"),
     address: Yup.string().required("address is required"),
-    aboutuser: Yup.string().max(400),
+    aboutuser: Yup.string()
+      .required("About member is required")
+      .test("max-words", "About member cannot exceed 400 words", (value) => {
+        if (value) {
+          const wordCount = value.trim().split(/\s+/).length;
+          return wordCount <= 400;
+        }
+        return true;
+      }),
     social: Yup.string(),
     interest: Yup.array().of(Yup.string()),
     role: Yup.string().oneOf(["user", "moderator", "admin"]),
@@ -74,7 +84,7 @@ function CreateNewMember() {
 
   const handleCreateAdminFormSubmit = async (
     values: ValueProps,
-    { setSubmitting }: FormikHelpers<ValueProps>
+    { setSubmitting, resetForm }: FormikHelpers<ValueProps>
   ) => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -89,7 +99,7 @@ function CreateNewMember() {
       if (res.ok) {
         const { message } = await res.json();
         toast.success(message);
-        navigate("/secure/members/create");
+        resetForm();
       } else {
         const errorData = await res.json();
         toast.error(errorData.msg || "An error occurred. Please try again.");
@@ -101,11 +111,11 @@ function CreateNewMember() {
     }
   };
 
-  const [wordCount, setWordCount] = useState(0);
-  const handleWordCount = (text: string) => {
-    const words = text.trim().split(/\s+/);
-    setWordCount(words.length);
-  };
+  // const [wordCount, setWordCount] = useState(0);
+  // const handleWordCount = (text: string) => {
+  //   const words = text.trim().split(/\s+/);
+  //   setWordCount(words.length);
+  // };
 
   const [imageName, setImageName] = useState("");
 
@@ -271,7 +281,10 @@ function CreateNewMember() {
                   About User
                 </h3>
                 <div className="flex  flex-col gap-2 mt-8">
-                  <Lable label="Tell us about yourself" className=" text-xs" />
+                  <Lable
+                    label="Tell us about yourself, not more than 400 words"
+                    className=" text-xs"
+                  />
                   <textarea
                     placeholder="Write text"
                     className="bg-[#F4F6F7] border border-[#A6B4BA] rounded-lg p-4 h-[102px]"

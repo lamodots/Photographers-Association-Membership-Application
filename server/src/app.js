@@ -15,6 +15,7 @@ const {
   subscriptionsRoutes,
   eventRoutes,
   adminUserRoute,
+  usersRoutes,
 } = require("./routes");
 
 app.disable("etag");
@@ -27,8 +28,16 @@ app.use(
   )
 );
 
+// USE V2
+const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+});
+
 app.use(express.json());
-app.use(fileUpload());
+app.use(fileUpload({ useTempFiles: true }));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.JWT_SECRET));
 
@@ -41,6 +50,7 @@ app.use("/api/v1/secure/settings", appSettingsRoutes);
 app.use("/api/v1/secure/announcement", announcementsRoutes);
 app.use("/api/v1/secure/subscriptions", subscriptionsRoutes);
 app.use("/api/v1/secure/events", eventRoutes);
+app.use("/api/v1/secure/users", usersRoutes);
 
 if (process.env.NODE_ENV === "production") {
   const __dirname = path.resolve();

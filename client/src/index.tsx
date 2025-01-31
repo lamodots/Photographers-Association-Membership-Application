@@ -75,6 +75,8 @@ const AdminRegisterEvent = lazy(
 );
 const AdminQRCodeScanner = lazy(() => import("./pages/Admin/Events/Scan"));
 
+const AdminIdCard = lazy(() => import("./pages/Admin/IdCard/IdCard"));
+
 // import Login from "./pages/Login/Login";
 // import Register from "./pages/Register/Register";
 // import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
@@ -117,6 +119,7 @@ const OverViewPage = lazy(() => import("./pages/OverViewPage/OverViewPage"));
 
 const Content = lazy(() => import("./pages/Content/Content"));
 const Members = lazy(() => import("./pages/Members/Members"));
+const MembersDetails = lazy(() => import("./pages/Members/MembersDetails"));
 const Subscription = lazy(() => import("./pages/Subscription/Subscription"));
 const Events = lazy(() => import("./pages/Events/Events"));
 const Certificate = lazy(() => import("./pages/Certificate/Certificate"));
@@ -162,6 +165,7 @@ root.render(
               <Route index element={<OverViewPage />} />
               <Route path="content" element={<Content />} />
               <Route path="members" element={<Members />} />
+              <Route path="members/details/:id" element={<MembersDetails />} />
               <Route path="subscription" element={<Subscription />} />
               <Route path="events" element={<Events />} />
               <Route path="certificate" element={<Certificate />} />
@@ -169,7 +173,7 @@ root.render(
               <Route path="settings" element={<Settings />} />
               <Route path="announcement" element={<Announcement />} />
               <Route
-                path="announcement/:id"
+                path="announcement/details/:id"
                 element={<AnnouncementDetails />}
               />
               <Route path="profile" element={<Profile />} />
@@ -237,7 +241,7 @@ root.render(
               <Route path="events/:id/approve" element={<AdminApprove />} />
               <Route path="events/:id/scan" element={<AdminQRCodeScanner />} />
               <Route path="certificate" element={<AdminCertificate />} />
-              <Route path="id_card" element={<IdCard />} />
+              <Route path="id_card" element={<AdminIdCard />} />
               <Route path="settings" element={<AdminSettings />} />
               <Route path="announcement" element={<AdminAnnouncements />} />
               <Route

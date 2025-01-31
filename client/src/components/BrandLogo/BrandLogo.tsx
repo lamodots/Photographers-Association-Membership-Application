@@ -2,11 +2,12 @@ import React from "react";
 import useFetchAppData from "../../hooks/useFetchAppData";
 function BrandLogo({ color }: { color?: string }) {
   const { appData } = useFetchAppData();
+
   return (
     <>
       {appData ? (
         <img
-          src={`../../../uploads/${appData.applogo}`}
+          src={`${appData?.applogo}`}
           alt={`${appData.appname}`}
           width={48}
           height={48}

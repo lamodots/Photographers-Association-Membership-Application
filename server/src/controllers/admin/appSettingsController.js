@@ -7,12 +7,28 @@ const {
   getAppSettingsServices,
 } = require("../../services");
 const { BadRequestError } = require("../../errors");
+const crypto = require("crypto");
+
+const cloudinary = require("cloudinary").v2;
 
 /** APP SETTINGS CONTROLLER -  Adds app settings to database.**/
 async function appSettingsController(req, res, next) {
-  const { appname, paymentapi, whatsappapi, pagelink, sendgridapi } = req.body;
+  const {
+    appname,
+    appname_acronym,
+    paymentapi,
+    whatsappapi,
+    pagelink,
+    sendgridapi,
+  } = req.body;
 
-  if (!appname || !paymentapi || !whatsappapi || !sendgridapi) {
+  if (
+    !appname ||
+    !appname_acronym ||
+    !paymentapi ||
+    !whatsappapi ||
+    !sendgridapi
+  ) {
     return next(new BadRequestError("Add application settings!"));
   }
 
@@ -31,40 +47,48 @@ async function appSettingsController(req, res, next) {
       return next(new BadRequestError("Please upload image smaller than 2MB"));
     }
 
-    // construct the folder (uploads) where we want to upload the image
-    const uploadsDir = path.join(
-      __dirname,
-      "..",
-      "..",
-      "..",
-      "..",
-      "client",
-      "public",
-      "uploads"
-    );
+    /***construct the folder (uploads) where we want to upload the image***/
+    // const uploadsDir = path.join(
+    //   __dirname,
+    //   "..",
+    //   "..",
+    //   "..",
+    //   "..",
+    //   "client",
+    //   "public",
+    //   "uploads"
+    // );
 
-    // check if it exists if not create uploads folder
-    if (!fs.existsSync(uploadsDir)) {
-      fs.mkdirSync(uploadsDir, { recursive: true });
-    }
+    // // check if it exists if not create uploads folder
+    // if (!fs.existsSync(uploadsDir)) {
+    //   fs.mkdirSync(uploadsDir, { recursive: true });
+    // }
 
-    // Form a uniques name for the image
-    const uniqueLogo =
-      appLogoImage.name.split(".")[0] +
-      appLogoImage.md5 +
-      "." +
-      appLogoImage.name.split(".")[1];
+    // // Form a uniques name for the image
+    // const uniqueLogo =
+    //   appLogoImage.name.split(".")[0] +
+    //   appLogoImage.md5 +
+    //   "." +
+    //   appLogoImage.name.split(".")[1];
 
-    //image path
-    const imagePath = path.join(uploadsDir, uniqueLogo);
-    await appLogoImage.mv(imagePath);
+    // //image path
+    // const imagePath = path.join(uploadsDir, uniqueLogo);
+    // await appLogoImage.mv(imagePath);
 
+    /*****Moved to Cloud upload */
+    const displayName = `${appname}-${crypto.randomBytes(8).toString("hex")}`;
+    const result = await cloudinary.uploader.upload(appLogoImage.tempFilePath, {
+      use_filename: true,
+      folder: "lasppan-folder",
+      public_id: displayName,
+    });
     await appSettingsServices({
       appname,
+      appname_acronym,
       paymentapi,
       whatsappapi,
       sendgridapi,
-      applogo: uniqueLogo,
+      applogo: result.secure_url,
     });
     res
       .status(StatusCodes.OK)

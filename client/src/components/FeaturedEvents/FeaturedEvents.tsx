@@ -89,7 +89,7 @@ function FeaturedEvents() {
                 {" "}
                 {/* Ensure full height */}
                 <img
-                  src={`../../../uploads/${featuredEvent.photoImage}`}
+                  src={`${featuredEvent.photoImage}`}
                   alt={featuredEvent?.title}
                   className="h-48 w-full object-cover rounded-lg mb-2"
                 />

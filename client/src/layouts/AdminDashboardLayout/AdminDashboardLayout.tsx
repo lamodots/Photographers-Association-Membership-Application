@@ -4,6 +4,7 @@ import MemberDashboardSideBar from "../MemberDashboardSideBar/MemberDashboardSid
 import AdminDashboardSideBar from "../AdminDashboardSideBar/AdminDashboardSideBar";
 import TopNavBar from "../TopNavBar/TopNavBar";
 import { Outlet } from "react-router-dom";
+import AdminTopNavBar from "../AdminTopNavBar/AdminTopNavBar";
 
 function AdminDashboardLayout() {
   const [showSideBar, setShowSideBar] = useState(false);
@@ -29,12 +30,11 @@ function AdminDashboardLayout() {
       </div>
 
       <main className=" bg-[#F5F7FA] max-h-screen overflow-y-scroll w-full">
-        <TopNavBar
+        <AdminTopNavBar
           handleToggleSideBar={toggleSideBar}
           handlePopUp={togglePopUp}
           showMorePopUp={showMorePopUp}
         />
-
         <section
           className=" px-8 pb-16"
           onClick={() => setShowMorePopUp(false)}

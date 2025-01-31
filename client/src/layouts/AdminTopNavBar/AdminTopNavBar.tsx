@@ -11,12 +11,12 @@ type TopNavBarProp = {
   handlePopUp?: () => void;
   showMorePopUp?: boolean;
 };
-function TopNavBar({
+function AdminTopNavBar({
   handleToggleSideBar,
   handlePopUp,
   showMorePopUp,
 }: TopNavBarProp) {
-  // const { currentUser } = useCurrentUser();
+  const { currentUser } = useCurrentUser();
   return (
     <nav className=" bg-[#F5F7FA] flex items-center justify-between px-8 h-[114px]  w-full ">
       <div className="flex items-center gap-8">
@@ -32,7 +32,7 @@ function TopNavBar({
         </span>
       </div>
       <div className="flex items-center gap-6 cursor-pointer">
-        <Link to="/announcement" className="flex items-center gap-1">
+        <Link to="/secure/announcement" className="flex items-center gap-1">
           <BellRing className=" cursor-pointer" size={24} />
           <span className=" hidden md:inline-block">Announcement</span>
         </Link>
@@ -61,4 +61,4 @@ function TopNavBar({
   );
 }
 
-export default TopNavBar;
+export default AdminTopNavBar;

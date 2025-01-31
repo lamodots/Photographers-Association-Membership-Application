@@ -7,6 +7,7 @@ type InputProp = React.InputHTMLAttributes<HTMLInputElement> & {
   value?: string;
   className?: string;
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  props?: React.HTMLInputTypeAttribute;
 };
 function TextInput({
   type,
@@ -16,9 +17,11 @@ function TextInput({
   value,
   handleInputChange,
   className,
+  ...props
 }: InputProp) {
   return (
     <input
+      {...props}
       accept={accept}
       type={type}
       placeholder={placeholderText}

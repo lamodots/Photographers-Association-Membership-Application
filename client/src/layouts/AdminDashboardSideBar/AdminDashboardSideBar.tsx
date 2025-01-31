@@ -22,9 +22,14 @@ function AdminDashboardSideBar({ handleToggleSideBar }: DashboardSideBarProp) {
         className="relative left-6 mt-8 md:hidden"
         onClick={handleToggleSideBar}
       />
-      <div className="brand py-8 px-6 mb-8 flex items-center border-b-2 border-b-[#C4DCF3] gap-3">
-        <BrandLogo color="#F5F7FA" />
-        <span className="text-2xl text-[#F5F7FA] font-bold">
+      <div className="brand py-8 px-6 mb-8  border-b-2 border-b-[#C4DCF3] ">
+        <div className="flex items-center gap-3">
+          <BrandLogo color="#F5F7FA" />
+          <span className="text-2xl text-[#F5F7FA] font-bold">
+            {appData ? appData?.appname_acronym : "Band"}
+          </span>
+        </div>
+        <span className="text-xs text-[#F5F7FA] font-bold">
           {appData ? appData?.appname : "Band"}
         </span>
       </div>

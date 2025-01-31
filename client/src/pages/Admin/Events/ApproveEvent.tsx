@@ -75,7 +75,7 @@ function ApproveEvent() {
         throw new Error(" Error fetching data");
       }
       const { applicants } = await res.json();
-      console.log("all", applicants);
+
       setEventApplicants(applicants);
     } catch (err) {
       return toast.error("Something went wrong");
@@ -194,7 +194,7 @@ function ApproveEvent() {
                       <thead className="bg-gray-100 text-gray-700 uppercase">
                         <tr>
                           <th className="border border-slate-300 px-4 py-2">
-                            Full Name
+                            Applicant Full Name
                           </th>
                           <th className="border border-slate-300 px-4 py-2">
                             Email
@@ -202,9 +202,9 @@ function ApproveEvent() {
                           <th className="border border-slate-300 px-4 py-2">
                             Phone Number
                           </th>
-                          <th className="border border-slate-300 px-4 py-2">
+                          {/* <th className="border border-slate-300 px-4 py-2">
                             WhatsApp Number
-                          </th>
+                          </th> */}
                           <th className="border border-slate-300 px-4 py-2">
                             Number of family members attending
                           </th>
@@ -224,9 +224,9 @@ function ApproveEvent() {
                           <td className="border border-slate-300 px-4 py-2">
                             {applicant.phone_number}
                           </td>
-                          <td className="border border-slate-300 px-4 py-2">
+                          {/* <td className="border border-slate-300 px-4 py-2">
                             {applicant.whatsapp_number}
-                          </td>
+                          </td> */}
                           <td className="border border-slate-300 px-4 py-2">
                             {applicant.number_of_family_members}
                           </td>

@@ -177,3 +177,25 @@ The goal is to understand your vision, validate compatibility, align expectation
 # build script before dependency issue
 
 `"build": "npm install &&  npm --prefix client install && npm run build --prefix client",`
+
+if (process.env.NODE_ENV === "production") {
+const **dirname = path.resolve();
+app.use(express.static(path.join(**dirname, "client", "build")));
+app.use(
+"/uploads",
+express.static(path.join(\_\_dirname, "client", "public", "uploads"))
+);
+
+app.get("\*", (req, res) =>
+res.sendFile(path.resolve(**dirname, "client", "build", "index.html"))
+);
+} else {
+app.use(
+"/uploads",
+express.static(path.join(**dirname, "client", "public", "uploads"))
+);
+
+app.get("/", (req, res) => {
+res.json({ message: "Welcome to the MembershipCMS backend API" });
+});
+}

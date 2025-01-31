@@ -19,6 +19,7 @@ const options = [
 
 interface ValuesProps {
   appname: string;
+  appname_acronym: string;
   paymentapi: string;
   whatsappapi: string;
   pagelink: string[];
@@ -38,8 +39,15 @@ function Settings() {
     appname: Yup.string()
       .trim()
       .max(
-        8,
-        "Application name must be a string with a maximum of 8 characters"
+        150,
+        "Application name must be a string with a maximum of 150 characters"
+      )
+      .required("Application name is required"),
+    appname_acronym: Yup.string()
+      .trim()
+      .max(
+        4,
+        "Application name acronym must be a string with a maximum of 4 characters"
       )
       .required("Application name is required"),
     paymentapi: Yup.string().required("API key is required.").trim(),
@@ -51,6 +59,7 @@ function Settings() {
 
   const initialValues: ValuesProps = {
     appname: appData?.appname || "",
+    appname_acronym: appData?.appname_acronym || "",
     paymentapi: appData?.paymentapi || "",
     whatsappapi: appData?.whatsappapi || "",
     pagelink: [],
@@ -96,6 +105,7 @@ function Settings() {
       const formData = new FormData();
 
       formData.append("appname", values.appname);
+      formData.append("appname_acronym", values.appname_acronym);
       formData.append("paymentapi", values.paymentapi);
       formData.append("whatsappapi", values.whatsappapi);
       formData.append("applogo", values.applogo as File);
@@ -151,22 +161,41 @@ function Settings() {
             }) => (
               <form onSubmit={handleSubmit} encType="multipart/form-data">
                 <div className="flex flex-col gap-6">
-                  <div className=" space-y-2">
-                    <Lable
-                      label="Customize Application name *"
-                      className=" text-xs"
-                    />
-                    <TextInput
-                      type="text"
-                      placeholderText="Enter application name"
-                      name="appname"
-                      value={values.appname}
-                      handleInputChange={handleChange}
-                      className="w-full"
-                    />
-                    <span className="text-[10px] text-red-400">
-                      {errors.appname && errors.appname}
-                    </span>
+                  <div className=" space-x-2 grid grid-cols-[8fr_4fr] items-center">
+                    <div>
+                      <Lable
+                        label="Customize Application full name *"
+                        className=" text-xs"
+                      />
+                      <TextInput
+                        type="text"
+                        placeholderText="Enter application name"
+                        name="appname"
+                        value={values.appname}
+                        handleInputChange={handleChange}
+                        className="w-full"
+                      />
+                      <span className="text-[10px] text-red-400">
+                        {errors.appname && errors.appname}
+                      </span>
+                    </div>
+                    <div>
+                      <Lable
+                        label="Customize Application acronym  *"
+                        className=" text-xs"
+                      />
+                      <TextInput
+                        type="text"
+                        placeholderText="Enter application acronym "
+                        name="appname_acronym"
+                        value={values.appname_acronym}
+                        handleInputChange={handleChange}
+                        className="w-full"
+                      />
+                      <span className="text-[10px] text-red-400">
+                        {errors.appname_acronym && errors.appname_acronym}
+                      </span>
+                    </div>
                   </div>
                   <div className=" space-y-2">
                     <Lable

@@ -4,6 +4,7 @@ import { Link, NavLink } from "react-router-dom";
 import Icon from "../../components/Icon/Icon";
 import { userDashboardMenus } from "../../util/menus/menus";
 import { SidebarCloseIcon } from "lucide-react";
+import useFetchAppData from "../../hooks/useFetchAppData";
 
 type MemberDashboardSideBarProp = {
   handleToggleSideBar: () => void;
@@ -12,15 +13,24 @@ type MemberDashboardSideBarProp = {
 function MemberDashboardSideBar({
   handleToggleSideBar,
 }: MemberDashboardSideBarProp) {
+  const { appData } = useFetchAppData();
   return (
     <aside className=" fixed overflow-y-auto pb-8  z-50 shadow-lg bg-[#F5F7FA] border-r-2 border-r-[#C4DCF3] md:static md:z-0 md:shadow-none   transition ease-in-out delay-150 duration-300 w-[240px]  md:w-[296px] h-full">
       <SidebarCloseIcon
         className="relative left-6 mt-8 md:hidden"
         onClick={handleToggleSideBar}
       />
-      <div className="brand py-8 px-6 mb-8 flex items-center border-b-2 border-b-[#C4DCF3] gap-3">
-        <BrandLogo />
-        <span className="text-2xl text-[#1A4F83] font-bold">Brand</span>
+
+      <div className="brand py-8 px-6 mb-8  border-b-2 border-b-[#C4DCF3] ">
+        <div className="flex items-center gap-3">
+          <BrandLogo color="#1A4F83" />
+          <span className="text-2xl text-[#1A4F83] font-bold">
+            {appData ? appData?.appname_acronym : "Band"}
+          </span>
+        </div>
+        <span className="text-xs text-[#1A4F83] font-bold">
+          {appData ? appData?.appname : "Band"}
+        </span>
       </div>
       <div className="  px-6 links flex flex-col gap-6">
         {userDashboardMenus.map((menu) => (
