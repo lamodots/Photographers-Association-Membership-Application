@@ -61,7 +61,7 @@ function EventDetails() {
 
   useEffect(() => {
     getAnnoucement();
-  }, []);
+  }, [id]);
 
   return (
     <div>

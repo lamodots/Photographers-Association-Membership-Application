@@ -66,7 +66,6 @@ function EventDetails() {
     navigate(-1);
   };
 
-  console.log(annoucementData);
   async function getAnnoucement() {
     try {
       setIsLoading(true);

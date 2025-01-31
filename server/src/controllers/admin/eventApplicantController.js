@@ -56,7 +56,7 @@ exports.approveApplicant = async (req, res, next) => {
       applicant,
     });
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(400).json({ ok: false, message: error.message });
   }
 };
 

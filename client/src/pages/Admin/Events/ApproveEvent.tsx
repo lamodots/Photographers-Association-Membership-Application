@@ -91,7 +91,7 @@ function ApproveEvent() {
   async function handleSubmit(applicationId: string) {
     try {
       setLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 300));
+      await new Promise((resolve) => setTimeout(resolve, 100));
       const res = await fetch(
         `${API_URL}/api/v1/secure/events/applicants/${applicationId}/m/approve`,
         {
@@ -103,8 +103,13 @@ function ApproveEvent() {
         }
       );
 
+      // if (!res.ok) {
+      //   return toast.error("Failed to approve this application!");
+      // }
+
       if (!res.ok) {
-        return toast.error("Failed to approve this application!");
+        const errorResponse = await res.json();
+        throw new Error(errorResponse.message || "Approval failed");
       }
 
       const { message, applicant } = await res.json();
@@ -118,7 +123,7 @@ function ApproveEvent() {
         )
       );
     } catch (error) {
-      return toast.error("Failed, something went wrong");
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -173,10 +178,10 @@ function ApproveEvent() {
                         Approved
                       </small>
                     )}
-                    <button className="flex items-center border border-slate-950 rounded-lg px-2 h-8">
+                    {/* <button className="flex items-center border border-slate-950 rounded-lg px-2 h-8">
                       Delete
                       <Trash />
-                    </button>
+                    </button> */}
                     <button
                       className="cursor-pointer"
                       onClick={() => handleShow(applicant._id)}

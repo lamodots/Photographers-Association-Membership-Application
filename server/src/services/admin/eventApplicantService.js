@@ -25,6 +25,7 @@ exports.approveApplicantService = async (applicantId) => {
   applicant.barCode = `https://api.qrserver.com/v1/create-qr-code/?data=${applicant._id}`;
   applicant.isapproved = true;
   await applicant.save();
+  console.log(applicant);
   return { applicant };
 };
 
