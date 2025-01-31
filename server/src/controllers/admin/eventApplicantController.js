@@ -13,6 +13,7 @@ const sgMail = require("@sendgrid/mail");
 const { sendEmailSendGridServices } = require("../../config");
 const { sendGridEmailTemplate } = require("../../utils");
 const { default: mongoose } = require("mongoose");
+const ApplicantModel = require("../../models/admin/eventApplicantModel");
 
 exports.createApplicant = async (req, res, next) => {
   const {
@@ -32,6 +33,12 @@ exports.createApplicant = async (req, res, next) => {
     !event
   ) {
     return next(new BadRequestError("Fileds must me filled!"));
+  }
+
+  const isAnApplicant = await ApplicantModel.findOne({ email: email });
+  console.log("IS APPLICANT", isAnApplicant);
+  if (isAnApplicant) {
+    return next(new BadRequestError("Applicant already registered!"));
   }
   try {
     const applicant = await createApplicantService(req.body);

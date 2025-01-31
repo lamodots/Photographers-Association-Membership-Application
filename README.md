@@ -199,3 +199,8 @@ app.get("/", (req, res) => {
 res.json({ message: "Welcome to the MembershipCMS backend API" });
 });
 }
+
+// Final Test second test
+// Iterations
+
+1 User can only apply for 1 event

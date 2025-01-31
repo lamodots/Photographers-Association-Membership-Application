@@ -507,6 +507,7 @@ function RegisterEvent() {
         credentials: "include",
       });
       const result = await res.json();
+
       if (res.ok) {
         toast.success("Registration successful! Check your email.");
 
@@ -520,7 +521,9 @@ function RegisterEvent() {
         });
         setAttendees([]); // Clear all attendees
       } else {
-        toast.error(result.error || "An error occurred during registration.");
+        toast.error(
+          result.message || result.error || "Applicant already registered!"
+        );
       }
     } catch (error: any) {
       console.log(error.message);
