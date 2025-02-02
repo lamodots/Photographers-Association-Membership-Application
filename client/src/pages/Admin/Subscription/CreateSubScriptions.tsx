@@ -8,7 +8,9 @@ import Select from "react-select";
 import { Oval } from "react-loader-spinner";
 import useWordCount from "../../../hooks/useWordCount";
 import toast from "react-hot-toast";
-const API_URL = process.env.REACT_APP_CLIENT_URL;
+const API_URL =
+  process.env.REACT_APP_CLIENT_URL ||
+  "http://membership-application-cms.onrender.com";
 
 interface ValuesProps {
   title: string;

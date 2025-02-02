@@ -9,7 +9,9 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { Oval } from "react-loader-spinner";
 
-const API_URL = process.env.REACT_APP_CLIENT_URL;
+const API_URL =
+  process.env.REACT_APP_CLIENT_URL ||
+  "http://membership-application-cms.onrender.com";
 
 const options = [
   { value: "content", label: "Content" },

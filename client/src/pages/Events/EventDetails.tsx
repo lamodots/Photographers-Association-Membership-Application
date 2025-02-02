@@ -17,7 +17,7 @@ import Button from "../../components/Button/Button";
 import { dateFormater } from "../../util/DateFormater";
 import FeaturedEvents from "../../components/FeaturedEvents/FeaturedEvents";
 
-const API_URL = process.env.REACT_APP_CLIENT_URL;
+const API_URL = "http://membership-application-cms.onrender.com";
 interface AnnouncementProps {
   _id: string;
   title: string;
@@ -74,7 +74,7 @@ function EventDetails() {
           <section className="p-6">
             <Suspense fallback={<FallbackLoadingComponent />}>
               <header className="mb-8">
-                <div className="h-[400px] flex items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-500 rounded-lg to-pink-500 mb-6">
+                <div className=" md:h-[512px] flex items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-500 rounded-lg to-pink-500 mb-6">
                   <img
                     className=" rounded-lg  w-full max-w-[940px] h-full"
                     src={`${annoucementData?.photoImage}`}

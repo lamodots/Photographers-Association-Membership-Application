@@ -10,7 +10,9 @@ import useWordCount from "../../../hooks/useWordCount";
 import { formatTimeWithAmPm } from "../../../util/formatTimeWithAMPM";
 import { useNavigate, useParams } from "react-router-dom";
 
-const API_URL = process.env.REACT_APP_CLIENT_URL;
+const API_URL =
+  process.env.REACT_APP_CLIENT_URL ||
+  "http://membership-application-cms.onrender.com";
 
 interface EventProps {
   title: string;

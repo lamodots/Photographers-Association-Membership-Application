@@ -7,7 +7,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Oval } from "react-loader-spinner";
 import toast from "react-hot-toast";
 
-const API_URL = process.env.REACT_APP_CLIENT_URL;
+const API_URL =
+  process.env.REACT_APP_CLIENT_URL ||
+  "http://membership-application-cms.onrender.com";
 interface AttendeesInfo {
   attendee_full_name: string;
   _id: string;
@@ -89,49 +91,53 @@ function ApproveEvent() {
 
   // approave their application usin the approave resources.
   async function handleSubmit(applicationId: string) {
-    try {
-      setLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 100));
-      const res = await fetch(
-        `${API_URL}/api/v1/secure/events/applicants/${applicationId}/m/approve`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
+    if (window.confirm("Do you want to approve this event  ? ")) {
+      try {
+        setLoading(true);
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        const res = await fetch(
+          `${API_URL}/api/v1/secure/events/applicants/${applicationId}/m/approve`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          }
+        );
+
+        // if (!res.ok) {
+        //   return toast.error("Failed to approve this application!");
+        // }
+
+        if (!res.ok) {
+          const errorResponse = await res.json();
+          throw new Error(errorResponse.message || "Approval failed");
         }
-      );
 
-      // if (!res.ok) {
-      //   return toast.error("Failed to approve this application!");
-      // }
-
-      if (!res.ok) {
-        const errorResponse = await res.json();
-        throw new Error(errorResponse.message || "Approval failed");
+        const { message, applicant } = await res.json();
+        toast.success(message);
+        // Update the state here. Reason been that the applicant list do not update afer approval.
+        setEventApplicants((prevApplicants) =>
+          prevApplicants.map((app) =>
+            app._id === applicant?._id
+              ? { ...app, isapproved: applicant.isapproved }
+              : app
+          )
+        );
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
       }
-
-      const { message, applicant } = await res.json();
-      toast.success(message);
-      // Update the state here. Reason been that the applicant list do not update afer approval.
-      setEventApplicants((prevApplicants) =>
-        prevApplicants.map((app) =>
-          app._id === applicant?._id
-            ? { ...app, isapproved: applicant.isapproved }
-            : app
-        )
-      );
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
+    } else {
+      toast.error("Event Approval cancelled!");
     }
   }
   return (
     <main className="space-y-6">
       {/* Search Input */}
-      <div className="flex justify-between items-center">
+      <div className="flex gap-8 md:gap-0 justify-between items-center">
         <button className="flex space-x-2" onClick={handleBackClick}>
           {" "}
           <ChevronLeft />
@@ -141,7 +147,7 @@ function ApproveEvent() {
           type="text"
           placeholderText="Search Applicant by email"
           handleInputChange={(e) => setSearchQuery(e.target.value)}
-          className="w-1/3"
+          className="w-full md:w-1/3"
         />
       </div>
 
@@ -193,9 +199,9 @@ function ApproveEvent() {
 
                 {/* Show Application Info */}
                 {isShow[applicant._id] && (
-                  <div className="bg-white shadow rounded px-2 py-4 space-y-6">
+                  <div className="overflow-x-scroll md:overflow-x-auto bg-white shadow rounded px-2 py-4 space-y-6">
                     <h2>Registered Details</h2>
-                    <table className="border-collapse border border-slate-400 table-auto w-full text-sm text-left text-gray-500">
+                    <table className="  border-collapse border border-slate-400 table-auto w-full text-sm text-left text-gray-500">
                       <thead className="bg-gray-100 text-gray-700 uppercase">
                         <tr>
                           <th className="border border-slate-300 px-4 py-2">

@@ -3,7 +3,9 @@ import SubscriptionCard from "../../../components/Admin-Components/SubScriptionC
 import { Link } from "react-router-dom";
 import { resolve } from "path";
 import { Oval } from "react-loader-spinner";
-const API_URL = process.env.REACT_APP_CLIENT_URL;
+const API_URL =
+  process.env.REACT_APP_CLIENT_URL ||
+  "http://membership-application-cms.onrender.com";
 
 interface ValuesProps {
   _id: string;

@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 
-const API_URL = process.env.REACT_APP_CLIENT_URL;
+const API_URL =
+  process.env.REACT_APP_CLIENT_URL ||
+  "http://membership-application-cms.onrender.com";
 
 interface ValuesProps {
   appname: string;

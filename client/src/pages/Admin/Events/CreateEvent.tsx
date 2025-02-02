@@ -9,7 +9,9 @@ import Button from "../../../components/Button/Button";
 import useWordCount from "../../../hooks/useWordCount";
 import { formatTimeWithAmPm } from "../../../util/formatTimeWithAMPM";
 
-const API_URL = process.env.REACT_APP_CLIENT_URL;
+const API_URL =
+  process.env.REACT_APP_CLIENT_URL ||
+  "http://membership-application-cms.onrender.com";
 
 interface EventProps {
   title: string;

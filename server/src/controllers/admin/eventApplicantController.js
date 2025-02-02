@@ -14,6 +14,8 @@ const { sendEmailSendGridServices } = require("../../config");
 const { sendGridEmailTemplate } = require("../../utils");
 const { default: mongoose } = require("mongoose");
 const ApplicantModel = require("../../models/admin/eventApplicantModel");
+const axios = require("axios");
+// const fetch = require("node-fetch");
 
 exports.createApplicant = async (req, res, next) => {
   const {
@@ -57,6 +59,45 @@ exports.approveApplicant = async (req, res, next) => {
 
     const msg = sendGridEmailTemplate(applicant);
     await sendEmailSendGridServices(msg);
+
+    // Prepare WhatsApp message
+    const whatsappMsg = `
+Your ticket is ready! 🎉\n\n
+  Dear ${applicant.full_name} \n
+Your ticket to the' ${applicant.event.title} has been reserved and we are excited to have you join us for this immersive experience! \n\n
+Applicant Info:\n
+Name: ${applicant.full_name}\n
+Email: ${applicant.email}\n
+Phone Number: ${applicant.phone_number}\n\n
+
+Event Info:\n
+Event: ${applicant.event.title}\n
+Time: ${applicant.event.time} \n
+Phone Number: ${applicant.phone_number} \n\n
+
+QR Code: https://api.qrserver.com/v1/create-qr-code/?data=${applicant._id}
+
+`;
+
+    // Send WhatsApp message using Facebook Graph API
+    const response = await axios.post(
+      "https://graph.facebook.com/v18.0/592162563970929/messages",
+      {
+        messaging_product: "whatsapp",
+        recipient_type: "individual",
+        to: `23407060960529`, // Use the applicant's phone number
+        type: "text",
+        text: { body: whatsappMsg },
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.FB_ACCESS_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    console.log("WhatsApp API Response:", response.data);
 
     return res.status(200).json({
       message: "Application approved and email sent",

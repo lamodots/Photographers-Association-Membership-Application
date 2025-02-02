@@ -203,4 +203,8 @@ res.json({ message: "Welcome to the MembershipCMS backend API" });
 // Final Test second test
 // Iterations
 
-1 User can only apply for 1 event
+1 User can only apply for 1 event == Don
+
+https://www.twilio.com/docs/sendgrid/ui/account-and-settings/how-to-set-up-domain-authentication?_gl=1*11qg34m*_gcl_au*MTUxMzUzNDY0My4xNzM4MDg0NzI4*_ga*MTMzNDgwMzgzNy4xNzM2ODczMTA2*_ga_8W5LR442LD*MTczODMzOTg5OC40LjEuMTczODM0MDAzNC4wLjAuMA..
+
+//accountSid: US879be6129ee4fd98dd41f3ba1096b7ae

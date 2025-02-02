@@ -10,7 +10,9 @@ import Button from "../../../components/Button/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { useCurrentUser } from "../../../context/AdminContext";
 
-const API_URL = process.env.REACT_APP_CLIENT_URL;
+const API_URL =
+  process.env.REACT_APP_CLIENT_URL ||
+  "http://membership-application-cms.onrender.com";
 
 interface ValuesProps {
   email: string;

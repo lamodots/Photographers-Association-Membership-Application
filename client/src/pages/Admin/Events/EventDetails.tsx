@@ -19,7 +19,9 @@ import Button from "../../../components/Button/Button";
 import { dateFormater } from "../../../util/DateFormater";
 import { useCurrentUser } from "../../../context/AdminContext";
 
-const API_URL = process.env.REACT_APP_CLIENT_URL;
+const API_URL =
+  process.env.REACT_APP_CLIENT_URL ||
+  "http://membership-application-cms.onrender.com";
 
 interface AnnouncementProps {
   _id: string;
@@ -246,9 +248,9 @@ function EventDetails() {
 
             <Suspense fallback={<FallbackLoadingComponent />}>
               <header className="mb-8">
-                <div className=" h-40 md:h-[360px] flex items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-500 rounded-lg to-pink-500 mb-6">
+                <div className=" md:h-[512px] flex items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-500 rounded-lg to-pink-500 mb-6 overflow-hidden">
                   <img
-                    className=" rounded-lg  w-full max-w-[940px] h-full"
+                    className=" rounded-lg  w-full max-w-[940px] h-full "
                     src={`${annoucementData?.photoImage}`}
                     alt={annoucementData?.title}
                   />
@@ -256,7 +258,7 @@ function EventDetails() {
                 <small className="font-semibold">
                   {dateFormater(annoucementData?.startDate)}
                 </small>
-                <h1 className="text-4xl font-bold mb-4 text-shark-950 capitalize">
+                <h1 className=" text-2xl md:text-4xl font-bold mb-4 text-shark-950 capitalize">
                   {annoucementData?.title}
                 </h1>
                 <div className="mb-2">
