@@ -27,7 +27,7 @@ function attachCookiesToResponse(res, user) {
     secure: process.env.NODE_ENV === "production",
     signed: true,
 
-    sameSite: "Strict",
+    // sameSite: "Strict",
     sameSite: "None",
   });
 }
