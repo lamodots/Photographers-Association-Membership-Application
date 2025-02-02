@@ -13,7 +13,8 @@ import { FreeMode, Pagination } from "swiper/modules";
 import AnnouncementList from "../AnnouncementsList/AnnouncementList";
 import { Link } from "react-router-dom";
 import { dateFormater } from "../../util/DateFormater";
-const API_URL = process.env.REACT_APP_CLIENT_URL;
+// const API_URL = process.env.REACT_APP_CLIENT_URL;
+const API_URL = "https://membership-application-cms.onrender.com";
 interface EventsProps {
   _id: string;
   title: string;

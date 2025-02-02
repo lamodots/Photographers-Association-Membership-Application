@@ -28,6 +28,7 @@ function attachCookiesToResponse(res, user) {
     signed: true,
 
     sameSite: "Strict",
+    sameSite: "None",
   });
 }
 

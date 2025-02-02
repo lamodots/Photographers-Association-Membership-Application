@@ -5,9 +5,8 @@ import { Oval } from "react-loader-spinner";
 import { QrReader } from "react-qr-reader";
 import { useNavigate, useParams } from "react-router-dom";
 
-const API_URL =
-  process.env.REACT_APP_CLIENT_URL ||
-  "http://membership-application-cms.onrender.com";
+// const API_URL = process.env.REACT_APP_CLIENT_URL;
+const API_URL = "https://membership-application-cms.onrender.com";
 
 interface AttendeesInfo {
   attendee_full_name: string;

@@ -10,7 +10,7 @@ import { Oval } from "react-loader-spinner";
 
 import SwipperCarosuel from "../../components/Swipper/Swipper";
 
-const API_URL = "http://membership-application-cms.onrender.com";
+const API_URL = "https://membership-application-cms.onrender.com";
 interface AnnouncementProps {
   _id: string;
   title: string;

@@ -16,9 +16,8 @@ const NewMemberCard = lazy(
     import("../../../components/Admin-Components/NewMemberCard/NewMemberCard")
 );
 
-const API_URL =
-  process.env.REACT_APP_CLIENT_URL ||
-  "http://membership-application-cms.onrender.com";
+// const API_URL = process.env.REACT_APP_CLIENT_URL;
+const API_URL = "https://membership-application-cms.onrender.com";
 type SocialLink = {
   facebook?: string;
   linkedIn?: string;

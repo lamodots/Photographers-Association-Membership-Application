@@ -8,9 +8,8 @@ import { useLocation, useParams } from "react-router-dom";
 import { dateFormater } from "../../../util/DateFormater";
 import { Calendar, Locate } from "lucide-react";
 
-const API_URL =
-  process.env.REACT_APP_CLIENT_URL ||
-  "http://membership-application-cms.onrender.com";
+// const API_URL = process.env.REACT_APP_CLIENT_URL;
+const API_URL = "https://membership-application-cms.onrender.com";
 
 // Define types for form values and attendees
 interface FormValues {
