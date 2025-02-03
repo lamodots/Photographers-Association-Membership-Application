@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 
 // const API_URL = process.env.REACT_APP_CLIENT_URL;
 const API_URL = "https://membership-application-cms.onrender.com";
+
 interface AttendeesInfo {
   attendee_full_name: string;
   _id: string;

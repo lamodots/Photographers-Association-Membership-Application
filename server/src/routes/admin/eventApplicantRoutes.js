@@ -8,7 +8,7 @@ eventsRoute.post("/applicants", applicantController.createApplicant);
 eventsRoute.put(
   "/applicants/:applicationId/m/approve",
   authenticateUser,
-  authorizaPermissions("admin"),
+  authorizaPermissions("admin", "moderator"),
   applicantController.approveApplicant
 );
 eventsRoute.get(
