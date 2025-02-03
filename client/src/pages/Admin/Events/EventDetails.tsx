@@ -205,24 +205,30 @@ function EventDetails() {
                       </span>
                     </Link>
                   </li>
-                  <li>
-                    <Link
-                      to={`/secure/events/details/${annoucementData?._id}/edit`}
-                    >
-                      <span className="flex items-center text-sm cursor-pointer font-bold">
-                        <Pencil size={24} /> Edit
-                      </span>
-                    </Link>
-                  </li>
-                  <li>
-                    <button
-                      className="flex items-center cursor-pointer text-sm text-red-300  py-1 rounded-lg font-medium"
-                      onClick={() => handleDelete(annoucementData?._id)}
-                    >
-                      <Trash className="text-red-300" size={24} />
-                      <span>Delete</span>
-                    </button>
-                  </li>
+                  {currentUser?.user.role === "admin" ? (
+                    <>
+                      <li>
+                        <Link
+                          to={`/secure/events/details/${annoucementData?._id}/edit`}
+                        >
+                          <span className="flex items-center text-sm cursor-pointer font-bold">
+                            <Pencil size={24} /> Edit
+                          </span>
+                        </Link>
+                      </li>
+                      <li>
+                        <button
+                          className="flex items-center cursor-pointer text-sm text-red-300  py-1 rounded-lg font-medium"
+                          onClick={() => handleDelete(annoucementData?._id)}
+                        >
+                          <Trash className="text-red-300" size={24} />
+                          <span>Delete</span>
+                        </button>
+                      </li>
+                    </>
+                  ) : (
+                    ""
+                  )}
                 </ul>
               </div>
             )}
