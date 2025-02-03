@@ -39,6 +39,16 @@ exports.nodeMailerEmailTemplate = async (applicant) => {
  usage const msg = sendGridEmailTemplate(object value)
  ***/
 exports.sendGridEmailTemplate = (applicant) => {
+  const familyMembers = applicant.attendees
+    ? applicant.attendees
+        .map((fam) => {
+          {
+            fam.attendee_full_name;
+          }
+        })
+        .join(", ")
+    : "None";
+  console.log(familyMembers);
   const msg = {
     from: `"Kerala Samajam Nigeria" <ksn@membersng.com>`,
     to: applicant.email,
@@ -53,6 +63,8 @@ exports.sendGridEmailTemplate = (applicant) => {
                      <li>Email: ${applicant.email}</li>
                      <li>Phone Number: ${applicant.phone_number}</li>
                    </ul>
+                   <p><b>Family member's Info:</b></p>
+                    ${familyMembers}
                     <p><b>Event Info:</b></p>
                     <ul>
                      <li>Event: ${applicant.event.title}</li>

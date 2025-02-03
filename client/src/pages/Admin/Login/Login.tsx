@@ -69,7 +69,7 @@ function Login() {
         toast.error(errorData.msg || "An error occurred. Please try again.");
       }
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error("Something went wrong! Check your connection");
     } finally {
       setSubmitting(false);
     }

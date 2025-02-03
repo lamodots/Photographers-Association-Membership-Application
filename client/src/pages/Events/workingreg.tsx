@@ -39,13 +39,6 @@ function RegisterEvent() {
   const location = useLocation();
   const { annoucementData: eventData } = location.state;
 
-  // Validate that the input contains only letters and spaces (or is empty)
-  const validateName = (name: string): boolean => {
-    if (name === "") return true; // Allow empty strings
-    const regex = /^[A-Za-z\s]+$/; // Only letters and spaces allowed
-    return regex.test(name);
-  };
-
   // Handle changes in form inputs
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
@@ -54,12 +47,6 @@ function RegisterEvent() {
 
   // Handle changes in attendee names
   const handleAttendeeChange = (id: number, value: string): void => {
-    if (value !== "" && !validateName(value)) {
-      toast.error(
-        "Family member names cannot contain numbers or special characters."
-      );
-      return;
-    }
     setAttendees((prevAttendees) =>
       prevAttendees.map((attendee) =>
         attendee.id === id ? { ...attendee, name: value } : attendee
@@ -90,6 +77,77 @@ function RegisterEvent() {
     toast.success("Family member removed!"); // Feedback for user
   };
 
+  // // Handle form submission
+  // const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+
+  //   // Validate personal information fields
+  //   if (!formValues.fullname.trim()) {
+  //     toast.error("Please enter your full name.");
+  //     return;
+  //   }
+  //   if (!formValues.email.trim()) {
+  //     toast.error("Please enter your email address.");
+  //     return;
+  //   }
+  //   if (!formValues.phone.trim()) {
+  //     toast.error("Please enter your phone number.");
+  //     return;
+  //   }
+
+  //   // Validate attendee names
+  //   for (const attendee of attendees) {
+  //     if (!attendee.name.trim()) {
+  //       toast.error("Please fill in all family member names.");
+  //       return;
+  //     }
+  //   }
+
+  //   try {
+  //     const attendeeCount = parseInt(formValues.number || "0", 10);
+
+  //     if (attendees.length !== attendeeCount) {
+  //       toast.error(
+  //         "Number of attendees does not match the number of attendee names provided."
+  //       );
+  //       return;
+  //     }
+
+  //     const formData = {
+  //       full_name: formValues.fullname,
+  //       email: formValues.email,
+  //       phone_number: formValues.phone,
+  //       whatsapp_number: formValues.whatsappphone,
+  //       number_of_family_members: formValues.number,
+  //       attendees: attendees.map((attendee) => ({
+  //         attendee_full_name: attendee.name,
+  //       })),
+  //       event: eventId,
+  //     };
+
+  //     setIsSubmitting(true);
+  //     await new Promise((resolve) => setTimeout(resolve, 1500));
+  //     const res = await fetch(`${API_URL}/api/v1/secure/events/applicants`, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify(formData),
+  //       credentials: "include",
+  //     });
+  //     const result = await res.json();
+  //     if (res.ok) {
+  //       toast.success("Registration successful! Check your email.");
+  //     } else {
+  //       toast.error(result.error || "An error occurred during registration.");
+  //     }
+  //   } catch (error: any) {
+  //     console.log(error.message);
+  //   } finally {
+  //     setIsSubmitting(false);
+  //     formValues.email = "";
+  //     formValues.fullname = "";
+  //     formValues.phone = "";
+  //   }
+  // };
   // Handle form submission
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -112,12 +170,6 @@ function RegisterEvent() {
     for (const attendee of attendees) {
       if (!attendee.name.trim()) {
         toast.error("Please fill in all family member names.");
-        return;
-      }
-      if (!validateName(attendee.name)) {
-        toast.error(
-          "Family member names cannot contain numbers or special characters."
-        );
         return;
       }
     }
@@ -177,7 +229,6 @@ function RegisterEvent() {
       setIsSubmitting(false);
     }
   };
-
   return (
     <div className="p-6 max-w-4xl mx-auto bg-zinc-50 rounded-lg shadow-sm font-sans">
       <header className="mb-8">
@@ -302,21 +353,18 @@ function RegisterEvent() {
             {attendees.length > 0 && (
               <div className="space-y-6">
                 {attendees.map((attendee) => (
-                  <div key={attendee.id} className="flex items-end gap-4">
-                    <div className="w-1/2">
-                      <Lable label="Enter family member's name" />
-                      <TextInput
-                        type="text"
-                        name={`attendee-${attendee.id}`}
-                        placeholderText="Enter family member's name"
-                        value={attendee.name}
-                        handleInputChange={(e) =>
-                          handleAttendeeChange(attendee.id, e.target.value)
-                        }
-                        className="w-full"
-                        required
-                      />
-                    </div>
+                  <div key={attendee.id} className="flex items-center gap-4">
+                    <TextInput
+                      type="text"
+                      name={`attendee-${attendee.id}`}
+                      placeholderText="Enter family member's name"
+                      value={attendee.name}
+                      handleInputChange={(e) =>
+                        handleAttendeeChange(attendee.id, e.target.value)
+                      }
+                      className="w-1/2"
+                      required
+                    />
                     <Button
                       text="Remove"
                       type="button"
