@@ -8,7 +8,7 @@ interface TopStatsProps {
 }
 function TopStats({ title, stats, icon }: TopStatsProps) {
   return (
-    <div className="w-full flex gap-2">
+    <div className="w-full  flex gap-2">
       {icon}
       <div>
         <h3 className="text-[#1A4F83] text-sm">{title}</h3>

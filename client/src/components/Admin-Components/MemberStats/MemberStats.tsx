@@ -3,7 +3,7 @@ import React from "react";
 
 function MemberStats() {
   return (
-    <div className="flex gap-4 w-full bg-[#F5F7FA] px-8 py-8 rounded-lg">
+    <div className=" flex-col md:flex-row flex gap-4 w-full bg-[#F5F7FA] px-8 py-8 rounded-lg">
       <CircleUser color="#7598BB" />
       <div>
         <h3 className="text-sm text-[#1A4F83] font-bold">All Members</h3>
