@@ -7,7 +7,7 @@ const adminUserRoute = express.Router();
 adminUserRoute.get(
   "/",
   authenticateUser,
-  authorizaPermissions("admin"),
+  authorizaPermissions("admin", "moderator"),
   getUserProfileDetails
 );
 

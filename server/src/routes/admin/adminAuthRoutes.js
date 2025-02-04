@@ -21,7 +21,7 @@ adminRoute.post(
 adminRoute.get(
   "/currentUser",
   authenticateUser,
-  authorizaPermissions("admin"),
+  authorizaPermissions("admin", "moderator"),
   currentUserController
 );
 adminRoute.get("/logout", authenticateUser, logOutController);

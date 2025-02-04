@@ -11,7 +11,8 @@ import { useNavigate } from "react-router-dom";
 import { Oval } from "react-loader-spinner";
 import useWordCount from "../../../hooks/useWordCount";
 
-const API_URL = process.env.REACT_APP_CLIENT_URL;
+// const API_URL = process.env.REACT_APP_CLIENT_URL;
+const API_URL = "https://membership-application-cms.onrender.com";
 const options = [
   { value: "user", label: "User" },
   { value: "admin", label: "Administrator" },

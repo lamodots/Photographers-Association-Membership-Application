@@ -6,8 +6,8 @@ import { FAKE_MEMBERS } from "../../../util/data";
 import { Link, useNavigate } from "react-router-dom";
 import { Oval } from "react-loader-spinner";
 
-const API_URL = process.env.REACT_APP_CLIENT_URL;
-
+// const API_URL = process.env.REACT_APP_CLIENT_URL;
+const API_URL = "https://membership-application-cms.onrender.com";
 type SocialLink = {
   facebook?: string;
   linkedIn?: string;

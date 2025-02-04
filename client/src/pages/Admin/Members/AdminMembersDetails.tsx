@@ -6,8 +6,8 @@ import Avatar from "../../../components/Avatar/Avatar";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { dateFormater } from "../../../util/DateFormater";
 
-const API_URL = process.env.REACT_APP_CLIENT_URL;
-
+// const API_URL = process.env.REACT_APP_CLIENT_URL;
+const API_URL = "https://membership-application-cms.onrender.com";
 type SocialLink = {
   facebook?: string;
   linkedIn?: string;
