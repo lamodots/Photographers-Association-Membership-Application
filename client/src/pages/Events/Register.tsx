@@ -35,6 +35,9 @@ function RegisterEvent() {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSucessful, setIsSucessful] = useState(false);
+  const [isDublicateReg, setIsDublicateReg] = useState(false);
+
   const { id: eventId } = useParams();
   const location = useLocation();
   const { annoucementData: eventData } = location.state;
@@ -156,7 +159,8 @@ function RegisterEvent() {
 
       if (res.ok) {
         toast.success("Registration successful! Check your email.");
-
+        setIsSucessful(true);
+        setIsDublicateReg(false);
         // Reset the form after successful submission
         setFormValues({
           fullname: "",
@@ -170,6 +174,8 @@ function RegisterEvent() {
         toast.error(
           result.message || result.error || "Applicant already registered!"
         );
+        setIsDublicateReg(true);
+        setIsSucessful(false);
       }
     } catch (error: any) {
       console.log(error.message);
@@ -181,7 +187,7 @@ function RegisterEvent() {
   return (
     <div className="p-6 max-w-4xl mx-auto bg-zinc-50 rounded-lg shadow-sm font-sans">
       <header className="mb-8">
-        <div className=" h-1/4 md:h-[360px] flex items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-500 rounded-lg to-pink-500 mb-6">
+        <div className=" h-1/4 md:h-[360px] flex items-center justify-center  rounded-lg bg-white mb-6">
           <img
             className=" rounded-lg  w-full max-w-[940px] h-full"
             src={`${eventData?.photoImage}`}
@@ -348,6 +354,24 @@ function RegisterEvent() {
             )}
           </Button>
         </form>
+        {isSucessful && (
+          <div className="my-8 bg-blue-300 rounded-lg p-6 shadow-lg transition-all  ">
+            <h3 className="font-bold">Registration success!</h3>
+            <p className=" leading-6">
+              Please await confirmation via email, which will include a QR code
+              upon approval from the KSN Treasurer
+            </p>
+          </div>
+        )}
+
+        {isDublicateReg && (
+          <div className="my-8 bg-red-600 rounded-lg p-6 shadow-lg transition-all">
+            <h3 className="font-bold text-white">Error: Duplicate Entry!</h3>
+            <p className=" leading-6 text-white">
+              You have already registered. Please await the confirmation email.
+            </p>
+          </div>
+        )}
       </main>
     </div>
   );

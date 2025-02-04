@@ -74,7 +74,7 @@ function EventDetails() {
           <section className="p-6">
             <Suspense fallback={<FallbackLoadingComponent />}>
               <header className="mb-8">
-                <div className=" md:h-[512px] flex items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-500 rounded-lg to-pink-500 mb-6">
+                <div className=" md:h-[512px] flex items-center justify-center bg-gradient-to-r from-indigo-50 via-purple-50 rounded-lg  mb-6">
                   <img
                     className=" rounded-lg  w-full max-w-[940px] h-full"
                     src={`${annoucementData?.photoImage}`}
@@ -128,7 +128,7 @@ function EventDetails() {
                   <p className="text-shark-600">
                     {annoucementData?.description}
                   </p>
-                  <div className="mt-6 flex items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-500 rounded-lg to-pink-500 mb-6">
+                  <div className="mt-6 flex items-center justify-center bg-gradient-to-r from-indigo-50 via-purple-50 rounded-lg to-pink-50 mb-6">
                     <img
                       className="  w-full max-w-[940px] h-full"
                       src={`${annoucementData?.photoImage}`}

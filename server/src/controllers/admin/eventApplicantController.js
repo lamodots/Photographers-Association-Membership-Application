@@ -60,8 +60,13 @@ exports.approveApplicant = async (req, res, next) => {
     const msg = sendGridEmailTemplate(applicant);
     await sendEmailSendGridServices(msg);
 
-    //     // Prepare WhatsApp message
-    //     const whatsappMsg = `
+    // // Prepare WhatsApp message
+    // const familyMembers =
+    //   applicant.attendees && applicant.attendees.length > 0
+    //     ? applicant.attendees.map((fam) => fam.attendee_full_name).join(", ")
+    //     : "None";
+
+    // const whatsappMsg = `
     // Your ticket is ready! 🎉\n\n
     //   Dear ${applicant.full_name} \n
     // Your ticket to the' ${applicant.event.title} has been reserved and we are excited to have you join us for this immersive experience! \n\n
@@ -69,7 +74,7 @@ exports.approveApplicant = async (req, res, next) => {
     // Name: ${applicant.full_name}\n
     // Email: ${applicant.email}\n
     // Phone Number: ${applicant.phone_number}\n\n
-
+    // Family member's Info: ${familyMembers}
     // Event Info:\n
     // Event: ${applicant.event.title}\n
     // Time: ${applicant.event.time} \n
@@ -79,25 +84,25 @@ exports.approveApplicant = async (req, res, next) => {
 
     // `;
 
-    //     // Send WhatsApp message using Facebook Graph API
-    //     const response = await axios.post(
-    //       "https://graph.facebook.com/v18.0/592162563970929/messages",
-    //       {
-    //         messaging_product: "whatsapp",
-    //         recipient_type: "individual",
-    //         to: `23407060960529`, // Use the applicant's phone number
-    //         type: "text",
-    //         text: { body: whatsappMsg },
-    //       },
-    //       {
-    //         headers: {
-    //           Authorization: `Bearer ${process.env.FB_ACCESS_TOKEN}`,
-    //           "Content-Type": "application/json",
-    //         },
-    //       }
-    //     );
+    // // Send WhatsApp message using Facebook Graph API
+    // const response = await axios.post(
+    //   "https://graph.facebook.com/v18.0/592162563970929/messages",
+    //   {
+    //     messaging_product: "whatsapp",
+    //     recipient_type: "individual",
+    //     to: `${applicant.email}`, // Use the applicant's phone number
+    //     type: "text",
+    //     text: { body: whatsappMsg },
+    //   },
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${process.env.FB_ACCESS_TOKEN}`,
+    //       "Content-Type": "application/json",
+    //     },
+    //   }
+    // );
 
-    //     console.log("WhatsApp API Response:", response.data);
+    // console.log("WhatsApp API Response:", response.data);
 
     return res.status(200).json({
       message: "Application approved and email sent",

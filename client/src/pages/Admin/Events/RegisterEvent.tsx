@@ -364,6 +364,8 @@ function RegisterEvent() {
   const { id: eventId } = useParams();
   const location = useLocation();
   const { annoucementData: eventData } = location.state;
+  const [isSucessful, setIsSucessful] = useState(false);
+  const [isDublicateReg, setIsDublicateReg] = useState(false);
 
   // Validate that the input contains only letters and spaces (or is empty)
   const validateName = (name: string): boolean => {
@@ -481,7 +483,9 @@ function RegisterEvent() {
       const result = await res.json();
 
       if (res.ok) {
-        toast.success("Registration successful! Check your email.");
+        toast.success("Registration successful!  ");
+        setIsSucessful(true);
+        setIsDublicateReg(false);
 
         // Reset the form after successful submission
         setFormValues({
@@ -496,6 +500,8 @@ function RegisterEvent() {
         toast.error(
           result.message || result.error || "Applicant already registered!"
         );
+        setIsDublicateReg(true);
+        setIsSucessful(false);
       }
     } catch (error: any) {
       console.log(error.message);
@@ -674,6 +680,24 @@ function RegisterEvent() {
             )}
           </Button>
         </form>
+        {isSucessful && (
+          <div className="my-8 bg-blue-300 rounded-lg p-6 shadow-lg transition-all  ">
+            <h3 className="font-bold">Registration success!</h3>
+            <p className=" leading-6">
+              Please await confirmation via email, which will include a QR code
+              upon approval from the KSN Treasurer
+            </p>
+          </div>
+        )}
+
+        {isDublicateReg && (
+          <div className="my-8 bg-red-600 rounded-lg p-6 shadow-lg transition-all">
+            <h3 className="font-bold text-white">Error: Duplicate Entry!</h3>
+            <p className=" leading-6 text-white">
+              You have already registered. Please await the confirmation email.
+            </p>
+          </div>
+        )}
       </main>
     </div>
   );
