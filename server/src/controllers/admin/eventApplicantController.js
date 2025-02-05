@@ -37,7 +37,10 @@ exports.createApplicant = async (req, res, next) => {
     return next(new BadRequestError("Fileds must me filled!"));
   }
 
-  const isAnApplicant = await ApplicantModel.findOne({ email: email });
+  const isAnApplicant = await ApplicantModel.findOne({
+    email: email,
+    event: event,
+  });
   console.log("IS APPLICANT", isAnApplicant);
   if (isAnApplicant) {
     return next(new BadRequestError("Applicant already registered!"));
