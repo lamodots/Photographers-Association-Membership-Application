@@ -78,7 +78,7 @@ const IdCard = React.forwardRef<
             />
           </div>
         </div>
-        <div className="text-left mb-2 text-center">
+        <div className="text-left mb-2 ">
           <p className="text-[18px] text-gray-700 leading-none">
             {"firstName" in props.member
               ? props.member.firstName

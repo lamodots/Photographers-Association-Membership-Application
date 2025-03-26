@@ -8,8 +8,8 @@ import toast from "react-hot-toast";
 import { useCurrentUser } from "../../../context/AdminContext";
 import { CountdownTimer } from "../../../util/timer";
 const API_URL = process.env.REACT_APP_CLIENT_URL;
-const publicKey = process.env.REACT_APP_PAYSTACK_PUBLIC_KEY;
-
+const publicKey = process.env.REACT_APP_PAYSTACK_PUBLIC_KEY || "";
+console.log(process.env);
 interface ValuesProps {
   _id: string;
   name: string;
