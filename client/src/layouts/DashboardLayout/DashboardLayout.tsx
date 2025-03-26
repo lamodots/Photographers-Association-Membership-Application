@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import MemberDashboardSideBar from "../MemberDashboardSideBar/MemberDashboardSideBar";
 import TopNavBar from "../TopNavBar/TopNavBar";
 import { Outlet } from "react-router-dom";
@@ -12,6 +12,7 @@ function DashboardLayout() {
   const togglePopUp = () => {
     setShowMorePopUp(!showMorePopUp);
   };
+
   return (
     <div className=" flex w-full h-[auto] min-h-screen">
       {/* {showSideBar && (

@@ -1,8 +1,11 @@
-import React from "react";
+import { Oval } from "react-loader-spinner";
 import useFetchAppData from "../../hooks/useFetchAppData";
 function BrandLogo({ color }: { color?: string }) {
-  const { appData } = useFetchAppData();
+  const { appData, loading } = useFetchAppData();
 
+  if (loading) {
+    return <Oval height={6} width={6} />;
+  }
   return (
     <>
       {appData ? (

@@ -1,10 +1,8 @@
-import React, { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import {
   ChevronLeft,
-  Delete,
   Trash,
   Pencil,
-  Locate,
   Calendar,
   MapPinCheckInside,
   Stamp,
@@ -15,12 +13,10 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import FallbackLoadingComponent from "../../../components/FallbackLoadingComponent/FallbackLoadingComponent";
 import { Oval } from "react-loader-spinner";
 import toast from "react-hot-toast";
-import Button from "../../../components/Button/Button";
 import { dateFormater } from "../../../util/DateFormater";
 import { useCurrentUser } from "../../../context/AdminContext";
 
-// const API_URL = process.env.REACT_APP_CLIENT_URL;
-const API_URL = "https://membership-application-cms.onrender.com";
+const API_URL = process.env.REACT_APP_CLIENT_URL;
 
 interface AnnouncementProps {
   _id: string;

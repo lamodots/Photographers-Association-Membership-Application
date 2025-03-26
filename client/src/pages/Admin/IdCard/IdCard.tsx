@@ -1,5 +1,3 @@
-import React from "react";
-
 function IdCard() {
   return (
     <div className="p-4 max-w-lg mx-auto">

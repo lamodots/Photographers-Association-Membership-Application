@@ -1,6 +1,6 @@
-import React, { Suspense, useEffect, useState } from "react";
-import { ChevronLeft, Delete, Trash, Pencil } from "lucide-react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Suspense, useEffect, useState } from "react";
+import { ChevronLeft } from "lucide-react";
+import { useNavigate, useParams } from "react-router-dom";
 import FallbackLoadingComponent from "../../components/FallbackLoadingComponent/FallbackLoadingComponent";
 import { Oval } from "react-loader-spinner";
 import toast from "react-hot-toast";

@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { FAKE_APPLICANTS } from "../../../util/data";
+import { useEffect, useState } from "react";
 import Button from "../../../components/Button/Button";
-import { ChevronDown, ChevronLeft, Trash } from "lucide-react";
+import { ChevronDown, ChevronLeft } from "lucide-react";
 import TextInput from "../../../components/Input/TextInput";
 import { useNavigate, useParams } from "react-router-dom";
 import { Oval } from "react-loader-spinner";
 import toast from "react-hot-toast";
 
-// const API_URL = process.env.REACT_APP_CLIENT_URL;
-const API_URL = "https://membership-application-cms.onrender.com";
+const API_URL = process.env.REACT_APP_CLIENT_URL;
 
 interface AttendeesInfo {
   attendee_full_name: string;
@@ -48,10 +46,6 @@ function ApproveEvent() {
     }));
   };
 
-  // Filter applicants based on search query
-  // const filteredApplicants = FAKE_APPLICANTS.filter((applicant) =>
-  //   applicant.email.toLowerCase().includes(searchQuery.toLowerCase())
-  // );
   const filteredApplicants = eventApplicants.filter((applicant: any) =>
     applicant.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -161,9 +155,9 @@ function ApproveEvent() {
         ) : (
           <>
             {paginatedApplicants.map((applicant) => (
-              <div key={applicant._id}>
+              <div key={applicant?._id}>
                 <div className="flex justify-between items-center bg-white border border-slate-200 rounded px-2 h-14">
-                  <strong>{applicant.full_name}</strong>
+                  <strong>{applicant?.full_name}</strong>
 
                   <div className="flex items-center space-x-4">
                     {/* <span>
@@ -173,11 +167,11 @@ function ApproveEvent() {
                         </small>
                       )}
                     </span> */}
-                    {!applicant.isapproved ? (
+                    {!applicant?.isapproved ? (
                       <Button
                         text="Approve"
                         className="px-2 h-8"
-                        handleClick={() => handleSubmit(applicant._id)}
+                        handleClick={() => handleSubmit(applicant?._id)}
                       />
                     ) : (
                       <small className=" bg-green-300 px-2 py-1 rounded-full text-xs">
@@ -190,7 +184,7 @@ function ApproveEvent() {
                     </button> */}
                     <button
                       className="cursor-pointer"
-                      onClick={() => handleShow(applicant._id)}
+                      onClick={() => handleShow(applicant?._id)}
                     >
                       <ChevronDown />
                     </button>
@@ -198,7 +192,7 @@ function ApproveEvent() {
                 </div>
 
                 {/* Show Application Info */}
-                {isShow[applicant._id] && (
+                {isShow[applicant?._id] && (
                   <div className="overflow-x-scroll md:overflow-x-auto bg-white shadow rounded px-2 py-4 space-y-6">
                     <h2>Registered Details</h2>
                     <table className="  border-collapse border border-slate-400 table-auto w-full text-sm text-left text-gray-500">
@@ -227,25 +221,25 @@ function ApproveEvent() {
                       <tbody className="divide-y divide-gray-200">
                         <tr className="hover:bg-gray-50">
                           <td className="border border-slate-300 px-4 py-2">
-                            {applicant.full_name}
+                            {applicant?.full_name}
                           </td>
                           <td className="border border-slate-300 px-4 py-2">
-                            {applicant.email}
+                            {applicant?.email}
                           </td>
                           <td className="border border-slate-300 px-4 py-2">
-                            {applicant.phone_number}
+                            {applicant?.phone_number}
                           </td>
                           {/* <td className="border border-slate-300 px-4 py-2">
                             {applicant.whatsapp_number}
                           </td> */}
                           <td className="border border-slate-300 px-4 py-2">
-                            {applicant.number_of_family_members}
+                            {applicant?.number_of_family_members}
                           </td>
                           <td className="border border-slate-300 px-4 py-2">
                             <ul className="capitalize">
-                              {applicant.attendees.map((attendee) => (
+                              {applicant?.attendees.map((attendee) => (
                                 <li key={attendee._id}>
-                                  {attendee.attendee_full_name}
+                                  {attendee?.attendee_full_name}
                                 </li>
                               ))}
                             </ul>

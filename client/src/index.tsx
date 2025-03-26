@@ -4,7 +4,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./layouts/ProtectedRoute/ProtectedRoute";
 import DashboardLayout from "./layouts/DashboardLayout/DashboardLayout";
 import FallbackLoadingComponent from "./components/FallbackLoadingComponent/FallbackLoadingComponent";
@@ -12,6 +12,8 @@ import AdminProtectedRoute from "./layouts/AdminProtectedRoute/AdminProtectedRou
 //******** */ Admin Dashboard Page Imports
 import AdminDashboardLayout from "./layouts/AdminDashboardLayout/AdminDashboardLayout";
 import { AuthContext } from "./context/AdminContext";
+import Payments from "./pages/Admin/MembersDues/Payments";
+
 const AdminOverViewPage = lazy(
   () => import("./pages/Admin/OverViewPage/OverViewPage")
 );
@@ -24,6 +26,15 @@ const AdminLogin = lazy(() => import("./pages/Admin/Login/Login"));
 const AdminSettings = lazy(() => import("./pages/Admin/Settings/Settings"));
 const AdminSubscription = lazy(
   () => import("./pages/Admin/Subscription/CreateSubScriptions")
+);
+const AdminMembersDues = lazy(
+  () => import("./pages/Admin/MembersDues/MembersDues")
+);
+const AdminMembershipPayment = lazy(
+  () => import("./pages/Admin/MembersDues/MembershipPayment")
+);
+const AdminWelfarePayment = lazy(
+  () => import("./pages/Admin/MembersDues/WelfarePayment")
 );
 const AdminSubscriptionList = lazy(
   () => import("./pages/Admin/Subscription/Subscription")
@@ -77,24 +88,11 @@ const AdminQRCodeScanner = lazy(() => import("./pages/Admin/Events/Scan"));
 
 const AdminIdCard = lazy(() => import("./pages/Admin/IdCard/IdCard"));
 
-// import Login from "./pages/Login/Login";
-// import Register from "./pages/Register/Register";
-// import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
-// import ResetPassword from "./pages/ResetPassword/ResetPassword";
-// import OnboardingWelcome from "./pages/Onboarding/OnboardingWelcome";
-// import OnboardingStepOne from "./pages/Onboarding/OnboardingStepOne";
-// import OnboardingStepTwo from "./pages/Onboarding/OnboardingStepTwo";
-// import Content from "./pages/Content/Content";
-// import OverViewPage from "./pages/OverViewPage/OverViewPage";
-// import Members from "./pages/Members/Members";
-// import Subscription from "./pages/Subscription/Subscription";
-// import Events from "./pages/Subscription/Events";
-// import Certificate from "./pages/Certificate/Certificate";
-// import IdCard from "./pages/IdCard/IdCard";
-// import Settings from "./pages/Settings/Settings";
-
 //********** * Auth Pages
 const Register = lazy(() => import("./pages/Register/Register"));
+const EmailVerifcation = lazy(
+  () => import("./pages/Register/EmailVerifcation")
+);
 
 const Login = lazy(() => import("./pages/Login/Login"));
 
@@ -121,6 +119,7 @@ const Content = lazy(() => import("./pages/Content/Content"));
 const Members = lazy(() => import("./pages/Members/Members"));
 const MembersDetails = lazy(() => import("./pages/Members/MembersDetails"));
 const Subscription = lazy(() => import("./pages/Subscription/Subscription"));
+const MyDues = lazy(() => import("./pages/Subscription/MyDues"));
 const Events = lazy(() => import("./pages/Events/Events"));
 const Certificate = lazy(() => import("./pages/Certificate/Certificate"));
 const IdCard = lazy(() => import("./pages/IdCard/IdCard"));
@@ -139,47 +138,55 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Suspense fallback={<FallbackLoadingComponent />}>
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="events/details/:id" element={<EventDetails />} />
-          <Route path="events/:id/register" element={<UserEventRegister />} />
-          <Route path="events" element={<Events />} />
-          <Route
-            path="events/details/:id/register"
-            element={<h1>Register events</h1>}
-          />
-          {/* Protected Routes */}
-          <Route element={<ProtectedRoute />}>
-            {/* Onboarding */}
-            <Route path="/member-onboarding">
-              <Route index element={<OnboardingWelcome />} />
-              <Route path="step-1" element={<OnboardingStepOne />} />
-              <Route path="step-2" element={<OnboardingStepTwo />} />
+        <AuthContext>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/register" element={<Register />} />
+            <Route path="/verify" element={<EmailVerifcation />} />
+
+            <Route path="/login" element={<Login />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="events/details/:id" element={<EventDetails />} />
+            <Route path="events/:id/register" element={<UserEventRegister />} />
+            <Route path="events" element={<Events />} />
+            <Route
+              path="events/details/:id/register"
+              element={<h1>Register events</h1>}
+            />
+            {/* Protected Routes */}
+            <Route element={<ProtectedRoute />}>
+              {/* Onboarding */}
+              <Route path="/member-onboarding">
+                <Route index element={<OnboardingWelcome />} />
+                {/* <Route path="step-1" element={<OnboardingStepOne />} />
+              <Route path="step-2" element={<OnboardingStepTwo />} /> */}
+              </Route>
+              {/* Dashboard */}
+              <Route path="/" element={<DashboardLayout />}>
+                <Route index element={<OverViewPage />} />
+                <Route path="content" element={<Content />} />
+                <Route path="members" element={<Members />} />
+                <Route
+                  path="members/details/:id"
+                  element={<MembersDetails />}
+                />
+                <Route path="subscription" element={<Subscription />} />
+                <Route path="subscription/dues" element={<MyDues />} />
+                <Route path="events" element={<Events />} />
+                {/* <Route path="certificate" element={<Certificate />} /> */}
+                <Route path="id_card" element={<IdCard />} />
+                <Route path="settings" element={<Settings />} />
+                <Route path="announcement" element={<Announcement />} />
+                <Route
+                  path="announcement/details/:id"
+                  element={<AnnouncementDetails />}
+                />
+                <Route path="profile" element={<Profile />} />
+              </Route>
             </Route>
-            {/* Dashboard */}
-            <Route path="/" element={<DashboardLayout />}>
-              <Route index element={<OverViewPage />} />
-              <Route path="content" element={<Content />} />
-              <Route path="members" element={<Members />} />
-              <Route path="members/details/:id" element={<MembersDetails />} />
-              <Route path="subscription" element={<Subscription />} />
-              <Route path="events" element={<Events />} />
-              <Route path="certificate" element={<Certificate />} />
-              <Route path="id_card" element={<IdCard />} />
-              <Route path="settings" element={<Settings />} />
-              <Route path="announcement" element={<Announcement />} />
-              <Route
-                path="announcement/details/:id"
-                element={<AnnouncementDetails />}
-              />
-              <Route path="profile" element={<Profile />} />
-            </Route>
-          </Route>
-        </Routes>
+          </Routes>
+        </AuthContext>
       </Suspense>
 
       {/* //ADMIN ROUTES */}
@@ -211,19 +218,33 @@ root.render(
                 path="members/details/:memberId"
                 element={<AdminMembersDetails />}
               />
-              <Route path="subscription" element={<AdminSubscriptionList />} />
+
+              <Route path="payments" element={<AdminMembersDues />}>
+                <Route index element={<Payments />} />
+                <Route
+                  index
+                  path="membership-payments"
+                  element={<AdminMembershipPayment />}
+                />
+                <Route
+                  path="welfare-payments"
+                  element={<AdminWelfarePayment />}
+                />
+              </Route>
+              {/* Changed this idea
+              
               <Route
-                path="subscription/create"
+                path="members-dues/create"
                 element={<AdminSubscription />}
               />
               <Route
-                path="subscription/details/:subId"
+                path="members-dues/details/:subId"
                 element={<AdminSubscriptionDetails />}
               />
               <Route
-                path="subscription/details/:subId/edit"
+                path="members-dues/details/:subId/edit"
                 element={<AdminEditSubscription />}
-              />
+              /> */}
               <Route path="events" element={<AdminEvents />} />
               <Route path="events/create" element={<AdminCreateEvent />} />
               <Route
@@ -240,7 +261,7 @@ root.render(
               />
               <Route path="events/:id/approve" element={<AdminApprove />} />
               <Route path="events/:id/scan" element={<AdminQRCodeScanner />} />
-              <Route path="certificate" element={<AdminCertificate />} />
+              {/* <Route path="certificate" element={<AdminCertificate />} /> */}
               <Route path="id_card" element={<AdminIdCard />} />
               <Route path="settings" element={<AdminSettings />} />
               <Route path="announcement" element={<AdminAnnouncements />} />
@@ -256,7 +277,7 @@ root.render(
                 path="announcement/details/:id/edit"
                 element={<AdminEditAnnouncement />}
               />
-              <Route path="profile" element={<Profile />} />
+              {/* <Route path="profile" element={<Profile />} /> */}
             </Route>
           </Routes>
         </AuthContext>

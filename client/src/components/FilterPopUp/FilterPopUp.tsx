@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 import Button from "../Button/Button";
 
 interface FilterPopUpProps {

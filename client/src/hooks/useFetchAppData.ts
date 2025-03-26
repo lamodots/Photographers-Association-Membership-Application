@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
 
-// const API_URL = process.env.REACT_APP_CLIENT_URL;
-const API_URL = "https://membership-application-cms.onrender.com";
+const API_URL = process.env.REACT_APP_CLIENT_URL;
 
+interface SecretaryData {
+  name: string;
+  phone: string;
+  area: string;
+}
 interface ValuesProps {
   appname: string;
   appname_acronym: string;
@@ -11,6 +15,10 @@ interface ValuesProps {
   pagelink: string[];
   applogo: File | null;
   sendgridapi: string;
+  welfare_fee: string;
+  lifetime_fee: string;
+  annual_fee: string;
+  secretaries: SecretaryData[];
 }
 
 const useFetchAppData = () => {

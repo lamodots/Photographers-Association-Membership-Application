@@ -1,4 +1,3 @@
-import React from "react";
 import Lable from "../../../components/Lable/Lable";
 import TextInput from "../../../components/Input/TextInput";
 import { Formik, FormikHelpers } from "formik";
@@ -8,9 +7,7 @@ import Select from "react-select";
 import { Oval } from "react-loader-spinner";
 import useWordCount from "../../../hooks/useWordCount";
 import toast from "react-hot-toast";
-const API_URL =
-  process.env.REACT_APP_CLIENT_URL ||
-  "http://membership-application-cms.onrender.com";
+const API_URL = process.env.REACT_APP_CLIENT_URL;
 
 interface ValuesProps {
   title: string;
@@ -121,19 +118,10 @@ function CreateSubScriptions() {
                   </div>
                   <div className=" space-y-2">
                     <Lable label="Duration Period *" className=" text-xs" />
-                    {/* <TextInput
-                      type="text"
-                      placeholderText="Enter period EG. 30d"
-                      name="interval"
-                      value={values.interval.value}
-                      handleInputChange={handleChange}
-                      className="w-full"
-                    /> */}
+
                     <Select
                       options={options}
                       name="interval"
-                      // value={values.interval}
-                      // onChange={(option) => setFieldValue("interval", option)}
                       value={options.find(
                         (option) => option.value === values.interval
                       )}

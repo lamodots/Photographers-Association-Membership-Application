@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-import Select from "react-select";
 import Lable from "../../../components/Lable/Lable";
 import TextInput from "../../../components/Input/TextInput";
 import { Formik, FormikHelpers } from "formik";
@@ -8,13 +6,12 @@ import Button from "../../../components/Button/Button";
 import useWordCount from "../../../hooks/useWordCount";
 import { Oval } from "react-loader-spinner";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 
 const API_URL = process.env.REACT_APP_CLIENT_URL;
 
 function CreateAnnouncement() {
   const { wordCount, handleWordCount } = useWordCount();
-  const navigate = useNavigate();
+
   const settingsSchema = Yup.object().shape({
     title: Yup.string()
       .min(10)

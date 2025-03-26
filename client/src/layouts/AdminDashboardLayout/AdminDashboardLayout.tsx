@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
-import MemberDashboardSideBar from "../MemberDashboardSideBar/MemberDashboardSideBar";
 import AdminDashboardSideBar from "../AdminDashboardSideBar/AdminDashboardSideBar";
-import TopNavBar from "../TopNavBar/TopNavBar";
+
 import { Outlet } from "react-router-dom";
 import AdminTopNavBar from "../AdminTopNavBar/AdminTopNavBar";
 

@@ -1,17 +1,14 @@
-import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Oval } from "react-loader-spinner";
 import { Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import TextInput from "../../../components/Input/TextInput";
 import Lable from "../../../components/Lable/Lable";
-import LoginAsset from "../../../assets/loginassets.svg";
 import Button from "../../../components/Button/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { useCurrentUser } from "../../../context/AdminContext";
 
-// const API_URL = process.env.REACT_APP_CLIENT_URL;
-const API_URL = "https://membership-application-cms.onrender.com";
+const API_URL = process.env.REACT_APP_CLIENT_URL;
 
 interface ValuesProps {
   email: string;

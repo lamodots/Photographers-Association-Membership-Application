@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes } from "react";
+import React from "react";
 type InputProp = React.InputHTMLAttributes<HTMLInputElement> & {
   type: string;
   placeholderText?: string;
@@ -6,6 +6,7 @@ type InputProp = React.InputHTMLAttributes<HTMLInputElement> & {
   accept?: string;
   value?: string;
   className?: string;
+  error?: unknown;
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   props?: React.HTMLInputTypeAttribute;
 };

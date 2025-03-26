@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import Lable from "../../../components/Lable/Lable";
 import TextInput from "../../../components/Input/TextInput";
@@ -28,7 +28,6 @@ function EditAnnouncement() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  console.log(id);
   const settingsSchema = Yup.object().shape({
     title: Yup.string()
       .min(10)

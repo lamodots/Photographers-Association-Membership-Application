@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import html2pdf from "html2pdf.js";
 import Button from "../../components/Button/Button";
 import certbg from "../../assets/certbg.png";
-import { useCurrentUser } from "../../context/AdminContext";
+// import { useCurrentUser } from "../../context/AdminContext";
 
 const Certificate = () => {
   const certificateRef = useRef<HTMLDivElement>(null);

@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import SubscriptionCard from "../../../components/Admin-Components/SubScriptionCard/SubscriptionCard";
 import { Link } from "react-router-dom";
-import { resolve } from "path";
+
 import { Oval } from "react-loader-spinner";
-const API_URL =
-  process.env.REACT_APP_CLIENT_URL ||
-  "http://membership-application-cms.onrender.com";
+const API_URL = process.env.REACT_APP_CLIENT_URL;
 
 interface ValuesProps {
   _id: string;

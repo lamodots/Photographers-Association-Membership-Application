@@ -1,10 +1,8 @@
-import { ArrowDown, BellRing, ChevronDown, PanelLeftClose } from "lucide-react";
-import React, { useState } from "react";
+import { BellRing, ChevronDown, PanelLeftClose } from "lucide-react";
+
 import Avatar from "../../components/Avatar/Avatar";
-import Popup from "../../components/Popup/Popup";
+
 import { Link } from "react-router-dom";
-import NotificationComponent from "../../components/NotificationComponent/NotificationComponent";
-import { useCurrentUser } from "../../context/AdminContext";
 
 type TopNavBarProp = {
   handleToggleSideBar: () => void;
@@ -16,7 +14,6 @@ function AdminTopNavBar({
   handlePopUp,
   showMorePopUp,
 }: TopNavBarProp) {
-  const { currentUser } = useCurrentUser();
   return (
     <nav className=" bg-[#F5F7FA] flex items-center justify-between px-8 h-[114px]  w-full ">
       <div className="flex items-center gap-8">
@@ -27,9 +24,7 @@ function AdminTopNavBar({
             size={24}
           />
         </div>
-        <span className="hidden md:inline-block capitalize">
-          {/* Hello {profile?.user?.firstname}, Welcome ! */}
-        </span>
+        <span className="hidden md:inline-block capitalize"></span>
       </div>
       <div className="flex items-center gap-6 cursor-pointer">
         <Link to="/secure/announcement" className="flex items-center gap-1">

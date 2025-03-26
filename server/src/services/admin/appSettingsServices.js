@@ -1,5 +1,6 @@
 const { AppSettingModel } = require("../../models");
 async function appSettingsServices(body) {
+  console.log("SERVUCES", body);
   try {
     const appSettings = await AppSettingModel.findOneAndUpdate({}, body, {
       upsert: true,

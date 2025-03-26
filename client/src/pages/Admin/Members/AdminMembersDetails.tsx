@@ -1,13 +1,14 @@
-import React from "react";
-import { Trash, MonitorPause } from "lucide-react";
-
+import { useState } from "react";
+import { Trash, MonitorPause, Wallet } from "lucide-react";
 import Badge from "../../../components/Badge/Badge";
 import Avatar from "../../../components/Avatar/Avatar";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { dateFormater } from "../../../util/DateFormater";
 
-// const API_URL = process.env.REACT_APP_CLIENT_URL;
-const API_URL = "https://membership-application-cms.onrender.com";
+import Modal from "../../../components/modal/Modal";
+
+import OfflinePaymentProcessing from "../../../components/OfflinePaymentProcessing/OfflinePaymentProcessing";
+
 type SocialLink = {
   facebook?: string;
   linkedIn?: string;
@@ -31,12 +32,13 @@ interface UserProps {
 function AdminMembersDetails() {
   const location = useLocation();
   const user: UserProps = location?.state;
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
   return (
     <div>
       <header>
         <div className="flex items-center space-x-10">
           <div className="flex gap-2 items-center">
-            <Avatar />
+            <Avatar className="w-32 h-32 rounded" />
             <div>
               <h3 className="font-semibold capitalize">
                 {user.firstname + " " + user.lastname}
@@ -92,23 +94,48 @@ function AdminMembersDetails() {
             <h2 className="font-bold">About member</h2>
             <p className="mt-3 leading-6">{user.aboutuser}</p>
           </div>
-          <div className="flex items-center justify-end space-x-10 mt-6">
-            <button
-              className="flex items-center gap-2 text-[#FFAE80]"
-              onClick={() => console.log(user._id)}
-            >
-              <MonitorPause /> <span>Suspend</span>
-            </button>
-            <button
-              className="flex items-center gap-2 text-red-600"
-              onClick={() => console.log(user._id)}
-            >
-              <Trash />
-              <span>Delete</span>
-            </button>
+          <div className="flex items-center justify-between mt-10">
+            <div>
+              <button
+                onClick={() => setShowPaymentModal(true)}
+                className=" bg-[#295474] px-2 py-1 rounded flex items-center gap-1 text-white"
+              >
+                <Wallet />
+                <span>Process Payment</span>
+              </button>
+            </div>
+            <div className=" flex items-center space-x-10 mt-6">
+              <button
+                className="flex items-center gap-2 text-[#FFAE80]"
+                onClick={() => console.log(user._id)}
+              >
+                <MonitorPause /> <span>Suspend</span>
+              </button>
+              <button
+                className="flex items-center gap-2 text-red-600"
+                onClick={() => console.log(user?.email, user._id)}
+              >
+                <Trash />
+                <span>Delete</span>
+              </button>
+            </div>
           </div>
         </div>
       </main>
+      {showPaymentModal && (
+        <Modal
+          title="Process Payment Offline"
+          onClose={() => setShowPaymentModal(false)}
+        >
+          <OfflinePaymentProcessing
+            onCloseModal={setShowPaymentModal}
+            userId={user?._id}
+            userEmail={user?.email}
+            first_name={user.firstname}
+            last_name={user.lastname}
+          />
+        </Modal>
+      )}
     </div>
   );
 }

@@ -1,6 +1,20 @@
-# Photographers-Association-Membership-Application
+# Membership application software
 
 An all-in-one platform connecting photographers to a vibrant community, professional opportunities, and exclusive resources. This membership application is designed for photographers of all levels to showcase their work, expand their skills, and connect with potential clients and collaborators.
+
+## Key Features:
+
+- Member Management: Stores and manages member information, including contact details, membership status, and renewal dates.
+
+- Online Registration: Allows members to sign up and renew their memberships online.
+
+- Payment Processing: Handles membership fees, dues, and other payments.
+
+- Event Management: Facilitates the organization and registration for events and activities.
+
+- Communication Tools: Sends out newsletters, emails, and notifications to members.
+
+- Reporting and Analytics: Generates reports on membership trends, financials, and other metrics.
 
 ## Root Level
 
@@ -208,3 +222,50 @@ res.json({ message: "Welcome to the MembershipCMS backend API" });
 https://www.twilio.com/docs/sendgrid/ui/account-and-settings/how-to-set-up-domain-authentication?_gl=1*11qg34m*_gcl_au*MTUxMzUzNDY0My4xNzM4MDg0NzI4*_ga*MTMzNDgwMzgzNy4xNzM2ODczMTA2*_ga_8W5LR442LD*MTczODMzOTg5OC40LjEuMTczODM0MDAzNC4wLjAuMA..
 
 //accountSid: US879be6129ee4fd98dd41f3ba1096b7ae
+
+EVEST
+TYPES OF
+
+1. completely free event : Free for both paid and none paid members.
+2. Free for members: free for subscribed memebers non subscribed members have to pay a feee
+3. paid event
+
+SUBSCRIPT
+Normal membership is annual: April to march the duration of the user is determined by when he/she subscribed
+
+REGISTRATION
+When users are resgitarering they will fill the year they entered Nigeria for KSN for LASPAN it be when they started their profession.
+
+FEEDBACKS========
+
+1. Improve on front Camera scanning
+2. Family memebeer should be counted as number of attended
+3. QR code not showing on custom emails.(SENDGRID ISSUE) Find how
+4. Add a link to RQcode for users that dont recieve image on email
+
+# VERSION 2
+
+1. We need list members on admin dashboard so admin can apperove offline payment
+2. List members so admin can see transactions. Filter event by type of payment.
+
+`A confirmation email has been sent to your email address. Please click on the link in the email to verify your email address.`
+ikeja/ iKORODU/oTA, VI/ikoYI, iLUPEJU, Sulurele/aPAPA, others
+
+//https://rubygarage.org/blog/ceo-responsibilities-in-startup#:~:text=The%20key%20roles%20of%20a%20CEO%20during%20this,real-world%20environment%204%20Analyze%20product%20metrics%20and%20KPIs
+
+AWS DOCKER
+https://chathuratd.medium.com/deploying-a-mern-stack-web-app-with-github-actions-docker-and-aws-ec2-509067a1fd64
+
+// Full-Stack Software engineer passionate about innovation, eager to tackle technical challenges, and committed to creating impactful, user-centric solutions.
+
+<!-- it should be even if a member pays for an annual membership a few days before March 1, the expiration date will be set to March 1 of the same year . else it should be set to March the following year
+
+ const currentYear = new Date().getFullYear();
+  const currentDate = new Date();
+  const marchFirstThisYear = new Date(currentYear, 2, 1);
+
+  const isBeforeMarchFirst = currentDate < marchFirstThisYear;
+
+  const expiryDate = isBeforeMarchFirst
+    ? marchFirstThisYear // March 1 of the same year
+    : new Date(currentYear + 1, 2, 1); // March 1 of the next year -->

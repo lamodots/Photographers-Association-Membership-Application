@@ -44,12 +44,12 @@ export const userDashboardMenus: userRoutes[] = [
     path: "events",
     menuIcon: "Video",
   },
-  {
-    key: "certificate",
-    label: "Certificate",
-    path: "certificate",
-    menuIcon: "GraduationCap",
-  },
+  // {
+  //   key: "certificate",
+  //   label: "Certificate",
+  //   path: "certificate",
+  //   menuIcon: "GraduationCap",
+  // },
   {
     key: "idcard",
     label: "ID Card",
@@ -83,9 +83,9 @@ export const adminDashboardMenus: adminRoutes[] = [
     menuIcon: "UsersRound",
   },
   {
-    key: "subscription",
-    label: "Subscription",
-    path: "subscription",
+    key: "payments",
+    label: "Payments",
+    path: "payments",
     menuIcon: "HandCoins",
   },
   {
@@ -100,18 +100,18 @@ export const adminDashboardMenus: adminRoutes[] = [
     path: "events",
     menuIcon: "Video",
   },
-  {
-    key: "certificate",
-    label: "Certificate",
-    path: "certificate",
-    menuIcon: "GraduationCap",
-  },
-  {
-    key: "idcard",
-    label: "ID Card",
-    path: "id_card",
-    menuIcon: "IdCard",
-  },
+  // {
+  //   key: "certificate",
+  //   label: "Certificate",
+  //   path: "certificate",
+  //   menuIcon: "GraduationCap",
+  // },
+  // {
+  //   key: "idcard",
+  //   label: "ID Card",
+  //   path: "id_card",
+  //   menuIcon: "IdCard",
+  // },
   {
     key: "settings",
     label: "Settings",

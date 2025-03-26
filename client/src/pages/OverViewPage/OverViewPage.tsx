@@ -1,11 +1,16 @@
-import React, { lazy, Suspense, useEffect, useState } from "react";
-import Button from "../../components/Button/Button";
+import { lazy, Suspense, useEffect, useState } from "react";
+
 import { Link } from "react-router-dom";
-import { FAKE_MEMBERS } from "../../util/data";
+
 import FallbackLoadingComponent from "../../components/FallbackLoadingComponent/FallbackLoadingComponent";
-import { Calendar, Clock, Handshake } from "lucide-react";
+import { Calendar } from "lucide-react";
 import MembershipTypeCard from "../../components/MembershipTypeCard/MembershipTypeCard";
 import { formatDistanceToNowformat } from "../../util/dataAndTimeFormater";
+import {
+  useMembershipActive,
+  useWelfareActive,
+} from "../../hooks/useFetchPayment";
+
 const NewMemberCard = lazy(
   () => import("../../components/Admin-Components/NewMemberCard/NewMemberCard")
 );
@@ -45,6 +50,8 @@ interface UserProps {
 }
 
 function OverViewPage() {
+  const [membershipItem] = useMembershipActive();
+  const [welfareItem] = useWelfareActive();
   const [announcement, setAnnouncementData] = useState<AnnouncementProps>();
   const [userData, setUserData] = useState<UserProps[]>([]);
   const [loading, setIsLoading] = useState(false);
@@ -114,21 +121,52 @@ function OverViewPage() {
   return (
     <main>
       <header>
-        <div className=" grid grid-cols-1 sm:grid-cols-2  gap-2 mt-8 md:grid-cols-3 md:gap-6 ">
+        <div className=" grid grid-cols-1 sm:grid-cols-2  gap-2 mt-8 md:grid-cols-2 md:gap-6 ">
           <MembershipTypeCard
             cardTitle="MEMBERSHIP TYPE"
-            subScriptionInfo="Life Time"
+            subScriptionInfo={membershipItem?.membershipType}
+            status={membershipItem?.status}
+            start={membershipItem?.startDate}
+            end={membershipItem?.expiryDate}
           />
           <MembershipTypeCard
-            cardTitle="DATE JOINNED"
-            subScriptionInfo="20-10-2024"
+            cardTitle="WELFARE"
+            status={welfareItem?.status}
+            start={welfareItem?.startDate}
+            end={welfareItem?.expiryDate}
           >
             <Calendar />
           </MembershipTypeCard>
-          <MembershipTypeCard cardTitle="Expires" subScriptionInfo="20-10-2024">
+          {/* <MembershipTypeCard
+            cardTitle="EXPIRES AT"
+            subScriptionInfo={monthdayyearFormater(
+              `${membershipItem?.expiryDate}`
+            )}
+          >
+            <Clock />
+          </MembershipTypeCard> */}
+        </div>
+        {/* <div className=" grid grid-cols-1 sm:grid-cols-2  gap-2 mt-8 md:grid-cols-3 md:gap-6 ">
+          <MembershipTypeCard
+            cardTitle="WELFARE DUES"
+            subScriptionInfo={`₦${welfareItem?.amount.toString()} Annual`}
+            status={welfareItem?.status}
+          />
+          <MembershipTypeCard
+            cardTitle="START DATE "
+            subScriptionInfo={monthdayyearFormater(`${welfareItem?.startDate}`)}
+          >
+            <Calendar />
+          </MembershipTypeCard>
+          <MembershipTypeCard
+            cardTitle="EXPIRES AT"
+            subScriptionInfo={monthdayyearFormater(
+              `${welfareItem?.expiryDate}`
+            )}
+          >
             <Clock />
           </MembershipTypeCard>
-        </div>
+        </div> */}
       </header>
 
       <section className="pt-8">

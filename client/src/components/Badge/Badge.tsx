@@ -1,5 +1,3 @@
-import React from "react";
-
 /**
  * A Badge component that displays a member type.
  * @params memberType: string

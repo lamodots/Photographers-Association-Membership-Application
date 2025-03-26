@@ -1,5 +1,3 @@
-import React from "react";
-import onboardingheaderIllustration from "../../assets/onboardingheaderIllustration.svg";
 import Button from "../../../components/Button/Button";
 import { CircleUserRound, SquarePen } from "lucide-react";
 import Lable from "../../../components/Lable/Lable";

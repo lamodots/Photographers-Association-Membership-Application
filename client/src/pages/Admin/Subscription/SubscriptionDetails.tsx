@@ -1,5 +1,5 @@
-import { ChevronLeft, Delete, Trash, Pencil } from "lucide-react";
-import React, { Suspense, useEffect, useState } from "react";
+import { ChevronLeft, Trash, Pencil } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 import Paystack from "@paystack/inline-js";
@@ -8,9 +8,7 @@ import toast from "react-hot-toast";
 import { useCurrentUser } from "../../../context/AdminContext";
 import { CountdownTimer } from "../../../util/timer";
 const API_URL = process.env.REACT_APP_CLIENT_URL;
-const publicKey =
-  process.env.REACT_APP_PAYSTACK_PUBLIC_KEY ||
-  "pk_test_a718b2a462bbb16a6011a5e7bea3610f8120fbe1";
+const publicKey = process.env.REACT_APP_PAYSTACK_PUBLIC_KEY;
 
 interface ValuesProps {
   _id: string;
@@ -24,7 +22,7 @@ function SubscriptionDetails() {
   const { currentUser } = useCurrentUser();
   const navigate = useNavigate();
   const { subId } = useParams();
-  console.log(subId);
+
   const [subscriptionData, setSubscription] = useState<ValuesProps>();
   const [error, setError] = useState(null);
   const [isLoading, setLoading] = useState(true);

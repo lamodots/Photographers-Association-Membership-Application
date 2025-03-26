@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -10,11 +10,12 @@ import "swiper/css/pagination";
 import "./styles.css";
 // import required modules
 import { FreeMode, Pagination } from "swiper/modules";
-import AnnouncementList from "../AnnouncementsList/AnnouncementList";
+
 import { Link } from "react-router-dom";
 import { dateFormater } from "../../util/DateFormater";
-// const API_URL = process.env.REACT_APP_CLIENT_URL;
-const API_URL = "https://membership-application-cms.onrender.com";
+
+const API_URL = process.env.REACT_APP_CLIENT_URL;
+
 interface EventsProps {
   _id: string;
   title: string;
@@ -57,7 +58,6 @@ function FeaturedEvents() {
     getAllEvents();
   }, [loading]);
 
-  const textToShow = 80;
   return (
     <>
       <Swiper

@@ -1,13 +1,12 @@
-import { ChevronLeft, Filter } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { Filter } from "lucide-react";
+import { useEffect, useState } from "react";
 import TextInput from "../../../components/Input/TextInput";
 import NewMemberCard from "../../../components/Admin-Components/NewMemberCard/NewMemberCard";
-import { FAKE_MEMBERS } from "../../../util/data";
-import { Link, useNavigate } from "react-router-dom";
-import { Oval } from "react-loader-spinner";
 
-// const API_URL = process.env.REACT_APP_CLIENT_URL;
-const API_URL = "https://membership-application-cms.onrender.com";
+import { Link, useNavigate } from "react-router-dom";
+
+const API_URL = process.env.REACT_APP_CLIENT_URL;
+
 type SocialLink = {
   facebook?: string;
   linkedIn?: string;
@@ -28,9 +27,7 @@ interface UserProps {
   interest: Interest;
 }
 function Members() {
-  // const [userData, setUserData] = useState(FAKE_MEMBERS);
   const [userData, setUserData] = useState<UserProps[]>([]);
-  const [text, setText] = useState("");
   const [showPopup, setShowPopUp] = useState(false);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -84,9 +81,6 @@ function Members() {
     getAllUsers();
   }, []);
 
-  const handleBackClick = () => {
-    navigate(-1);
-  };
   return (
     <main>
       <header>
@@ -143,17 +137,16 @@ function Members() {
       <section className="py-8 space-y-24">
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
           {paginatedUsers.map((user) => {
-            console.log("hey", user);
             return (
               <Link
                 to={`/secure/members/details/${user._id}`}
-                key={user._id}
+                key={user?._id}
                 state={user}
               >
                 <NewMemberCard
-                  name={user.firstname}
-                  image={user.image}
-                  email={user.email}
+                  name={user?.firstname}
+                  image={user?.image}
+                  email={user?.email}
                 />
               </Link>
             );

@@ -1,0 +1,270 @@
+import Lable from "../../components/Lable/Lable";
+import TextInput from "../../components/Input/TextInput";
+import Button from "../../components/Button/Button";
+import FamilyMembersInfo from "./FamilyMembersInfo";
+
+function OnboardingStepTwo() {
+  return (
+    <section>
+      <div className="pt-8 space-y-4">
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-6">
+          <div className="flex flex-col gap-2">
+            <Lable label="Email ID" />
+            <TextInput
+              type="text"
+              placeholderText="Enter email address"
+              name=""
+              value=""
+              handleInputChange={(event) => console.log("hello")}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Lable label="Whatsapp Number" />
+            <TextInput
+              type="text"
+              placeholderText="Enter whatsapp number"
+              name=""
+              value=""
+              handleInputChange={(event) => console.log("hello")}
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-6">
+          <div className="flex flex-col gap-2">
+            <Lable label="Select Area" />
+
+            <select
+              className={` px-3  h-12 outline-[#90BFE9] rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]`}
+            >
+              <option>Select your Area</option>
+              <option>Ikeja/Ikorodu/Ota</option>
+              <option>VI/Ikoyi</option>
+              <option>Ilupeju</option>
+              <option>Surulere/Apapa</option>
+              <option>Others</option>
+            </select>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Lable label="Date of Birth" />
+            <TextInput
+              type="date"
+              name="dateOfBirth"
+              value="dateOfBith"
+              handleInputChange={(event) => console.log("hello")}
+            />
+          </div>
+        </div>
+        <div className=" flex flex-col gap-2  w-full">
+          <Lable label="Address in Nigeria" />
+          <TextInput
+            type="text"
+            placeholderText="Enter your home address in Nigeria"
+            name="addressinnigeria"
+            value=""
+            handleInputChange={(event) => console.log("hello")}
+          />
+          <span className="text-sm text-red-400"></span>
+        </div>
+        {/* Family in Nigeria? */}
+        <div>
+          <p className="mb-2">Is your Family here in Lagos?</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div className=" flex flex-row gap-2  w-full border border-slate-400 p-6 rounded-lg">
+              <Lable label="YES" />
+              <TextInput
+                type="radio"
+                placeholderText="Enter your home address in Nigeria"
+                name="familyinNigeria"
+                value="YES"
+                handleInputChange={(event) => console.log("hello")}
+                className="w-6 h-6"
+              />
+              <span className="text-sm text-red-400"></span>
+            </div>
+            <div className=" flex flex-row gap-2  w-full border border-slate-400 p-6 rounded-lg">
+              <Lable label="NO" />
+              <TextInput
+                type="radio"
+                placeholderText="Enter your home address in Nigeria"
+                name="familyinNigeria"
+                value="NO"
+                handleInputChange={(event) => console.log("hello")}
+                className="w-6 h-6"
+              />
+              <span className="text-sm text-red-400"></span>
+            </div>
+          </div>
+          {/* Fmaily members form */}
+          <div className="flex gap-6 items-center">
+            <Button text="Add family member Info" className="px-8" />
+            <span className="text-lg rounded-full w-8 h-8 flex items-center justify-center p-2 bg-green-300">
+              1
+            </span>
+          </div>
+          <div className="pt-8">
+            {/* Add them here */}
+            <FamilyMembersInfo />
+          </div>
+        </div>
+        {/* Family in Nigeria end? */}
+      </div>
+    </section>
+  );
+}
+
+export default OnboardingStepTwo;
+
+
+// AFTER I ADDED FAMLI MEBERS DYNAMIC INPUT NO VALIDATION
+
+import React, { ChangeEvent, useState } from "react";
+import Lable from "../../components/Lable/Lable";
+import TextInput from "../../components/Input/TextInput";
+import Button from "../../components/Button/Button";
+import FamilyMembersInfo from "./FamilyMembersInfo";
+
+function OnboardingStepTwo() {
+  const [isFamilyInLagos, setIsFamilyInLagos] = useState<boolean | null>(null); // Tracks radio button selection
+  const [familyMembers, setFamilyMembers] = useState<{}[]>([]); // Tracks list of family members
+
+  // Handle radio button change
+  const handleFamilyInLagosChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setIsFamilyInLagos(event.target.value === "YES");
+  };
+
+  // Add a new family member
+  const handleAddFamilyMember = () => {
+    setFamilyMembers([...familyMembers, {}]); // Add an empty object for each family member
+  };
+
+  // Remove a family member by index
+  const handleRemoveFamilyMember = (index: number) => {
+    setFamilyMembers((prev) => prev.filter((_, i) => i !== index));
+  };
+  return (
+    <section>
+      <div className="pt-8 space-y-4">
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-6">
+          <div className="flex flex-col gap-2">
+            <Lable label="Email ID" />
+            <TextInput
+              type="text"
+              placeholderText="Enter email address"
+              name="email"
+              value=""
+              handleInputChange={(event) => console.log("hello")}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Lable label="Whatsapp Number" />
+            <TextInput
+              type="text"
+              placeholderText="Enter whatsapp number"
+              name="whatsappNumber"
+              value=""
+              handleInputChange={(event) => console.log("hello")}
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-6">
+          <div className="flex flex-col gap-2">
+            <Lable label="Select Area" />
+            <select
+              className="px-3 h-12 outline-[#90BFE9] rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]"
+              name="area"
+              value={""}
+            >
+              <option>Select your Area</option>
+              <option>Ikeja/Ikorodu/Ota</option>
+              <option>VI/Ikoyi</option>
+              <option>Ilupeju</option>
+              <option>Surulere/Apapa</option>
+              <option>Others</option>
+            </select>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Lable label="Date of Birth" />
+            <TextInput
+              type="date"
+              name="dateOfBirth"
+              value=""
+              handleInputChange={(event) => console.log("hello")}
+            />
+          </div>
+        </div>
+        <div className="flex flex-col gap-2 w-full">
+          <Lable label="Address in Nigeria" />
+          <TextInput
+            type="text"
+            placeholderText="Enter your home address in Nigeria"
+            name="addressInNigeria"
+            value=""
+            handleInputChange={(event) => console.log("hello")}
+          />
+          <span className="text-sm text-red-400"></span>
+        </div>
+
+        {/* Family in Nigeria? */}
+        <div>
+          <p className="mb-2">Is your Family here in Lagos?</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div className="flex flex-row gap-2 w-full border border-slate-400 p-6 rounded-lg">
+              <Lable label="YES" />
+              <TextInput
+                type="radio"
+                name="familyInNigeria"
+                value="YES"
+                checked={isFamilyInLagos === true}
+                handleInputChange={handleFamilyInLagosChange}
+                className="w-6 h-6"
+              />
+              <span className="text-sm text-red-400"></span>
+            </div>
+            <div className="flex flex-row gap-2 w-full border border-slate-400 p-6 rounded-lg">
+              <Lable label="NO" />
+              <TextInput
+                type="radio"
+                name="familyInNigeria"
+                value="NO"
+                checked={isFamilyInLagos === false}
+                handleInputChange={handleFamilyInLagosChange}
+                className="w-6 h-6"
+              />
+              <span className="text-sm text-red-400"></span>
+            </div>
+          </div>
+
+          {/* Show "Add family member Info" button and span if user selects YES */}
+          {isFamilyInLagos && (
+            <div className="flex gap-6 items-center">
+              <Button
+                text="Add family member Info"
+                className="px-8 bg-green-600"
+                handleClick={handleAddFamilyMember}
+              />
+              <span className="text-lg rounded-full w-8 h-8 flex items-center justify-center p-2 bg-green-200">
+                {familyMembers.length}
+              </span>
+            </div>
+          )}
+
+          {/* Dynamically render FamilyMembersInfo components */}
+          <div className="pt-8 space-y-4">
+            {familyMembers.map((_, index) => (
+              <FamilyMembersInfo
+                key={index}
+                onRemove={() => handleRemoveFamilyMember(index)}
+              />
+            ))}
+          </div>
+        </div>
+        {/* Family in Nigeria end? */}
+      </div>
+    </section>
+  );
+}
+
+export default OnboardingStepTwo;
+

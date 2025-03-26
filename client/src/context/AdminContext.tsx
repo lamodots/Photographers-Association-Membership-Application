@@ -5,8 +5,6 @@ import {
   useEffect,
   useState,
 } from "react";
-import { Navigate } from "react-router-dom";
-import { date } from "yup";
 
 // interface CurrentUser {
 //   firstname: string;
@@ -76,14 +74,15 @@ interface AuthContextProps {
   children: ReactNode;
 }
 
-// const API_URL = process.env.REACT_APP_CLIENT_URL;
-const API_URL = "https://membership-application-cms.onrender.com";
+const API_URL = process.env.REACT_APP_CLIENT_URL;
 
 export const AuthContext = ({ children }: AuthContextProps) => {
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
   const [profile, setProfile] = useState<CurrentUser | null>(null);
   const [loading, setLoading] = useState(true);
 
+  console.log("NEW USER", currentUser);
+  console.log("NEW USER PROFILE", profile);
   const fetchCurrentUser = async () => {
     try {
       setLoading(true);
@@ -118,7 +117,6 @@ export const AuthContext = ({ children }: AuthContextProps) => {
 
   async function handleLogout() {
     try {
-      // await new Promise((resolve) => setTimeout(resolve, 1200));
       const res = await fetch(`${API_URL}/api/v1/secure/auth/logout`, {
         method: "GET",
         credentials: "include",

@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Filter } from "lucide-react";
 import TextInput from "../../../components/Input/TextInput";
-import NewMemberCard from "../../../components/Admin-Components/NewMemberCard/NewMemberCard";
-import { FAKE_MEMBERS, FAKE_ANNOUNCEMENTS } from "../../../util/data";
 import { Link } from "react-router-dom";
 import FilterPopUp from "../../../components/FilterPopUp/FilterPopUp";
 import AnnouncementList from "../../../components/AnnouncementsList/AnnouncementList";
 import { Oval } from "react-loader-spinner";
 
-// const API_URL = process.env.REACT_APP_CLIENT_URL;
-const API_URL = "https://membership-application-cms.onrender.com";
+const API_URL = process.env.REACT_APP_CLIENT_URL;
+
 interface AnnouncementProps {
   _id: string;
   title: string;

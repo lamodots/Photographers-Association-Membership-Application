@@ -1,0 +1,844 @@
+
+
+
+
+
+import React, { useState } from "react";
+import { useFormik, FormikProps } from "formik";
+import * as Yup from "yup";
+import Button from "../../components/Button/Button";
+import OnboardingStepOne from "./OnboardingStepOne";
+import OnboardingStepTwo from "./OnboardingStepTwo";
+import OnboardingStepThree from "./OnboardingStepThree";
+import { useNavigate } from "react-router-dom";
+import { Info } from "lucide-react";
+import { Oval } from "react-loader-spinner";
+import {
+  stepOneSchema,
+  stepTwoSchema,
+  stepThreeSchema,
+} from "./validationSchema";
+
+const API_URL = process.env.REACT_APP_CLIENT_URL;
+
+interface StepOneValues {
+  firstName: string;
+  lastName: string;
+  title: string;
+  dateOfEntry: string;
+}
+
+interface FamilyMember {
+  firstName: string;
+  lastName: string;
+  title: string;
+  dateOfEntry: string;
+  emailId: string;
+  whatsappId: string;
+  relationship: string;
+  dateOfBirth: string;
+}
+
+interface StepTwoValues {
+  familyInLagos: boolean | null;
+  familyMembers: FamilyMember[];
+}
+
+interface StepThreeValues {
+  emergencyContactInIndia: string;
+  districtInIndia: string;
+  addressInIndia: string;
+}
+
+function OnboardingWelcome() {
+  const [currentStep, setCurrentStep] = useState(1);
+  const steps = [OnboardingStepOne, OnboardingStepTwo, OnboardingStepThree];
+  const totalSteps = steps.length;
+  const navigate = useNavigate();
+
+  // Formik for Step 1
+  const stepOneFormik = useFormik<StepOneValues>({
+    initialValues: {
+      firstName: "",
+      lastName: "",
+      title: "",
+      dateOfEntry: "",
+    },
+    validationSchema: stepOneSchema,
+    onSubmit: () => setCurrentStep(2),
+    validateOnChange: true,
+    validateOnBlur: true,
+  });
+
+  // Formik for Step 2
+  const stepTwoFormik = useFormik<StepTwoValues>({
+    initialValues: {
+      familyInLagos: null,
+      familyMembers: [] as FamilyMember[],
+    },
+    validationSchema: stepTwoSchema,
+    onSubmit: () => setCurrentStep(3),
+    validateOnChange: true,
+    validateOnBlur: true,
+  });
+
+  // Formik for Step 3
+  const stepThreeFormik = useFormik<StepThreeValues>({
+    initialValues: {
+      emergencyContactInIndia: "",
+      districtInIndia: "",
+      addressInIndia: "",
+    },
+    validationSchema: stepThreeSchema,
+    onSubmit: handleSubmit,
+    validateOnChange: true,
+    validateOnBlur: true,
+  });
+
+  const handleNext = () => {
+    if (currentStep === 1) {
+      stepOneFormik.handleSubmit();
+    } else if (currentStep === 2) {
+      stepTwoFormik.handleSubmit();
+    } else if (currentStep === 3) {
+      stepThreeFormik.handleSubmit();
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentStep > 1) {
+      setCurrentStep((prev) => prev - 1);
+    }
+  };
+
+  console.log(stepOneFormik.values);
+  console.log(stepTwoFormik.values);
+  console.log(stepThreeFormik.values);
+  async function handleSubmit() {
+    const formData = new FormData();
+    console.log(formData);
+    // Append Step 1 data
+    Object.entries(stepOneFormik.values).forEach(([key, value]) => {
+      if (value !== null && value !== undefined) {
+        formData.append(key, value as string | Blob);
+      }
+    });
+
+    // Append Step 2 data
+    Object.entries(stepTwoFormik.values).forEach(([key, value]) => {
+      if (key === "familyMembers") {
+        if (Array.isArray(value)) {
+          value.forEach((member, index) => {
+            Object.entries(member).forEach(([memberKey, memberValue]) => {
+              if (memberValue !== null && memberValue !== undefined) {
+                formData.append(
+                  `familyMembers[${index}][${memberKey}]`,
+                  memberValue as string | Blob
+                );
+              }
+            });
+          });
+        }
+      } else if (value !== null && value !== undefined) {
+        formData.append(key, value as string | Blob);
+      }
+    });
+
+    // Append Step 3 data
+    Object.entries(stepThreeFormik.values).forEach(([key, value]) => {
+      if (value !== null && value !== undefined) {
+        formData.append(key, value as string | Blob);
+      }
+    });
+
+    // Submit to API
+    try {
+      const response = await fetch(`${API_URL}/api/v1/users`, {
+        method: "PUT",
+        body: formData,
+      });
+      if (response.ok) {
+        alert("Form submitted successfully!");
+        navigate("/");
+      } else {
+        alert("Failed to submit form.");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  }
+
+  return (
+    <main className="bg-[#F5F7FA] grid md:grid-cols-[4fr_8fr] relative">
+      <aside className="bg-slate-800 h-screen p-6 md:px-16 md:py-16">
+        <h1 className="text-2xl text-left text-[#212529]">
+          <span className="text-4xl text-white font-bold">Welcome to</span>{" "}
+          <br />
+          <span className="text-lg text-zinc-100">KERALA SAMAJAM NIGERIA</span>
+        </h1>
+        <p className="mt-6 text-white text-sm">
+          Tell us a little about yourself to setup your profile
+        </p>
+      </aside>
+      <div className="md:pt-16 pb-16 h-screen overflow-y-auto">
+        <div className="mx-auto max-w-[680px] w-full bg-slate-50">
+          <div className="bg-cyan-100 rounded-lg w-full p-6 border border-slate-300 items-center">
+            <div className="flex space-x-4">
+              <Info />
+              <p className="text-lg text-[#515F69]">
+                Please answer these questions to complete your membership
+                registration
+              </p>
+            </div>
+          </div>
+
+          <div className="relative w-full bg-gray-200 rounded-full h-4 overflow-hidden mt-6">
+            <div
+              className="absolute top-0 left-0 h-full bg-green-500"
+              style={{ width: `${(currentStep / totalSteps) * 100}%` }}
+            ></div>
+          </div>
+          <p className="text-green-700">
+            Step {currentStep} of {totalSteps}
+          </p>
+
+          {/* Render current step component */}
+          {currentStep === 1 && <OnboardingStepOne formik={stepOneFormik} />}
+          {currentStep === 2 && <OnboardingStepTwo formik={stepTwoFormik} />}
+          {currentStep === 3 && (
+            <OnboardingStepThree formik={stepThreeFormik} />
+          )}
+
+          {/* Navigation buttons */}
+          <div className="flex justify-between mt-14">
+            {currentStep > 1 && (
+              <Button
+                type="button"
+                text="Previous"
+                handleClick={handlePrevious}
+                className="w-1/3"
+              />
+            )}
+            <Button
+              type="button"
+              text={currentStep === totalSteps ? "Submit" : "Next"}
+              handleClick={handleNext}
+              className={`w-1/3 ${currentStep === 1 ? "ml-auto" : ""}`}
+              disableBtn={
+                (currentStep === 1 && !stepOneFormik.isValid) ||
+                (currentStep === 2 && !stepTwoFormik.isValid) ||
+                (currentStep === 3 && !stepThreeFormik.isValid)
+              }
+            />
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+}
+
+export default OnboardingWelcome;
+
+
+
+
+++++++++++++++++++++++++++++++++++++++++++
+
+import React from "react";
+import Lable from "../../components/Lable/Lable";
+import TextInput from "../../components/Input/TextInput";
+import { FormikProps } from "formik";
+
+interface StepOneValues {
+  firstName: string;
+  lastName: string;
+  title: string;
+  dateOfEntry: string;
+}
+function OnboardingStepOne({ formik }: { formik: FormikProps<StepOneValues> }) {
+  return (
+    <section>
+      <div className="pt-8 space-y-4">
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-6">
+          <div className="flex flex-col gap-2">
+            <Lable label="First name" />
+            <TextInput
+              type="text"
+              placeholderText="Enter firstname"
+              name="firstName"
+              value={formik.values.firstName}
+              handleInputChange={formik.handleChange}
+              error={formik.touched.firstName && formik.errors.firstName}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Lable label="Last name" />
+            <TextInput
+              type="text"
+              placeholderText="Enter last name"
+              name="lastName"
+              value={formik.values.lastName}
+              handleInputChange={formik.handleChange}
+              error={formik.touched.lastName && formik.errors.lastName}
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-6">
+          <div className="flex flex-col gap-2">
+            <Lable label="Select title" />
+            <select
+              className="px-3 h-12 outline-[#90BFE9] rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]"
+              name="title"
+              value={formik.values.title}
+              onChange={formik.handleChange}
+            >
+              <option>Select title</option>
+              <option>MR</option>
+              <option>MRS</option>
+              <option>MS</option>
+              <option>MASTER</option>
+              <option>DR</option>
+              <option>CHIEF</option>
+              <option>OTHER</option>
+            </select>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Lable label="Date of first entry to Nigeria" />
+            <TextInput
+              type="date"
+              name="dateOfEntry"
+              value={formik.values.dateOfEntry}
+              handleInputChange={formik.handleChange}
+              error={formik.touched.dateOfEntry && formik.errors.dateOfEntry}
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default OnboardingStepOne;
+
+
+
++++++++++++++++++++++++++++
+
+
+
+
+
+
+
+
+
+
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+// import React, { useState } from "react";
+// import { FormikProps } from "formik"; // Import FormikProps
+// import * as Yup from "yup";
+// import Lable from "../../components/Lable/Lable";
+// import TextInput from "../../components/Input/TextInput";
+// import Button from "../../components/Button/Button";
+// import FamilyMembersInfo from "./FamilyMembersInfo";
+// import { stepTwoSchema } from "./validationSchema";
+
+// interface FamilyMember {
+//   firstName: string;
+//   lastName: string;
+//   title: string;
+//   dateOfEntry: string;
+//   emailId: string;
+//   whatsappId: string;
+//   relationship: string;
+//   dateOfBirth: string;
+// }
+// interface StepTwoValues {
+//   familyInLagos: boolean | null;
+//   familyMembers: FamilyMember[];
+// }
+
+// function OnboardingStepTwo({ formik }: { formik: FormikProps<StepTwoValues> }) {
+//   const [familyMembers, setFamilyMembers] = useState<FamilyMember[]>([]);
+
+//   // Add a new family member
+//   const handleAddFamilyMember = () => {
+//     const newMember: FamilyMember = {
+//       firstName: "",
+//       lastName: "",
+//       title: "",
+//       dateOfEntry: "",
+//       emailId: "",
+//       whatsappId: "",
+//       relationship: "",
+//       dateOfBirth: "",
+//     };
+//     setFamilyMembers([...familyMembers, newMember]);
+//     formik.setFieldValue("familyMembers", [
+//       ...formik.values.familyMembers,
+//       newMember,
+//     ]);
+//   };
+
+//   // Remove a family member by index
+//   const handleRemoveFamilyMember = (index: number) => {
+//     setFamilyMembers((prev) => prev.filter((_, i: number) => i !== index));
+//     formik.setFieldValue(
+//       "familyMembers",
+//       formik.values.familyMembers.filter((_, i: number) => i !== index)
+//     );
+//   };
+
+//   return (
+//     <section>
+//       <div className="pt-8 space-y-4">
+//         {/* Step 2 fields... */}
+
+//         {/* Family in Lagos? */}
+//         <div>
+//           <p className="mb-2">Is your Family here in Lagos?</p>
+//           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+//             <div className="flex flex-row gap-2 w-full border border-slate-400 p-6 rounded-lg">
+//               <Lable label="YES" />
+//               <TextInput
+//                 type="radio"
+//                 name="familyInLagos"
+//                 value="YES"
+//                 checked={formik.values.familyInLagos === true}
+//                 handleInputChange={() =>
+//                   formik.setFieldValue("familyInLagos", true)
+//                 }
+//               />
+//             </div>
+//             <div className="flex flex-row gap-2 w-full border border-slate-400 p-6 rounded-lg">
+//               <Lable label="NO" />
+//               <TextInput
+//                 type="radio"
+//                 name="familyInLagos"
+//                 value="NO"
+//                 checked={formik.values.familyInLagos === false}
+//                 handleInputChange={() =>
+//                   formik.setFieldValue("familyInLagos", false)
+//                 }
+//               />
+//             </div>
+//           </div>
+
+//           {/* Show "Add family member Info" button and span if user selects YES */}
+//           {formik.values.familyInLagos && (
+//             <div className="flex gap-6 items-center">
+//               <Button
+//                 text="Add family member Info"
+//                 className="px-8 bg-green-600"
+//                 handleClick={handleAddFamilyMember}
+//               />
+//               <span className="text-lg rounded-full w-8 h-8 flex items-center justify-center p-2 bg-green-200">
+//                 {familyMembers.length}
+//               </span>
+//             </div>
+//           )}
+
+//           {/* Dynamically render FamilyMembersInfo components */}
+//           <div className="pt-8 space-y-4">
+//             {familyMembers.map((_, index) => (
+//               <FamilyMembersInfo
+//                 key={index}
+//                 index={index}
+//                 formik={formik}
+//                 onRemove={() => handleRemoveFamilyMember(index)}
+//               />
+//             ))}
+//           </div>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }
+
+// export default OnboardingStepTwo;
+
+import React, { useState } from "react";
+import { FormikProps } from "formik";
+import Lable from "../../components/Lable/Lable";
+import TextInput from "../../components/Input/TextInput";
+import Button from "../../components/Button/Button";
+import FamilyMembersInfo from "./FamilyMembersInfo";
+
+interface FamilyMember {
+  firstName: string;
+  lastName: string;
+  title: string;
+  dateOfEntry: string;
+  emailId: string;
+  whatsappId: string;
+  relationship: string;
+  dateOfBirth: string;
+}
+
+interface StepTwoValues {
+  familyInLagos: boolean | null;
+  familyMembers: FamilyMember[];
+}
+
+function OnboardingStepTwo({ formik }: { formik: FormikProps<StepTwoValues> }) {
+  const [familyMembers, setFamilyMembers] = useState<FamilyMember[]>([]);
+
+  // Add a new family member
+  const handleAddFamilyMember = () => {
+    const newMember: FamilyMember = {
+      firstName: "",
+      lastName: "",
+      title: "",
+      dateOfEntry: "",
+      emailId: "",
+      whatsappId: "",
+      relationship: "",
+      dateOfBirth: "",
+    };
+    setFamilyMembers([...familyMembers, newMember]);
+    formik.setFieldValue("familyMembers", [
+      ...formik.values.familyMembers,
+      newMember,
+    ]);
+  };
+
+  // Remove a family member by index
+  const handleRemoveFamilyMember = (index: number) => {
+    setFamilyMembers((prev) => prev.filter((_, i: number) => i !== index));
+    formik.setFieldValue(
+      "familyMembers",
+      formik.values.familyMembers.filter((_, i: number) => i !== index)
+    );
+  };
+
+  // Reset familyMembers when familyInLagos is set to false
+  const handleFamilyInLagosChange = (value: boolean) => {
+    formik.setFieldValue("familyInLagos", value);
+    if (!value) {
+      setFamilyMembers([]);
+      formik.setFieldValue("familyMembers", []);
+    }
+  };
+
+  return (
+    <section>
+      <div className="pt-8 space-y-4">
+        {/* Family in Lagos? */}
+        <div>
+          <p className="mb-2">Is your Family here in Lagos?</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div className="flex flex-row gap-2 w-full border border-slate-400 p-6 rounded-lg">
+              <Lable label="YES" />
+              <TextInput
+                type="radio"
+                name="familyInLagos"
+                value="YES"
+                checked={formik.values.familyInLagos === true}
+                handleInputChange={() => handleFamilyInLagosChange(true)}
+              />
+            </div>
+            <div className="flex flex-row gap-2 w-full border border-slate-400 p-6 rounded-lg">
+              <Lable label="NO" />
+              <TextInput
+                type="radio"
+                name="familyInLagos"
+                value="NO"
+                checked={formik.values.familyInLagos === false}
+                handleInputChange={() => handleFamilyInLagosChange(false)}
+              />
+            </div>
+          </div>
+
+          {/* Show "Add family member Info" button and span if user selects YES */}
+          {formik.values.familyInLagos && (
+            <div className="flex gap-6 items-center">
+              <Button
+                text="Add family member Info"
+                className="px-8 bg-green-600"
+                handleClick={handleAddFamilyMember}
+              />
+              <span className="text-lg rounded-full w-8 h-8 flex items-center justify-center p-2 bg-green-200">
+                {familyMembers.length}
+              </span>
+            </div>
+          )}
+
+          {/* Dynamically render FamilyMembersInfo components */}
+          <div className="pt-8 space-y-4">
+            {familyMembers.map((_, index) => (
+              <FamilyMembersInfo
+                key={index}
+                index={index}
+                formik={formik}
+                onRemove={() => handleRemoveFamilyMember(index)}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default OnboardingStepTwo;
+
+++++++++++++++++++++++++++++++++++++++++++++++=
+
+
+import React from "react";
+import Lable from "../../components/Lable/Lable";
+import TextInput from "../../components/Input/TextInput";
+import { X } from "lucide-react";
+
+interface FamilyMembersInfoProps {
+  index: number; // Index of the family member in the array
+  formik: any; // Formik context
+  onRemove: () => void; // Function to remove this family member
+}
+
+function FamilyMembersInfo({
+  index,
+  formik,
+  onRemove,
+}: FamilyMembersInfoProps) {
+  return (
+    <section className="border border-slate-300 bg-white rounded-lg p-4">
+      <div className="flex justify-end">
+        <div
+          className="bg-slate-50 w-12 h-12 flex justify-center items-center cursor-pointer hover:bg-slate-100 rounded-full p-3"
+          onClick={onRemove}
+        >
+          <X size={32} />
+        </div>
+      </div>
+      <div className="space-y-4">
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-6">
+          <div className="flex flex-col gap-2">
+            <Lable label="First name" />
+            <TextInput
+              type="text"
+              placeholderText="Enter firstname"
+              name={`familyMembers[${index}].firstName`}
+              value={formik.values.familyMembers[index]?.firstName || ""}
+              handleInputChange={formik.handleChange}
+              error={
+                formik.touched.familyMembers?.[index]?.firstName &&
+                formik.errors.familyMembers?.[index]?.firstName
+              }
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Lable label="Last name" />
+            <TextInput
+              type="text"
+              placeholderText="Enter last name"
+              name={`familyMembers[${index}].lastName`}
+              value={formik.values.familyMembers[index]?.lastName || ""}
+              handleInputChange={formik.handleChange}
+              error={
+                formik.touched.familyMembers?.[index]?.lastName &&
+                formik.errors.familyMembers?.[index]?.lastName
+              }
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-6">
+          <div className="flex flex-col gap-2">
+            <Lable label="Select title" />
+            <select
+              className="px-3 h-12 outline-[#90BFE9] rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]"
+              name={`familyMembers[${index}].title`}
+              value={formik.values.familyMembers[index]?.title || ""}
+              onChange={formik.handleChange}
+            >
+              <option>Select title</option>
+              <option>MR</option>
+              <option>MRS</option>
+              <option>MS</option>
+              <option>MASTER</option>
+              <option>DR</option>
+              <option>CHIEF</option>
+              <option>OTHER</option>
+            </select>
+            {formik.touched.familyMembers?.[index]?.title &&
+              formik.errors.familyMembers?.[index]?.title && (
+                <span className="text-sm text-red-400">
+                  {formik.errors.familyMembers[index].title}
+                </span>
+              )}
+          </div>
+          <div className="flex flex-col gap-2">
+            <Lable label="Date of first entry to Nigeria" />
+            <TextInput
+              type="date"
+              name={`familyMembers[${index}].dateOfEntry`}
+              value={formik.values.familyMembers[index]?.dateOfEntry || ""}
+              handleInputChange={formik.handleChange}
+              error={
+                formik.touched.familyMembers?.[index]?.dateOfEntry &&
+                formik.errors.familyMembers?.[index]?.dateOfEntry
+              }
+            />
+          </div>
+        </div>
+        <div className="pt-8 space-y-4">
+          <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-6">
+            <div className="flex flex-col gap-2">
+              <Lable label="Email ID" />
+              <TextInput
+                type="text"
+                placeholderText="Enter email address"
+                name={`familyMembers[${index}].emailId`}
+                value={formik.values.familyMembers[index]?.emailId || ""}
+                handleInputChange={formik.handleChange}
+                error={
+                  formik.touched.familyMembers?.[index]?.emailId &&
+                  formik.errors.familyMembers?.[index]?.emailId
+                }
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <Lable label="Whatsapp Number" />
+              <TextInput
+                type="text"
+                placeholderText="Enter whatsapp number"
+                name={`familyMembers[${index}].whatsappId`}
+                value={formik.values.familyMembers[index]?.whatsappId || ""}
+                handleInputChange={formik.handleChange}
+                error={
+                  formik.touched.familyMembers?.[index]?.whatsappId &&
+                  formik.errors.familyMembers?.[index]?.whatsappId
+                }
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-6">
+            <div className="flex flex-col gap-2">
+              <Lable label="Relationship with family member" />
+              <select
+                className="px-3 h-12 outline-[#90BFE9] rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]"
+                name={`familyMembers[${index}].relationship`}
+                value={formik.values.familyMembers[index]?.relationship || ""}
+                onChange={formik.handleChange}
+              >
+                <option>Select the relationship</option>
+                <option>Husband</option>
+                <option>Wife</option>
+                <option>Son</option>
+                <option>Daughter</option>
+                <option>Father</option>
+                <option>Mother</option>
+                <option>Others</option>
+              </select>
+              {formik.touched.familyMembers?.[index]?.relationship &&
+                formik.errors.familyMembers?.[index]?.relationship && (
+                  <span className="text-sm text-red-400">
+                    {formik.errors.familyMembers[index].relationship}
+                  </span>
+                )}
+            </div>
+            <div className="flex flex-col gap-2">
+              <Lable label="Date of Birth" />
+              <TextInput
+                type="date"
+                name={`familyMembers[${index}].dateOfBirth`}
+                value={formik.values.familyMembers[index]?.dateOfBirth || ""}
+                handleInputChange={formik.handleChange}
+                error={
+                  formik.touched.familyMembers?.[index]?.dateOfBirth &&
+                  formik.errors.familyMembers?.[index]?.dateOfBirth
+                }
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default FamilyMembersInfo;
+
+
+=============================================
+
+import React from "react";
+import { FormikProps } from "formik"; // Import FormikProps
+import Lable from "../../components/Lable/Lable";
+import TextInput from "../../components/Input/TextInput";
+
+interface StepThreeValues {
+  emergencyContactInIndia: string;
+  districtInIndia: string;
+  addressInIndia: string;
+}
+
+function OnboardingStepThree({
+  formik,
+}: {
+  formik: FormikProps<StepThreeValues>;
+}) {
+  return (
+    <section>
+      <div className="pt-8 space-y-4">
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-6">
+          <div className="flex flex-col gap-2">
+            <Lable label="Emergency contact number in India" />
+            <TextInput
+              type="text"
+              placeholderText="Enter Emergency contact number"
+              name="emergencyContactInIndia"
+              value={formik.values.emergencyContactInIndia}
+              handleInputChange={formik.handleChange}
+              error={
+                formik.touched.emergencyContactInIndia &&
+                formik.errors.emergencyContactInIndia
+              }
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Lable label="Select India district" />
+            <select
+              className="px-3 h-12 outline-[#90BFE9] rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]"
+              name="districtInIndia"
+              value={formik.values.districtInIndia}
+              onChange={formik.handleChange}
+            >
+              <option>Which District do you come from?</option>
+              <option value="Andhra Pradesh">Andhra Pradesh</option>
+              <option value="Andaman and Nicobar Islands">
+                Andaman and Nicobar Islands
+              </option>
+              {/* Add more options as needed */}
+            </select>
+            {formik.touched.districtInIndia &&
+              formik.errors.districtInIndia && (
+                <span className="text-sm text-red-400">
+                  {formik.errors.districtInIndia}
+                </span>
+              )}
+          </div>
+        </div>
+        <div className="flex flex-col gap-2 w-full">
+          <Lable label="Address in India" />
+          <TextInput
+            type="text"
+            placeholderText="Enter your home address in India"
+            name="addressInIndia"
+            value={formik.values.addressInIndia}
+            handleInputChange={formik.handleChange}
+            error={
+              formik.touched.addressInIndia && formik.errors.addressInIndia
+            }
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default OnboardingStepThree;

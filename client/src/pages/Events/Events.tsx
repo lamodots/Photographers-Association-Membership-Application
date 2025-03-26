@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Filter } from "lucide-react";
+import { useEffect, useState } from "react";
+
 import TextInput from "../../components/Input/TextInput";
-import NewMemberCard from "../../components/Admin-Components/NewMemberCard/NewMemberCard";
-import { FAKE_MEMBERS, FAKE_ANNOUNCEMENTS } from "../../util/data";
+
 import { Link } from "react-router-dom";
-import FilterPopUp from "../../components/FilterPopUp/FilterPopUp";
+
 import AnnouncementList from "../../components/AnnouncementsList/AnnouncementList";
 import { Oval } from "react-loader-spinner";
 
 import SwipperCarosuel from "../../components/Swipper/Swipper";
 
-const API_URL = "https://membership-application-cms.onrender.com";
+const API_URL = process.env.REACT_APP_CLIENT_URL;
 interface AnnouncementProps {
   _id: string;
   title: string;
@@ -137,10 +136,10 @@ function Events() {
                     <AnnouncementList
                       // description={announcement?.description}
                       title={announcement?.title}
-                      photoImage={announcement.photoImage}
-                      createdBy={announcement.createdBy}
-                      time={announcement.startDate}
-                      venue={announcement.venue}
+                      photoImage={announcement?.photoImage}
+                      createdBy={announcement?.createdBy}
+                      time={announcement?.startDate}
+                      venue={announcement?.venue}
                     />
                   </Link>
                 );

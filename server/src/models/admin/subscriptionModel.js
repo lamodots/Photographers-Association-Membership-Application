@@ -5,7 +5,7 @@ const subscriptionSchema = new mongoose.Schema(
     name: String,
     interval: {
       type: String,
-      enum: ["daily", "monthly", "quarterly", "annually"],
+      enum: ["Life membership", "Annual membership", "Honorary"],
 
       // required: true,
     },

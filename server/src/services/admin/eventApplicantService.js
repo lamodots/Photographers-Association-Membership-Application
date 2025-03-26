@@ -6,7 +6,6 @@ exports.createApplicantService = async (applicantData) => {
   const applicant = new Applicant.Applicants(applicantData);
   await applicant.save();
 
-  console.log(applicant);
   return applicant;
 };
 

@@ -1,12 +1,11 @@
 import { ChevronLeft } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { Oval } from "react-loader-spinner";
 import { QrReader } from "react-qr-reader";
 import { useNavigate, useParams } from "react-router-dom";
 
-// const API_URL = process.env.REACT_APP_CLIENT_URL;
-const API_URL = "https://membership-application-cms.onrender.com";
+const API_URL = process.env.REACT_APP_CLIENT_URL;
 
 interface AttendeesInfo {
   attendee_full_name: string;
@@ -185,7 +184,9 @@ const QRCodeScanner = () => {
                 <td className="border border-slate-300 px-4 py-2">
                   <ul className="capitalize">
                     {applicant.attendees.map((attendee) => (
-                      <li key={attendee._id}>{attendee.attendee_full_name}</li>
+                      <li key={attendee?._id}>
+                        {attendee?.attendee_full_name}
+                      </li>
                     ))}
                   </ul>
                 </td>

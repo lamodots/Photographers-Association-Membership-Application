@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 
+// Generate access and refresh tokens
 function createJWT(payload) {
   const token = jwt.sign(payload, process.env.JWT_SECRET, {
     expiresIn: "1d",
@@ -15,20 +16,25 @@ function isTokenValid(token) {
 
   return jwt.verify(token, process.env.JWT_SECRET);
 }
+
 function attachCookiesToResponse(res, user) {
+  // Generate access and refresh tokens
   const token = createJWT({ payload: user });
 
   // const oneDay = 1000 * 60 * 60 * 24;
   const oneDay = 1000 * 60 * 60 * 24;
 
+  const sameSiteOption =
+    process.env.NODE_ENV === "production" ? "None" : "Strict";
   res.cookie("token", token, {
     httpOnly: true,
     maxAge: oneDay,
     secure: process.env.NODE_ENV === "production",
-    signed: true,
 
-    // sameSite: "Strict",
-    sameSite: "None",
+    signed: true,
+    sameSite: sameSiteOption,
+    // sameSite: "Strict", // use locally
+    // sameSite: "None", // use in production
   });
 }
 

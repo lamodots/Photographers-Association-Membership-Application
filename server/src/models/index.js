@@ -5,6 +5,8 @@ const SubscriptionModel = require("./admin/subscriptionModel");
 const EventsModel = require("./admin/eventsModel");
 const UserSubscriptionModel = require("./UserSubscription");
 const Applicants = require("./admin/eventApplicantModel");
+const WelfareDues = require("./userWelfareModel");
+const MembershipDues = require("./userMembershipDuesModel");
 module.exports = {
   AppSettingModel,
   AnnouncementModel,
@@ -13,4 +15,6 @@ module.exports = {
   EventsModel,
   UserSubscriptionModel,
   Applicants,
+  WelfareDues,
+  MembershipDues,
 };

@@ -2,11 +2,33 @@ const mongoose = require("mongoose");
 
 const bcrypt = require("bcryptjs");
 
+// Define a schema for family members
+const FamilyMemberSchema = new mongoose.Schema({
+  firstName: { type: String },
+  lastName: { type: String },
+  title: { type: String },
+  dateOfEntry: { type: Date },
+  emailId: { type: String },
+  whatsappId: { type: String },
+  relationship: { type: String },
+  dateOfBirth: { type: Date },
+  sex: { type: String },
+});
+
 const UserSchema = new mongoose.Schema(
   {
     image: { type: String },
     firstname: { type: String, trim: true },
     lastname: { type: String, trim: true },
+    sex: { type: String },
+    title: { type: String },
+    dateOfEntry: { type: Date },
+    emergencyContactInIndia: { type: String },
+    districtInIndia: { type: String },
+    addressInIndia: { type: String },
+    familyInLagos: { type: Boolean },
+    familyMembers: [FamilyMemberSchema],
+    whatsappId: { type: String },
     email: {
       type: String,
       required: [true, "Please provide email"],
@@ -19,11 +41,15 @@ const UserSchema = new mongoose.Schema(
     password: { type: String, required: [true, "Please provide email"] },
     Dob: { type: Date },
     phone: { type: String },
+    gender: { type: String },
+    bloodgroup: { type: String },
     location: { type: String },
     address: { type: String },
     aboutuser: { type: String },
     social: { type: Array },
     interest: { type: Array },
+    state: { type: String },
+
     role: {
       type: String,
       enum: ["user", "moderator", "admin"],
@@ -33,6 +59,13 @@ const UserSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "UserSubscription",
     },
+    isVerified: { type: Boolean, default: false },
+    verificationToken: { type: String },
+    verified: Date,
+    passwordToken: String,
+    passwordTokenExpirationDate: Date,
+    isOnboarded: { type: Boolean, default: false },
+    memberId: { type: String },
   },
 
   { timestamps: true }

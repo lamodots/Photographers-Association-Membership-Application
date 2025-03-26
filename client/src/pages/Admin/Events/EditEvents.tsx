@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
@@ -10,8 +10,7 @@ import useWordCount from "../../../hooks/useWordCount";
 import { formatTimeWithAmPm } from "../../../util/formatTimeWithAMPM";
 import { useNavigate, useParams } from "react-router-dom";
 
-// const API_URL = process.env.REACT_APP_CLIENT_URL;
-const API_URL = "https://membership-application-cms.onrender.com";
+const API_URL = process.env.REACT_APP_CLIENT_URL;
 
 interface EventProps {
   title: string;

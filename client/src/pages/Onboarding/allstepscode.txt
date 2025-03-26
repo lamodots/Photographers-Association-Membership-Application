@@ -1,0 +1,580 @@
+WELCOME
+import React, { useState } from "react";
+
+import Button from "../../components/Button/Button";
+import OnboardingStepOne from "./OnboardingStepOne";
+import OnboardingStepTwo from "./OnboardingStepTwo";
+import OnboardingStepThree from "./OnboardingStepThree";
+import { useNavigate } from "react-router-dom";
+
+import { Info } from "lucide-react";
+import { Oval } from "react-loader-spinner";
+
+const API_URL = process.env.REACT_APP_CLIENT_URL;
+function OnboardingWelcome() {
+  const [currentStep, setCurrentStep] = useState(1);
+  const steps = [OnboardingStepOne, OnboardingStepTwo, OnboardingStepThree];
+  const totalSteps = steps.length;
+
+  const navigate = useNavigate();
+
+  const handleNext = () => {
+    if (currentStep < totalSteps) {
+      setCurrentStep((prev) => prev + 1);
+    } else {
+      // Submit form or navigate to the next page
+      // console.log("Form Data:", formData);
+      navigate("/"); // Example navigation
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentStep > 1) {
+      setCurrentStep((prev) => prev - 1);
+    }
+  };
+
+  // decide the compoent to render
+  const CurrentStepComponent = steps[currentStep - 1];
+
+  const handleSubmit = async () => {
+    const res = await fetch(`${API_URL}/api/v1/users`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({}),
+    });
+  };
+  return (
+    <main className="  bg-[#F5F7FA] grid  md:grid-cols-[4fr_8fr] relative">
+      <aside className="bg-slate-800 h-screen p-6 md:px-16 md:py-16">
+        <h1 className="text-2xl text-left text-[#212529]">
+          <span className=" text-4xl text-white font-bold">Welcome to</span>{" "}
+          <br />
+          <span className="text-lg text-zinc-100">KERALA SAMAJAM NIGERIA</span>
+        </h1>
+        <p className="mt-6 text-white text-sm">
+          Tell us a little about yourself to setup your profile
+        </p>
+      </aside>
+      <div className="md:pt-16 pb-16 h-screen overflow-y-auto ">
+        <div className=" mx-auto max-w-[680px] w-full bg-slate-50 ">
+          <div className="bg-cyan-100 rounded-lg w-full p-6 border border-slate-300 items-center">
+            <div className="flex space-x-4">
+              <Info />
+              <p className=" text-lg text-[#515F69]">
+                Please answer these questions to complete your membership
+                registration
+              </p>
+            </div>
+          </div>
+
+          <div className="relative w-full bg-gray-200 rounded-full h-4 overflow-hidden mt-6">
+            <div
+              className="absolute top-0 left-0 h-full bg-green-500"
+              style={{ width: `${(currentStep / totalSteps) * 100}%` }}
+            ></div>
+          </div>
+          <p className="text-green-700">
+            Step {currentStep} of {totalSteps}
+          </p>
+          {/* add steps */}
+          {/* step 1 */}
+          <CurrentStepComponent />
+          <div>
+            {/* <Button
+              type="button"
+              text="Next"
+              // disableBtn={isSubmitting}
+              // isSubmitting={isSubmitting}
+              className="w-full mt-14"
+            >
+              {true && (
+                <Oval
+                  visible={true}
+                  height="24"
+                  width="24"
+                  color="#4fa94d"
+                  ariaLabel="oval-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                />
+              )}
+            </Button> */}
+            <div className="flex justify-between mt-14">
+              {currentStep > 1 && (
+                <Button
+                  type="button"
+                  text="Previous"
+                  handleClick={handlePrevious}
+                  className="w-1/3"
+                />
+              )}
+              <Button
+                type="button"
+                text={currentStep === totalSteps ? "Submit" : "Next"}
+                handleClick={handleNext}
+                className={`w-1/3 ${currentStep === 1 ? "ml-auto" : ""}`}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+}
+
+export default OnboardingWelcome;
+==========================================================
+STEP 1
+import Lable from "../../components/Lable/Lable";
+import TextInput from "../../components/Input/TextInput";
+
+function OnboardingStepOne() {
+  return (
+    <section>
+      <div className="pt-8 space-y-4">
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-6">
+          <div className="flex flex-col gap-2">
+            <Lable label="First name" />
+            <TextInput
+              type="text"
+              placeholderText="Enter firstname"
+              name="firstname"
+              value=""
+              handleInputChange={(event) => console.log("hello")}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Lable label="Last name" />
+            <TextInput
+              type="text"
+              placeholderText="Enter last name"
+              name="lastname"
+              value=""
+              handleInputChange={(event) => console.log("hello")}
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-6">
+          <div className="flex flex-col gap-2">
+            <Lable label="Select title" />
+
+            <select
+              className={` px-3  h-12 outline-[#90BFE9] rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]`}
+              name="title"
+              value={""}
+            >
+              <option>Select title</option>
+              <option>MR</option>
+              <option>MRS</option>
+              <option>MS</option>
+              <option>MASTER</option>
+              <option>DR</option>
+              <option>CHIEF</option>
+              <option>OTHER</option>
+            </select>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Lable label="Date of first entry to Nigeria" />
+            <TextInput
+              type="date"
+              name="dateOfEntry"
+              value=""
+              handleInputChange={(event) => console.log("hello")}
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default OnboardingStepOne;
+=============================================================
+STEP 2
+
+import React, { ChangeEvent, useState } from "react";
+import Lable from "../../components/Lable/Lable";
+import TextInput from "../../components/Input/TextInput";
+import Button from "../../components/Button/Button";
+import FamilyMembersInfo from "./FamilyMembersInfo";
+
+function OnboardingStepTwo() {
+  const [isFamilyInLagos, setIsFamilyInLagos] = useState<boolean | null>(null); // Tracks radio button selection
+  const [familyMembers, setFamilyMembers] = useState<{}[]>([]); // Tracks list of family members
+
+  // Handle radio button change
+  const handleFamilyInLagosChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setIsFamilyInLagos(event.target.value === "YES");
+  };
+
+  // Add a new family member
+  const handleAddFamilyMember = () => {
+    setFamilyMembers([...familyMembers, {}]); // Add an empty object for each family member
+  };
+
+  // Remove a family member by index
+  const handleRemoveFamilyMember = (index: number) => {
+    setFamilyMembers((prev) => prev.filter((_, i) => i !== index));
+  };
+  return (
+    <section>
+      <div className="pt-8 space-y-4">
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-6">
+          <div className="flex flex-col gap-2">
+            <Lable label="Email ID" />
+            <TextInput
+              type="text"
+              placeholderText="Enter email address"
+              name="email"
+              value=""
+              handleInputChange={(event) => console.log("hello")}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Lable label="Whatsapp Number" />
+            <TextInput
+              type="text"
+              placeholderText="Enter whatsapp number"
+              name="whatsappNumber"
+              value=""
+              handleInputChange={(event) => console.log("hello")}
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-6">
+          <div className="flex flex-col gap-2">
+            <Lable label="Select Area" />
+            <select
+              className="px-3 h-12 outline-[#90BFE9] rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]"
+              name="area"
+              value={""}
+            >
+              <option>Select your Area</option>
+              <option>Ikeja/Ikorodu/Ota</option>
+              <option>VI/Ikoyi</option>
+              <option>Ilupeju</option>
+              <option>Surulere/Apapa</option>
+              <option>Others</option>
+            </select>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Lable label="Date of Birth" />
+            <TextInput
+              type="date"
+              name="dateOfBirth"
+              value=""
+              handleInputChange={(event) => console.log("hello")}
+            />
+          </div>
+        </div>
+        <div className="flex flex-col gap-2 w-full">
+          <Lable label="Address in Nigeria" />
+          <TextInput
+            type="text"
+            placeholderText="Enter your home address in Nigeria"
+            name="addressInNigeria"
+            value=""
+            handleInputChange={(event) => console.log("hello")}
+          />
+          <span className="text-sm text-red-400"></span>
+        </div>
+
+        {/* Family in Nigeria? */}
+        <div>
+          <p className="mb-2">Is your Family here in Lagos?</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div className="flex flex-row gap-2 w-full border border-slate-400 p-6 rounded-lg">
+              <Lable label="YES" />
+              <TextInput
+                type="radio"
+                name="familyInNigeria"
+                value="YES"
+                checked={isFamilyInLagos === true}
+                handleInputChange={handleFamilyInLagosChange}
+                className="w-6 h-6"
+              />
+              <span className="text-sm text-red-400"></span>
+            </div>
+            <div className="flex flex-row gap-2 w-full border border-slate-400 p-6 rounded-lg">
+              <Lable label="NO" />
+              <TextInput
+                type="radio"
+                name="familyInNigeria"
+                value="NO"
+                checked={isFamilyInLagos === false}
+                handleInputChange={handleFamilyInLagosChange}
+                className="w-6 h-6"
+              />
+              <span className="text-sm text-red-400"></span>
+            </div>
+          </div>
+
+          {/* Show "Add family member Info" button and span if user selects YES */}
+          {isFamilyInLagos && (
+            <div className="flex gap-6 items-center">
+              <Button
+                text="Add family member Info"
+                className="px-8 bg-green-600"
+                handleClick={handleAddFamilyMember}
+              />
+              <span className="text-lg rounded-full w-8 h-8 flex items-center justify-center p-2 bg-green-200">
+                {familyMembers.length}
+              </span>
+            </div>
+          )}
+
+          {/* Dynamically render FamilyMembersInfo components */}
+          <div className="pt-8 space-y-4">
+            {familyMembers.map((_, index) => (
+              <FamilyMembersInfo
+                key={index}
+                onRemove={() => handleRemoveFamilyMember(index)}
+              />
+            ))}
+          </div>
+        </div>
+        {/* Family in Nigeria end? */}
+      </div>
+    </section>
+  );
+}
+
+export default OnboardingStepTwo;
+================================================================
+FamilyMembersInfo
+
+import React from "react";
+import Lable from "../../components/Lable/Lable";
+import TextInput from "../../components/Input/TextInput";
+import { X } from "lucide-react";
+interface FamilyMembersInfoPros {
+  firstname?: string;
+  lastname?: string;
+  title?: string;
+  dateOfEntry?: Date;
+  emailId?: string;
+  whatsappId?: string;
+  relationship?: string;
+  dateOfBirth?: Date;
+  onRemove: () => void;
+  key: number;
+}
+function FamilyMembersInfo({ onRemove }: FamilyMembersInfoPros) {
+  return (
+    <section className="  border  border-slate-300 bg-white rounded-lg p-4">
+      <div className="flex justify-end ">
+        <div
+          onClick={onRemove}
+          className="bg-slate-50 w-12 h-12 flex justify-center items-center cursor-pointer hover:bg-slate-100 rounded-full p-3"
+        >
+          <X size={32} />
+        </div>
+      </div>
+      <div className=" space-y-4">
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-6">
+          <div className="flex flex-col gap-2">
+            <Lable label="First name" />
+            <TextInput
+              type="text"
+              placeholderText="Enter firstname"
+              name="ffirstname"
+              value=""
+              handleInputChange={(event) => console.log("hello")}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Lable label="Last name" />
+            <TextInput
+              type="text"
+              placeholderText="Enter last name"
+              name="flastname"
+              value=""
+              handleInputChange={(event) => console.log("hello")}
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-6">
+          <div className="flex flex-col gap-2">
+            <Lable label="Select title" />
+
+            <select
+              className={` px-3  h-12 outline-[#90BFE9] rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]`}
+              value={""}
+              name="ftitle"
+            >
+              <option>Select title</option>
+              <option>MR</option>
+              <option>MRS</option>
+              <option>MS</option>
+              <option>MASTER</option>
+              <option>DR</option>
+              <option>CHIEF</option>
+              <option>OTHER</option>
+            </select>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Lable label="Date of first entry to Nigeria" />
+            <TextInput
+              type="date"
+              name="fdateOfEntry"
+              value=""
+              handleInputChange={(event) => console.log("hello")}
+            />
+          </div>
+        </div>
+      </div>
+      <div className="pt-8 space-y-4">
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-6">
+          <div className="flex flex-col gap-2">
+            <Lable label="Email ID" />
+            <TextInput
+              type="text"
+              placeholderText="Enter email address"
+              name="femailid"
+              value=""
+              handleInputChange={(event) => console.log("hello")}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Lable label="Whatsapp Number" />
+            <TextInput
+              type="text"
+              placeholderText="Enter whatsapp number"
+              name="fwhatsapp"
+              value=""
+              handleInputChange={(event) => console.log("hello")}
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-6">
+          <div className="flex flex-col gap-2">
+            <Lable label="Relationship with family member" />
+
+            <select
+              className={` px-3  h-12 outline-[#90BFE9] rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]`}
+              name="relationship"
+              value={""}
+            >
+              <option>Select the relationship</option>
+              <option>Husband</option>
+              <option>Wife</option>
+              <option>Son</option>
+              <option>Daughterer</option>
+              <option>Father</option>
+              <option>Mother</option>
+              <option>Others</option>
+            </select>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Lable label="Date of Birth" />
+            <TextInput
+              type="date"
+              name="fdateOfBirth"
+              value=""
+              handleInputChange={(event) => console.log("hello")}
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default FamilyMembersInfo;
+
+
+===============STEP 3====================================
+import Lable from "../../components/Lable/Lable";
+import TextInput from "../../components/Input/TextInput";
+
+function OnboardingStepThree() {
+  return (
+    <section>
+      <div className="pt-8 space-y-4">
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-6">
+          <div className="flex flex-col gap-2">
+            <Lable label="Emergency contact number in India" />
+            <TextInput
+              type="text"
+              placeholderText="Enter Emergency contact number"
+              name="emergencyContactInIndia"
+              value=""
+              handleInputChange={(event) => console.log("hello")}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Lable label="Select India district" />
+
+            <select
+              className={` px-3  h-12 outline-[#90BFE9] rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]`}
+              name="districtInIndia"
+              value={""}
+            >
+              {/* Another resource https://codepen.io/david-arun/pen/LrqmoY */}
+              <option>Which Destric do you come from?</option>
+              <option value="Andhra Pradesh">Andhra Pradesh</option>
+              <option value="Andaman and Nicobar Islands">
+                Andaman and Nicobar Islands
+              </option>
+              <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+              <option value="Assam">Assam</option>
+              <option value="Bihar">Bihar</option>
+              <option value="Chandigarh">Chandigarh</option>
+              <option value="Chhattisgarh">Chhattisgarh</option>
+              <option value="Dadar and Nagar Haveli">
+                Dadar and Nagar Haveli
+              </option>
+              <option value="Daman and Diu">Daman and Diu</option>
+              <option value="Delhi">Delhi</option>
+              <option value="Lakshadweep">Lakshadweep</option>
+              <option value="Puducherry">Puducherry</option>
+              <option value="Goa">Goa</option>
+              <option value="Gujarat">Gujarat</option>
+              <option value="Haryana">Haryana</option>
+              <option value="Himachal Pradesh">Himachal Pradesh</option>
+              <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+              <option value="Jharkhand">Jharkhand</option>
+              <option value="Karnataka">Karnataka</option>
+              <option value="Kerala">Kerala</option>
+              <option value="Madhya Pradesh">Madhya Pradesh</option>
+              <option value="Maharashtra">Maharashtra</option>
+              <option value="Manipur">Manipur</option>
+              <option value="Meghalaya">Meghalaya</option>
+              <option value="Mizoram">Mizoram</option>
+              <option value="Nagaland">Nagaland</option>
+              <option value="Odisha">Odisha</option>
+              <option value="Punjab">Punjab</option>
+              <option value="Rajasthan">Rajasthan</option>
+              <option value="Sikkim">Sikkim</option>
+              <option value="Tamil Nadu">Tamil Nadu</option>
+              <option value="Telangana">Telangana</option>
+              <option value="Tripura">Tripura</option>
+              <option value="Uttar Pradesh">Uttar Pradesh</option>
+              <option value="Uttarakhand">Uttarakhand</option>
+              <option value="West Bengal">West Bengal</option>
+            </select>
+          </div>
+        </div>
+        <div className="password flex flex-col gap-2  w-full">
+          <Lable label="Address in India" />
+          <TextInput
+            type="text"
+            placeholderText="Enter your home address in India"
+            name="addressInIndia"
+            value=""
+            handleInputChange={(event) => console.log("hello")}
+          />
+          <span className="text-sm text-red-400"></span>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default OnboardingStepThree;
+=======================================================================

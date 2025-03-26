@@ -1,16 +1,16 @@
-import React from "react";
-import chart from "../../../assets/chart.png";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJs, Tooltip, Legend, ArcElement } from "chart.js";
-import { Suspense } from "react";
+
 ChartJs.register(Tooltip, Legend, ArcElement);
-function Chart() {
+
+type ChatData = { male: number | undefined; female: number | undefined };
+function Chart({ male, female }: ChatData) {
   const data = {
     datasets: [
       {
         backgroundColor: ["rgb(255,174,128)", "#CFDAE8"],
 
-        data: [600, 400],
+        data: [female, male],
         weight: 40,
       },
     ],

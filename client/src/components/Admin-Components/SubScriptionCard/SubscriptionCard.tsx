@@ -1,4 +1,3 @@
-import React from "react";
 import { CircleUser } from "lucide-react";
 
 interface ValuesProps {
@@ -21,7 +20,6 @@ function SubscriptionCard(props: ValuesProps) {
         </small>
         <span className=" flex justify-between items-center space-x-2">
           {props.name && <CircleUser color="#A5BCD4" />}
-          {/* <small className="text-xl text-[#7598BB]">{numUsers}</small> */}
         </span>
       </div>
     </div>

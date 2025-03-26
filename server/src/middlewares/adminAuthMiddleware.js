@@ -15,7 +15,9 @@ function authenticateUser(req, res, next) {
 
     next();
   } catch (error) {
-    throw new CustomError.UnAuthenticatedError("Authentication Invalid");
+    throw new CustomError.UnAuthenticatedError(
+      "Something went wrong:Authentication Invalid"
+    );
   }
 }
 

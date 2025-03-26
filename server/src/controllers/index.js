@@ -40,7 +40,27 @@ const {
 } = require("./admin/eventApplicantController");
 
 const getUserProfileDetails = require("./admin/userController");
+const {
+  registerUserController,
+  verifyEmailController,
+  resetUserPasswordController,
+  loginUserController,
+  logOutUserController,
+  forgotUserPasswordController,
+  completeOnboarding,
+} = require("./userAuthController");
 
+const {
+  approveMembershipDues,
+  approveMembershipWelfareDues,
+  getAPersonMembershipPayments,
+  getAPersonWelfarePayments,
+  getAllMembershipPayments,
+  getAllWelfarePayments,
+} = require("./userDuesController");
+
+const fetchPaystackTransactionsController = require("./paystactTransactionController");
+const { getOverview } = require("./admin/overviewController");
 module.exports = {
   createAnnouncment,
   getAllAnnoucements,
@@ -69,4 +89,19 @@ module.exports = {
   getApplicantsByEvent,
   approveApplicant,
   getApplicantByEvent,
+  registerUserController,
+  resetUserPasswordController,
+  loginUserController,
+  forgotUserPasswordController,
+  logOutUserController,
+  verifyEmailController,
+  completeOnboarding,
+  approveMembershipWelfareDues,
+  approveMembershipDues,
+  getAPersonMembershipPayments,
+  getAPersonWelfarePayments,
+  getAllMembershipPayments,
+  getAllWelfarePayments,
+  fetchPaystackTransactionsController,
+  getOverview,
 };

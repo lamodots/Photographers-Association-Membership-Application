@@ -6,6 +6,9 @@ const subscriptionsRoutes = require("./admin/subscriptionsRoutes");
 const eventRoutes = require("./admin/eventRoutes");
 const eventApplicantRoute = require("./admin/eventApplicantRoutes");
 const usersRoutes = require("./shared/userRoutes");
+const usersAuthRoutes = require("./userAuth");
+const userDuesRoutes = require("./userDues");
+const overviewRoutes = require("./admin/overviewRoutes");
 
 module.exports = {
   adminAuthRoutes,
@@ -16,4 +19,7 @@ module.exports = {
   eventRoutes,
   eventApplicantRoute,
   usersRoutes,
+  usersAuthRoutes,
+  userDuesRoutes,
+  overviewRoutes,
 };

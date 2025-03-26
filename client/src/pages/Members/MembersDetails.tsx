@@ -1,13 +1,10 @@
-import React from "react";
-import { Trash, MonitorPause } from "lucide-react";
-
 import Badge from "../../components/Badge/Badge";
 import Avatar from "../../components/Avatar/Avatar";
 import { useLocation } from "react-router-dom";
-import { dateFormater } from "../../util/DateFormater";
+
 import { DOBFormater } from "../../util/DOBFormater";
 
-const API_URL = process.env.REACT_APP_CLIENT_URL;
+// const API_URL = process.env.REACT_APP_CLIENT_URL;
 
 type SocialLink = {
   facebook?: string;
@@ -37,7 +34,7 @@ function MembersDetails() {
       <header>
         <div className="flex items-center space-x-10">
           <div className="flex gap-2 items-center">
-            <Avatar />
+            <Avatar className="w-32 h-32 rounded" />
             <div>
               <h3 className="font-semibold capitalize">
                 {user.firstname + " " + user.lastname}

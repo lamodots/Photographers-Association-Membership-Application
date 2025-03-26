@@ -1,18 +1,16 @@
-import React, { useRef, useState } from "react";
+import { useState } from "react";
 import Lable from "../../../components/Lable/Lable";
 import TextInput from "../../../components/Input/TextInput";
-import { Formik, FormikHelpers, Form, FieldArray } from "formik";
+import { Formik, FormikHelpers, FieldArray } from "formik";
 import * as Yup from "yup";
 import Button from "../../../components/Button/Button";
 import Select from "react-select";
-import { CircleUserRound, SquarePen } from "lucide-react";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 import { Oval } from "react-loader-spinner";
 import useWordCount from "../../../hooks/useWordCount";
 
-// const API_URL = process.env.REACT_APP_CLIENT_URL;
-const API_URL = "https://membership-application-cms.onrender.com";
+const API_URL = process.env.REACT_APP_CLIENT_URL;
+
 const options = [
   { value: "user", label: "User" },
   { value: "admin", label: "Administrator" },
@@ -37,7 +35,6 @@ interface ValueProps {
 }
 
 function CreateNewMember() {
-  const navigate = useNavigate();
   const { wordCount, handleWordCount } = useWordCount();
 
   const addAdminUserSchema = Yup.object().shape({

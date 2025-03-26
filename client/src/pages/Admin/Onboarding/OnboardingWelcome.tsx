@@ -1,9 +1,7 @@
-import React from "react";
-import onboardingheaderIllustration from "../../assets/onboardingheaderIllustration.svg";
 import Button from "../../../components/Button/Button";
 import OnboardingStepOne from "./OnboardingStepOne";
 import OnboardingStepTwo from "./OnboardingStepTwo";
-import { useLocation, useParams, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import OnboardingHeader from "../../../layouts/OnboardingHeader/OnboardingHeader";
 
 function OnboardingWelcome() {

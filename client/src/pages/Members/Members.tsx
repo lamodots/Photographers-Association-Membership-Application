@@ -1,10 +1,9 @@
-import { ChevronLeft, Filter } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { Filter } from "lucide-react";
+import { useEffect, useState } from "react";
 import TextInput from "../../components/Input/TextInput";
 import NewMemberCard from "../../components/Admin-Components/NewMemberCard/NewMemberCard";
-import { FAKE_MEMBERS } from "../../util/data";
+
 import { Link, useNavigate } from "react-router-dom";
-import { Oval } from "react-loader-spinner";
 
 const API_URL = process.env.REACT_APP_CLIENT_URL;
 
@@ -35,7 +34,7 @@ function Members() {
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const navigate = useNavigate();
+
   const itemsPerPage = 3;
   console.log("user data", userData);
   // Filter user base on search query
@@ -83,9 +82,6 @@ function Members() {
     getAllUsers();
   }, []);
 
-  const handleBackClick = () => {
-    navigate(-1);
-  };
   return (
     <main>
       <header>

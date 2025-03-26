@@ -1,10 +1,10 @@
-import React, { Fragment, useState } from "react";
 import BrandLogo from "../../components/BrandLogo/BrandLogo";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Icon from "../../components/Icon/Icon";
 import { userDashboardMenus } from "../../util/menus/menus";
 import { SidebarCloseIcon } from "lucide-react";
 import useFetchAppData from "../../hooks/useFetchAppData";
+import { Oval } from "react-loader-spinner";
 
 type MemberDashboardSideBarProp = {
   handleToggleSideBar: () => void;
@@ -13,7 +13,7 @@ type MemberDashboardSideBarProp = {
 function MemberDashboardSideBar({
   handleToggleSideBar,
 }: MemberDashboardSideBarProp) {
-  const { appData } = useFetchAppData();
+  const { appData, loading } = useFetchAppData();
   return (
     <aside className=" fixed overflow-y-auto pb-8  z-50 shadow-lg bg-[#F5F7FA] border-r-2 border-r-[#C4DCF3] md:static md:z-0 md:shadow-none   transition ease-in-out delay-150 duration-300 w-[240px]  md:w-[296px] h-full">
       <SidebarCloseIcon
@@ -24,13 +24,21 @@ function MemberDashboardSideBar({
       <div className="brand py-8 px-6 mb-8  border-b-2 border-b-[#C4DCF3] ">
         <div className="flex items-center gap-3">
           <BrandLogo color="#1A4F83" />
-          <span className="text-2xl text-[#1A4F83] font-bold">
-            {appData ? appData?.appname_acronym : "Band"}
-          </span>
+          {loading ? (
+            <Oval height={6} width={6} />
+          ) : (
+            <span className="text-2xl text-[#1A4F83] font-bold">
+              {appData ? appData?.appname_acronym : "Band"}
+            </span>
+          )}
         </div>
-        <span className="text-xs text-[#1A4F83] font-bold">
-          {appData ? appData?.appname : "Band"}
-        </span>
+        {loading ? (
+          <Oval height={6} width={6} />
+        ) : (
+          <span className="text-xs text-[#1A4F83] font-bold">
+            {appData ? appData?.appname : "Band"}
+          </span>
+        )}
       </div>
       <div className="  px-6 links flex flex-col gap-6">
         {userDashboardMenus.map((menu) => (

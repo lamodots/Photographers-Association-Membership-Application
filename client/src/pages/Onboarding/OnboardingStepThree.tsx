@@ -1,0 +1,137 @@
+import Lable from "../../components/Lable/Lable";
+import TextInput from "../../components/Input/TextInput";
+import { StepThreeValues } from "./OnboardingWelcome";
+import { DISTRICTS } from "../../util/indianDistrict";
+import { NIGERIANSTATES } from "../../util/nigerianStates";
+import InternationalTelephoneInput from "../../components/Input/InternatioanlTelephoneInput";
+interface OnboardingStepThreeProps {
+  data: StepThreeValues;
+  setData: (data: StepThreeValues) => void;
+  errors: { [key: string]: string };
+}
+
+function OnboardingStepThree({
+  data,
+  setData,
+  errors,
+}: OnboardingStepThreeProps) {
+  const handleChange = (field: keyof StepThreeValues, value: string) => {
+    setData({ ...data, [field]: value });
+  };
+
+  return (
+    <section className="p-4">
+      <div className="space-y-4">
+        <div className="flex flex-col space-y-2">
+          <Lable label="State In Nigeria" />
+
+          <select
+            className={` px-3  h-12 outline-[#90BFE9] rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]`}
+            value={data.state}
+            onChange={(e) => handleChange("state", e.target.value)}
+          >
+            {NIGERIANSTATES.map((state) => {
+              return (
+                <option value={state} key={state}>
+                  {state}
+                </option>
+              );
+            })}
+          </select>
+          {errors.state && <p className="text-red-500">{errors.state}</p>}
+        </div>
+        <div className="flex flex-col space-y-2">
+          <Lable label="Address In Nigeria" />
+          <TextInput
+            type="text"
+            placeholderText="Address In Nigeria"
+            value={data.address}
+            handleInputChange={(e) => handleChange("address", e.target.value)}
+          />
+          {errors.address && <p className="text-red-500">{errors.address}</p>}
+        </div>
+        <div className="flex flex-col space-y-2">
+          <Lable label="Area/Location In Nigeria" />
+          <select
+            value={data.location}
+            onChange={(e) => handleChange("location", e.target.value)}
+            className={` px-3  h-12 outline-[#90BFE9] rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]`}
+          >
+            <option>Select your Area</option>
+            <option>Ikeja/Ikorodu/Ota</option>
+            <option>VI/Ikoyi</option>
+            <option>Ilupeju</option>
+            <option>Surulere/Apapa</option>
+          </select>
+          {errors.location && <p className="text-red-500">{errors.location}</p>}
+        </div>
+
+        <div className="flex flex-col space-y-2">
+          <hr className="my-6" />
+          <Lable label="Emergency Contact phone number in India" />
+          {/* <TextInput
+            type="text"
+            placeholderText="Enter emergency contact"
+            value={data.emergencyContactInIndia}
+            handleInputChange={(e) =>
+              handleChange("emergencyContactInIndia", e.target.value)
+            }
+          /> */}
+          <InternationalTelephoneInput
+            country="in"
+            value={data.emergencyContactInIndia}
+            handleInputChange={(value) =>
+              handleChange("emergencyContactInIndia", value)
+            }
+          />
+          {errors.emergencyContactInIndia && (
+            <p className="text-red-500">{errors.emergencyContactInIndia}</p>
+          )}
+        </div>
+        <div className="flex flex-col space-y-2">
+          <Lable label="Select your district in India" />
+          {/* <TextInput
+            type="text"
+            placeholderText="Enter district"
+            value={data.districtInIndia}
+            handleInputChange={(e) =>
+              handleChange("districtInIndia", e.target.value)
+            }
+          /> */}
+          <select
+            className={` px-3  h-12 outline-[#90BFE9] rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]`}
+            value={data.districtInIndia}
+            onChange={(e) => handleChange("districtInIndia", e.target.value)}
+          >
+            {DISTRICTS.map((district) => {
+              return (
+                <option value={district} key={district}>
+                  {district}
+                </option>
+              );
+            })}
+          </select>
+          {errors.districtInIndia && (
+            <p className="text-red-500">{errors.districtInIndia}</p>
+          )}
+        </div>
+        <div className="flex flex-col space-y-2">
+          <Lable label="Address in India" />
+          <TextInput
+            type="text"
+            placeholderText="Enter address"
+            value={data.addressInIndia}
+            handleInputChange={(e) =>
+              handleChange("addressInIndia", e.target.value)
+            }
+          />
+          {errors.addressInIndia && (
+            <p className="text-red-500">{errors.addressInIndia}</p>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default OnboardingStepThree;

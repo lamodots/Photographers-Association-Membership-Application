@@ -43,6 +43,26 @@ const getUserDetailsService = require("./admin/userServices");
 const getUserSubscriptionServices = require("./admin/userSubscriptionServices");
 
 const getAllUsersService = require("./usersServices");
+const {
+  registerUserService,
+  verifyEmailService,
+  userLoginService,
+  forgotUserPasswordService,
+  resetUserPasswordService,
+  completeOnboardingService,
+} = require("./usersServices");
+
+const {
+  approveMembershipWelfareDuesServices,
+  approveMembershipDuesServices,
+  getAPersonWelfarePaymentsServices,
+  getAPersonMembershipPaymentsServices,
+  fetchAllMembershipPaymentsService,
+  fetchAllWelfarePaymentsService,
+} = require("./userDuesServices");
+
+const fetchPaystackTransactionsServices = require("./paystackTransactionServices");
+const { getOverviewStats } = require("./admin/overviewServices");
 
 module.exports = {
   addAdminUserService,
@@ -71,4 +91,18 @@ module.exports = {
   getUserDetailsService,
   getUserSubscriptionServices,
   getApplicantService,
+  registerUserService,
+  verifyEmailService,
+  userLoginService,
+  forgotUserPasswordService,
+  resetUserPasswordService,
+  completeOnboardingService,
+  approveMembershipWelfareDuesServices,
+  approveMembershipDuesServices,
+  getAPersonWelfarePaymentsServices,
+  getAPersonMembershipPaymentsServices,
+  fetchAllMembershipPaymentsService,
+  fetchAllWelfarePaymentsService,
+  fetchPaystackTransactionsServices,
+  getOverviewStats,
 };

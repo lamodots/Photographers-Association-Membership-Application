@@ -1,7 +1,5 @@
-import React, { useState } from "react";
 import avatar from "../../assets/esn.jpg";
 import Popup from "../Popup/Popup";
-import NotificationComponent from "../NotificationComponent/NotificationComponent";
 
 type AvatarProps = {
   className?: string;

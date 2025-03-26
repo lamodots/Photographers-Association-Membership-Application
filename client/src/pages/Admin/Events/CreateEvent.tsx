@@ -1,4 +1,3 @@
-import React from "react";
 import toast from "react-hot-toast";
 import { Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
@@ -8,9 +7,9 @@ import Lable from "../../../components/Lable/Lable";
 import Button from "../../../components/Button/Button";
 import useWordCount from "../../../hooks/useWordCount";
 import { formatTimeWithAmPm } from "../../../util/formatTimeWithAMPM";
+import { useCurrentUser } from "../../../context/AdminContext";
 
-// const API_URL = process.env.REACT_APP_CLIENT_URL;
-const API_URL = "https://membership-application-cms.onrender.com";
+const API_URL = process.env.REACT_APP_CLIENT_URL;
 
 interface EventProps {
   title: string;
@@ -23,6 +22,8 @@ interface EventProps {
 }
 
 function CreateEvent() {
+  const { currentUser } = useCurrentUser();
+  console.log(currentUser);
   const { wordCount, handleWordCount } = useWordCount();
 
   const eventSchema = Yup.object().shape({

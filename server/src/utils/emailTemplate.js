@@ -77,3 +77,71 @@ exports.sendGridEmailTemplate = (applicant) => {
 
   return msg;
 };
+
+// user email verification template
+
+exports.verifyUserEmailTemplate = (
+  fullUrl,
+  newUserEamil,
+  verificationToken
+) => {
+  const msg = {
+    from: `Kerala Samajam Nigeria <ksn@membersng.com>`,
+    to: newUserEamil,
+    subject: "Verify Email Address",
+    text: `Please Verify your email address!.\n\nEmail: ${newUserEamil}`,
+    html: `<h1>Kerala Samajam Nigeria!.</h1>
+           <p><b>Welcome </b></p>\n\n
+           <p>Please click the button below to verify your email address.. </p>\n
+           <p><a href='${fullUrl}/verify?token=${verificationToken}&email=${newUserEamil}'>Confirm your email address</a></p>\n
+           <p>If you did not create an account, no further action is required.</p>\n\n
+           <p>Regards</p>
+           <p>KSN Team</p> \n\n
+           <hr> \n\n
+           <p>If you're having trouble clicking the "Verify Email Address" button, copy and paste the URL below into your web browser
+           '${fullUrl}/verify?token=${verificationToken}&email=${newUserEamil}'
+           </p>
+          `,
+  };
+
+  return msg;
+};
+
+exports.sendResetPassswordEmailTemplate = (token, fullUrl, email) => {
+  console.log(email);
+  const msg = {
+    from: `Kerala Samajam Nigeria <ksn@membersng.com>`,
+    to: email,
+    subject: `Reset your password`,
+    text: `Reset your password!.\n\nEmail: ${email}`,
+    html: `<h1>Kerala Samajam Nigeria!.</h1>\n
+           <p><b>Hi ${email} </b></p>\n
+           <p>You recently took steps to reset the password. Click on the link below to reset your password.</p>\n
+           <p><a href='${fullUrl}/reset-password?token=${token}&email=${email}'>Click here to reset your password</a></p>\n\n
+           <p>This link will expire in 10 minutes after this email was sent.</p>\n\n\n
+           <p>Sincerely,</p>
+           <p>KSN Team</p>
+          `,
+  };
+
+  return msg;
+};
+
+// send Payment email
+exports.sendPaymentEmailTemplate = (payment, email) => {
+  console.log(email);
+  const msg = {
+    from: `Kerala Samajam Nigeria <ksn@membersng.com>`,
+    to: email,
+    subject: `Dues Payment Information`,
+    text: `Your dues payment information!.\n\nEmail: ${email}`,
+    html: `<h1>Kerala Samajam Nigeria!.</h1>\n
+           <p><b>Hi ${email} </b></p>\n
+           <p>Your ${payment} payment was processed successully.</p>\n\n
+           <p>Sincerely,</p>
+           <p>KSN Team</p>
+          `,
+  };
+
+  return msg;
+};

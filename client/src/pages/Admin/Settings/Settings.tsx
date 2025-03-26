@@ -1,23 +1,27 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Lable from "../../../components/Lable/Lable";
 import TextInput from "../../../components/Input/TextInput";
-import { Formik, FormikHelpers } from "formik";
+import { Formik, FormikHelpers, FieldArray } from "formik";
 import * as Yup from "yup";
 import Button from "../../../components/Button/Button";
-import Select from "react-select";
+
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { Oval } from "react-loader-spinner";
 
-// const API_URL =
-//   process.env.REACT_APP_CLIENT_URL ||
-//   "http://membership-application-cms.onrender.com";
-const API_URL = "https://membership-application-cms.onrender.com";
-const options = [
-  { value: "content", label: "Content" },
-  { value: "certificate", label: "Certificate" },
-  { value: "id-card", label: "Id-Card" },
-];
+const API_URL = process.env.REACT_APP_CLIENT_URL;
+
+// const options = [
+//   { value: "content", label: "Content" },
+//   { value: "certificate", label: "Certificate" },
+//   { value: "id-card", label: "Id-Card" },
+// ];
+
+interface SecretaryData {
+  name: string;
+  phone: string;
+  area: string;
+}
 
 interface ValuesProps {
   appname: string;
@@ -27,7 +31,12 @@ interface ValuesProps {
   pagelink: string[];
   applogo: File | null;
   sendgridapi: string;
+  welfare_fee: number | string;
+  lifetime_fee: number | string;
+  annual_fee: number | string;
+  secretaries: SecretaryData[];
 }
+
 function Settings() {
   const [appData, setAppData] = useState<ValuesProps | null>(null);
   const [showSettingsData, setShowSettingsData] = useState({
@@ -36,7 +45,6 @@ function Settings() {
     sendgridapi: false,
   });
 
-  const navigate = useNavigate();
   const settingsSchema = Yup.object().shape({
     appname: Yup.string()
       .trim()
@@ -57,6 +65,16 @@ function Settings() {
     sendgridapi: Yup.string().required("Sendgrid API key is required.").trim(),
     pagelink: Yup.array().of(Yup.string()),
     applogo: Yup.mixed().required("Event image is required"),
+    welfare_fee: Yup.number(),
+    lifetime_fee: Yup.number(),
+    annual_fee: Yup.number(),
+    secretaries: Yup.array().of(
+      Yup.object().shape({
+        name: Yup.string().required("Secretary name is required"),
+        phone: Yup.string().required("Phone number is required"),
+        area: Yup.string().required("Area is required"),
+      })
+    ),
   });
 
   const initialValues: ValuesProps = {
@@ -67,15 +85,11 @@ function Settings() {
     pagelink: [],
     applogo: null,
     sendgridapi: appData?.sendgridapi || "",
+    welfare_fee: appData?.welfare_fee || 0,
+    lifetime_fee: appData?.lifetime_fee || 0,
+    annual_fee: appData?.annual_fee || 0,
+    secretaries: appData?.secretaries || [],
   };
-  // const initialValues: ValuesProps = {
-  //   appname: "",
-  //   paymentapi: "",
-  //   whatsappapi: "",
-  //   pagelink: [],
-  //   applogo: null,
-  //   sendgridapi: "",
-  // };
 
   async function getAppSettings() {
     try {
@@ -112,9 +126,15 @@ function Settings() {
       formData.append("whatsappapi", values.whatsappapi);
       formData.append("applogo", values.applogo as File);
       formData.append("sendgridapi", values.sendgridapi);
-      // formData.append("pagelink", values.pagelink.filter((p)=> {p}));
+      formData.append("welfare_fee", values.welfare_fee.toLocaleString());
+      formData.append("lifetime_fee", values.lifetime_fee.toLocaleString());
+      formData.append("annual_fee", values.annual_fee.toLocaleString());
+
+      // Add secretaries data to form data as JSON string
+      formData.append("secretaries", JSON.stringify(values.secretaries));
+
       console.log(formData);
-      // await new Promise((resolve) => setTimeout(resolve, 3000));
+
       const res = await fetch(`${API_URL}/api/v1/secure/settings`, {
         method: "POST",
         body: formData,
@@ -142,6 +162,7 @@ function Settings() {
       [field]: !prevData[field],
     }));
   };
+
   return (
     <main>
       <section>
@@ -156,6 +177,7 @@ function Settings() {
             {({
               values,
               errors,
+              touched,
               handleChange,
               handleSubmit,
               isSubmitting,
@@ -280,31 +302,6 @@ function Settings() {
                       {errors.sendgridapi && errors.sendgridapi}
                     </span>
                   </div>
-                  {/* <div className=" space-y-2"> */}
-                  {/* <Lable label="Add pages to disable" className=" text-xs" /> */}
-                  {/* https://react-select.com/home */}
-                  {/* <Select
-                      options={options}
-                      isMulti
-                      name="pagelink"
-                      value={options.filter((option) =>
-                        values.pagelink.includes(option.value)
-                      )}
-                      className=" bg-[#F4F6F7]"
-                      onChange={(selectedOptions) =>
-                        setFieldValue(
-                          "pagelink",
-                          selectedOptions
-                            ? selectedOptions.map((option) => option.value)
-                            : []
-                        )
-                      }
-                    /> */}
-                  {/* 
-                    <span className="text-[10px] text-red-400">
-                      {errors.pagelink && errors.pagelink}
-                    </span> */}
-                  {/* </div> */}
                   <div className=" space-y-2">
                     <Lable
                       label="Upload app logo 32 x 32 size with transparent background *"
@@ -329,6 +326,176 @@ function Settings() {
                     </span>
                   </div>
                 </div>
+
+                <hr className="my-6"></hr>
+
+                <div>
+                  <h2 className="text-lg text-zinc-800 font-semibold my-4">
+                    Fee Settings
+                  </h2>
+                  <div className="space-y-6">
+                    <div>
+                      <Lable
+                        label="Welfare Dues Amount *"
+                        className=" text-xs"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Enter amount members pay for Welfare Dues "
+                        name="welfare_fee"
+                        value={values.welfare_fee}
+                        onChange={handleChange}
+                        className="w-full px-3  h-12 outline-[#90BFE9] rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]"
+                      />
+                      <span className="text-[10px] text-red-400">
+                        {errors.welfare_fee && errors.welfare_fee}
+                      </span>
+                    </div>
+                    <div>
+                      <Lable
+                        label="Life Time Membership Amount *"
+                        className=" text-xs"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Enter Life Time Membership Amount "
+                        name="lifetime_fee"
+                        value={values.lifetime_fee}
+                        onChange={handleChange}
+                        className="w-full px-3  h-12 outline-[#90BFE9] rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]"
+                      />
+                      <span className="text-[10px] text-red-400">
+                        {errors.lifetime_fee && errors.lifetime_fee}
+                      </span>
+                    </div>
+                    <div>
+                      <Lable
+                        label="Annual Membership Amount *"
+                        className=" text-xs"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Enter Annual Membership Amount "
+                        name="annual_fee"
+                        value={values.annual_fee}
+                        onChange={handleChange}
+                        className="w-full px-3  h-12 outline-[#90BFE9] rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]"
+                      />
+                      <span className="text-[10px] text-red-400">
+                        {errors.annual_fee && errors.annual_fee}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <hr className="my-6"></hr>
+
+                {/* Secretaries Section */}
+                <div>
+                  <h2 className="text-lg text-zinc-800 font-semibold my-4">
+                    Secretaries Management
+                  </h2>
+
+                  <FieldArray name="secretaries">
+                    {({ push, remove }) => (
+                      <div className="space-y-4">
+                        {values.secretaries && values.secretaries.length > 0 ? (
+                          values.secretaries.map((secretary, index) => (
+                            <div
+                              key={index}
+                              className="p-4 border border-[#515F69] rounded-lg bg-[#F4F6F7] relative"
+                            >
+                              <button
+                                type="button"
+                                className="absolute top-2 right-2 text-red-500 font-bold"
+                                onClick={() => remove(index)}
+                              >
+                                ×
+                              </button>
+
+                              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                  <Lable
+                                    label="Secretary Name *"
+                                    className="text-xs"
+                                  />
+                                  <TextInput
+                                    type="text"
+                                    placeholderText="Enter secretary name"
+                                    name={`secretaries.${index}.name`}
+                                    value={secretary.name}
+                                    handleInputChange={handleChange}
+                                    className="w-full"
+                                  />
+                                  <span className="text-[10px] text-red-400">
+                                    {errors.secretaries &&
+                                      touched.secretaries &&
+                                      errors.secretaries[index] &&
+                                      (errors.secretaries[index] as any).name}
+                                  </span>
+                                </div>
+
+                                <div>
+                                  <Lable
+                                    label="Phone Number *"
+                                    className="text-xs"
+                                  />
+                                  <TextInput
+                                    type="text"
+                                    placeholderText="Enter phone number"
+                                    name={`secretaries.${index}.phone`}
+                                    value={secretary.phone}
+                                    handleInputChange={handleChange}
+                                    className="w-full"
+                                  />
+                                  <span className="text-[10px] text-red-400">
+                                    {errors.secretaries &&
+                                      touched.secretaries &&
+                                      errors.secretaries[index] &&
+                                      (errors.secretaries[index] as any).phone}
+                                  </span>
+                                </div>
+
+                                <div>
+                                  <Lable label="Area *" className="text-xs" />
+                                  <TextInput
+                                    type="text"
+                                    placeholderText="E.g. Ikorodu, Ikeja"
+                                    name={`secretaries.${index}.area`}
+                                    value={secretary.area}
+                                    handleInputChange={handleChange}
+                                    className="w-full"
+                                  />
+                                  <span className="text-[10px] text-red-400">
+                                    {errors.secretaries &&
+                                      touched.secretaries &&
+                                      errors.secretaries[index] &&
+                                      (errors.secretaries[index] as any).area}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          ))
+                        ) : (
+                          <p className="text-gray-500 italic">
+                            No secretaries added yet.
+                          </p>
+                        )}
+
+                        <button
+                          type="button"
+                          className="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+                          onClick={() =>
+                            push({ name: "", phone: "", area: "" })
+                          }
+                        >
+                          + Add Secretary
+                        </button>
+                      </div>
+                    )}
+                  </FieldArray>
+                </div>
+
                 <Button
                   type="submit"
                   text="Update settings "

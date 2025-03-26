@@ -1,98 +1,112 @@
-import React from "react";
-import OnboardingHeader from "../../layouts/OnboardingHeader/OnboardingHeader";
-import Lable from "../../components/Lable/Lable";
-import TextInput from "../../components/Input/TextInput";
 import Button from "../../components/Button/Button";
+import FamilyMembersInfo from "./FamilyMembersInfo";
+import { StepTwoValues, FamilyMember } from "./OnboardingWelcome";
 
-function OnboardingStepTwo() {
+interface OnboardingStepTwoProps {
+  data: StepTwoValues;
+  setData: (data: StepTwoValues) => void;
+  errors: { [key: string]: any };
+}
+
+function OnboardingStepTwo({ data, setData, errors }: OnboardingStepTwoProps) {
+  const handleFamilyInLagosChange = (value: boolean) => {
+    // When "No" is selected, clear the familyMembers array.
+    setData({
+      ...data,
+      familyInLagos: value,
+      familyMembers: value ? data.familyMembers : [],
+    });
+  };
+
+  const handleAddFamilyMember = () => {
+    const newMember: FamilyMember = {
+      firstName: "",
+      lastName: "",
+      title: "",
+      dateOfEntry: "",
+      emailId: "",
+      whatsappId: "",
+      relationship: "",
+      dateOfBirth: "",
+    };
+    const updated = [...data.familyMembers, newMember];
+    setData({ ...data, familyMembers: updated });
+  };
+
+  const handleRemoveFamilyMember = (index: number) => {
+    const updated = data.familyMembers.filter((_, i) => i !== index);
+    setData({ ...data, familyMembers: updated });
+  };
+
+  const handleFamilyMemberChange = (
+    index: number,
+    field: string,
+    value: string
+  ) => {
+    const updated = data.familyMembers.map((member, i) =>
+      i === index ? { ...member, [field]: value } : member
+    );
+    setData({ ...data, familyMembers: updated });
+  };
+
   return (
-    <div className=" bg-[#F5F7FA]">
-      <OnboardingHeader title="About You And Intrest" />
-      <main className="px-4 py-[96px] md:px-[135px]">
-        <h1 className="text-2xl  text-[#212529]">
-          Lets get to you and your journey
-        </h1>
-
-        <div className=" mt-8 max-w-[580px] w-full">
-          <form>
-            <div>
-              <h3 className="text-xl text-[#212529] font-bold">About you</h3>
-              <div className="flex  flex-col gap-2 mt-8">
-                <Lable label="Tell us about yourself" className=" text-xs" />
-                <textarea
-                  placeholder="Write text"
-                  className="bg-[#F4F6F7] border border-[#A6B4BA] rounded-lg p-4 h-[102px]"
-                />
-                <span className=" flex justify-end text-sm text-[#212529]">
-                  0/400
-                </span>
-              </div>
-              <div className="mt-6 flex flex-col gap-2">
-                <Lable label="Add your social link" />
-                <TextInput
-                  type="text"
-                  name=""
-                  value=""
-                  placeholderText="EG. https://www.google.com/me"
-                  handleInputChange={() => console.log("console")}
-                />
-              </div>
-            </div>
-
-            <div className="mt-6">
-              <h3 className="text-xl text-[#212529] font-bold mb-8 ">
-                Set your interest
-              </h3>
-              <div>
-                <p className="mb-6">Select your photography interests</p>
-                <div className=" grid grid-cols-2 gap-4">
-                  <div className=" w-full flex items-center gap-2 bg-[#F4F6F7] border border-[#A6B4BA] px-3 py-2 rounded-lg">
-                    <TextInput
-                      id="People_Photography"
-                      type="checkbox"
-                      name=""
-                      value=""
-                      handleInputChange={() => console.log("herllo")}
-                      className="w-6 h-14"
-                    />
-                    <Lable
-                      label="People Photography"
-                      htmlFor="People_Photography"
-                    />
-                  </div>
-                  <div className=" w-full flex items-center gap-2 bg-[#F4F6F7] border border-[#A6B4BA] px-3 py-2 rounded-lg">
-                    <TextInput
-                      type="checkbox"
-                      name=""
-                      value=""
-                      handleInputChange={() => console.log("herllo")}
-                      className="w-6 h-14"
-                    />
-                    <Lable label="Manmade Objects" />
-                  </div>
-                  <div className=" w-full flex items-center gap-2 bg-[#F4F6F7] border border-[#A6B4BA] px-3 py-2 rounded-lg">
-                    <TextInput
-                      type="checkbox"
-                      name=""
-                      value=""
-                      handleInputChange={() => console.log("herllo")}
-                      className="w-6 h-14"
-                    />
-                    <Lable label="Nature Photography" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="mt-8">
-              <Button
-                text="Complete and continue to Dashboard"
-                className="w-full"
-              />
-            </div>
-          </form>
+    <section className="p-4">
+      <div className="space-y-4">
+        <p>Is your Family here in Lagos?</p>
+        <div className="flex gap-4 my-8">
+          <label className=" border border-slate-500 px-10 py-6 rounded-lg cursor-pointer flex items-center gap-2">
+            <input
+              type="radio"
+              name="familyInLagos"
+              checked={data.familyInLagos === true}
+              onChange={() => handleFamilyInLagosChange(true)}
+              className=" custom-radio w-6 h-6"
+            />
+            Yes
+          </label>
+          <label className=" border border-slate-500 px-10 py-6 rounded-lg cursor-pointer flex items-center gap-2">
+            <input
+              type="radio"
+              name="familyInLagos"
+              checked={data.familyInLagos === false}
+              onChange={() => handleFamilyInLagosChange(false)}
+              className=" custom-radio w-6 h-6"
+            />
+            No
+          </label>
         </div>
-      </main>
-    </div>
+        {errors.familyInLagos && (
+          <p className="text-red-500">{errors.familyInLagos}</p>
+        )}
+
+        {data.familyInLagos && (
+          <>
+            <Button
+              text="Add family member info"
+              handleClick={handleAddFamilyMember}
+              className="px-8 bg-green-600"
+            />
+            {data.familyMembers.length === 0 &&
+              errors.familyMembers &&
+              typeof errors.familyMembers === "string" && (
+                <p className="text-red-500">{errors.familyMembers}</p>
+              )}
+            {data.familyMembers.map((member, index) => (
+              <FamilyMembersInfo
+                key={index}
+                index={index}
+                member={member}
+                onChange={(field, value) =>
+                  handleFamilyMemberChange(index, field, value)
+                }
+                onRemove={() => handleRemoveFamilyMember(index)}
+                errors={errors}
+              />
+            ))}
+          </>
+        )}
+      </div>
+    </section>
   );
 }
 

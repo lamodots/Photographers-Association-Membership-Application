@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import TextInput from "../../components/Input/TextInput";
 import Lable from "../../components/Lable/Lable";
 import Button from "../../components/Button/Button";
@@ -8,7 +8,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { dateFormater } from "../../util/DateFormater";
 import { Calendar, Locate } from "lucide-react";
 
-const API_URL = "https://membership-application-cms.onrender.com";
+const API_URL = process.env.REACT_APP_CLIENT_URL;
 
 // Define types for form values and attendees
 interface FormValues {
@@ -77,78 +77,6 @@ function RegisterEvent() {
     toast.success("Family member removed!"); // Feedback for user
   };
 
-  // // Handle form submission
-  // const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-
-  //   // Validate personal information fields
-  //   if (!formValues.fullname.trim()) {
-  //     toast.error("Please enter your full name.");
-  //     return;
-  //   }
-  //   if (!formValues.email.trim()) {
-  //     toast.error("Please enter your email address.");
-  //     return;
-  //   }
-  //   if (!formValues.phone.trim()) {
-  //     toast.error("Please enter your phone number.");
-  //     return;
-  //   }
-
-  //   // Validate attendee names
-  //   for (const attendee of attendees) {
-  //     if (!attendee.name.trim()) {
-  //       toast.error("Please fill in all family member names.");
-  //       return;
-  //     }
-  //   }
-
-  //   try {
-  //     const attendeeCount = parseInt(formValues.number || "0", 10);
-
-  //     if (attendees.length !== attendeeCount) {
-  //       toast.error(
-  //         "Number of attendees does not match the number of attendee names provided."
-  //       );
-  //       return;
-  //     }
-
-  //     const formData = {
-  //       full_name: formValues.fullname,
-  //       email: formValues.email,
-  //       phone_number: formValues.phone,
-  //       whatsapp_number: formValues.whatsappphone,
-  //       number_of_family_members: formValues.number,
-  //       attendees: attendees.map((attendee) => ({
-  //         attendee_full_name: attendee.name,
-  //       })),
-  //       event: eventId,
-  //     };
-
-  //     setIsSubmitting(true);
-  //     await new Promise((resolve) => setTimeout(resolve, 1500));
-  //     const res = await fetch(`${API_URL}/api/v1/secure/events/applicants`, {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(formData),
-  //       credentials: "include",
-  //     });
-  //     const result = await res.json();
-  //     if (res.ok) {
-  //       toast.success("Registration successful! Check your email.");
-  //     } else {
-  //       toast.error(result.error || "An error occurred during registration.");
-  //     }
-  //   } catch (error: any) {
-  //     console.log(error.message);
-  //   } finally {
-  //     setIsSubmitting(false);
-  //     formValues.email = "";
-  //     formValues.fullname = "";
-  //     formValues.phone = "";
-  //   }
-  // };
-  // Handle form submission
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 

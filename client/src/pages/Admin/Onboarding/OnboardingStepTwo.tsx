@@ -1,4 +1,3 @@
-import React from "react";
 import OnboardingHeader from "../../../layouts/OnboardingHeader/OnboardingHeader";
 import Lable from "../../../components/Lable/Lable";
 import TextInput from "../../../components/Input/TextInput";

@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import TextInput from "../../components/Input/TextInput";
 import Lable from "../../components/Lable/Lable";
 import Button from "../../components/Button/Button";
@@ -8,7 +8,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { dateFormater } from "../../util/DateFormater";
 import { Calendar, Locate } from "lucide-react";
 
-const API_URL = "https://membership-application-cms.onrender.com";
+const API_URL = process.env.REACT_APP_CLIENT_URL;
 
 // Define types for form values and attendees
 interface FormValues {

@@ -1,20 +1,20 @@
-import React, { Fragment, useState } from "react";
+import { useState } from "react";
 import BrandLogo from "../../components/BrandLogo/BrandLogo";
 import { Link, NavLink } from "react-router-dom";
 import Icon from "../../components/Icon/Icon";
 import { adminDashboardMenus } from "../../util/menus/menus";
 import { ChevronDown, ChevronUp, SidebarCloseIcon } from "lucide-react";
 import useFetchAppData from "../../hooks/useFetchAppData";
+import { Oval } from "react-loader-spinner";
 type DashboardSideBarProp = {
   handleToggleSideBar: () => void;
 };
 
 function AdminDashboardSideBar({ handleToggleSideBar }: DashboardSideBarProp) {
   const [openAnnouncementMenu, setOpenAnnouncementMenu] = useState(false);
-  const [openSubscriptionMenu, setOpenSubscriptionMenu] = useState(false);
   const [openEventMenu, setOpenEventMenu] = useState(false);
-  const [openMembersMenu, setOpenMembersMenu] = useState(false);
-  const { appData, loading, error } = useFetchAppData();
+
+  const { appData, loading } = useFetchAppData();
 
   return (
     <aside className=" fixed overflow-y-auto pb-8  z-50 shadow-lg bg-[#1A4F83] border-r-2 border-r-[#C4DCF3] md:static md:z-0 md:shadow-none   transition ease-in-out delay-150 duration-300 w-[240px]  md:w-[296px] h-full">
@@ -25,9 +25,13 @@ function AdminDashboardSideBar({ handleToggleSideBar }: DashboardSideBarProp) {
       <div className="brand py-8 px-6 mb-8  border-b-2 border-b-[#C4DCF3] ">
         <div className="flex items-center gap-3">
           <BrandLogo color="#F5F7FA" />
-          <span className="text-2xl text-[#F5F7FA] font-bold">
-            {appData ? appData?.appname_acronym : "Band"}
-          </span>
+          {loading ? (
+            <Oval height={6} width={6} />
+          ) : (
+            <span className="text-2xl text-[#F5F7FA] font-bold">
+              {appData ? appData?.appname_acronym : "Band"}
+            </span>
+          )}
         </div>
         <span className="text-xs text-[#F5F7FA] font-bold">
           {appData ? appData?.appname : "Band"}
@@ -62,7 +66,7 @@ function AdminDashboardSideBar({ handleToggleSideBar }: DashboardSideBarProp) {
                   )}
                 </NavLink>
                 <div>
-                  {menu.path === "members" && (
+                  {/* {menu.path === "members" && (
                     <div>
                       {openMembersMenu ? (
                         <ChevronUp
@@ -78,8 +82,8 @@ function AdminDashboardSideBar({ handleToggleSideBar }: DashboardSideBarProp) {
                         />
                       )}
                     </div>
-                  )}
-                  {menu.path === "subscription" && (
+                  )} */}
+                  {/* {menu.path === "members-dues" && (
                     <div>
                       {openSubscriptionMenu ? (
                         <ChevronUp
@@ -99,7 +103,7 @@ function AdminDashboardSideBar({ handleToggleSideBar }: DashboardSideBarProp) {
                         />
                       )}
                     </div>
-                  )}
+                  )} */}
                   {menu.path === "announcement" && (
                     <div>
                       {openAnnouncementMenu ? (
@@ -140,7 +144,7 @@ function AdminDashboardSideBar({ handleToggleSideBar }: DashboardSideBarProp) {
                   )}
                 </div>
               </div>
-              {menu.path === "members" && (
+              {/* {menu.path === "members" && (
                 <>
                   {openMembersMenu && (
                     <div className=" bg-[#f2f7fd1a] w-full  transition-all p-3 rounded-tl rounded-br rounded-bl">
@@ -165,15 +169,15 @@ function AdminDashboardSideBar({ handleToggleSideBar }: DashboardSideBarProp) {
                     </div>
                   )}
                 </>
-              )}
-              {menu.path === "subscription" && (
+              )} */}
+              {/* {menu.path === "members-dues" && (
                 <>
                   {openSubscriptionMenu && (
                     <div className=" bg-[#f2f7fd1a] w-full  transition-all p-3 rounded-tl rounded-br rounded-bl">
                       <ul>
                         <li>
                           <Link
-                            to="subscription"
+                            to="members-dues"
                             className="text-[#cdcdcdf9] font-normal"
                           >
                             All
@@ -181,17 +185,25 @@ function AdminDashboardSideBar({ handleToggleSideBar }: DashboardSideBarProp) {
                         </li>
                         <li>
                           <Link
-                            to="subscription/create"
+                            to="members-dues/create"
                             className="text-[#cdcdcdf9] font-normal"
                           >
-                            Create
+                            Welfare Dues
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="members-dues/create"
+                            className="text-[#cdcdcdf9] font-normal"
+                          >
+                            Membership Dues
                           </Link>
                         </li>
                       </ul>
                     </div>
                   )}
                 </>
-              )}
+              )} */}
               {menu.path === "announcement" && (
                 <>
                   {openAnnouncementMenu && (

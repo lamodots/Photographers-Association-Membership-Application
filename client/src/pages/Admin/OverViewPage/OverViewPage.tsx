@@ -1,23 +1,24 @@
 import React, { lazy, useEffect, useState } from "react";
-import TextInput from "../../../components/Input/TextInput";
+
 import TopStats from "../../../components/Admin-Components/TopStats/TopStats";
 import { CircleDollarSign, Pen, RefreshCw, RotateCcw } from "lucide-react";
 import MemberStats from "../../../components/Admin-Components/MemberStats/MemberStats";
 import Chart from "../../../components/Admin-Components/MemberStats/Chart";
 import { Suspense } from "react";
 import FallbackLoadingComponent from "../../../components/FallbackLoadingComponent/FallbackLoadingComponent";
-import Button from "../../../components/Button/Button";
+
 import { Link } from "react-router-dom";
-import { FAKE_MEMBERS } from "../../../util/data";
+
 import { formatDistanceToNowformat } from "../../../util/dataAndTimeFormater";
-// import NewMemberCard from "../../../components/Admin-Components/NewMemberCard/NewMemberCard";
+import { useFetch } from "../../../hooks/useFetch";
+
 const NewMemberCard = lazy(
   () =>
     import("../../../components/Admin-Components/NewMemberCard/NewMemberCard")
 );
 
-// const API_URL = process.env.REACT_APP_CLIENT_URL;
-const API_URL = "https://membership-application-cms.onrender.com";
+const API_URL = process.env.REACT_APP_CLIENT_URL;
+
 type SocialLink = {
   facebook?: string;
   linkedIn?: string;
@@ -39,10 +40,26 @@ interface UserProps {
   createdAt: string;
 }
 
+interface OverviewStats {
+  totalRevenue: number;
+  membershipDuesPaid: number;
+  lifetimeMembershipPaid: number;
+  annualMembershipPaid: number;
+  welfareDuesPaid: number;
+  maleUsers: number;
+  femaleUsers: number;
+  totalMembers: number;
+}
+
 function OverViewPage() {
   const [userData, setUserData] = useState<UserProps[]>([]);
   const [loading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [filter, setFilter] = useState({ year: "" });
+  const query = new URLSearchParams({ year: filter.year }).toString();
+  const { data: overviewData } = useFetch<OverviewStats>(
+    `${API_URL}/api/v1/secure/overview?${query}`
+  );
 
   /** Get all members 3 only */
   const getAllUsers = async () => {
@@ -81,33 +98,47 @@ function OverViewPage() {
           <div className="flex gap-4 items-center">
             <small className="text-[#537BA2]">View stats</small>
             <div className=" cursor-pointer border border-[#A6B4BA] bg-[#F4F6F7] px-3 py-2 rounded-lg">
-              <select className=" w-full cursor-pointer  border-0 outline-0 bg-[#F4F6F7]">
-                <option>This Year</option>
-                <option>2023</option>
+              <select
+                name="year"
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                  setFilter({ year: e.target.value })
+                }
+                value={filter.year}
+                className=" w-full cursor-pointer  border-0 outline-0 bg-[#F4F6F7]"
+              >
+                <option>--Filter-By-Year</option>
+                <option>2025</option>
+                <option>2026</option>
               </select>
             </div>
           </div>
         </div>
 
-        <div className=" grid grid-cols-2  gap-y-6 mt-8 md:grid-cols-4 md:gap-2 ">
+        <div className=" grid grid-cols-2  gap-y-6 mt-8 md:grid-cols-3 md:gap-2 ">
           <TopStats
             title="REVENUE"
-            stats={"125,500"}
+            stats={overviewData?.totalRevenue.toLocaleString()}
             icon={<CircleDollarSign color="#A5BCD4" />}
           />
-          <TopStats
+          {/* <TopStats
             title="REGISTRATIONS"
             stats={"600"}
             icon={<Pen color="#A5BCD4" />}
-          />
+          /> */}
+
           <TopStats
-            title="RENEWALS"
-            stats={"400"}
+            title="MEMBERSHIP PAYMENT"
+            stats={overviewData?.membershipDuesPaid.toLocaleString()}
             icon={<RotateCcw color="#A5BCD4" />}
+            metaStats={{
+              l: overviewData?.lifetimeMembershipPaid.toLocaleString(),
+              a: overviewData?.annualMembershipPaid.toLocaleString(),
+            }}
           />
+
           <TopStats
-            title="NON RENEWALS"
-            stats={"200"}
+            title="WELFARE PAYMENT"
+            stats={overviewData?.welfareDuesPaid.toLocaleString()}
             icon={<RefreshCw color="#A5BCD4" />}
           />
         </div>
@@ -121,13 +152,28 @@ function OverViewPage() {
           <Suspense fallback={<FallbackLoadingComponent />}>
             <div className="member-type-stats p-6 grid grid-cols-1 md:grid-cols-[9fr,3fr] gap-7">
               <div className="left grid grid-cols-2 w-full gap-6">
-                <MemberStats />
-                <MemberStats />
-                <MemberStats />
-                <MemberStats />
+                <MemberStats
+                  title="Total Members"
+                  stats={overviewData?.totalMembers.toLocaleString()}
+                />
+                <MemberStats
+                  title="Welfare Transactions"
+                  stats={`₦${overviewData?.welfareDuesPaid.toLocaleString()}`}
+                />
+                <MemberStats
+                  title="Annual Transactions"
+                  stats={`₦${overviewData?.annualMembershipPaid.toLocaleString()}`}
+                />
+                <MemberStats
+                  title="Life Time Transactions"
+                  stats={`₦${overviewData?.lifetimeMembershipPaid.toLocaleString()}`}
+                />
               </div>
               <div className="right bg-[#F5F7FA] px-4 py-8 rounded-lg w-full">
-                <Chart />
+                <Chart
+                  male={overviewData?.maleUsers}
+                  female={overviewData?.femaleUsers}
+                />
               </div>
             </div>
           </Suspense>

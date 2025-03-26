@@ -13,6 +13,7 @@ const cloudinary = require("cloudinary").v2;
 
 /** APP SETTINGS CONTROLLER -  Adds app settings to database.**/
 async function appSettingsController(req, res, next) {
+  console.log(req.body);
   const {
     appname,
     appname_acronym,
@@ -20,6 +21,10 @@ async function appSettingsController(req, res, next) {
     whatsappapi,
     pagelink,
     sendgridapi,
+    welfare_fee,
+    lifetime_fee,
+    annual_fee,
+    secretaries,
   } = req.body;
 
   if (
@@ -27,11 +32,17 @@ async function appSettingsController(req, res, next) {
     !appname_acronym ||
     !paymentapi ||
     !whatsappapi ||
-    !sendgridapi
+    !sendgridapi ||
+    !welfare_fee ||
+    !lifetime_fee ||
+    !annual_fee
   ) {
     return next(new BadRequestError("Add application settings!"));
   }
-
+  const parsedWelfare = parseInt(welfare_fee);
+  const parsedeLifetimeFee = parseInt(lifetime_fee);
+  const parsedAnnualFee = parseInt(annual_fee);
+  const parsedSecretaries = JSON.parse(secretaries);
   try {
     const appLogoImage = req.files.applogo;
     if (!appLogoImage.mimetype.startsWith("image")) {
@@ -89,11 +100,17 @@ async function appSettingsController(req, res, next) {
       whatsappapi,
       sendgridapi,
       applogo: result.secure_url,
+      welfare_fee: parsedWelfare,
+      lifetime_fee: parsedeLifetimeFee,
+      annual_fee: parsedAnnualFee,
+      secretaries: parsedSecretaries,
     });
     res
       .status(StatusCodes.OK)
       .json({ ok: true, message: "App settings updated successfully!" });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 /** GET APP SETTINGS- Retrives application settings so it can be resdered in the UI **/
