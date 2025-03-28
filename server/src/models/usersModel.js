@@ -20,7 +20,6 @@ const UserSchema = new mongoose.Schema(
     image: { type: String },
     firstname: { type: String, trim: true },
     lastname: { type: String, trim: true },
-    sex: { type: String },
     title: { type: String },
     dateOfEntry: { type: Date },
     emergencyContactInIndia: { type: String },

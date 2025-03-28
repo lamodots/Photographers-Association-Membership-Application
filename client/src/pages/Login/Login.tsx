@@ -4,7 +4,6 @@ import { Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import TextInput from "../../components/Input/TextInput";
 import Lable from "../../components/Lable/Lable";
-import ksnImage from "../../assets/ksn.jpg";
 
 import Button from "../../components/Button/Button";
 import { Link, useNavigate } from "react-router-dom";
@@ -66,6 +65,7 @@ function Login() {
 
       toast.success(message || "Login sucessfull");
       setCurrentUser(user);
+
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -76,10 +76,7 @@ function Login() {
   };
 
   return (
-    <main
-      className=" bg-cover bg-center w-full flex justify-center  items-center  py-24  h-screen md:h-full overflow-hidden"
-      style={{ backgroundImage: `url(${ksnImage})` }}
-    >
+    <main className=" bg-cover bg-center w-full flex justify-center  items-center  py-24  h-screen md:h-full overflow-hidden">
       <div className="max-w-[512px] w-full bg-[#F4F6F7] pb-8 rounded-lg shadow-lg ">
         <div className="userform bg-[#F4F6F7] px-6 py-8 rounded-lg  md:bg-inherit md:rounded-none ">
           <h1 className=" text-2xl text-[#212529] text-center font-bold mb-8 md:mb-0">

@@ -155,6 +155,9 @@ root.render(
             <Route path="events/details/:id" element={<EventDetails />} />
             <Route path="events/:id/register" element={<UserEventRegister />} />
             <Route path="events" element={<Events />} />
+            <Route path="/member-onboarding">
+              <Route index element={<OnboardingWelcome />} />
+            </Route>
             <Route
               path="events/details/:id/register"
               element={<h1>Register events</h1>}
@@ -162,11 +165,10 @@ root.render(
             {/* Protected Routes */}
             <Route element={<ProtectedRoute />}>
               {/* Onboarding */}
-              <Route path="/member-onboarding">
+              {/* <Route path="/member-onboarding">
                 <Route index element={<OnboardingWelcome />} />
-                {/* <Route path="step-1" element={<OnboardingStepOne />} />
-              <Route path="step-2" element={<OnboardingStepTwo />} /> */}
-              </Route>
+               
+              </Route> */}
               {/* Dashboard */}
               <Route path="/" element={<DashboardLayout />}>
                 <Route index element={<OverViewPage />} />

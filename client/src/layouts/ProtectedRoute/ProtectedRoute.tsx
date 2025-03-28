@@ -1,5 +1,5 @@
 import { PropsWithChildren, useEffect } from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useCurrentUser } from "../../context/AdminContext";
 import { Oval } from "react-loader-spinner";
 
@@ -23,6 +23,7 @@ const ProtectedRoute = ({ children }: PropsWithChildren<{}>) => {
       fetchCurrentUser(); // Ensure currentUser is always fetched
     }
   }, [currentUser, fetchCurrentUser]);
+
   if (loading) {
     return (
       <div className="w-screen h-screen flex justify-center items-center">
@@ -33,7 +34,7 @@ const ProtectedRoute = ({ children }: PropsWithChildren<{}>) => {
   if (!currentUser) {
     return <Navigate to="/login" replace />;
   }
-  return <>{children || <Outlet />}</>;
+  return <> {children || <Outlet />}</>;
 };
 
 export default ProtectedRoute;

@@ -117,7 +117,7 @@ function OnboardingStepOne({ data, setData, errors }: OnboardingStepOneProps) {
             {errors.gender && <p className="text-red-500">{errors.gender}</p>}
           </div>
           <div className="flex flex-col space-y-2">
-            <Lable label="Enter Blog" />
+            <Lable label="Select Blood group" />
             <select
               name="bloodGroup"
               id="bloodGroup"

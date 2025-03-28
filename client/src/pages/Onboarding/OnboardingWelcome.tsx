@@ -176,6 +176,7 @@ function OnboardingWelcome() {
     if (currentStep > 1) setCurrentStep(currentStep - 1);
   };
 
+  console.log(currentUser?.user.email);
   const handleSubmit = async () => {
     const formData = new FormData();
     // Append Step 1 data
@@ -236,7 +237,7 @@ function OnboardingWelcome() {
           <span className="text-lg text-zinc-100">KERALA SAMAJAM NIGERIA</span>
         </h1>
         <p className="mt-6 text-white text-sm">
-          Tell us a little about yourself to set up your profile
+          Tell us a little about yourself to complete your onboarding
         </p>
       </aside>
       <div className="md:pt-16 pb-16 h-screen overflow-y-auto">
