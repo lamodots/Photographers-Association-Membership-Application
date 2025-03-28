@@ -13,6 +13,7 @@ import AdminProtectedRoute from "./layouts/AdminProtectedRoute/AdminProtectedRou
 import AdminDashboardLayout from "./layouts/AdminDashboardLayout/AdminDashboardLayout";
 import { AuthContext } from "./context/AdminContext";
 import Payments from "./pages/Admin/MembersDues/Payments";
+import RegisterConfirmation from "./pages/Register/RegisterConfirmation";
 
 const AdminOverViewPage = lazy(
   () => import("./pages/Admin/OverViewPage/OverViewPage")
@@ -143,6 +144,10 @@ root.render(
             {/* Public Routes */}
             <Route path="/register" element={<Register />} />
             <Route path="/verify" element={<EmailVerifcation />} />
+            <Route
+              path="/verify-email-sent"
+              element={<RegisterConfirmation />}
+            />
 
             <Route path="/login" element={<Login />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />

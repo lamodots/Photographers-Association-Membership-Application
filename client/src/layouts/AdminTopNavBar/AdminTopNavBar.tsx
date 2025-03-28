@@ -1,8 +1,7 @@
 import { BellRing, ChevronDown, PanelLeftClose } from "lucide-react";
 
-import Avatar from "../../components/Avatar/Avatar";
-
 import { Link } from "react-router-dom";
+import Avatar from "../../components/Admin-Components/Avatar/Avatar";
 
 type TopNavBarProp = {
   handleToggleSideBar: () => void;

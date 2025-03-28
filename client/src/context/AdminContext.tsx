@@ -78,11 +78,12 @@ const API_URL = process.env.REACT_APP_CLIENT_URL;
 
 export const AuthContext = ({ children }: AuthContextProps) => {
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
+
   const [profile, setProfile] = useState<CurrentUser | null>(null);
   const [loading, setLoading] = useState(true);
 
-  console.log("NEW USER", currentUser);
-  console.log("NEW USER PROFILE", profile);
+  console.log("currentUser USER", currentUser);
+  console.log("USER PROFILE", profile);
   const fetchCurrentUser = async () => {
     try {
       setLoading(true);
@@ -135,6 +136,7 @@ export const AuthContext = ({ children }: AuthContextProps) => {
         currentUser,
         loading,
         profile,
+
         setCurrentUser,
         fetchCurrentUser,
         handleLogout,

@@ -1,7 +1,7 @@
 import { CircleUser, LogOut } from "lucide-react";
 
 import { Link, useNavigate } from "react-router-dom";
-import { useCurrentUser } from "../../context/AdminContext";
+import { useCurrentUser } from "../../../context/AdminContext";
 
 type PopupProp = {
   className?: string;
@@ -10,13 +10,13 @@ type PopupProp = {
 };
 
 function Popup({ className, handlShowPopup }: PopupProp) {
-  const { handleLogout, currentUser } = useCurrentUser();
+  const { handleLogout } = useCurrentUser();
 
   const navigate = useNavigate();
 
   const handleClick = async () => {
     await handleLogout();
-    navigate("/");
+    navigate("/secure/login");
   };
 
   return (
@@ -34,7 +34,7 @@ function Popup({ className, handlShowPopup }: PopupProp) {
         onClick={handlShowPopup}
       >
         <CircleUser size={24} />
-        <Link to="/profile">Profile</Link>
+        <Link to="/secure/settings">Settings</Link>
       </div>
     </div>
   );
