@@ -53,7 +53,7 @@ function EmailVerifcation() {
 
     // Call the verify function
     verify();
-  }, [location.search]); // Only run when the URL changes
+  }, []); // Only run when the URL changes
 
   const handleResendVerifyEmail = async () => {};
   return (
@@ -76,7 +76,7 @@ function EmailVerifcation() {
                 Your Can Login Now
               </Link>
             </div>
-            <div className="flex flex-col space-x-2 justify-center md:flex-row pt-10 ">
+            {/* <div className="flex flex-col space-x-2 justify-center md:flex-row pt-10 ">
               <span className="text-center">Didnt recieve email? </span>
               <button
                 className="text-blue-700"
@@ -84,7 +84,7 @@ function EmailVerifcation() {
               >
                 Resend verification email
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       )}

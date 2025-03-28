@@ -13,6 +13,7 @@ const userAuth = express.Router();
 
 userAuth.post("/register", registerUserController);
 userAuth.post("/verify", verifyEmailController);
+userAuth.post("/resent-verify-email", verifyEmailController);
 userAuth.post("/login", loginUserController);
 userAuth.post("/logout", logOutUserController);
 userAuth.post("/forgot-password", forgotUserPasswordController);
