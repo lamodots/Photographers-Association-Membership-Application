@@ -217,7 +217,7 @@ interface CurrentUser {
 
 interface CurrentUserContextType {
   currentUser: CurrentUser | null;
-  profile: CurrentUser | null;
+  // profile: CurrentUser | null;
   setCurrentUser: React.Dispatch<React.SetStateAction<CurrentUser | null>>;
   loading: boolean;
   fetchCurrentUser: () => void;
@@ -236,7 +236,6 @@ const API_URL = process.env.REACT_APP_CLIENT_URL;
 
 export const AuthContext = ({ children }: AuthContextProps) => {
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
-  const [profile, setProfile] = useState<CurrentUser | null>(null);
   const [loading, setLoading] = useState(true);
 
   const fetchCurrentUser = async () => {
@@ -249,25 +248,17 @@ export const AuthContext = ({ children }: AuthContextProps) => {
 
       console.log("API Response Status:", res.status);
 
-      if (res.status === 304) {
-        console.log("Server returned 304; resource not modified.");
-        return; // Or utilize previously fetched data from a state/cache
-      }
-
       if (res.ok) {
         const data: CurrentUser = await res.json();
         console.log("Fetched currentUser data:", data);
         setCurrentUser(data);
-        setProfile(data);
       } else {
         console.error("Failed to fetch current user: Invalid response");
         setCurrentUser(null);
-        setProfile(null);
       }
     } catch (error) {
       console.error("Error fetching current user:", error);
       setCurrentUser(null);
-      setProfile(null);
     } finally {
       setLoading(false); // Stop loading regardless of success or failure
     }
@@ -296,9 +287,8 @@ export const AuthContext = ({ children }: AuthContextProps) => {
     <CurrentUserContext.Provider
       value={{
         currentUser,
-        profile,
-        setCurrentUser,
         loading,
+        setCurrentUser,
         fetchCurrentUser,
         handleLogout,
       }}

@@ -74,6 +74,7 @@ function OnboardingStepOne({ data, setData, errors }: OnboardingStepOneProps) {
               handleInputChange={(e) =>
                 handleChange("dateOfEntry", e.target.value)
               }
+              className="w-full"
             />
             {errors.dateOfEntry && (
               <p className="text-red-500">{errors.dateOfEntry}</p>
@@ -88,6 +89,7 @@ function OnboardingStepOne({ data, setData, errors }: OnboardingStepOneProps) {
               placeholderText="Enter Date of Birth"
               value={data.Dob}
               handleInputChange={(e) => handleChange("Dob", e.target.value)}
+              className="w-full"
             />
             {errors.Dob && <p className="text-red-500">{errors.Dob}</p>}
           </div>

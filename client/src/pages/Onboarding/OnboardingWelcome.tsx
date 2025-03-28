@@ -230,7 +230,7 @@ function OnboardingWelcome() {
 
   return (
     <main className="bg-[#F5F7FA] grid md:grid-cols-[4fr_8fr] relative">
-      <aside className="bg-slate-800 h-screen p-6 md:px-16 md:py-16">
+      <aside className="bg-slate-800 md:h-screen p-6 md:px-16 md:py-16">
         <h1 className="text-2xl text-left text-[#212529]">
           <span className="text-4xl text-white font-bold">Welcome to</span>
           <br />
@@ -240,9 +240,9 @@ function OnboardingWelcome() {
           Tell us a little about yourself to complete your onboarding
         </p>
       </aside>
-      <div className="md:pt-16 pb-16 h-screen overflow-y-auto">
-        <div className="mx-auto max-w-[680px] w-full bg-slate-50">
-          <div className="bg-cyan-100 rounded-lg w-full p-6 border border-slate-300">
+      <div className="px-4 md:pt-16 pb-16 h-screen overflow-y-auto">
+        <div className="mx-auto max-w-[680px] w-full">
+          <div className="mt-3 md:mt-0 bg-cyan-100 rounded-lg w-full p-6 border border-slate-300">
             <div className="flex space-x-4">
               <Info />
               <p className="text-lg text-[#515F69]">
