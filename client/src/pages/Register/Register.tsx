@@ -44,7 +44,7 @@ function Register() {
     values: RegisterValueProps,
     { setSubmitting, resetForm }: FormikHelpers<RegisterValueProps>
   ) => {
-    // setSubmitting(true);
+    setSubmitting(true);
     try {
       const res = await fetch(`${API_URL}/api/v1/users/auth/register`, {
         method: "POST",

@@ -1,25 +1,93 @@
+import { useEffect, useState } from "react";
 import verifyGif from "../../assets/verification-done.gif";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
+const API_URL = process.env.REACT_APP_CLIENT_URL;
 function EmailVerifcation() {
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(true);
+
+  const location = useLocation();
+
+  const queryParams = new URLSearchParams(location.search);
+  const token = queryParams.get("token");
+  const email = queryParams.get("email");
+  useEffect(() => {
+    // Extract query parameters
+
+    // Ensure both token and email exist before making the API call
+    if (!token && !email) {
+      return setError("Invalid or missing token and email.");
+    }
+
+    async function verify() {
+      try {
+        const res = await fetch(`${API_URL}/api/v1/users/auth/verify`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            token,
+            email,
+          }),
+        });
+
+        const { message } = await res.json();
+        if (!res.ok) {
+          // Set error if verification fails
+          setError(message || "Verification failed.");
+          setSuccess(false);
+        } else {
+          // Set success if verification is successful
+          setError(null);
+          setSuccess(true);
+        }
+      } catch (err) {
+        // Handle any network or unexpected errors
+        console.error("Error verifying email:", err);
+        setError("An unexpected error occurred. Please try again.");
+        setSuccess(false);
+      }
+    }
+
+    // Call the verify function
+    verify();
+  }, [location.search]); // Only run when the URL changes
+
+  const handleResendVerifyEmail = async () => {};
   return (
     <div className=" flex justify-center items-center w-full h-screen bg-white">
-      <div className=" w-full md:w-[40%] ">
-        <h2 className="text-center text-2xl">Email Verified!</h2>
-        <img
-          src={verifyGif}
-          alt="Verification complete"
-          className=" block w-full"
-        />
-        <div className="text-center">
-          <Link
-            to="/login"
-            className="px-4 py-2 border rounded text-gray-700 hover:bg-gray-100"
-          >
-            Continu to Login
-          </Link>
+      {error && <p className="text-center text-2xl text-red-500">{error}</p>}
+      {success && (
+        <div className=" w-full md:w-[40%] ">
+          <h2 className="text-center text-2xl">Email Verified!</h2>
+          <img
+            src={verifyGif}
+            alt="Verification complete"
+            className=" block w-full"
+          />
+          <div className="space-y-4">
+            <div className="text-center">
+              <Link
+                to="/login"
+                className="px-4 py-2 border rounded text-gray-700 hover:bg-gray-100"
+              >
+                Your Can Login Now
+              </Link>
+            </div>
+            <div className="flex flex-col space-x-2 justify-center md:flex-row pt-10 ">
+              <span className="text-center">Didnt recieve email? </span>
+              <button
+                className="text-blue-700"
+                onClick={handleResendVerifyEmail}
+              >
+                Resend verification email
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

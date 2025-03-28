@@ -19,8 +19,9 @@ const { User } = require("../models");
 const { attachCookiesToResponse } = require("../utils/jwt");
 const { string } = require("yup");
 
+const fullUrl = process.env.PROTOCOL_HOST;
+
 const registerUserController = async (req, res, next) => {
-  const fullUrl = `http://localhost:3000`;
   // const fullUrl = `${req.protocol}://${req.get("host")}`;
 
   const { email, password, confirmPassword } = req.body;
