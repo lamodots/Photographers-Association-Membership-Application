@@ -73,6 +73,26 @@ function Register() {
       resetForm();
     }
   };
+
+  const handleResendEmail = async () => {
+    const res = await fetch(
+      `${API_URL}/api/v1/users/auth//resent-verify-email`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: useremail,
+        }),
+      }
+    );
+
+    if (!res.ok) {
+      toast.error("failed to resend email");
+    }
+    toast.success("Another email have been sent");
+  };
   return (
     <main className=" regpage bg-[#F4F6F7] w-screen  h-screen overflow-y-auto">
       {setAlert && (
@@ -82,7 +102,10 @@ function Register() {
               A confirmation email has been sent to your email address <br />
               <span className=" bg-yellow-50 p-1 rounded-sm">{useremail}</span>.
               Please click on the link in the email to verify your email
-              address.
+              address. Dont get email?{" "}
+              <button onClick={handleResendEmail} className="text-blue-700">
+                Resend
+              </button>
             </p>
           </div>
         </div>
@@ -127,7 +150,7 @@ function Register() {
                   <div className="password flex flex-col gap-2  w-full">
                     <Lable label="Password" />
                     <TextInput
-                      type="text"
+                      type="password"
                       placeholderText="Enter your password"
                       name="password"
                       value={values.password}
@@ -141,7 +164,7 @@ function Register() {
                   <div className="password flex flex-col gap-2  w-full">
                     <Lable label="Confirm password" />
                     <TextInput
-                      type="text"
+                      type="password"
                       placeholderText="Confirm password"
                       name="confirmPassword"
                       value={values.confirmPassword}

@@ -12,7 +12,9 @@ const FamilyMemberSchema = new mongoose.Schema({
   whatsappId: { type: String },
   relationship: { type: String },
   dateOfBirth: { type: Date },
-  sex: { type: String },
+  gender: { type: String },
+  bloodgroup: { type: String },
+  image: { type: String },
 });
 
 const UserSchema = new mongoose.Schema(

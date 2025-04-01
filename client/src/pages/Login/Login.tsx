@@ -17,7 +17,7 @@ interface ValuesProps {
 const API_URL = process.env.REACT_APP_CLIENT_URL;
 
 function Login() {
-  const { currentUser, setCurrentUser } = useCurrentUser();
+  const { currentUser, setCurrentUser, fetchCurrentUser } = useCurrentUser();
 
   const navigate = useNavigate();
 
@@ -64,7 +64,8 @@ function Login() {
       }
 
       toast.success(message || "Login sucessfull");
-      setCurrentUser(user);
+      // setCurrentUser(user);
+      await fetchCurrentUser();
 
       navigate("/");
     } catch (error) {
@@ -114,7 +115,7 @@ function Login() {
                 <div className="password flex flex-col gap-2  w-full">
                   <Lable label="Password" />
                   <TextInput
-                    type="text"
+                    type="password"
                     placeholderText="Enter your email"
                     name="password"
                     value={values.password}

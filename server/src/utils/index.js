@@ -7,7 +7,7 @@ const {
   sendResetPassswordEmailTemplate,
 } = require("./emailTemplate");
 const { generateReference } = require("./generateOfflineReference");
-
+const uploadImageToCloudinary = require("./uploadImageToCloudinary");
 module.exports = {
   createTokenUser,
   jwt,
@@ -16,4 +16,5 @@ module.exports = {
   verifyUserEmailTemplate,
   sendResetPassswordEmailTemplate,
   generateReference,
+  uploadImageToCloudinary,
 };

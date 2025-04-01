@@ -50,6 +50,8 @@ const {
   forgotUserPasswordService,
   resetUserPasswordService,
   completeOnboardingService,
+  userProfileServices,
+  updateUserProfileServices,
 } = require("./usersServices");
 
 const {
@@ -94,6 +96,8 @@ module.exports = {
   registerUserService,
   verifyEmailService,
   userLoginService,
+  userProfileServices,
+  updateUserProfileServices,
   forgotUserPasswordService,
   resetUserPasswordService,
   completeOnboardingService,

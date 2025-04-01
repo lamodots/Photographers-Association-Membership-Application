@@ -5,19 +5,8 @@ import { Oval } from "react-loader-spinner";
 
 const ProtectedRoute = ({ children }: PropsWithChildren<{}>) => {
   const { currentUser, loading, fetchCurrentUser } = useCurrentUser();
+  const location = useLocation();
 
-  // const isAuthenticated = !!localStorage.getItem("authToken"); // Check login status
-  // const hasCompletedOnboarding =
-  //   localStorage.getItem("onboardingCompleted") === "true";
-
-  // if (!isAuthenticated) {
-  //   return <Navigate to="/login" />;
-  // }
-
-  // // Redirect to onboarding if not completed
-  // if (!hasCompletedOnboarding) {
-  //   return <Navigate to="/member-onboarding" />;
-  // }
   useEffect(() => {
     if (!currentUser) {
       fetchCurrentUser(); // Ensure currentUser is always fetched
@@ -32,7 +21,11 @@ const ProtectedRoute = ({ children }: PropsWithChildren<{}>) => {
     );
   }
   if (!currentUser) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login" replace state={{ from: location }} />;
+  }
+
+  if (!currentUser.user.isOnboarded) {
+    return <Navigate to="/member-onboarding" replace />;
   }
   return <> {children || <Outlet />}</>;
 };

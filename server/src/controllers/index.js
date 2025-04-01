@@ -45,6 +45,7 @@ const {
   verifyEmailController,
   resetUserPasswordController,
   loginUserController,
+  resendVerificationEmailController,
   logOutUserController,
   forgotUserPasswordController,
   completeOnboarding,
@@ -61,6 +62,10 @@ const {
 
 const fetchPaystackTransactionsController = require("./paystactTransactionController");
 const { getOverview } = require("./admin/overviewController");
+const {
+  userProfileController,
+  updateUserProfileController,
+} = require("./userProfileController");
 module.exports = {
   createAnnouncment,
   getAllAnnoucements,
@@ -69,6 +74,7 @@ module.exports = {
   editAnnouncement,
   addAdminController,
   loginAdminController,
+  resendVerificationEmailController,
   currentUserController,
   logOutController,
   appSettingsController,
@@ -92,6 +98,8 @@ module.exports = {
   registerUserController,
   resetUserPasswordController,
   loginUserController,
+  userProfileController,
+  updateUserProfileController,
   forgotUserPasswordController,
   logOutUserController,
   verifyEmailController,

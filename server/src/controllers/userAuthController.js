@@ -78,6 +78,32 @@ const verifyEmailController = async (req, res, next) => {
   }
 };
 
+const resendVerificationEmailController = async (req, res, next) => {
+  // Need to resend the user email.
+  //
+  const { email } = req.body;
+  const newUser = await User.findOne({ email });
+
+  if (!newUser) {
+    return next(new BadRequestError("No user with such email"));
+  }
+
+  try {
+    const verifyTemplate = verifyUserEmailTemplate(
+      fullUrl,
+      newUser.email,
+      newUser.verificationToken
+    );
+    await sendEmailSendGridServices(verifyTemplate);
+
+    res
+      .status(200)
+      .json({ status: true, message: "Verification email resent!" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const loginUserController = async (req, res, next) => {
   const { email, password } = req.body;
   try {
@@ -152,7 +178,7 @@ const forgotUserPasswordController = async (req, res, next) => {
   try {
     //check user
     const user = await forgotUserPasswordService(email);
-    const fullUrl = `http://localhost:3000`;
+    // const fullUrl = `http://localhost:3000`;
     // send reset email
 
     const msg = sendResetPassswordEmailTemplate(
@@ -203,6 +229,7 @@ module.exports = {
   verifyEmailController,
   registerUserController,
   loginUserController,
+  resendVerificationEmailController,
   logOutUserController,
   forgotUserPasswordController,
   resetUserPasswordController,

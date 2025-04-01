@@ -31,6 +31,8 @@ export interface FamilyMember {
   whatsappId: string;
   relationship: string;
   dateOfBirth: string;
+  gender: string;
+  bloodgroup: string;
 }
 
 export interface StepTwoValues {
@@ -133,7 +135,7 @@ const validateStepThree = (data: StepThreeValues) => {
 };
 
 function OnboardingWelcome() {
-  const { currentUser } = useCurrentUser();
+  const { currentUser, fetchCurrentUser } = useCurrentUser();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [stepOneData, setStepOneData] = useState<StepOneValues>(initialStepOne);
@@ -210,19 +212,26 @@ function OnboardingWelcome() {
         {
           method: "PATCH",
           body: formData,
+          credentials: "include",
         }
       );
 
       if (response.ok) {
-        toast.success("Onboarding completed !");
+        toast.success("Onboarding completed successfully!");
+        // Refresh user data to update isOnboarded status
+        await fetchCurrentUser();
+
+        // Short delay to ensure state is updated before navigation
         setTimeout(() => {
           navigate("/");
-        }, 500);
+        }, 1000);
       } else {
-        toast.error("Failed to submit form.");
+        const errorData = await response.json();
+        toast.error(errorData.message || "Failed to complete onboarding.");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
+      toast.error("An unexpected error occurred. Please try again.");
     } finally {
       setIsSubmitting(false);
     }

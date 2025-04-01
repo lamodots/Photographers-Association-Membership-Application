@@ -23,6 +23,7 @@ const {
   usersAuthRoutes,
   userDuesRoutes,
   overviewRoutes,
+  userProfileRoute,
 } = require("./routes");
 const { MembershipDues, WelfareDues } = require("./models");
 const { getExpiryDate } = require("./utils/getExpiryDate");
@@ -70,6 +71,7 @@ app.use("/api/v1/secure/subscriptions", subscriptionsRoutes);
 app.use("/api/v1/secure/events", eventRoutes);
 app.use("/api/v1/secure/users", usersRoutes);
 app.use("/api/v1/users/auth", usersAuthRoutes);
+app.use("/api/v1/users/profile", userProfileRoute);
 app.use("/api/v1/users/membershipdues", userDuesRoutes);
 app.use("/api/v1/secure/overview", overviewRoutes);
 

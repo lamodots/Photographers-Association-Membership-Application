@@ -3,9 +3,12 @@ const { BadRequestError } = require("../errors");
 const { sanitizeInput } = require("../utils/sanitizeInput");
 const { User } = require("../models");
 const crypto = require("crypto");
+
+const bcrypt = require("bcryptjs");
 const {
   createTokenUser,
   sendResetPassswordEmailTemplate,
+  uploadImageToCloudinary,
 } = require("../utils");
 const membershipID = require("../utils/generateUniqueMembershipId");
 
@@ -176,7 +179,9 @@ const completeOnboardingService = async (email, userData) => {
         !member.emailId ||
         !member.whatsappId ||
         !member.relationship ||
-        !member.dateOfBirth
+        !member.dateOfBirth ||
+        !member.gender ||
+        !member.bloodgroup
       ) {
         throw new Error(
           `Family member ${index + 1} is missing required fields.`
@@ -252,6 +257,74 @@ const userLoginService = async (email, password) => {
   return tokenUser;
 };
 
+const userProfileServices = async (userId, options = { lean: true }) => {
+  try {
+    const query = User.findById({ _id: userId }).select({
+      password: 0,
+      __v: 0,
+    });
+
+    if (options.lean) {
+      query.lean();
+    }
+    const profile = await query;
+    if (!profile) {
+      throw new Error("User not found or invalid request");
+    }
+
+    return profile;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Failed to fetch user profile");
+  }
+};
+const updateUserProfileServices = async (userId, userData, userImage) => {
+  try {
+    // Step 1: Check if user exists
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new NotFoundError("User not found");
+    }
+
+    // Step 2: Handle password update
+    if (userData.password) {
+      const salt = await bcrypt.genSalt(10);
+      userData.password = await bcrypt.hash(userData.password, salt);
+      delete userData.confirmPassword; // Remove confirmPassword field
+    } else {
+      delete userData.password; // Avoid overwriting with empty value
+    }
+
+    // Step 3: Handle image upload
+    if (userImage) {
+      userData.image = await uploadImageToCloudinary(
+        userImage,
+        "lasppan-folder"
+      );
+    }
+
+    // Step 4: Handle family members data
+    if (userData.familyMembers && typeof userData.familyMembers === "string") {
+      try {
+        userData.familyMembers = JSON.parse(userData.familyMembers);
+      } catch (error) {
+        throw new BadRequestError("Invalid family members data format");
+      }
+    }
+
+    // Step 5: Update user document
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: userData },
+      { new: true, runValidators: true }
+    ).select("-password");
+
+    return updatedUser;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const forgotUserPasswordService = async (email) => {
   const user = await User.findOne({ email });
   if (!user) {
@@ -308,4 +381,6 @@ module.exports = {
   forgotUserPasswordService,
   resetUserPasswordService,
   completeOnboardingService,
+  userProfileServices,
+  updateUserProfileServices,
 };
