@@ -38,8 +38,10 @@
 // module.exports = uploadImageToCloudinary;
 const cloudinary = require("cloudinary").v2;
 const fs = require("fs");
+const crypto = require("crypto");
 
 const uploadImageToCloudinary = async (file, folderName) => {
+  let dynamicFilename;
   try {
     // Validate file type
     if (!file.mimetype.startsWith("image")) {
@@ -53,10 +55,10 @@ const uploadImageToCloudinary = async (file, folderName) => {
     }
 
     // Generate a dynamic filename
-    const dynamicFilename = `${file.name.replace(/\s+/g, "_")}-${crypto
+
+    dynamicFilename = `${file.name.replace(/\s+/g, "_")}-${crypto
       .randomBytes(8)
       .toString("hex")}`;
-
     // Upload to Cloudinary using tempFilePath
     const result = await cloudinary.uploader.upload(file.tempFilePath, {
       use_filename: true,

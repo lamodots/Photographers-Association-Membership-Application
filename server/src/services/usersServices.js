@@ -278,7 +278,54 @@ const userProfileServices = async (userId, options = { lean: true }) => {
     throw new Error("Failed to fetch user profile");
   }
 };
-const updateUserProfileServices = async (userId, userData, userImage) => {
+// const updateUserProfileServices = async (userId, userData, userImage) => {
+//   try {
+//     // Step 1: Check if user exists
+//     const user = await User.findById(userId);
+//     if (!user) {
+//       throw new NotFoundError("User not found");
+//     }
+
+//     // Step 2: Handle password update
+//     if (userData.password) {
+//       const salt = await bcrypt.genSalt(10);
+//       userData.password = await bcrypt.hash(userData.password, salt);
+//       delete userData.confirmPassword; // Remove confirmPassword field
+//     } else {
+//       delete userData.password; // Avoid overwriting with empty value
+//     }
+
+//     // Step 3: Handle image upload
+//     if (userImage) {
+//       userData.image = await uploadImageToCloudinary(
+//         userImage,
+//         "lasppan-folder"
+//       );
+//     }
+
+//     // Step 4: Handle family members data
+//     if (userData.familyMembers && typeof userData.familyMembers === "string") {
+//       try {
+//         userData.familyMembers = JSON.parse(userData.familyMembers);
+//       } catch (error) {
+//         throw new BadRequestError("Invalid family members data format");
+//       }
+//     }
+
+//     // Step 5: Update user document
+//     const updatedUser = await User.findByIdAndUpdate(
+//       userId,
+//       { $set: userData },
+//       { new: true, runValidators: true }
+//     ).select("-password");
+
+//     return updatedUser;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
+
+const updateUserProfileServices = async (userId, userData, uploadedFiles) => {
   try {
     // Step 1: Check if user exists
     const user = await User.findById(userId);
@@ -295,15 +342,15 @@ const updateUserProfileServices = async (userId, userData, userImage) => {
       delete userData.password; // Avoid overwriting with empty value
     }
 
-    // Step 3: Handle image upload
-    if (userImage) {
+    // Step 3: Handle main profile image upload
+    if (uploadedFiles.image) {
       userData.image = await uploadImageToCloudinary(
-        userImage,
-        "lasppan-folder"
+        uploadedFiles.image,
+        "lasppan-folder/profile"
       );
     }
 
-    // Step 4: Handle family members data
+    // Step 4: Parse family members data
     if (userData.familyMembers && typeof userData.familyMembers === "string") {
       try {
         userData.familyMembers = JSON.parse(userData.familyMembers);
@@ -312,7 +359,29 @@ const updateUserProfileServices = async (userId, userData, userImage) => {
       }
     }
 
-    // Step 5: Update user document
+    // Step 5: Handle family member image uploads
+    if (userData.familyMembers && Array.isArray(userData.familyMembers)) {
+      for (const key in uploadedFiles) {
+        // Check if this is a family member image upload
+        if (key.startsWith("familyMemberImage_")) {
+          const index = parseInt(key.split("_")[1], 10);
+
+          // Make sure this index exists in the family members array
+          if (userData.familyMembers[index]) {
+            // Upload to Cloudinary
+            const imageUrl = await uploadImageToCloudinary(
+              uploadedFiles[key],
+              "lasppan-folder/family-members"
+            );
+
+            // Update the family member's image URL
+            userData.familyMembers[index].image = imageUrl;
+          }
+        }
+      }
+    }
+
+    // Step 6: Update user document
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { $set: userData },

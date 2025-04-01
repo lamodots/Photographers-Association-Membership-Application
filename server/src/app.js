@@ -36,7 +36,12 @@ const app = express();
 app.disable("etag");
 // const corsOptions = { origin: "http://localhost:3000", credentials: true };
 const corsOptions = {
-  origin: ["http://localhost:3000", "https://ksn.membersng.com"],
+  origin: [
+    "http://localhost:3000",
+    "https://ksn.membersng.com",
+    "https://ksn-membership-application.onrender.com",
+    "ksn.membersng.com",
+  ],
   credentials: true,
 };
 //Import exprss middlewares
