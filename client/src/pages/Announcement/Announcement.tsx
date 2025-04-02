@@ -70,8 +70,10 @@ function Announcement() {
   const filteredAnnouncements: AnnouncementProps[] =
     announcement?.filter((announcement: AnnouncementProps) => {
       const matchText =
-        announcement.title.toLowerCase().includes(iputText.toLowerCase()) ||
-        announcement.description.toLowerCase().includes(iputText.toLowerCase());
+        announcement?.title.toLowerCase().includes(iputText.toLowerCase()) ||
+        announcement?.description
+          .toLowerCase()
+          .includes(iputText.toLowerCase());
 
       return matchText;
     }) || [];
@@ -106,7 +108,7 @@ function Announcement() {
             />
           </div>
           {/* the popup */}
-          <div>
+          {/* <div>
             <div
               className="right py-3 px-2 bg-white rounded-lg shadow-lg flex items-center justify-center cursor-pointer"
               onClick={() => setShowPopUp(!showPopup)}
@@ -130,7 +132,7 @@ function Announcement() {
                 handleApply={() => handleApplyFilter()}
               />
             )}
-          </div>
+          </div> */}
           {/* the popup end */}
         </div>
       </header>
