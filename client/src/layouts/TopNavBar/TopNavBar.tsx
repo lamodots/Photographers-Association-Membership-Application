@@ -3,6 +3,7 @@ import { BellRing, ChevronDown, PanelLeftClose } from "lucide-react";
 import Avatar from "../../components/Avatar/Avatar";
 
 import { Link } from "react-router-dom";
+import { useCurrentUser } from "../../context/AdminContext";
 
 type TopNavBarProp = {
   handleToggleSideBar: () => void;
@@ -14,6 +15,7 @@ function TopNavBar({
   handlePopUp,
   showMorePopUp,
 }: TopNavBarProp) {
+  const { currentUser } = useCurrentUser();
   return (
     <nav className=" bg-[#F5F7FA] flex items-center justify-between px-8 h-[114px]  w-full ">
       <div className="flex items-center gap-8">
@@ -40,6 +42,7 @@ function TopNavBar({
             className="w-12 h-12"
             handlShowPopup={handlePopUp}
             showMorePopUp={showMorePopUp}
+            image={currentUser?.user.image}
           />
           <ChevronDown
             size={14}

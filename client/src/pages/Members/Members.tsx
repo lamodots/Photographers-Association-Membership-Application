@@ -36,14 +36,18 @@ function Members() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const itemsPerPage = 3;
-  console.log("user data", userData);
+  console.log("user data", searchQuery);
   // Filter user base on search query
+  // const filterUser = userData.filter(
+  //   (user) =>
+  //     user.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //     user.firstname?.toLowerCase().includes(searchQuery.toLowerCase())
+  // );
   const filterUser = userData.filter(
-    (user: any) =>
-      user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.firstname.toLowerCase().includes(searchQuery.toLowerCase())
+    (user) =>
+      (user.email?.toLowerCase() ?? "").includes(searchQuery.toLowerCase()) ||
+      (user.firstname?.toLowerCase() ?? "").includes(searchQuery.toLowerCase())
   );
-
   // pagination
   const totalItems = filterUser.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -92,12 +96,14 @@ function Members() {
               <TextInput
                 className=" w-full"
                 type="text"
+                name="searchQuery"
+                value={searchQuery}
                 placeholderText="Search member"
                 handleInputChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
             {/* the popup */}
-            <div>
+            {/* <div>
               <div
                 className="right py-3 px-2 bg-white rounded-lg shadow-lg flex items-center justify-center cursor-pointer"
                 onClick={() => setShowPopUp(!showPopup)}
@@ -130,59 +136,63 @@ function Members() {
                   </ul>
                 </div>
               )}
-            </div>
+            </div> */}
             {/* the popup end */}
           </div>
         </div>
       </header>
-      <section className="py-8 space-y-24">
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-          {paginatedUsers.map((user) => {
-            console.log("hey", user);
-            return (
-              <Link
-                to={`/members/details/${user._id}`}
-                key={user._id}
-                state={user}
-              >
-                <NewMemberCard
-                  name={user.firstname}
-                  image={user.image}
-                  email={user.email}
-                />
-              </Link>
-            );
-          })}
-        </div>
-        {/* Pagination */}
-        <div className="flex justify-center items-center space-x-4">
-          <button
-            disabled={currentPage === 1}
-            onClick={() => setCurrentPage((prev) => prev - 1)}
-            className={`px-3 py-1 border rounded ${
-              currentPage === 1
-                ? "cursor-not-allowed text-gray-400"
-                : "hover:bg-gray-200"
-            }`}
-          >
-            Previous
-          </button>
-          <span>
-            Page {currentPage} of {totalPages}
-          </span>
-          <button
-            disabled={currentPage === totalPages}
-            onClick={() => setCurrentPage((prev) => prev + 1)}
-            className={`px-3 py-1 border rounded ${
-              currentPage === totalPages
-                ? "cursor-not-allowed text-gray-400"
-                : "hover:bg-gray-200"
-            }`}
-          >
-            Next
-          </button>
-        </div>
-      </section>
+      {paginatedUsers.length === 0 ? (
+        <p className="my-6">No registered members yet</p>
+      ) : (
+        <section className="py-8 space-y-24">
+          <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+            {paginatedUsers.map((user) => {
+              console.log("hey", user);
+              return (
+                <Link
+                  to={`/members/details/${user._id}`}
+                  key={user._id}
+                  state={user}
+                >
+                  <NewMemberCard
+                    name={user.firstname}
+                    image={user.image}
+                    email={user.email}
+                  />
+                </Link>
+              );
+            })}
+          </div>
+          {/* Pagination */}
+          <div className="flex justify-center items-center space-x-4">
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((prev) => prev - 1)}
+              className={`px-3 py-1 border rounded ${
+                currentPage === 1
+                  ? "cursor-not-allowed text-gray-400"
+                  : "hover:bg-gray-200"
+              }`}
+            >
+              Previous
+            </button>
+            <span>
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage((prev) => prev + 1)}
+              className={`px-3 py-1 border rounded ${
+                currentPage === totalPages
+                  ? "cursor-not-allowed text-gray-400"
+                  : "hover:bg-gray-200"
+              }`}
+            >
+              Next
+            </button>
+          </div>
+        </section>
+      )}
     </main>
   );
 }
