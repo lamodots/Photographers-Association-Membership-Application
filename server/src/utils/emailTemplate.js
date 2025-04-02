@@ -107,6 +107,7 @@ exports.verifyUserEmailTemplate = (
   return msg;
 };
 
+// send reset password email template
 exports.sendResetPassswordEmailTemplate = (token, fullUrl, email) => {
   console.log(email);
   const msg = {

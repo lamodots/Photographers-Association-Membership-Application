@@ -83,11 +83,11 @@ function OnboardingStepTwo({ data, setData, errors }: OnboardingStepTwoProps) {
 
         {data.familyInLagos && (
           <>
-            <Button
+            {/* <Button
               text="Add family member info"
               handleClick={handleAddFamilyMember}
               className="px-8 bg-green-600"
-            />
+            /> */}
             {data.familyMembers.length === 0 &&
               errors.familyMembers &&
               typeof errors.familyMembers === "string" && (
@@ -105,6 +105,11 @@ function OnboardingStepTwo({ data, setData, errors }: OnboardingStepTwoProps) {
                 errors={errors}
               />
             ))}
+            <Button
+              text="Add family member info"
+              handleClick={handleAddFamilyMember}
+              className="px-8 bg-green-600"
+            />
           </>
         )}
       </div>
