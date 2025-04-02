@@ -43,14 +43,14 @@ export default function SwipperCarosuel() {
         className="mySwiper"
       >
         <SwiperSlide>
-          <img src="https://cdn.evbstatic.com/s3-build/fe/build/images/0205288125d365f93edf9b62837de839-nightlife_desktop.webp" />
+          <img src="https://res.cloudinary.com/du6l1a0ei/image/upload/v1743609965/topbanner2_cec5hb.jpg" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src="https://cdn.evbstatic.com/s3-build/fe/build/images/08f04c907aeb48f79070fd4ca0a584f9-citybrowse_desktop.webp" />
+          <img src="https://res.cloudinary.com/du6l1a0ei/image/upload/v1743609963/topbanner_ivf7yx.jpg" />
         </SwiperSlide>
-        <SwiperSlide>
+        {/* <SwiperSlide>
           <img src="https://cdn.evbstatic.com/s3-build/fe/build/images/389ece7b7e2dc7ff8d28524bad30d52c-dsrp_desktop.webp" />
-        </SwiperSlide>
+        </SwiperSlide> */}
 
         <div className="autoplay-progress" slot="container-end">
           <svg viewBox="0 0 48 48" ref={progressCircle}>

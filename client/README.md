@@ -97,11 +97,23 @@ TODO 2
   - Set up basic route. ✔️
   - Deploy app on Render ✔️
   - Begin work on Admin Authentication ✔️
-  - Begin work on user Authentication
-  - Begin work on API main routes. You can start from admin settings, get all users
+  - Begin work on user Authentication✔️
+  - Begin work on API main routes. You can start from admin settings, get all users ✔️
 
   TODO 5
 
   - Add option to select app color code
-  - Create ID card and dynamically display color, and user info
-  - User can register for events and scan bar code to confirm
+  - Create ID card and dynamically display color, and user info ✔️
+  - User can register for events and scan bar code to confirm✔️
+
+  FINAL FEEDBACK TODO
+
+  - Change event banner
+  - The current desctrit should be state
+  - Add a selection for desctrict. When user elect state it should auto fill the destrict.
+  - Membership status and link: If members dont have subscription, we should say no subscription and show a link to subscribe on Overview page.
+  - ID card should be availabe to only subscribed memebrs but they should still be able to go to Id card page.
+  - Life membership to see only warefare when they go to do page.
+  - Admin should be able to update members membership. Example, give member Honourary member, Life member.
+  - Admin should be able to change membership role
+  - System Admin should not show in the list of members
