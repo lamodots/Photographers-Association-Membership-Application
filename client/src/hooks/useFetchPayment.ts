@@ -98,7 +98,7 @@ export function useMembershipPayemnt(): MembershipHookReturn {
   const [membershipDues, setMembershipDues] = useState<MembershipProps[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
+  console.log(membershipDues);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -136,5 +136,6 @@ export const useWelfareActive = () => {
     return welfare.find((item) => item.status === "active");
   }, [welfare]);
 
+  console.log(welfareItem);
   return [welfareItem];
 };

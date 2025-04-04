@@ -108,12 +108,12 @@ TODO 2
 
   FINAL FEEDBACK TODO
 
-  - Change event banner
-  - The current desctrit should be state
-  - Add a selection for desctrict. When user elect state it should auto fill the destrict.
-  - Membership status and link: If members dont have subscription, we should say no subscription and show a link to subscribe on Overview page.
+  - Change event banner ✔️
+  - Membership status and link: If members dont have subscription, we should say no subscription and show a link to subscribe on Overview page. ✔️
   - ID card should be availabe to only subscribed memebrs but they should still be able to go to Id card page.
   - Life membership to see only warefare when they go to do page.
+  - The current desctrit should be state AND Add a selection for desctrict. When user elect state it should auto fill the destrict.
   - Admin should be able to update members membership. Example, give member Honourary member, Life member.
   - Admin should be able to change membership role
   - System Admin should not show in the list of members
+  - Add option to check if event is FREE or paid. If is Free users will not see `Reserve a seat button` on event details page.

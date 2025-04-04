@@ -18,6 +18,7 @@ function MembershipTypeCard({
   start,
   end,
 }: MembershipTypeCardProps) {
+  console.log(status);
   return (
     <div className="bg-white rounded-lg border border-[#C4DCF3] w-full p-8 space-y-6">
       <div className="flex space-x-3  items-center">
@@ -38,6 +39,11 @@ function MembershipTypeCard({
         </div>
       </div>
       <div className="flex items-center justify-between">
+        {status !== "active" ? (
+          <p className="text-red-400">No active </p>
+        ) : (
+          status
+        )}
         {status && (
           <div className="flex justify-end relative">
             <small className="bg-green-200 text-sm font-bold rounded p-1">

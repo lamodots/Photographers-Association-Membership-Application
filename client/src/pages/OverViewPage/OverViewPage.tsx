@@ -3,7 +3,7 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import FallbackLoadingComponent from "../../components/FallbackLoadingComponent/FallbackLoadingComponent";
-import { Calendar } from "lucide-react";
+import { Calendar, InfoIcon } from "lucide-react";
 import MembershipTypeCard from "../../components/MembershipTypeCard/MembershipTypeCard";
 import { formatDistanceToNowformat } from "../../util/dataAndTimeFormater";
 import {
@@ -121,6 +121,8 @@ function OverViewPage() {
   return (
     <main>
       <header>
+        {membershipItem?.status !== "active" &&
+          welfareItem?.status !== "active" && <Alert />}
         <div className=" grid grid-cols-1 sm:grid-cols-2  gap-2 mt-8 md:grid-cols-2 md:gap-6 ">
           <MembershipTypeCard
             cardTitle="MEMBERSHIP TYPE"
@@ -138,13 +140,13 @@ function OverViewPage() {
             <Calendar />
           </MembershipTypeCard>
           {/* <MembershipTypeCard
-            cardTitle="EXPIRES AT"
-            subScriptionInfo={monthdayyearFormater(
-              `${membershipItem?.expiryDate}`
-            )}
-          >
-            <Clock />
-          </MembershipTypeCard> */}
+        cardTitle="EXPIRES AT"
+        subScriptionInfo={monthdayyearFormater(
+          `${membershipItem?.expiryDate}`
+        )}
+      >
+        <Clock />
+      </MembershipTypeCard> */}
         </div>
         {/* <div className=" grid grid-cols-1 sm:grid-cols-2  gap-2 mt-8 md:grid-cols-3 md:gap-6 ">
           <MembershipTypeCard
@@ -256,3 +258,20 @@ function OverViewPage() {
 }
 
 export default OverViewPage;
+
+function Alert() {
+  return (
+    <div className="flex items-center gap-2 bg-cyan-200 px-3 py-4 rounded border-l-4 border-l-cyan-700">
+      <div>
+        <InfoIcon height={22} width={22} />
+      </div>
+      <p className="text-sm">
+        You are yet to pay for <strong>Membership </strong>and{" "}
+        <strong>Welfare</strong> dues. You can pay to secretary/online. {""}
+        <Link to="/subscription" className="text-cyan-900 underline font-bold">
+          Get started
+        </Link>
+      </p>
+    </div>
+  );
+}
