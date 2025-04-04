@@ -114,7 +114,8 @@ TODO 2
   - Fix: Fix sidebar close when a route is clicked ✔️.
   - ID card should be availabe to only subscribed memebrs ✔️
     but they should still be able to go to Id card page.
-  - Life member and Honorary member to see only warefare when they go to do page.
+  - Life member and Honorary member to see only warefare when they go to do page. ✔️
+  - On memberships card for member / remove email and make it phone number
   - The current desctrit should be state AND Add a selection for desctrict. When user elect state it should auto fill the destrict.
   - Admin should be able to update members membership. Example, give member Honourary member, Life member.
   - Admin should be able to change membership role

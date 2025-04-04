@@ -4,6 +4,7 @@ import { Oval } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
 
 import { monthdayyearFormater } from "../../util/monthdayyearFormater";
+import { useMembershipActive } from "../../hooks/useFetchPayment";
 
 const API_URL = process.env.REACT_APP_CLIENT_URL;
 interface WelfareProps {
@@ -29,7 +30,7 @@ function MyDues() {
   const [membership, setMembership] = useState<WelfareProps[]>([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
+  const [membershipItem] = useMembershipActive();
   const handleGetAllWelfareDuesByMember = async () => {
     try {
       setLoading(true);
@@ -161,7 +162,10 @@ function MyDues() {
           )}
 
           {/* Membership Dues Table */}
-          {loading ? (
+          {(membershipItem?.membershipType === undefined ||
+            (membershipItem?.membershipType !== "Life membership" &&
+              membershipItem?.membershipType !== "Honorary member")) &&
+          loading ? (
             <Oval height={24} width={24} />
           ) : (
             <div>
