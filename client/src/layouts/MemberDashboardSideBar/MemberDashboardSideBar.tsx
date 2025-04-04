@@ -16,7 +16,7 @@ function MemberDashboardSideBar({
   const { appData, loading } = useFetchAppData();
 
   return (
-    <aside className=" fixed overflow-y-auto pb-8  z-50 shadow-lg bg-[#F5F7FA] border-r-2 border-r-[#C4DCF3] md:static md:z-0 md:shadow-none   transition ease-in-out delay-150 duration-300 w-[240px]  md:w-[296px] h-full">
+    <aside className=" fixed overflow-y-auto pb-8  z-50 shadow-lg bg-[#F5F7FA] border-r-2 border-r-[#C4DCF3] md:static md:z-0 md:shadow-none transition ease-in-out delay-150 duration-300 w-[240px]  md:w-[296px] h-full">
       <SidebarCloseIcon
         className="relative left-6 mt-8 md:hidden"
         onClick={handleToggleSideBar}
@@ -44,6 +44,7 @@ function MemberDashboardSideBar({
       <div className="  px-6 links flex flex-col gap-6">
         {userDashboardMenus.map((menu) => (
           <NavLink
+            onClick={handleToggleSideBar}
             to={`${menu.path}`}
             key={menu.key}
             className="cursor-pointer hover:text-[#5BD3CF]"
