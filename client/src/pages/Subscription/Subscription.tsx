@@ -10,6 +10,7 @@ import { useCurrentUser } from "../../context/AdminContext";
 import PaystackPop from "@paystack/inline-js";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import useFetchAppData from "../../hooks/useFetchAppData";
+import { useMembershipActive } from "../../hooks/useFetchPayment";
 
 const API_URL = process.env.REACT_APP_CLIENT_URL;
 
@@ -23,6 +24,7 @@ interface PaymentProps {
 function Subscription() {
   const { currentUser } = useCurrentUser();
   const { appData, loading, error: settingError } = useFetchAppData();
+  const [membershipItem] = useMembershipActive();
   const [showManualPayment, setShowManualPayment] = useState(false);
   const [showManualPaymentOnline, setShowManualPaymentOnline] = useState(false);
   const [membershipType, setMembershipType] = useState("");
@@ -41,6 +43,8 @@ function Subscription() {
     setShowManualPaymentOnline(true);
     setShowManualPayment(false);
   };
+
+  console.log(membershipItem?.membershipType);
 
   // MEMBERHSIP DUES ONLINE PAYMENT
   const handleMembershipPayment = async () => {
@@ -188,68 +192,72 @@ function Subscription() {
       )}
       {showManualPaymentOnline && (
         <div className="space-y-4">
-          <div className=" p-6 bg-white rounded-md shadow-sm transition-all max-w-[512px] mt-6">
-            <h3 className="text-lg font-bold">
-              <strong>Membership Dues</strong>, Pay online
-            </h3>
-            <p className="mb-6">
-              Pay for your membership fee online secure and fast
-            </p>
-            <div className="  md:flex md:gap-6 md:items-end">
-              <div className="password flex flex-col gap-2  flex-1">
-                <Lable label="Choose membership type" />
-                <select
-                  value={membershipType}
-                  onChange={(e) => {
-                    setMembershipType(e.target.value);
-                    //reset error when membership type chnages
-                    setError((prev) => ({ ...prev, valueError: "" }));
-                  }}
-                  className="px-3 uppercase h-12 outline-[#90BFE9] rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]"
-                >
-                  <option className=" uppercase">
-                    --Select membership type--
-                  </option>
-                  <option className=" uppercase">Life membership</option>
-                  <option className=" uppercase">Annual membership</option>
-                </select>
-                {/* <span className="text-sm text-red-400">
+          {(membershipItem?.membershipType === undefined ||
+            (membershipItem?.membershipType !== "Life membership" &&
+              membershipItem?.membershipType !== "Honorary member")) && (
+            <div className=" p-6 bg-white rounded-md shadow-sm transition-all max-w-[512px] mt-6">
+              <h3 className="text-lg font-bold">
+                <strong>Membership Dues</strong>, Pay online
+              </h3>
+              <p className="mb-6">
+                Pay for your membership fee online secure and fast
+              </p>
+              <div className="  md:flex md:gap-6 md:items-end">
+                <div className="password flex flex-col gap-2  flex-1">
+                  <Lable label="Choose membership type" />
+                  <select
+                    value={membershipType}
+                    onChange={(e) => {
+                      setMembershipType(e.target.value);
+                      //reset error when membership type chnages
+                      setError((prev) => ({ ...prev, valueError: "" }));
+                    }}
+                    className="px-3 uppercase h-12 outline-[#90BFE9] rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]"
+                  >
+                    <option className=" uppercase">
+                      --Select membership type--
+                    </option>
+                    <option className=" uppercase">Life membership</option>
+                    <option className=" uppercase">Annual membership</option>
+                  </select>
+                  {/* <span className="text-sm text-red-400">
                 {errors.password && touched.password && errors.password}
               </span> */}
-              </div>
+                </div>
 
-              {/* <Button
+                {/* <Button
                 handleClick={handleMmebershipPayment}
                 text="Membership Dues"
                 className="px-6 mt-10 md:mt-0 hover:bg-[#1a4f83ec] transition-colors text-slate-50"
               /> */}
-              <Button
-                handleClick={handleMembershipPayment}
-                text="Membership Dues"
-                className="px-6 mt-10 md:mt-0 hover:bg-[#1a4f83ec] flex-1 transition-colors text-slate-50"
-                isSubmitting={isSubmittingMembershipPayment}
-                disableBtn={isSubmittingMembershipPayment}
-              >
-                {isSubmittingMembershipPayment && (
-                  <>
-                    <Oval
-                      visible={true}
-                      height="24"
-                      width="24"
-                      color="#4fa94d"
-                      ariaLabel="oval-loading"
-                      wrapperStyle={{}}
-                      wrapperClass=""
-                    />{" "}
-                    <span className="ml-2 text-xs">Loading...</span>
-                  </>
-                )}
-              </Button>
+                <Button
+                  handleClick={handleMembershipPayment}
+                  text="Membership Dues"
+                  className="px-6 mt-10 md:mt-0 hover:bg-[#1a4f83ec] flex-1 transition-colors text-slate-50"
+                  isSubmitting={isSubmittingMembershipPayment}
+                  disableBtn={isSubmittingMembershipPayment}
+                >
+                  {isSubmittingMembershipPayment && (
+                    <>
+                      <Oval
+                        visible={true}
+                        height="24"
+                        width="24"
+                        color="#4fa94d"
+                        ariaLabel="oval-loading"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                      />{" "}
+                      <span className="ml-2 text-xs">Loading...</span>
+                    </>
+                  )}
+                </Button>
+              </div>
+              {error.valueError && (
+                <p className="text-red-400 text-sm mt-2">{error.valueError}</p>
+              )}
             </div>
-            {error.valueError && (
-              <p className="text-red-400 text-sm mt-2">{error.valueError}</p>
-            )}
-          </div>
+          )}
 
           <div className=" p-6 bg-white rounded-md shadow-sm transition-all max-w-[512px] mt-6">
             <h3 className="text-lg font-bold">
