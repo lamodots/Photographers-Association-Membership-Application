@@ -43,6 +43,7 @@ function AdminDashboardSideBar({ handleToggleSideBar }: DashboardSideBarProp) {
             <div>
               <div className="flex items-center gap-3">
                 <NavLink
+                  onClick={handleToggleSideBar}
                   to={`${menu.path}`}
                   end={menu.path === "/secure"}
                   key={menu.key}
