@@ -42,12 +42,37 @@ function AdminDashboardSideBar({ handleToggleSideBar }: DashboardSideBarProp) {
           <div className="flex items-center gap-2" key={menu.key}>
             <div>
               <div className="flex items-center gap-3">
+                {/* Mobile Links */}
                 <NavLink
                   onClick={handleToggleSideBar}
                   to={`${menu.path}`}
                   end={menu.path === "/secure"}
                   key={menu.key}
-                  className="cursor-pointer hover:text-[#5BD3CF]"
+                  className="cursor-pointer hover:text-[#5BD3CF] md:hidden"
+                >
+                  {({ isActive }) => (
+                    <div className="flex items-center gap-2">
+                      <Icon
+                        name={menu.menuIcon}
+                        size={24}
+                        color={isActive ? "#5BD3CF" : "#A5BCD4"}
+                      />
+                      <span
+                        className={`${
+                          isActive ? "text-[#F5F7FA] " : "text-[#A5BCD4]"
+                        } text-lg`}
+                      >
+                        {menu.label}
+                      </span>
+                    </div>
+                  )}
+                </NavLink>
+                {/* // Desktop */}
+                <NavLink
+                  to={`${menu.path}`}
+                  end={menu.path === "/secure"}
+                  key={menu.key}
+                  className="cursor-pointer hover:text-[#5BD3CF] hidden md:block"
                 >
                   {({ isActive }) => (
                     <div className="flex items-center gap-2">

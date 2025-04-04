@@ -109,7 +109,8 @@ TODO 2
   FINAL FEEDBACK TODO
 
   - Change event banner ✔️
-  - Membership status and link: If members dont have subscription, we should say no subscription and show a link to subscribe on Overview page. ✔️
+  - Membership status and link: If members dont have subscription,
+    we should say no subscription and show a link to subscribe on Overview page. ✔️
   - Fix: Fix sidebar close when a route is clicked ✔️.
   - ID card should be availabe to only subscribed memebrs but they should still be able to go to Id card page.
   - Life membership to see only warefare when they go to do page.

@@ -41,31 +41,57 @@ function MemberDashboardSideBar({
           </span>
         )}
       </div>
+
       <div className="  px-6 links flex flex-col gap-6">
         {userDashboardMenus.map((menu) => (
-          <NavLink
-            onClick={handleToggleSideBar}
-            to={`${menu.path}`}
-            key={menu.key}
-            className="cursor-pointer hover:text-[#5BD3CF]"
-          >
-            {({ isActive }) => (
-              <div className="flex items-center gap-2">
-                <Icon
-                  name={menu.menuIcon}
-                  size={24}
-                  color={isActive ? "#5BD3CF" : "#537BA2"}
-                />
-                <span
-                  className={`${
-                    isActive ? "text-[#1A4F83] " : "text-[#537BA2]"
-                  } text-lg`}
-                >
-                  {menu.label}
-                </span>
-              </div>
-            )}
-          </NavLink>
+          <>
+            <NavLink
+              onClick={handleToggleSideBar}
+              to={`${menu.path}`}
+              key={menu.key}
+              className="cursor-pointer hover:text-[#5BD3CF] md:hidden"
+            >
+              {({ isActive }) => (
+                <div className="flex items-center gap-2">
+                  <Icon
+                    name={menu.menuIcon}
+                    size={24}
+                    color={isActive ? "#5BD3CF" : "#537BA2"}
+                  />
+                  <span
+                    className={`${
+                      isActive ? "text-[#1A4F83] " : "text-[#537BA2]"
+                    } text-lg`}
+                  >
+                    {menu.label}
+                  </span>
+                </div>
+              )}
+            </NavLink>
+            {/* // Desktop */}
+            <NavLink
+              to={`${menu.path}`}
+              key={menu.key}
+              className="cursor-pointer hover:text-[#5BD3CF]  hidden md:block"
+            >
+              {({ isActive }) => (
+                <div className="flex items-center gap-2">
+                  <Icon
+                    name={menu.menuIcon}
+                    size={24}
+                    color={isActive ? "#5BD3CF" : "#537BA2"}
+                  />
+                  <span
+                    className={`${
+                      isActive ? "text-[#1A4F83] " : "text-[#537BA2]"
+                    } text-lg`}
+                  >
+                    {menu.label}
+                  </span>
+                </div>
+              )}
+            </NavLink>
+          </>
         ))}
         {/* <NavLink to="/user">
           {({ isActive }) => (
