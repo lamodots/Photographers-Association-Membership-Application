@@ -121,8 +121,8 @@ TODO 2
   <!-- https://simple.wikipedia.org/wiki/List_of_districts_of_India -->
 
   - Memebrs should be able to add family member or remove from profile.✔️
-  - Admin should be able to update members membership. Example, give member Honourary member, Life member.
   - Admin Create a moderator or admin // stakeholders changed the idea ✔️
-  - System Admin should not show in the list of members
+  - System Admin should not show in the list of members ✔️
+  - Admin should be able to update members membership. Example, give member Honourary member, Life member.
 
   - Add option to check if event is FREE or paid. If is Free users will not see `Reserve a seat button` on event details page.

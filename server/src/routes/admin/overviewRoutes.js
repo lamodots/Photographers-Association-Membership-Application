@@ -8,7 +8,7 @@ const overviewRoutes = express.Router();
 overviewRoutes.get(
   "/",
   authenticateUser,
-  authorizaPermissions("admin"),
+  authorizaPermissions("admin", "moderator"),
   getOverview
 );
 

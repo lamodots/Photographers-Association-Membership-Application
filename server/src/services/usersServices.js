@@ -13,7 +13,7 @@ const {
 const membershipID = require("../utils/generateUniqueMembershipId");
 
 async function getAllUsersService() {
-  const users = await User.find({})
+  const users = await User.find({ role: "user" })
     .select("-password")
     .populate({
       path: "userSubscription",
