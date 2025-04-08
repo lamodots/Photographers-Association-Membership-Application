@@ -33,12 +33,13 @@ function AdminMembersDetails() {
   const location = useLocation();
   const user: UserProps = location?.state;
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  console.log(user);
   return (
     <div>
       <header>
         <div className="flex items-center space-x-10">
           <div className="flex gap-2 items-center">
-            <Avatar className="w-32 h-32 rounded" />
+            <Avatar className="w-32 h-32 rounded" image={user?.image} />
             <div>
               <h3 className="font-semibold capitalize">
                 {user.firstname + " " + user.lastname}
@@ -59,7 +60,7 @@ function AdminMembersDetails() {
               <th className="border border-slate-300 py-2 bg-[#eaf1f4] px-3">
                 <td>Date of Birth:</td>
               </th>
-              <td className="border border-slate-300">
+              <td className="border pl-4 border-slate-300">
                 {dateFormater(user.Dob)}
               </td>
             </tr>
@@ -67,33 +68,33 @@ function AdminMembersDetails() {
               <th className="border border-slate-300 py-2   px-3 bg-[#eaf1f4]">
                 <td>Area:</td>
               </th>
-              <td className="border border-slate-300">{user.location}</td>
+              <td className="border pl-4 border-slate-300">{user.location}</td>
             </tr>
             <tr>
               <th className="border border-slate-300 py-2  px-3 bg-[#eaf1f4]">
                 <td>Address:</td>
               </th>
-              <td className="border border-slate-300">{user.address}</td>
+              <td className="border pl-4 border-slate-300">{user.address}</td>
             </tr>
             <tr>
               <th className="border border-slate-300 py-2  px-3 bg-[#eaf1f4]">
                 <td>Subscription Type:</td>
               </th>
-              <td className="border border-slate-300">Normal memebers</td>
+              <td className="border pl-4 border-slate-300">Normal memebers</td>
             </tr>
-            <tr>
+            {/* <tr>
               <th className="border border-slate-300 py-2  px-3 bg-[#eaf1f4]">
                 <td>Interests:</td>
               </th>
               <td className="border border-slate-300">
                 {user.interest.map((userInterests) => userInterests).join(", ")}
               </td>
-            </tr>
+            </tr> */}
           </table>
-          <div className="pt-6">
+          {/* <div className="pt-6">
             <h2 className="font-bold">About member</h2>
             <p className="mt-3 leading-6">{user.aboutuser}</p>
-          </div>
+          </div> */}
           <div className="flex items-center justify-between mt-10">
             <div>
               <button
@@ -104,7 +105,7 @@ function AdminMembersDetails() {
                 <span>Process Payment</span>
               </button>
             </div>
-            <div className=" flex items-center space-x-10 mt-6">
+            {/* <div className=" flex items-center space-x-10 mt-6">
               <button
                 className="flex items-center gap-2 text-[#FFAE80]"
                 onClick={() => console.log(user._id)}
@@ -118,7 +119,7 @@ function AdminMembersDetails() {
                 <Trash />
                 <span>Delete</span>
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </main>

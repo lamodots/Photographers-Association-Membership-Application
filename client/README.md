@@ -122,7 +122,7 @@ TODO 2
 
   - Memebrs should be able to add family member or remove from profile.✔️
   - Admin should be able to update members membership. Example, give member Honourary member, Life member.
-  - Admin should be able to change membership role
+  - Admin Create a moderator or admin // stakeholders changed the idea ✔️
   - System Admin should not show in the list of members
 
   - Add option to check if event is FREE or paid. If is Free users will not see `Reserve a seat button` on event details page.

@@ -7,10 +7,11 @@ import Chart from "../../../components/Admin-Components/MemberStats/Chart";
 import { Suspense } from "react";
 import FallbackLoadingComponent from "../../../components/FallbackLoadingComponent/FallbackLoadingComponent";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { formatDistanceToNowformat } from "../../../util/dataAndTimeFormater";
 import { useFetch } from "../../../hooks/useFetch";
+import { useCurrentUser } from "../../../context/AdminContext";
 
 const NewMemberCard = lazy(
   () =>
@@ -52,11 +53,13 @@ interface OverviewStats {
 }
 
 function OverViewPage() {
+  const { currentUser, fetchCurrentUser } = useCurrentUser();
   const [userData, setUserData] = useState<UserProps[]>([]);
   const [loading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const [filter, setFilter] = useState({ year: "" });
   const query = new URLSearchParams({ year: filter.year }).toString();
+  const navigate = useNavigate();
   const { data: overviewData } = useFetch<OverviewStats>(
     `${API_URL}/api/v1/secure/overview?${query}`
   );
