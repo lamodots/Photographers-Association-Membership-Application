@@ -52,7 +52,7 @@ function OnboardingStepTwo({ data, setData, errors }: OnboardingStepTwoProps) {
   };
 
   return (
-    <section className="p-4">
+    <section className="px-4 pt-4 pb-24">
       <div className="space-y-4">
         <p>Is your Family here in Lagos?</p>
         <div className="flex gap-4 my-8">
@@ -83,6 +83,12 @@ function OnboardingStepTwo({ data, setData, errors }: OnboardingStepTwoProps) {
 
         {data.familyInLagos && (
           <>
+            {data.familyMembers.length === 0 && (
+              <p className="text-xs text-cyan-600">
+                If your family member is in Lagos, Add family member with the
+                Add family member button
+              </p>
+            )}
             {/* <Button
               text="Add family member info"
               handleClick={handleAddFamilyMember}

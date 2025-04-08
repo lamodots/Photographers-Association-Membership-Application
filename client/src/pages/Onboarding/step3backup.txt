@@ -4,13 +4,6 @@ import { StepThreeValues } from "./OnboardingWelcome";
 import { DISTRICTS } from "../../util/indianDistrict";
 import { NIGERIANSTATES } from "../../util/nigerianStates";
 import InternationalTelephoneInput from "../../components/Input/InternatioanlTelephoneInput";
-import { useState, useEffect } from "react";
-
-// Define the type for the DISTRICTS object to help TypeScript understand the structure
-type DistrictsType = {
-  [state: string]: string[];
-};
-
 interface OnboardingStepThreeProps {
   data: StepThreeValues;
   setData: (data: StepThreeValues) => void;
@@ -22,32 +15,6 @@ function OnboardingStepThree({
   setData,
   errors,
 }: OnboardingStepThreeProps) {
-  const [availableDistricts, setAvailableDistricts] = useState<string[]>([]);
-
-  // Update districts when state changes
-  useEffect(() => {
-    // Type assertion to help TypeScript understand the structure
-    const districtsObject = DISTRICTS as DistrictsType;
-
-    if (data.statesInIndia && districtsObject[data.statesInIndia]) {
-      setAvailableDistricts(districtsObject[data.statesInIndia]);
-
-      // If current district is not in the new list of districts, reset it
-      if (
-        data.districtInIndia &&
-        !districtsObject[data.statesInIndia].includes(data.districtInIndia)
-      ) {
-        setData({ ...data, districtInIndia: "" });
-      }
-    } else {
-      setAvailableDistricts([]);
-      // Clear district if no state is selected
-      if (data.districtInIndia) {
-        setData({ ...data, districtInIndia: "" });
-      }
-    }
-  }, [data.statesInIndia]);
-
   const handleChange = (field: keyof StepThreeValues, value: string) => {
     setData({ ...data, [field]: value });
   };
@@ -102,6 +69,14 @@ function OnboardingStepThree({
         <div className="flex flex-col space-y-2">
           <hr className="my-6" />
           <Lable label="Emergency Contact phone number in India" />
+          {/* <TextInput
+            type="text"
+            placeholderText="Enter emergency contact"
+            value={data.emergencyContactInIndia}
+            handleInputChange={(e) =>
+              handleChange("emergencyContactInIndia", e.target.value)
+            }
+          /> */}
           <InternationalTelephoneInput
             country="in"
             value={data.emergencyContactInIndia}
@@ -117,37 +92,17 @@ function OnboardingStepThree({
           <Lable label="Select your state in India" />
 
           <select
-            className={`px-3 h-12 outline-[#90BFE9] rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]`}
-            value={data.statesInIndia}
-            onChange={(e) => handleChange("statesInIndia", e.target.value)}
-          >
-            <option value="">Select State</option>
-            {Object.keys(DISTRICTS as DistrictsType).map((state) => (
-              <option value={state} key={state}>
-                {state}
-              </option>
-            ))}
-          </select>
-
-          {errors.statesInIndia && (
-            <p className="text-red-500">{errors.statesInIndia}</p>
-          )}
-        </div>
-        {/* districts */}
-        <div className="flex flex-col space-y-2">
-          <Lable label="Select your district in India" />
-          <select
-            className={`px-3 h-12 outline-[#90BFE9] rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]`}
+            className={` px-3  h-12 outline-[#90BFE9] rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]`}
             value={data.districtInIndia}
             onChange={(e) => handleChange("districtInIndia", e.target.value)}
-            disabled={availableDistricts.length === 0} // Disable dropdown if no districts are available
           >
-            <option value="">Select District</option>
-            {availableDistricts.map((district) => (
-              <option value={district} key={district}>
-                {district}
-              </option>
-            ))}
+            {DISTRICTS.map((district) => {
+              return (
+                <option value={district} key={district}>
+                  {district}
+                </option>
+              );
+            })}
           </select>
           {errors.districtInIndia && (
             <p className="text-red-500">{errors.districtInIndia}</p>

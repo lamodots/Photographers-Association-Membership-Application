@@ -115,9 +115,14 @@ TODO 2
   - ID card should be availabe to only subscribed memebrs ✔️
     but they should still be able to go to Id card page.
   - Life member and Honorary member to see only warefare when they go to do page. ✔️
-  - On memberships card for member / remove email and make it phone number
-  - The current desctrit should be state AND Add a selection for desctrict. When user elect state it should auto fill the destrict.
+  - On memberships card for member / remove email and make it phone number ✔️
+  - The current desctrit should be state AND Add a selection for desctrict.
+  When user elect state it should auto fill the destrict. ✔️
+  <!-- https://simple.wikipedia.org/wiki/List_of_districts_of_India -->
+
+  - Memebrs should be able to add family member or remove from profile.✔️
   - Admin should be able to update members membership. Example, give member Honourary member, Life member.
   - Admin should be able to change membership role
   - System Admin should not show in the list of members
+
   - Add option to check if event is FREE or paid. If is Free users will not see `Reserve a seat button` on event details page.

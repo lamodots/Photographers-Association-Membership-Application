@@ -46,6 +46,7 @@ export interface StepThreeValues {
   location: string;
   emergencyContactInIndia: string;
   districtInIndia: string;
+  statesInIndia: string;
   addressInIndia: string;
 }
 
@@ -71,6 +72,7 @@ const initialStepThree: StepThreeValues = {
   location: "",
   emergencyContactInIndia: "",
   districtInIndia: "",
+  statesInIndia: "",
   addressInIndia: "",
 };
 
@@ -129,6 +131,7 @@ const validateStepThree = (data: StepThreeValues) => {
     errors.emergencyContactInIndia = "Emergency contact Phone is required";
   if (!data.districtInIndia.trim())
     errors.districtInIndia = "District is required";
+  if (!data.statesInIndia.trim()) errors.statesInIndia = "State is required";
   if (!data.addressInIndia.trim())
     errors.addressInIndia = "Address in India is required";
   return errors;
@@ -200,10 +203,10 @@ function OnboardingWelcome() {
       formData.append(key, value);
     });
     // Debug: log FormData entries
-
     // for (const [key, value] of Array.from(formData.entries())) {
     //   console.log(key, value);
     // }
+    // console.log(formData);
     try {
       setIsSubmitting(true);
       await new Promise((resolve) => setTimeout(resolve, 300));

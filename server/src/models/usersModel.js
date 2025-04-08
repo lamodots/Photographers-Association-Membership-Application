@@ -49,7 +49,7 @@ const UserSchema = new mongoose.Schema(
     aboutuser: { type: String },
     social: { type: Array },
     interest: { type: Array },
-    state: { type: String },
+    statesInIndia: { type: String },
 
     role: {
       type: String,
