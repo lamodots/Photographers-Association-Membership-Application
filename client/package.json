@@ -21,7 +21,6 @@
     "html-to-image": "^1.11.13",
     "html2canvas": "^1.4.1",
     "html2pdf.js": "^0.10.2",
-    "js-cookie": "^3.0.5",
     "jspdf": "^3.0.1",
     "libphonenumber-js": "^1.11.20",
     "lucide-react": "^0.459.0",
@@ -34,7 +33,6 @@
     "react-loader-spinner": "^6.1.6",
     "react-paystack": "^6.0.0",
     "react-phone-input-2": "^2.15.1",
-    "react-qr-reader": "^3.0.0-beta-1",
     "react-router-dom": "^6.28.0",
     "react-scripts": "5.0.1",
     "react-select": "^5.8.3",
@@ -46,8 +44,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "npm install --legacy-peer-deps && react-scripts build",
-    "postinstall": "npm install --legacy-peer-deps",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

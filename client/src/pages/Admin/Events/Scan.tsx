@@ -2,7 +2,7 @@ import { ChevronLeft } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Oval } from "react-loader-spinner";
-import { QrReader } from "react-qr-reader";
+// import { QrReader } from "react-qr-reader";
 import { useNavigate, useParams } from "react-router-dom";
 
 const API_URL = process.env.REACT_APP_CLIENT_URL;
@@ -39,76 +39,76 @@ const QRCodeScanner = () => {
     navigate(-1);
   };
 
-  const handleScan = async (result: { text: string }, error: Error) => {
-    if (!!error) {
-      setStatusMessage("Invalid QR Code");
-      setTimeout(
-        () => setStatusMessage("Place the QRCode to face the scanner."),
-        2000
-      );
-      return;
-    }
-    if (!result?.text) {
-      return; // No QR Code detected
-    }
+  // const handleScan = async (result: { text: string }, error: Error) => {
+  //   if (!!error) {
+  //     setStatusMessage("Invalid QR Code");
+  //     setTimeout(
+  //       () => setStatusMessage("Place the QRCode to face the scanner."),
+  //       2000
+  //     );
+  //     return;
+  //   }
+  //   if (!result?.text) {
+  //     return; // No QR Code detected
+  //   }
 
-    setIsScanning(true);
-    setStatusMessage("Scanning... Please wait!");
+  //   setIsScanning(true);
+  //   setStatusMessage("Scanning... Please wait!");
 
-    try {
-      // Simulate a delay before processing the scan
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+  //   try {
+  //     // Simulate a delay before processing the scan
+  //     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      const response = await fetch(
-        `${API_URL}/api/v1/secure/events/${id}/applicant`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ applicantQRCode: result.text }),
-        }
-      );
+  //     const response = await fetch(
+  //       `${API_URL}/api/v1/secure/events/${id}/applicant`,
+  //       {
+  //         method: "PUT",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({ applicantQRCode: result.text }),
+  //       }
+  //     );
 
-      const responseData = await response.json();
+  //     const responseData = await response.json();
 
-      if (response.ok) {
-        // Delay before showing "Scan Successful!" and displaying details
-        setStatusMessage("Scan Successful!");
-        setApplicant(responseData.applicant);
+  //     if (response.ok) {
+  //       // Delay before showing "Scan Successful!" and displaying details
+  //       setStatusMessage("Scan Successful!");
+  //       setApplicant(responseData.applicant);
 
-        setTimeout(() => {
-          setStatusMessage("Place the QRCode to face the scanner.");
-        }, 3000);
-      } else {
-        // Handle backend error messages with delay
-        // setStatusMessage(
-        //   responseData.message || "An error occurred. Please try again."
-        // );
-        // setTimeout(() => {
-        //   setStatusMessage("Place the QRCode to face the scanner.");
-        // }, 3000);
-        if (window.confirm("Scan done ")) {
-          setStatusMessage(
-            responseData.message || "An error occurred. Please try again."
-          );
-          setTimeout(() => {
-            setStatusMessage("Place the QRCode to face the scanner.");
-          }, 3000);
-        } else {
-          toast.error("cancelled");
-        }
-      }
-    } catch (err) {
-      console.error("Error during scan:", err);
-      setStatusMessage("An error occurred. Please try again.");
-      setTimeout(() => {
-        setStatusMessage("Place the QRCode to face the scanner.");
-      }, 3000);
-    } finally {
-      setIsScanning(false);
-    }
-  };
+  //       setTimeout(() => {
+  //         setStatusMessage("Place the QRCode to face the scanner.");
+  //       }, 3000);
+  //     } else {
+  //       // Handle backend error messages with delay
+  //       // setStatusMessage(
+  //       //   responseData.message || "An error occurred. Please try again."
+  //       // );
+  //       // setTimeout(() => {
+  //       //   setStatusMessage("Place the QRCode to face the scanner.");
+  //       // }, 3000);
+  //       if (window.confirm("Scan done ")) {
+  //         setStatusMessage(
+  //           responseData.message || "An error occurred. Please try again."
+  //         );
+  //         setTimeout(() => {
+  //           setStatusMessage("Place the QRCode to face the scanner.");
+  //         }, 3000);
+  //       } else {
+  //         toast.error("cancelled");
+  //       }
+  //     }
+  //   } catch (err) {
+  //     console.error("Error during scan:", err);
+  //     setStatusMessage("An error occurred. Please try again.");
+  //     setTimeout(() => {
+  //       setStatusMessage("Place the QRCode to face the scanner.");
+  //     }, 3000);
+  //   } finally {
+  //     setIsScanning(false);
+  //   }
+  // };
 
   return (
     <div className="py-24">
@@ -118,7 +118,7 @@ const QRCodeScanner = () => {
         Back
       </button>
       <div className="w-[400px] m-auto shadow-lg bg-white p-4 rounded-lg">
-        <QrReader
+        {/* <QrReader
           onResult={(result: { text: string | null }, error: Error) => {
             if (result?.text) handleScan({ text: result.text }, error);
           }}
@@ -130,7 +130,7 @@ const QRCodeScanner = () => {
             borderRadius: "40px",
           }}
           videoStyle={{ height: 300, borderRadius: "40px" }}
-        />
+        /> */}
         <span className="px-6 h-10 bg-green-300 rounded-lg flex items-center justify-center mt-4">
           {isScanning ? "Scanning... Please wait!" : statusMessage}
         </span>

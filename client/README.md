@@ -150,3 +150,11 @@ TODO 2
 }
 
 ```
+
+"scripts": {
+"start": "react-scripts start",
+"build": "npm install --legacy-peer-deps && react-scripts build",
+"postinstall": "npm install --legacy-peer-deps",
+"test": "react-scripts test",
+"eject": "react-scripts eject"
+},

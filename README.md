@@ -269,3 +269,10 @@ https://chathuratd.medium.com/deploying-a-mern-stack-web-app-with-github-actions
   const expiryDate = isBeforeMarchFirst
     ? marchFirstThisYear // March 1 of the same year
     : new Date(currentYear + 1, 2, 1); // March 1 of the next year -->
+
+"scripts": {
+"start": "node server/src/index.js",
+"build": "npm install && npm --prefix client install --legacy-peer-deps && npm --prefix client run build",
+"server": "nodemon server/src/index.js",
+"test": "echo \"Error: no test specified\" && exit 1"
+},
