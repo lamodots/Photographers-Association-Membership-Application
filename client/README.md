@@ -126,3 +126,27 @@ TODO 2
   - Admin should be able to update members membership. Example, give member Honourary member, Life member.
 
   - Add option to check if event is FREE or paid. If is Free users will not see `Reserve a seat button` on event details page.
+
+```js
+//vercel.json file
+
+
+{
+  "installCommand": "npm install --legacy-peer-deps",
+  "version": 2,
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "src/**/*",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/" }
+  ]
+}
+
+```

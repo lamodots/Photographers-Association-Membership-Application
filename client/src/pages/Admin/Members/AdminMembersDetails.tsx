@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Trash, MonitorPause, Wallet } from "lucide-react";
+import { Trash, MonitorPause, Wallet, Award } from "lucide-react";
 import Badge from "../../../components/Badge/Badge";
 import Avatar from "../../../components/Avatar/Avatar";
 import { useLocation } from "react-router-dom";
@@ -8,6 +8,7 @@ import { dateFormater } from "../../../util/DateFormater";
 import Modal from "../../../components/modal/Modal";
 
 import OfflinePaymentProcessing from "../../../components/OfflinePaymentProcessing/OfflinePaymentProcessing";
+import ConfirmationModal from "../../../components/ConfirmationModal/ConfirmationModal";
 
 type SocialLink = {
   facebook?: string;
@@ -30,10 +31,20 @@ interface UserProps {
 }
 
 function AdminMembersDetails() {
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const location = useLocation();
   const user: UserProps = location?.state;
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   console.log(user);
+
+  const handleGrandHonouraryMember = async () => {
+    setShowConfirmationModal(true);
+  };
+
+  const handleConfirm = async () => {
+    setShowConfirmationModal(false);
+    // setIsSubmitting(true);
+  };
   return (
     <div>
       <header>
@@ -99,7 +110,7 @@ function AdminMembersDetails() {
             <div>
               <button
                 onClick={() => setShowPaymentModal(true)}
-                className=" bg-[#295474] px-2 py-1 rounded flex items-center gap-1 text-white"
+                className=" bg-[#295474] px-2 py-1 rounded flex items-center gap-1 text-sm text-white"
               >
                 <Wallet />
                 <span>Process Payment</span>
@@ -120,6 +131,12 @@ function AdminMembersDetails() {
                 <span>Delete</span>
               </button>
             </div> */}
+            <button
+              onClick={handleGrandHonouraryMember}
+              className=" bg-[#295474] px-2 py-1 rounded flex items-center text-sm gap-1 text-white"
+            >
+              <Award /> <span>Grant Honourary member</span>
+            </button>
           </div>
         </div>
       </main>
@@ -136,6 +153,14 @@ function AdminMembersDetails() {
             last_name={user.lastname}
           />
         </Modal>
+      )}
+
+      {showConfirmationModal && (
+        <ConfirmationModal
+          action="Grant Honourary member"
+          onCancel={() => setShowConfirmationModal(false)}
+          onConfirm={handleConfirm}
+        />
       )}
     </div>
   );

@@ -50,7 +50,7 @@ const UserSchema = new mongoose.Schema(
     social: { type: Array },
     interest: { type: Array },
     statesInIndia: { type: String },
-
+    isHonouraryMember: { type: Boolean, default: false },
     role: {
       type: String,
       enum: ["user", "moderator", "admin"],

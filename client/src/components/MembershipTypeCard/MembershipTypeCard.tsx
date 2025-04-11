@@ -40,7 +40,7 @@ function MembershipTypeCard({
       </div>
       <div className="flex items-center justify-between">
         {status !== "active" ? (
-          <p className="text-red-400">No active </p>
+          <p className="text-red-400">Requires payment </p>
         ) : (
           status
         )}

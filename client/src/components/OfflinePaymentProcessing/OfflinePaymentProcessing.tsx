@@ -39,10 +39,10 @@ function OfflinePaymentProcessing({
       return;
     }
 
-    if (!amount || parseInt(amount) < 5000) {
-      toast.error("Please enter a valid amount (minimum 5000).");
-      return;
-    }
+    // if (!amount || parseInt(amount) < 5000) {
+    //   toast.error("Please enter a valid amount (minimum 5000).");
+    //   return;
+    // }
   };
 
   const handleConfirm = async () => {
@@ -149,7 +149,7 @@ function OfflinePaymentProcessing({
       <div>
         <input
           type="number"
-          min={5000}
+          // min={5000}
           placeholder="Enter Amount"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}

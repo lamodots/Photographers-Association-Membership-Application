@@ -35,7 +35,7 @@ function Members() {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const itemsPerPage = 3;
+  const itemsPerPage = 12;
   console.log("user data", searchQuery);
   // Filter user base on search query
   // const filterUser = userData.filter(
