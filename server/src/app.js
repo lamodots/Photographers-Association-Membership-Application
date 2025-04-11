@@ -357,8 +357,11 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "client/build/index.html"))
   );
 } else {
+  // app.get("/", (req, res) => {
+  //   res.json({ message: "Welcome to the MembershipCMS backend API" });
+  // });
   app.get("/", (req, res) => {
-    res.json({ message: "Welcome to the MembershipCMS backend API" });
+    res.send("Welcome to the MembershipCMS backend API");
   });
 }
 app.use(notfoundHandlerMiddleware);
