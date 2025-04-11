@@ -30,7 +30,7 @@ An all-in-one platform connecting photographers to a vibrant community, professi
 │ ├── /services
 │ ├── /tests
 │ ├── app.js
-│ ├── server.js
+│ ├── index.js
 │ └── .env
 │
 ├── /client
