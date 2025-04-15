@@ -17,25 +17,46 @@ function removeFirstZero(phoneNumber) {
   return phoneNumber;
 }
 
-export async function sendWhatsMessage(text, whatsappId) {
+export async function sendWhatsMessage(whatsappId, membername, memberId) {
   //   const userwhatspp = removeFirstZero(whatsappId);
   const res = await fetch(
-    `https://graph.facebook.com/v22.0/528735956997502/messages `,
+    `https://graph.facebook.com/v22.0/528735956997502/messages`,
     {
       method: "POST",
       headers: {
-        Authorization: `Bearer EAAP6Cxx5ZBvQBOZBryclzKwGXxLQTcWYIQ1Lb4ccdt54Bf5R7XZBEM26KayZAn6FE2Kq0nhdJwFKrTlLa74iFZAjNNRucC1KZCgWl9R0IXucuoYUyEZC3ZBbIOwNOCGB36kK2hejqqUThuBoUoIMNU1doYAVFXL51UAQZAZAQdNzZCFPZAcSDx5IDnpcDmidh4i8oZCQhkazCKK1tD7luFXDbcEMbTufjqcZAqVCuHRRq4sdA9EMS8`,
+        Authorization: `Bearer EAAP6Cxx5ZBvQBO7ke5jl2ZCYi0Uqr1gao8QYJEAKHSPUYVPHFEGc8rX6cZBmXt5HHPR60jZC2kYh0YXL9wyXc2HiEw7A4ZCNzTgTAjjoZB8Xqh8IFZAQ6q6PKRZAMJv0woQmYeyi1IVvCujWAPpVcDg2Vz9CbNNrdk4ReNJi0s1V3H4oMvLoOLZALdvrRYyYYGJt5Dx0c2FnAmWzoEMlF4XeggOpZCVX1E7y0kSlnvcbfNZAp4ZD`,
       },
       body: JSON.stringify({
         messaging_product: "whatsapp",
-        recipient_type: "individual",
         to: `${whatsappId}`,
-        type: "text",
-        text: {
-          preview_url: false,
-          body: text,
+        type: "template",
+        template: {
+          name: "membership_update",
+          language: {
+            code: "en_US",
+          },
+          components: [
+            {
+              type: "body",
+              parameters: [
+                {
+                  type: "text",
+                  text: `${membername}`,
+                },
+                {
+                  type: "text",
+                  text: `${memberId}`,
+                },
+              ],
+            },
+          ],
         },
       }),
     }
   );
+
+  if (!res.ok) {
+    console.log("Error sending WhatsApp message");
+  }
+  console.log(res.messages);
 }

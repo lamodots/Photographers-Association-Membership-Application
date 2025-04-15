@@ -149,7 +149,7 @@ const completeOnboarding = async (req, res) => {
     // Call the onboarding service to complete the onboarding process
     const user = await completeOnboardingService(email, userData);
 
-    await sendWhatsMessage("Welcome to KSN", userData.whatsappId);
+    await sendWhatsMessage(user.whatsappId, user.firstname, user.memberId);
     // Return the updated user data in the response
     return res.status(200).json({
       success: true,
