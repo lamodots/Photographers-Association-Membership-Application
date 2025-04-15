@@ -59,7 +59,7 @@ const registerUserController = async (req, res, next) => {
 
 const verifyEmailController = async (req, res, next) => {
   const { token, email } = req.body;
-
+  console.log("TOKEN CHECK", email, token);
   try {
     const result = await verifyEmailService(email, token);
     res.status(StatusCodes.OK).json(result);
@@ -69,10 +69,12 @@ const verifyEmailController = async (req, res, next) => {
       return next(new BadRequestError("No verification parameters"));
     }
     if (error.message === "User not found") {
-      return next(new BadRequestError("Verification failed!"));
+      return next(new BadRequestError("Verification failed! User not found"));
     }
     if (error.message === "Invalid verification token") {
-      return next(new BadRequestError("Verification failed!"));
+      return next(
+        new BadRequestError("Verification failed! Invalid verification token")
+      );
     }
     next(error);
   }

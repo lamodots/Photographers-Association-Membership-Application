@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
@@ -18,6 +18,8 @@ const API_URL = process.env.REACT_APP_CLIENT_URL;
 
 function Login() {
   const { currentUser, setCurrentUser, fetchCurrentUser } = useCurrentUser();
+  const [setAlert, isSetAlert] = useState(false);
+  const [useremail, setuserEmail] = useState("");
 
   const navigate = useNavigate();
 
@@ -45,7 +47,6 @@ function Login() {
     { setSubmitting }: FormikHelpers<ValuesProps>
   ) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 600));
       const res = await fetch(`${API_URL}/api/v1/users/auth/login`, {
         method: "POST",
         headers: {
@@ -60,6 +61,9 @@ function Login() {
 
       const { msg, message, user } = await res.json();
       if (!res.ok) {
+        if (msg === "Please verify your email !") {
+          isSetAlert(true);
+        }
         return toast.error(msg || "Invalid email or password");
       }
 
@@ -76,10 +80,49 @@ function Login() {
     }
   };
 
+  const handleResendEmail = async () => {
+    const res = await fetch(
+      `${API_URL}/api/v1/users/auth/resent-verify-email`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: useremail,
+        }),
+      }
+    );
+
+    if (!res.ok) {
+      toast.error("failed to resend email");
+    }
+    toast.success("Another email have been sent");
+  };
   return (
     <main className=" bg-cover bg-center w-full flex justify-center  items-center  py-24  h-screen md:h-full overflow-hidden">
       <div className="max-w-[512px] w-full bg-[#F4F6F7] pb-8 rounded-lg shadow-lg ">
         <div className="userform bg-[#F4F6F7] px-6 py-8 rounded-lg  md:bg-inherit md:rounded-none ">
+          {setAlert && (
+            <div className="flex justify-center">
+              <div className=" border-l-4 border-l-yellow-600 border rounded  p-4 w-full  md:max-w-[512px] mt-6">
+                <p className="text-xs">
+                  Your email need to be verified before you can login. <br />{" "}
+                  Check your email{" "}
+                  <span className=" text-yellow-600">{useremail}</span> for a
+                  confirmation email link. Please click on the link in the email
+                  to verify your email address.
+                  <span className=" font-bold"> Dont get email?</span>{" "}
+                  <button
+                    onClick={handleResendEmail}
+                    className="text-blue-700 font-bold"
+                  >
+                    Resend
+                  </button>
+                </p>
+              </div>
+            </div>
+          )}
           <h1 className=" text-2xl text-[#212529] text-center font-bold mb-8 md:mb-0">
             Welcome Back !
           </h1>
@@ -105,7 +148,10 @@ function Login() {
                     placeholderText="Enter your email"
                     name="email"
                     value={values.email}
-                    handleInputChange={handleChange}
+                    handleInputChange={(e) => {
+                      handleChange(e);
+                      setuserEmail(e.target.value);
+                    }}
                     onBlur={handleBlur}
                   />
                   <span className="text-sm text-red-400">

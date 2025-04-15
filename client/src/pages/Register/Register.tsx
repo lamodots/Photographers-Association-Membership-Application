@@ -76,7 +76,7 @@ function Register() {
 
   const handleResendEmail = async () => {
     const res = await fetch(
-      `${API_URL}/api/v1/users/auth//resent-verify-email`,
+      `${API_URL}/api/v1/users/auth/resent-verify-email`,
       {
         method: "POST",
         headers: {
@@ -97,13 +97,16 @@ function Register() {
     <main className=" regpage bg-[#F4F6F7] w-screen  h-screen overflow-y-auto">
       {setAlert && (
         <div className="flex justify-center">
-          <div className=" bg-indigo-300 rounded-lg  p-4 w-full  md:max-w-[512px] mt-6">
-            <p>
+          <div className=" border-l-4 border-l-yellow-600 border rounded  p-4 w-full  md:max-w-[512px] mt-6">
+            <p className="text-xs">
               A confirmation email has been sent to your email address <br />
-              <span className=" bg-yellow-50 p-1 rounded-sm">{useremail}</span>.
-              Please click on the link in the email to verify your email
-              address. Dont get email?{" "}
-              <button onClick={handleResendEmail} className="text-blue-700">
+              <span className=" text-yellow-600">{useremail}</span>. Please
+              click on the link in the email to verify your email address.{" "}
+              <span className=" font-bold"> Dont get email?</span>{" "}
+              <button
+                onClick={handleResendEmail}
+                className="text-blue-700 font-bold"
+              >
                 Resend
               </button>
             </p>

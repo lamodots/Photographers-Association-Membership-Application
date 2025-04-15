@@ -12,6 +12,8 @@ function EmailVerifcation() {
   const queryParams = new URLSearchParams(location.search);
   const token = queryParams.get("token");
   const email = queryParams.get("email");
+
+  console.log("TOKEN CHECK", email, token);
   useEffect(() => {
     // Extract query parameters
 
@@ -31,6 +33,8 @@ function EmailVerifcation() {
             token,
             email,
           }),
+
+          credentials: "include",
         });
 
         const { message } = await res.json();

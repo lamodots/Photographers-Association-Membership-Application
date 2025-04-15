@@ -13,7 +13,7 @@ const {
 const membershipID = require("../utils/generateUniqueMembershipId");
 
 async function getAllUsersService() {
-  const users = await User.find({ role: "user" })
+  const users = await User.find({ role: "user", isVerified: true })
     .select("-password")
     .populate({
       path: "userSubscription",
@@ -47,6 +47,7 @@ async function registerUserService(body) {
 }
 
 const verifyEmailService = async (email, token) => {
+  console.log("TOKEN CHECKservices", email, token);
   // Make sure token and email is not empty
   // Retrive token from database
   // // compare verificationToken with token
@@ -57,7 +58,7 @@ const verifyEmailService = async (email, token) => {
     throw new Error("No verification parameters");
   }
   const user = await User.findOne({ email });
-
+  console.log(user);
   // Check if user exist
   if (!user) {
     throw new Error("Verification failed!");

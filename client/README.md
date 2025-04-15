@@ -130,7 +130,9 @@ TODO 2
 ```js
 //vercel.json file
 
-
+# FEED BACK
+- User should be able to change their email on signup incase the typed in a wrong email
+- Unverified users should not show on user list in the dashboard.
 {
   "installCommand": "npm install --legacy-peer-deps",
   "version": 2,
