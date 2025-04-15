@@ -39,7 +39,9 @@ const corsOptions = {
   origin: [
     "http://localhost:3000",
     "https://ksn.membersng.com",
+    "https://www.ksn.membersng.com",
     "https://ksn-membership-application.onrender.com",
+    "https://ksn-membership-h7t7c8g9c-issac-antonys-projects.vercel.app/",
     "ksn.membersng.com",
   ],
   credentials: true,

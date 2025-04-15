@@ -203,10 +203,10 @@ function OnboardingWelcome() {
       formData.append(key, value);
     });
     // Debug: log FormData entries
-    // for (const [key, value] of Array.from(formData.entries())) {
-    //   console.log(key, value);
-    // }
-    // console.log(formData);
+    for (const [key, value] of Array.from(formData.entries())) {
+      console.log(key, value);
+    }
+    console.log(formData);
     try {
       setIsSubmitting(true);
       await new Promise((resolve) => setTimeout(resolve, 300));
