@@ -42,12 +42,26 @@ export default function SwipperCarosuel() {
         onAutoplayTimeLeft={onAutoplayTimeLeft}
         className="mySwiper"
       >
-        <SwiperSlide>
+        {/* <SwiperSlide className="w-full">
+          <img src="https://res.cloudinary.com/du6l1a0ei/image/upload/v1743609965/topbanner2_cec5hb.jpg" />
+        </SwiperSlide> */}
+        <SwiperSlide
+          style={{
+            width: "100%",
+          }}
+          className="swipper"
+        >
           <img src="https://res.cloudinary.com/du6l1a0ei/image/upload/v1743609965/topbanner2_cec5hb.jpg" />
         </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://res.cloudinary.com/du6l1a0ei/image/upload/v1743609963/topbanner_ivf7yx.jpg" />
+        <SwiperSlide
+          style={{
+            width: "100%",
+          }}
+          className="swipper"
+        >
+          <img src="https://res.cloudinary.com/du6l1a0ei/image/upload/v1743609965/topbanner2_cec5hb.jpg" />
         </SwiperSlide>
+
         {/* <SwiperSlide>
           <img src="https://cdn.evbstatic.com/s3-build/fe/build/images/389ece7b7e2dc7ff8d28524bad30d52c-dsrp_desktop.webp" />
         </SwiperSlide> */}

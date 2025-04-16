@@ -114,9 +114,8 @@ function Events() {
           <div></div>
           {/* the popup end */}
         </div>
-        <div className=" w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 h-[380px] rounded-2xl mt-3 ">
-          <SwipperCarosuel />
-        </div>
+        <SwipperCarosuel />
+        {/* <div className=" w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 h-[160px] md:h-[380px] rounded-2xl mt-3 "></div> */}
       </header>
       <section className="py-8 px-6 md:px-16">
         {currentPageData.length == 0 && <p>No Events</p>}
