@@ -204,11 +204,7 @@ function Subscription() {
             })}
         </div>
       )}
-      <>
-        {currentUser?.user.membershipType !== "Honourary membership" && (
-          <p>Play</p>
-        )}
-      </>
+
       {showManualPaymentOnline && (
         <div className="space-y-4">
           {membershipItem?.membershipType !== "Life membership" &&
