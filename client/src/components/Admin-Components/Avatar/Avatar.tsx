@@ -1,4 +1,4 @@
-import avatar from "../../../assets/esn.jpg";
+import avatar from "../../../assets/avatar_default.png";
 import Popup from "../Popup/Popup";
 
 type AvatarProps = {

@@ -14,7 +14,7 @@ function NewMemberCard({
   return (
     <div className=" bg-white rounded-lg flex gap-3 items-center p-6">
       <div>
-        <Avatar className="w-12 h-12" image={image} />
+        <Avatar className="w-12 h-12 " image={image} />
       </div>
       <div>
         <h3 className="text-[#1A4F83] capitalize font-bold">{name}</h3>

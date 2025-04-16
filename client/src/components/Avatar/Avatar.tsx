@@ -1,4 +1,4 @@
-import avatar from "../../assets/esn.jpg";
+import avatar from "../../assets/avatar_default.png";
 import Popup from "../Popup/Popup";
 
 type AvatarProps = {
@@ -17,13 +17,13 @@ function Avatar({
   return (
     <>
       <div
-        className={`${className} rounded-full cursor-pointer `}
+        className={`${className} rounded-full relative over  cursor-pointer bg-slate-600 `}
         onClick={handlShowPopup}
       >
         <img
           src={userImage}
           alt="User picture"
-          className={`${className} rounded-full`}
+          className="w-full h-full object-cover rounded-[50%]"
         />
         {showMorePopUp && (
           <div className=" relative  z-50 -top-1 right-24 mt-2 w-[136px]">
