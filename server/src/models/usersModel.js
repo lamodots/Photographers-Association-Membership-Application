@@ -51,6 +51,7 @@ const UserSchema = new mongoose.Schema(
     interest: { type: Array },
     statesInIndia: { type: String },
     isHonouraryMember: { type: Boolean, default: false },
+    membershipType: { type: String },
     role: {
       type: String,
       enum: ["user", "moderator", "admin"],

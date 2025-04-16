@@ -34,6 +34,8 @@ interface User {
   isOnboarded: boolean;
   createdAt: Date;
   updatedAt: Date;
+  membershipType: string;
+  isHonouraryMember: boolean;
 }
 
 interface Plan {

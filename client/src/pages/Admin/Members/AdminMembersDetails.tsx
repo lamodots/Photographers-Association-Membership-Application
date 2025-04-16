@@ -9,7 +9,9 @@ import Modal from "../../../components/modal/Modal";
 
 import OfflinePaymentProcessing from "../../../components/OfflinePaymentProcessing/OfflinePaymentProcessing";
 import ConfirmationModal from "../../../components/ConfirmationModal/ConfirmationModal";
+import toast from "react-hot-toast";
 
+const API_URL = process.env.REACT_APP_CLIENT_URL;
 type SocialLink = {
   facebook?: string;
   linkedIn?: string;
@@ -42,9 +44,34 @@ function AdminMembersDetails() {
   };
 
   const handleConfirm = async () => {
-    setShowConfirmationModal(false);
+    // setShowConfirmationModal(false);
     // setIsSubmitting(true);
+    // MAKE USER HONORARY MEMBER
+    // Send the request
+    const response = await fetch(
+      `${API_URL}/api/v1/users/profile/${user._id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify({
+          isHonouraryMember: true,
+          membershipType: "Honourary membership",
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to save changes.");
+    }
+
+    toast.success("Honourary membership granted!");
+    setShowConfirmationModal(false);
   };
+
   return (
     <div>
       <header>

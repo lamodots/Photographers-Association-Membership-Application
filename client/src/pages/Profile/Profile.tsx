@@ -815,7 +815,7 @@ import { Pencil, Save, X, Upload } from "lucide-react";
 import { useCurrentUser } from "../../context/AdminContext";
 import toast from "react-hot-toast";
 import Lable from "../../components/Lable/Lable";
-
+import avatar from "../../assets/avatar_default.png";
 // Define interfaces for FamilyMember and User
 interface FamilyMember {
   firstName: string;
@@ -943,11 +943,7 @@ const FamilyMemberForm = ({
     <div className="flex flex-col md:flex-row items-center mb-4">
       <div className="relative">
         <img
-          src={
-            previewImages[index] ||
-            member.image ||
-            "https://via.placeholder.com/100"
-          }
+          src={previewImages[index] || member.image || avatar}
           alt={`${member.firstName} ${member.lastName}`}
           className="w-20 h-20 rounded-full object-cover mr-4"
         />
@@ -1657,9 +1653,7 @@ function Profile() {
       <div className="flex flex-col md:flex-row gap-4 items-center mb-6">
         <div className="relative ">
           <img
-            src={
-              profilePreview || user.image || "https://via.placeholder.com/100"
-            }
+            src={profilePreview || user.image || avatar}
             alt={`${user.firstname} ${user.lastname}`}
             className="w-32 h-32 rounded-full object-cover mb-4 md:mb-0 md:mr-6"
           />
@@ -1742,13 +1736,13 @@ function Profile() {
                   } rounded px-3 py-2 w-full`}
                 >
                   <option value="">Select title</option>
-                  <option value="MR">MR</option>
-                  <option value="MRS">MRS</option>
-                  <option value="MS">MS</option>
-                  <option value="MASTER">MASTER</option>
-                  <option value="DR">DR</option>
-                  <option value="CHIEF">CHIEF</option>
-                  <option value="OTHER">OTHER</option>
+                  <option value="MR">Mr</option>
+                  <option value="MRS">Mrs</option>
+                  <option value="MS">Ms</option>
+                  <option value="MASTER">Master</option>
+                  <option value="DR">Dr</option>
+                  <option value="CHIEF">Chief</option>
+                  <option value="OTHER">Other</option>
                 </select>
                 {validationErrors.title && (
                   <p className="text-red-500 text-sm">
@@ -1965,7 +1959,8 @@ function Profile() {
           ) : (
             <div>
               <h1 className="text-2xl font-bold text-gray-800">
-                {user.title} {user.firstname} {user.lastname}
+                <span className=" capitalize"> {user.title}</span>{" "}
+                {user.firstname} {user.lastname}
               </h1>
               <p className="text-gray-600">
                 Date of Birth: {new Date(user.Dob).toLocaleDateString()}

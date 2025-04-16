@@ -320,6 +320,7 @@ app.post("/paystack-webhook", verifyPaystackSignature, async (req, res) => {
           account_name: authorization.account_name,
           bank: authorization.bank,
         });
+
         res.status(200).json({ message: "Membership payment successful" });
       } else if (metadata.paymentType === "welfare") {
         await WelfareDues.create({

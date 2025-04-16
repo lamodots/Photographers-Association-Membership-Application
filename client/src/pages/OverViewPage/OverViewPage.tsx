@@ -3,13 +3,15 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import FallbackLoadingComponent from "../../components/FallbackLoadingComponent/FallbackLoadingComponent";
-import { Calendar, InfoIcon } from "lucide-react";
+import { Calendar, InfoIcon, Trophy } from "lucide-react";
 import MembershipTypeCard from "../../components/MembershipTypeCard/MembershipTypeCard";
 import { formatDistanceToNowformat } from "../../util/dataAndTimeFormater";
 import {
   useMembershipActive,
   useWelfareActive,
 } from "../../hooks/useFetchPayment";
+import { useCurrentUser } from "../../context/AdminContext";
+import HonorraryMemberCard from "../../components/HonorrayMmeberCard/HonorraryMemberCard";
 
 const NewMemberCard = lazy(
   () => import("../../components/Admin-Components/NewMemberCard/NewMemberCard")
@@ -47,9 +49,13 @@ interface UserProps {
   social: SocialLink[];
   interest: Interest;
   createdAt: string;
+
+  membershipType: string;
+  isHonouraryMember: boolean;
 }
 
 function OverViewPage() {
+  const { currentUser } = useCurrentUser();
   const [membershipItem] = useMembershipActive();
   const [welfareItem] = useWelfareActive();
   const [announcement, setAnnouncementData] = useState<AnnouncementProps>();
@@ -124,13 +130,23 @@ function OverViewPage() {
         {membershipItem?.status !== "active" &&
           welfareItem?.status !== "active" && <Alert />}
         <div className=" grid grid-cols-1 sm:grid-cols-2  gap-2 mt-8 md:grid-cols-2 md:gap-6 ">
-          <MembershipTypeCard
-            cardTitle="MEMBERSHIP TYPE"
-            subScriptionInfo={membershipItem?.membershipType}
-            status={membershipItem?.status}
-            start={membershipItem?.startDate}
-            end={membershipItem?.expiryDate}
-          />
+          {currentUser?.user.isHonouraryMember ? (
+            <HonorraryMemberCard
+              cardTitle="MEMBERSHIP TYPE"
+              subScriptionInfo={currentUser?.user.membershipType}
+            >
+              <Trophy />
+            </HonorraryMemberCard>
+          ) : (
+            <MembershipTypeCard
+              cardTitle="MEMBERSHIP TYPE"
+              subScriptionInfo={membershipItem?.membershipType}
+              status={membershipItem?.status}
+              start={membershipItem?.startDate}
+              end={membershipItem?.expiryDate}
+            />
+          )}
+
           <MembershipTypeCard
             cardTitle="WELFARE"
             status={welfareItem?.status}
