@@ -151,13 +151,16 @@ function PrintableIdCards() {
 
 // ID Card Component Wrapper
 const IdCardComponent: React.FC<{ member: any }> = ({ member }) => {
+  const { currentUser } = useCurrentUser();
   const componentRef = useRef<HTMLDivElement>(null);
   const [isDownloading, setIsDownloading] = useState(false);
   const { appData } = useFetchAppData();
   const [membershipItem] = useMembershipActive();
   const [welfareItem] = useWelfareActive();
   const showAlert =
-    membershipItem?.status !== "active" && welfareItem?.status !== "active";
+    (membershipItem?.status !== "active" ||
+      currentUser?.user.isHonouraryMember) &&
+    welfareItem?.status !== "active";
 
   // Download as PDF functionality
   const handleDownloadPDF = async () => {

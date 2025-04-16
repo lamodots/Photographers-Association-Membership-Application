@@ -28,7 +28,7 @@ function HonorraryMemberCard({
         <div>
           <h2 className="text-[#1A4F83] mb-6 text-sm font-bold">{cardTitle}</h2>
           {subScriptionInfo && (
-            <small className="text-[#7598BB] text-sm bg-green-200 p-1 rounded">
+            <small className="text-[#7598BB] text-2xl bg-green-100 p-1 rounded">
               {subScriptionInfo}
             </small>
           )}
