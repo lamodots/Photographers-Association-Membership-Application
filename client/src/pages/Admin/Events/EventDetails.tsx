@@ -55,8 +55,13 @@ function EventDetails() {
   const [showAction, setShowAction] = useState(false);
   const [eventStats, setEventStats] = useState<ApplicantProps[]>([]);
   const { id } = useParams();
-  const { currentUser } = useCurrentUser();
+  const { currentUser, loading, fetchCurrentUser } = useCurrentUser();
 
+  useEffect(() => {
+    if (!currentUser?.user) {
+      fetchCurrentUser(); // Ensure currentUser is always fetched
+    }
+  }, [currentUser?.user, fetchCurrentUser]);
   const navigate = useNavigate();
 
   const handleBackClick = () => {
@@ -149,6 +154,9 @@ function EventDetails() {
   const attendedStat = eventStats.filter((attendees) => attendees.attended);
   const attendeesStat = eventStats.filter((attendees) => attendees.attendees);
 
+  if (loading) {
+    return <p>Loading....</p>;
+  }
   return (
     <div>
       <header>
