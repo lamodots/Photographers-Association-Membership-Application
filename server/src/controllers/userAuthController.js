@@ -170,6 +170,8 @@ const logOutUserController = async (req, res) => {
   res.cookie("token", "logout", {
     httpOnly: true,
     expires: new Date(Date.now()),
+    secure: process.env.NODE_ENV === "production", // Ensure secure cookies in production
+    sameSite: "None", // Allow cross-origin cookies
   });
 
   res.status(StatusCodes.OK).json({ ok: true, message: "user logged out" });
