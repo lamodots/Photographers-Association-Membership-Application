@@ -164,9 +164,10 @@ const completeOnboarding = async (req, res) => {
     });
   }
 };
+
 // user Logout
 const logOutUserController = async (req, res) => {
-  res.cookies("token", "logout", {
+  res.cookie("token", "logout", {
     httpOnly: true,
     expires: new Date(Date.now()),
   });
