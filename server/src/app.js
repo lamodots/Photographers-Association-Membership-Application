@@ -40,6 +40,7 @@ const corsOptions = {
     "http://localhost:3000",
     "https://ksn.membersng.com",
     "https://www.ksn.membersng.com",
+    "https://ksn-membership-app.vercel.app",
     "ksn.membersng.com",
   ],
   credentials: true,
