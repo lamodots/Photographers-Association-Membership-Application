@@ -166,29 +166,17 @@ const completeOnboarding = async (req, res) => {
 };
 
 // user Logout
-// const logOutUserController = async (req, res) => {
-//   const sameSiteOption =
-//     process.env.NODE_ENV === "production" ? "None" : "Strict";
-//   res.clearCookie("token", "logout", {
-//     httpOnly: true,
-//     expires: new Date(0),
-//     secure: process.env.NODE_ENV === "production", //Ensure secure cookies in production
-//     sameSite: sameSiteOption, // Allow cross-origin cookies
-//     signed: true,
-//   });
-
-//   res.status(StatusCodes.OK).json({ ok: true, message: "user logged out" });
-// };
 const logOutUserController = async (req, res) => {
-  res.clearCookie("token", {
+  const sameSiteOption =
+    process.env.NODE_ENV === "production" ? "None" : "Strict";
+  res.clearCookie("token", "logout", {
     httpOnly: true,
-    secure: true,
-    sameSite: "None",
-    path: "/",
-    domain:
-      process.env.NODE_ENV === "production" ? ".membersng.com" : undefined,
-    maxAge: 0,
+    expires: new Date(0),
+    secure: process.env.NODE_ENV === "production", //Ensure secure cookies in production
+    sameSite: sameSiteOption, // Allow cross-origin cookies
+    signed: true,
   });
+
   res.status(StatusCodes.OK).json({ ok: true, message: "user logged out" });
 };
 
