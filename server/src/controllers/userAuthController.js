@@ -167,9 +167,8 @@ const completeOnboarding = async (req, res) => {
 
 // user Logout
 const logOutUserController = async (req, res) => {
-  const sameSiteOption =
-    process.env.NODE_ENV === "production" ? "None" : "Strict";
-  res.cookie("token", " ", {
+  const sameSiteOption = process.env.NODE_ENV === "production" ? "None" : "Lax";
+  res.clearCookie("token", {
     httpOnly: true,
     expires: new Date(0),
     secure: process.env.NODE_ENV === "production", // Ensure secure cookies in production

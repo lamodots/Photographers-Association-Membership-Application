@@ -24,8 +24,7 @@ function attachCookiesToResponse(res, user) {
   // const oneDay = 1000 * 60 * 60 * 24;
   const oneDay = 1000 * 60 * 60 * 24;
 
-  const sameSiteOption =
-    process.env.NODE_ENV === "production" ? "None" : "Strict";
+  const sameSiteOption = process.env.NODE_ENV === "production" ? "None" : "Lax";
   res.cookie("token", token, {
     httpOnly: true,
     maxAge: oneDay,
