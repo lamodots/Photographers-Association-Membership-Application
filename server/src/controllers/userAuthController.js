@@ -167,7 +167,8 @@ const completeOnboarding = async (req, res) => {
 
 // user Logout
 const logOutUserController = async (req, res) => {
-  const sameSiteOption = process.env.NODE_ENV === "production" ? "None" : "Lax";
+  const sameSiteOption =
+    process.env.NODE_ENV === "production" ? "None" : "Strict";
   res.clearCookie("token", {
     httpOnly: true,
     expires: new Date(0),
@@ -176,6 +177,7 @@ const logOutUserController = async (req, res) => {
     signed: true,
     secure: true,
     sameSite: "None", // use in production
+    path: "/",
   });
 
   res.status(StatusCodes.OK).json({ ok: true, message: "user logged out" });
