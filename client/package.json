@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://www.ksn.membersng.com",
+  "homepage": "https://ksn.membersng.com",
   "dependencies": {
     "@paystack/inline-js": "^2.22.2",
     "@testing-library/jest-dom": "^5.17.0",
