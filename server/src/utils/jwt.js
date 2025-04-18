@@ -24,16 +24,17 @@ function attachCookiesToResponse(res, user) {
   // const oneDay = 1000 * 60 * 60 * 24;
   const oneDay = 1000 * 60 * 60 * 24;
 
-  const sameSiteOption = process.env.NODE_ENV === "production" ? "None" : "Lax";
+  const sameSiteOption =
+    process.env.NODE_ENV === "production" ? "None" : "Strict";
   res.cookie("token", token, {
     httpOnly: true,
     maxAge: oneDay,
-    secure: process.env.NODE_ENV === "production",
-
+    // secure: process.env.NODE_ENV === "production",
+    secure: true,
     signed: true,
-    sameSite: sameSiteOption,
+    // sameSite: sameSiteOption,
     // sameSite: "Strict", // use locally
-    // sameSite: "None", // use in production
+    sameSite: "None", // use in production
   });
 }
 
