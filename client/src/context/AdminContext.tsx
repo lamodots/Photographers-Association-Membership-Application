@@ -119,15 +119,33 @@ export const AuthContext = ({ children }: AuthContextProps) => {
     fetchCurrentUser();
   }, []);
 
+  // async function handleLogout() {
+  //   try {
+  //     const res = await fetch(`${API_URL}/api/v1/secure/auth/logout`, {
+  //       method: "GET",
+  //       credentials: "include",
+  //     });
+
+  //     if (res.ok) {
+  //       setCurrentUser(null);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
   async function handleLogout() {
     try {
       const res = await fetch(`${API_URL}/api/v1/secure/auth/logout`, {
         method: "GET",
         credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
-
       if (res.ok) {
         setCurrentUser(null);
+        // Consider adding a redirect here if needed
+        window.location.href = "/login";
       }
     } catch (error) {
       console.log(error);

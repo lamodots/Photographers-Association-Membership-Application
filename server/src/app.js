@@ -35,11 +35,19 @@ const { generateReference } = require("./utils");
 const app = express();
 app.disable("etag");
 // const corsOptions = { origin: "http://localhost:3000", credentials: true };
+// const corsOptions = {
+//   origin: ["http://localhost:3000", "https://ksn.membersng.com"],
+//   credentials: true,
+// };
+// //Import exprss middlewares
+// app.use(cors(corsOptions));
 const corsOptions = {
   origin: ["http://localhost:3000", "https://ksn.membersng.com"],
   credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
-//Import exprss middlewares
+
 app.use(cors(corsOptions));
 app.use(
   express.static(
