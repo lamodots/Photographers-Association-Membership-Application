@@ -18,7 +18,9 @@ const crypto = require("crypto");
 const { User } = require("../models");
 const { attachCookiesToResponse } = require("../utils/jwt");
 const { string } = require("yup");
-const { sendWhatsMessage } = require("../utils/facebookMessage");
+const sendWhatsMessage = require("../utils/facebookMessage");
+const sendMailFunc = require("../utils/sendMailFunc");
+// const { sendWhatsMessage } = require("../utils/facebookMessage");
 
 const fullUrl = process.env.PROTOCOL_HOST;
 
@@ -49,7 +51,8 @@ const registerUserController = async (req, res, next) => {
       newUser.email,
       newUser.verificationToken
     );
-    await sendEmailSendGridServices(verifyTemplate);
+    // await sendEmailSendGridServices(verifyTemplate);
+    await sendMailFunc(verifyTemplate);
     return res
       .status(StatusCodes.CREATED)
       .json({ ok: true, message: "User created sucessfully" });
@@ -97,7 +100,8 @@ const resendVerificationEmailController = async (req, res, next) => {
       newUser.email,
       newUser.verificationToken
     );
-    await sendEmailSendGridServices(verifyTemplate);
+    // await sendEmailSendGridServices(verifyTemplate);
+    await sendMailFunc(verifyTemplate);
 
     res
       .status(200)
@@ -196,7 +200,8 @@ const forgotUserPasswordController = async (req, res, next) => {
       fullUrl,
       user.email
     );
-    await sendEmailSendGridServices(msg);
+    // await sendEmailSendGridServices(msg);
+    await sendMailFunc(msg);
 
     res.status(StatusCodes.OK).json({
       ok: true,

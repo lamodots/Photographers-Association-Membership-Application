@@ -1,4 +1,4 @@
-export const sanitizeInput = (data) => {
+const sanitizeInput = (data) => {
   return Object.keys(data).reduce((acc, key) => {
     if (key === "familyInLagos") {
       // Convert "true" or "false" strings to boolean
@@ -15,3 +15,5 @@ export const sanitizeInput = (data) => {
     return acc;
   }, {});
 };
+
+module.exports = sanitizeInput;

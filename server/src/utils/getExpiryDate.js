@@ -1,4 +1,4 @@
-export const getExpiryDate = (membershipType) => {
+const getExpiryDate = (membershipType) => {
   const now = new Date();
   const currentYear = now.getFullYear();
 
@@ -8,3 +8,5 @@ export const getExpiryDate = (membershipType) => {
     return new Date(currentYear + 1, 1, 28); // 1 year later
   }
 };
+
+module.exports = getExpiryDate;

@@ -15,6 +15,7 @@ const { sendGridEmailTemplate } = require("../../utils");
 const { default: mongoose } = require("mongoose");
 const ApplicantModel = require("../../models/admin/eventApplicantModel");
 const axios = require("axios");
+const sendMailFunc = require("../../utils/sendMailFunc");
 // const fetch = require("node-fetch");
 
 exports.createApplicant = async (req, res, next) => {
@@ -61,7 +62,8 @@ exports.approveApplicant = async (req, res, next) => {
     );
 
     const msg = sendGridEmailTemplate(applicant);
-    await sendEmailSendGridServices(msg);
+    // await sendEmailSendGridServices(msg);
+    await sendMailFunc(msg);
 
     // // Prepare WhatsApp message
     // const familyMembers =

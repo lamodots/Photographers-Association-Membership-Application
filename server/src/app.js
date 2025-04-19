@@ -26,11 +26,13 @@ const {
   userProfileRoute,
 } = require("./routes");
 const { MembershipDues, WelfareDues } = require("./models");
-const { getExpiryDate } = require("./utils/getExpiryDate");
+// const { getExpiryDate } = require("./utils/getExpiryDate");
 const { sendEmailSendGridServices } = require("./config");
 const { sendPaymentEmailTemplate } = require("./utils/emailTemplate");
 const { BadRequestError } = require("./errors");
 const { generateReference } = require("./utils");
+const getExpiryDate = require("./utils/getExpiryDate");
+const sendMailFunc = require("./utils/sendMailFunc");
 
 const app = express();
 app.disable("etag");
@@ -234,9 +236,11 @@ app.post("/api/v1/secure/offline-payment", async (req, res) => {
         account_name: accountName,
         bank,
       });
-      await sendEmailSendGridServices(
-        sendPaymentEmailTemplate(membershipType, userEmail)
-      );
+
+      // await sendEmailSendGridServices(
+      //   sendPaymentEmailTemplate(membershipType, userEmail)
+      // );
+      await sendMailFunc(sendPaymentEmailTemplate(membershipType, userEmail));
       // send messsage to WhatsAPP
       res.status(200).json({
         message: `Offline membership payment for ${membershipType} successful`,
@@ -261,9 +265,10 @@ app.post("/api/v1/secure/offline-payment", async (req, res) => {
         account_name: accountName,
         bank,
       });
-      await sendEmailSendGridServices(
-        sendPaymentEmailTemplate("welfare", userEmail)
-      );
+      // await sendEmailSendGridServices(
+      //   sendPaymentEmailTemplate("welfare", userEmail)
+      // );
+      await sendMailFunc(sendPaymentEmailTemplate("welfare", userEmail));
       // send messsage to WhatsAPP
       res
         .status(200)

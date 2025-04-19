@@ -17,7 +17,7 @@
 //   return phoneNumber;
 // }
 
-export async function sendWhatsMessage(whatsappId, membername, memberId) {
+async function sendWhatsMessage(whatsappId, membername, memberId) {
   console.log(whatsappId, membername, memberId);
   //   const userwhatspp = removeFirstZero(whatsappId);
   const res = await fetch(
@@ -65,3 +65,5 @@ export async function sendWhatsMessage(whatsappId, membername, memberId) {
   const responseBody = await res.json();
   console.log(responseBody);
 }
+
+module.exports = sendWhatsMessage;

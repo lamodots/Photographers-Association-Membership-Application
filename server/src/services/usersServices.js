@@ -1,6 +1,7 @@
 const { sendEmailSendGridServices } = require("../config");
 const { BadRequestError } = require("../errors");
-const { sanitizeInput } = require("../utils/sanitizeInput");
+// const { sanitizeInput } = require("../utils/sanitizeInput");
+
 const { User } = require("../models");
 const crypto = require("crypto");
 
@@ -11,6 +12,7 @@ const {
   uploadImageToCloudinary,
 } = require("../utils");
 const membershipID = require("../utils/generateUniqueMembershipId");
+const sanitizeInput = require("../utils/sanitizeInput");
 
 async function getAllUsersService() {
   const users = await User.find({ role: "user", isVerified: true })

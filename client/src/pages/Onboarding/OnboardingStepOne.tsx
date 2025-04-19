@@ -56,13 +56,13 @@ function OnboardingStepOne({ data, setData, errors }: OnboardingStepOneProps) {
               className={` px-3  h-12 outline-[#90BFE9] rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]`}
             >
               <option value="">--Select title--</option>
-              <option value="MR">MR</option>
-              <option value="MRS">MRS</option>
-              <option value="MS">MS</option>
-              <option value="MASTER">MASTER</option>
-              <option value="DR">DR</option>
-              <option value="CHIEF">CHIEF</option>
-              <option value="OTHER">OTHER</option>
+              <option value="Mr">Mr</option>
+              <option value="Mrs">Mrs</option>
+              <option value="Ms">Ms</option>
+              <option value="Master">Master</option>
+              <option value="Dr">Dr</option>
+              <option value="Chief">Chief</option>
+              <option value="Other">Other</option>
             </select>
             {errors.title && <p className="text-red-500">{errors.title}</p>}
           </div>

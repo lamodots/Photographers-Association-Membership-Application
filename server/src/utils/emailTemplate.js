@@ -46,7 +46,7 @@ exports.sendGridEmailTemplate = (applicant) => {
       : "None";
 
   const msg = {
-    from: `"Kerala Samajam Nigeria" <ksn@membersng.com>`,
+    from: `"Kerala Samajam Nigeria" <ksnmembersng@gmail.com>`,
     to: applicant.email,
     subject: "Your ticket is ready!",
     text: `Your ticket is ready!.\n\nApplicant Info:\nName: ${applicant._id}\nEmail: ${applicant.email}\nPhone Number: ${applicant.phone_number}\n\nQR Code: https://api.qrserver.com/v1/create-qr-code/?data=${applicant._id}`,
@@ -86,7 +86,7 @@ exports.verifyUserEmailTemplate = (
   verificationToken
 ) => {
   const msg = {
-    from: `Kerala Samajam Nigeria <ksn@membersng.com>`,
+    from: `Kerala Samajam Nigeria <ksnmembersng@gmail.com>`,
     to: newUserEamil,
     subject: "Verify Email Address",
     text: `Please Verify your email address!.\n\nEmail: ${newUserEamil}`,
@@ -111,7 +111,7 @@ exports.verifyUserEmailTemplate = (
 exports.sendResetPassswordEmailTemplate = (token, fullUrl, email) => {
   console.log(email);
   const msg = {
-    from: `Kerala Samajam Nigeria <ksn@membersng.com>`,
+    from: `Kerala Samajam Nigeria <ksnmembersng@gmail.com>`,
     to: email,
     subject: `Reset your password`,
     text: `Reset your password!.\n\nEmail: ${email}`,
@@ -132,7 +132,7 @@ exports.sendResetPassswordEmailTemplate = (token, fullUrl, email) => {
 exports.sendPaymentEmailTemplate = (payment, email) => {
   console.log(email);
   const msg = {
-    from: `Kerala Samajam Nigeria <ksn@membersng.com>`,
+    from: `Kerala Samajam Nigeria <ksnmembersng@gmail.com>`,
     to: email,
     subject: `Dues Payment Information`,
     text: `Your dues payment information!.\n\nEmail: ${email}`,
