@@ -183,7 +183,6 @@ const completeOnboardingService = async (email, userData) => {
         !member.whatsappId ||
         !member.relationship ||
         !member.dateOfBirth ||
-        !member.gender ||
         !member.bloodgroup
       ) {
         throw new Error(
