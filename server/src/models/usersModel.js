@@ -68,6 +68,7 @@ const UserSchema = new mongoose.Schema(
     passwordTokenExpirationDate: Date,
     isOnboarded: { type: Boolean, default: false },
     memberId: { type: String },
+    profession: { type: String },
   },
 
   { timestamps: true }

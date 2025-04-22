@@ -74,6 +74,19 @@ function OnboardingStepThree({
           {errors.state && <p className="text-red-500">{errors.state}</p>}
         </div>
         <div className="flex flex-col space-y-2">
+          <Lable label="Your industry / Profession" />
+          <TextInput
+            className="w-full"
+            type="text"
+            placeholderText="Enter Your industry / Profession"
+            value={data.profession}
+            handleInputChange={(e) => handleChange("address", e.target.value)}
+          />
+          {errors.profession && (
+            <p className="text-red-500">{errors.profession}</p>
+          )}
+        </div>
+        <div className="flex flex-col space-y-2">
           <Lable label="Address In Nigeria" />
           <TextInput
             type="text"

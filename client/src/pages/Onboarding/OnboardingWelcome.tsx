@@ -48,6 +48,7 @@ export interface StepThreeValues {
   districtInIndia: string;
   statesInIndia: string;
   addressInIndia: string;
+  profession: string;
 }
 
 const initialStepOne: StepOneValues = {
@@ -74,6 +75,7 @@ const initialStepThree: StepThreeValues = {
   districtInIndia: "",
   statesInIndia: "",
   addressInIndia: "",
+  profession: "",
 };
 
 const validateStepOne = (data: StepOneValues) => {

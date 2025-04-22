@@ -207,7 +207,8 @@ const completeOnboardingService = async (email, userData) => {
     !sanitizedData.location ||
     !sanitizedData.emergencyContactInIndia ||
     !sanitizedData.districtInIndia ||
-    !sanitizedData.addressInIndia
+    !sanitizedData.addressInIndia ||
+    !sanitizedData.profession
   ) {
     throw new Error("Please provide all required step three data.");
   }
