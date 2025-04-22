@@ -28,6 +28,7 @@ interface UserProps {
   interest: Interest;
   membershipType: string;
   isHonouraryMember: boolean;
+  title: string;
 }
 
 function MembersDetails() {
@@ -41,10 +42,10 @@ function MembersDetails() {
       <header>
         <div className="flex items-center space-x-10">
           <div className="flex gap-2 items-center">
-            <Avatar className="w-32 h-32 rounded" />
+            <Avatar className="w-32 h-32 rounded" image={user?.image} />
             <div>
               <h3 className="font-semibold capitalize">
-                {user.firstname + " " + user.lastname}
+                {user.title} {user.firstname + " " + user.lastname}
               </h3>
               <small className="text-sm text-[#A6B4BA]">{user.email}</small>
             </div>

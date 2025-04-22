@@ -36,6 +36,7 @@ interface User {
   updatedAt: Date;
   membershipType: string;
   isHonouraryMember: boolean;
+  title: string;
 }
 
 interface Plan {

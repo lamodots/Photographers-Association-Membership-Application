@@ -30,6 +30,9 @@ interface UserProps {
   aboutuser: string;
   social: SocialLink[];
   interest: Interest;
+  membershipType: string;
+  isHonouraryMember: boolean;
+  title: string;
 }
 
 function AdminMembersDetails() {
@@ -80,15 +83,15 @@ function AdminMembersDetails() {
             <Avatar className="w-32 h-32 rounded" image={user?.image} />
             <div>
               <h3 className="font-semibold capitalize">
-                {user.firstname + " " + user.lastname}
+                {user.title} {user.firstname + " " + user.lastname}
               </h3>
               <small className="text-sm text-[#A6B4BA]">{user.email}</small>
             </div>
           </div>
-          <div className="flex items-center space-x-2">
+          {/* <div className="flex items-center space-x-2">
             <Badge />
             <span className="font-bold">Member</span>
-          </div>
+          </div> */}
         </div>
       </header>
       <main className="pt-8">

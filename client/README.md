@@ -127,29 +127,47 @@ TODO 2
 
   - Add option to check if event is FREE or paid. If is Free users will not see `Reserve a seat button` on event details page.
 
+````js
+
+
+## 22nd April 2025 final review
 ```js
+Payment test through paystack not reflecting in members account
+Subscription type - Should show Required payment. Anual member, Life member , or honorary member
+in members list - can we add more informations , apart from e mail
+WhatsApp sample phone number can change it to a dummy number +234 807 498 3773
+While editing profile its asking state again
+Need to add Industry type somewhere to see by all members
+Can we add an advert space for sponsors
+Profile picture is not showing member detail page
+Title can show in member detail page ✔️
+Need some beautiffication in ID card
+
+````
+
 //vercel.json file
 
 # FEED BACK
+
 - User should be able to change their email on signup incase the typed in a wrong email
 - Unverified users should not show on user list in the dashboard.
-{
+  {
   "installCommand": "npm install --legacy-peer-deps",
   "version": 2,
   "builds": [
-    {
-      "src": "index.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "src/**/*",
-      "use": "@vercel/static"
-    }
+  {
+  "src": "index.js",
+  "use": "@vercel/node"
+  },
+  {
+  "src": "src/**/*",
+  "use": "@vercel/static"
+  }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "/" }
+  { "src": "/(.*)", "dest": "/" }
   ]
-}
+  }
 
 ```
 
@@ -162,3 +180,4 @@ TODO 2
 },
 
 <!-- //EAAFVXw8ns9ABOy7AnebgdsZBAyC8cVyKGi4x8ZACetzCdLso0XRoZCZBUUZASaoZAbdhSAcavDSpXrtZCTjFER3uluGfd1XwiFyaCxYlSUT9YVqdJHhgHajI5uBo6Ix1TV2pKbqnkQxmOKZBclNZBTZA5wWHFMf5RT7PkmCpt8hITaXZCxPg7OnKm0mgbLbGTq6yippvXpJi0FXbWddAsMsVAl4nVMrLZCwW3JPyqhDcXbs9UHcLJwQtJxanHgomfl3Ey0FBMsuBY9xbHwZDZD -->
+```
