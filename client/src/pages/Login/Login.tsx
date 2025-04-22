@@ -4,11 +4,12 @@ import { Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import TextInput from "../../components/Input/TextInput";
 import Lable from "../../components/Lable/Lable";
-
 import Button from "../../components/Button/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { Oval } from "react-loader-spinner";
 import { useCurrentUser } from "../../context/AdminContext";
+import Advertisment from "../../components/Advertisment/Advertisment";
+
 interface ValuesProps {
   email: string;
   password: string;
@@ -100,8 +101,8 @@ function Login() {
     toast.success("Another email have been sent");
   };
   return (
-    <main className=" bg-cover bg-center w-full flex justify-center  items-center  py-24  h-screen md:h-full overflow-hidden">
-      <div className="max-w-[512px] w-full bg-[#F4F6F7] pb-8 rounded-lg shadow-lg ">
+    <main className=" overflow-hidden w-full">
+      <div className="max-w-[512px] w-full bg-[#F4F6F7] pb-8 rounded-lg shadow-lg mx-auto">
         <div className="userform bg-[#F4F6F7] px-6 py-8 rounded-lg  md:bg-inherit md:rounded-none ">
           {setAlert && (
             <div className="flex justify-center">
@@ -207,6 +208,7 @@ function Login() {
           </Link>
         </p>
       </div>
+      <Advertisment />
     </main>
   );
 }
