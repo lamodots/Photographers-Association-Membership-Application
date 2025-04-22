@@ -136,7 +136,7 @@ Payment test through paystack not reflecting in members account
 Subscription type - Should show Required payment. Anual member, Life member , or honorary member
 in members list - can we add more informations , apart from e mail
 WhatsApp sample phone number can change it to a dummy number +234 807 498 3773
-While editing profile its asking state again
+While editing profile its asking state again ✔️
 Need to add Industry type somewhere to see by all members
 Can we add an advert space for sponsors
 Profile picture is not showing member detail page : ✔️

@@ -96,7 +96,7 @@ function OnboardingStepOne({ data, setData, errors }: OnboardingStepOneProps) {
             {errors.Dob && <p className="text-red-500">{errors.Dob}</p>}
           </div>
           <div className="flex flex-col space-y-2">
-            <Lable label="Whatsapp Number, Eg:+234 706 096 052 9" />
+            <Lable label="Whatsapp Number, Eg:+234 807 498 3773" />
             <InternationalTelephoneInput
               value={data.whatsappId}
               handleInputChange={(value) => handleChange("whatsappId", value)}
