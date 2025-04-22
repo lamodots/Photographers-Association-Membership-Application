@@ -1,24 +1,259 @@
-import React from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 
-function Advertisment() {
+function Advertisement() {
+  // Image file states
+  const [topImage, setTopImage] = useState<File | null>(null);
+  const [topImagePreview, setTopImagePreview] = useState<string | null>(null);
+
+  const [bottomLeftImage, setBottomLeftImage] = useState<File | null>(null);
+  const [bottomLeftImagePreview, setBottomLeftImagePreview] = useState<
+    string | null
+  >(null);
+
+  const [bottomRightImage, setBottomRightImage] = useState<File | null>(null);
+  const [bottomRightImagePreview, setBottomRightImagePreview] = useState<
+    string | null
+  >(null);
+
+  // Form submission states
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
+
+  // Handle file change with preview generation
+  const handleFileChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    setFile: React.Dispatch<React.SetStateAction<File | null>>,
+    setPreview: React.Dispatch<React.SetStateAction<string | null>>
+  ) => {
+    const file = e.target.files?.[0] || null;
+    setFile(file);
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setPreview(null);
+    }
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // Reset states
+    setIsSubmitting(true);
+    setSubmitError(null);
+    setSubmitSuccess(false);
+
+    try {
+      // Check if at least one image is selected
+      if (!topImage && !bottomLeftImage && !bottomRightImage) {
+        throw new Error("Please select at least one image");
+      }
+
+      // Create FormData object for the backend
+      const formData = new FormData();
+
+      // Append images if they exist
+      if (topImage) formData.append("topImage", topImage);
+      if (bottomLeftImage) formData.append("bottomLeftImage", bottomLeftImage);
+      if (bottomRightImage)
+        formData.append("bottomRightImage", bottomRightImage);
+
+      const response = await fetch(
+        "https://your-backend-api.com/advertisements",
+        {
+          method: "POST",
+          body: formData,
+          // No need to set Content-Type header when using FormData
+          // FormData automatically sets the correct multipart/form-data type
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to upload advertisement");
+      }
+
+      // Handle successful submission
+      setSubmitSuccess(true);
+
+      // resetForm();
+    } catch (error) {
+      // Handle error
+      setSubmitError(
+        error instanceof Error ? error.message : "An unknown error occurred"
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Optional: Reset form function
+  const resetForm = () => {
+    setTopImage(null);
+    setTopImagePreview(null);
+    setBottomLeftImage(null);
+    setBottomLeftImagePreview(null);
+    setBottomRightImage(null);
+    setBottomRightImagePreview(null);
+  };
+
   return (
-    <main>
-      <h1 className="text-2xl font-bold">Place Advertisment</h1>
-      <div className="ads my-10 w-full max-w-[1100px] mx-auto overflow-hidden">
-        <div className="ads1 w-full mb-1 border border-gray-400 rounded-md p-6">
-          <input type="file" />
+    <main className="p-4">
+      <h1 className="text-2xl font-bold">Place Advertisement</h1>
+
+      {/* Status messages */}
+      {submitSuccess && (
+        <div className="mt-4 p-3 bg-green-100 text-green-700 rounded-md">
+          Advertisement successfully uploaded!
         </div>
-        <div className="ads_bottom grid grid-cols-1 md:grid-cols-2 gap-1">
-          <div className="left border border-gray-400 rounded-md p-6 ">
-            <input type="file" />
+      )}
+
+      {submitError && (
+        <div className="mt-4 p-3 bg-red-100 text-red-700 rounded-md">
+          Error: {submitError}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit}>
+        <div className="ads my-10 w-full max-w-[1100px] mx-auto overflow-hidden">
+          <div className="ads1 w-full mb-1 border border-gray-400 rounded-md p-6">
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Top Image (Images and GIFs accepted)
+              </label>
+              <input
+                type="file"
+                name="topImage"
+                className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                onChange={(e) =>
+                  handleFileChange(e, setTopImage, setTopImagePreview)
+                }
+                accept="image/jpeg,image/png,image/gif,image/webp"
+              />
+              {topImage && (
+                <p className="mt-2 text-sm text-gray-500">
+                  Selected: {topImage.name} ({(topImage.size / 1024).toFixed(2)}{" "}
+                  KB)
+                </p>
+              )}
+              {topImagePreview && (
+                <div className="mt-4">
+                  <p className="text-sm mb-1">Preview:</p>
+                  <img
+                    src={topImagePreview}
+                    alt="Top preview"
+                    className="max-h-48 rounded-md object-contain"
+                  />
+                </div>
+              )}
+            </div>
           </div>
-          <div className="right border border-gray-400 rounded-md p-6">
-            <input type="file" />
+
+          <div className="ads_bottom grid grid-cols-1 md:grid-cols-2 gap-1">
+            <div className="left border border-gray-400 rounded-md p-6">
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Bottom Left Image (Images and GIFs accepted)
+                </label>
+                <input
+                  type="file"
+                  name="bottomLeftImage"
+                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                  onChange={(e) =>
+                    handleFileChange(
+                      e,
+                      setBottomLeftImage,
+                      setBottomLeftImagePreview
+                    )
+                  }
+                  accept="image/jpeg,image/png,image/gif,image/webp"
+                />
+                {bottomLeftImage && (
+                  <p className="mt-2 text-sm text-gray-500">
+                    Selected: {bottomLeftImage.name} (
+                    {(bottomLeftImage.size / 1024).toFixed(2)} KB)
+                  </p>
+                )}
+                {bottomLeftImagePreview && (
+                  <div className="mt-4">
+                    <p className="text-sm mb-1">Preview:</p>
+                    <img
+                      src={bottomLeftImagePreview}
+                      alt="Bottom Left preview"
+                      className="max-h-48 rounded-md object-contain"
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="right border border-gray-400 rounded-md p-6">
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Bottom Right Image (Images and GIFs accepted)
+                </label>
+                <input
+                  type="file"
+                  name="bottomRightImage"
+                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                  onChange={(e) =>
+                    handleFileChange(
+                      e,
+                      setBottomRightImage,
+                      setBottomRightImagePreview
+                    )
+                  }
+                  accept="image/jpeg,image/png,image/gif,image/webp"
+                />
+                {bottomRightImage && (
+                  <p className="mt-2 text-sm text-gray-500">
+                    Selected: {bottomRightImage.name} (
+                    {(bottomRightImage.size / 1024).toFixed(2)} KB)
+                  </p>
+                )}
+                {bottomRightImagePreview && (
+                  <div className="mt-4">
+                    <p className="text-sm mb-1">Preview:</p>
+                    <img
+                      src={bottomRightImagePreview}
+                      alt="Bottom Right preview"
+                      className="max-h-48 rounded-md object-contain"
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+
+        <div className="flex justify-center mt-6">
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-blue-300"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Uploading..." : "Submit Advertisement"}
+          </button>
+
+          {submitSuccess && (
+            <button
+              type="button"
+              className="ml-4 px-4 py-2 bg-gray-200 text-gray-800 font-medium rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+              onClick={resetForm}
+            >
+              Create New Advertisement
+            </button>
+          )}
+        </div>
+      </form>
     </main>
   );
 }
 
-export default Advertisment;
+export default Advertisement;
