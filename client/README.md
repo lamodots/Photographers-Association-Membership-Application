@@ -139,7 +139,7 @@ WhatsApp sample phone number can change it to a dummy number +234 807 498 3773
 While editing profile its asking state again
 Need to add Industry type somewhere to see by all members
 Can we add an advert space for sponsors
-Profile picture is not showing member detail page
+Profile picture is not showing member detail page : ✔️
 Title can show in member detail page ✔️
 Need some beautiffication in ID card
 

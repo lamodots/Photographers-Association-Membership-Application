@@ -14,6 +14,7 @@ function Avatar({
   showMorePopUp,
 }: AvatarProps) {
   const userImage = !image ? avatar : image;
+  console.log(userImage);
   return (
     <>
       <div
