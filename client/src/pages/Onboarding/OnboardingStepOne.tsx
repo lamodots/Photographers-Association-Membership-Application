@@ -62,6 +62,8 @@ function OnboardingStepOne({ data, setData, errors }: OnboardingStepOneProps) {
               <option value="Master">Master</option>
               <option value="Dr">Dr</option>
               <option value="Chief">Chief</option>
+              <option value="Otunba">Otunba</option>
+              <option value="Yeye">Yeye</option>
               <option value="Other">Other</option>
             </select>
             {errors.title && <p className="text-red-500">{errors.title}</p>}

@@ -146,6 +146,7 @@ function Members() {
           password: secData.password,
           firstname: secData.firstname,
           lastname: secData.lastname,
+          isOnboarded: true,
         }),
         credentials: "include",
       });
