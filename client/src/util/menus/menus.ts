@@ -100,6 +100,12 @@ export const adminDashboardMenus: adminRoutes[] = [
     path: "events",
     menuIcon: "Video",
   },
+  {
+    key: "advertisment",
+    label: "Advertisment",
+    path: "advertisment",
+    menuIcon: "Megaphone",
+  },
   // {
   //   key: "certificate",
   //   label: "Certificate",

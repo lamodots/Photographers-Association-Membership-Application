@@ -85,6 +85,10 @@ const AdminApprove = lazy(() => import("./pages/Admin/Events/ApproveEvent"));
 const AdminRegisterEvent = lazy(
   () => import("./pages/Admin/Events/RegisterEvent")
 );
+
+const AdminAdvertisment = lazy(
+  () => import("./pages/Admin/Advertisment/Advertisment")
+);
 const AdminQRCodeScanner = lazy(() => import("./pages/Admin/Events/Scan"));
 
 const AdminIdCard = lazy(() => import("./pages/Admin/IdCard/IdCard"));
@@ -270,6 +274,7 @@ root.render(
               <Route path="events/:id/scan" element={<AdminQRCodeScanner />} />
               {/* <Route path="certificate" element={<AdminCertificate />} /> */}
               <Route path="id_card" element={<AdminIdCard />} />
+              <Route path="advertisment" element={<AdminAdvertisment />} />
               <Route path="settings" element={<AdminSettings />} />
               <Route path="announcement" element={<AdminAnnouncements />} />
               <Route
