@@ -28,7 +28,7 @@ function OnboardingStepTwo({ data, setData, errors }: OnboardingStepTwoProps) {
       whatsappId: "",
       relationship: "",
       dateOfBirth: "",
-      gender: "",
+
       bloodgroup: "",
     };
     const updated = [...data.familyMembers, newMember];

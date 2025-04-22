@@ -80,7 +80,9 @@ function OnboardingStepThree({
             type="text"
             placeholderText="Enter Your industry / Profession"
             value={data.profession}
-            handleInputChange={(e) => handleChange("address", e.target.value)}
+            handleInputChange={(e) =>
+              handleChange("profession", e.target.value)
+            }
           />
           {errors.profession && (
             <p className="text-red-500">{errors.profession}</p>

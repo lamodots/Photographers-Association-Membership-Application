@@ -13,7 +13,7 @@ interface FamilyMembersInfoProps {
     whatsappId: string;
     relationship: string;
     dateOfBirth: string;
-    gender: string;
+
     bloodgroup: string;
   };
   onChange: (field: string, value: string) => void;
@@ -200,26 +200,7 @@ function FamilyMembersInfo({
           </div>
         </div>
         {/* Additional feature */}
-        <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-          <div className="flex flex-col space-y-2">
-            <Lable label="Gender" />
-            <select
-              value={member.gender}
-              onChange={(e) => onChange("gender", e.target.value)}
-              className={` px-3  h-12 outline-[#90BFE9] rounded-lg border border-[#515F69] bg-[#F4F6F7] font-[#A6B4BA]`}
-            >
-              <option>--Select Gender--</option>
-              <option>Male</option>
-              <option>Female</option>
-            </select>
-            {/* {errors.gender && <p className="text-red-500">{errors.gender}</p>} */}
-            {Array.isArray(errors.familyMembers) &&
-              errors.familyMembers[index]?.gender && (
-                <span className="text-red-500">
-                  {errors.familyMembers[index].gender}
-                </span>
-              )}
-          </div>
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-1">
           <div className="flex flex-col space-y-2">
             <Lable label="Select Blood group" />
             <select

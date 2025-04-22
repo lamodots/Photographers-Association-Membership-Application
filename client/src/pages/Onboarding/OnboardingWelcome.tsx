@@ -31,7 +31,7 @@ export interface FamilyMember {
   whatsappId: string;
   relationship: string;
   dateOfBirth: string;
-  gender: string;
+
   bloodgroup: string;
 }
 
