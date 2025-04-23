@@ -1,5 +1,7 @@
 const cloudinary = require("cloudinary").v2;
 const crypto = require("crypto");
+const { StatusCodes } = require("http-status-codes");
+const fs = require("fs").promises;
 
 const acceptableFileTypes = ["jpeg", "jpg", "gif", "png"];
 
@@ -33,7 +35,21 @@ function prepareFilename(filename) {
 }
 
 /**
- * Uploads a file to Cloudinary
+ * Deletes a temporary file
+ * @param {String} filePath - Path to the temporary file
+ */
+async function deleteTempFile(filePath) {
+  try {
+    await fs.unlink(filePath);
+    console.log(`Successfully deleted temp file: ${filePath}`);
+  } catch (error) {
+    console.error(`Error deleting temp file ${filePath}:`, error);
+    // We don't throw here as this is cleanup and shouldn't fail the main operation
+  }
+}
+
+/**
+ * Uploads a file to Cloudinary and cleans up the temp file
  * @param {Object} file - The file to upload
  * @returns {String} - The secure URL of the uploaded file
  */
@@ -47,9 +63,14 @@ async function uploadToCloudinary(file) {
       public_id: displayName,
     });
 
+    // Delete the temp file after successful upload
+    await deleteTempFile(file.tempFilePath);
+
     return result.secure_url;
   } catch (error) {
     console.error("Error uploading to Cloudinary:", error);
+    // Still try to clean up temp file even if upload failed
+    await deleteTempFile(file.tempFilePath);
     throw new Error("Failed to upload file to cloud storage");
   }
 }
@@ -58,4 +79,5 @@ module.exports = {
   validateFileType,
   prepareFilename,
   uploadToCloudinary,
+  deleteTempFile,
 };
