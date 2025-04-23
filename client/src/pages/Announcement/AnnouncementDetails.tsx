@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import FallbackLoadingComponent from "../../components/FallbackLoadingComponent/FallbackLoadingComponent";
 import { Oval } from "react-loader-spinner";
 import toast from "react-hot-toast";
+import Advertisment from "../../components/Advertisment/Advertisment";
 
 const API_URL = process.env.REACT_APP_CLIENT_URL;
 interface AnnouncementProps {
@@ -113,6 +114,7 @@ function AnnouncementDetails() {
           </section>
         )}
       </main>
+      <Advertisment />
     </div>
   );
 }

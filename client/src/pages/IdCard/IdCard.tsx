@@ -9,6 +9,7 @@ import {
   useWelfareActive,
 } from "../../hooks/useFetchPayment";
 import { Link } from "react-router-dom";
+import Advertisment from "../../components/Advertisment/Advertisment";
 
 // ID Card Component
 const IdCard = React.forwardRef<
@@ -132,19 +133,22 @@ function PrintableIdCards() {
 
   // Render ID cards
   return (
-    <div className="p-4 max-w-lg mx-auto">
-      {user && (
-        <>
-          <div className="mb-4">
-            <IdCardComponent member={user} />
-          </div>
-          {user.familyMembers.map((member: any, index: number) => (
-            <div key={index} className="mb-4">
-              <IdCardComponent member={member} />
+    <div>
+      <div className="p-4 max-w-lg mx-auto">
+        {user && (
+          <>
+            <div className="mb-4">
+              <IdCardComponent member={user} />
             </div>
-          ))}
-        </>
-      )}
+            {user.familyMembers.map((member: any, index: number) => (
+              <div key={index} className="mb-4">
+                <IdCardComponent member={member} />
+              </div>
+            ))}
+          </>
+        )}
+      </div>
+      <Advertisment />
     </div>
   );
 }

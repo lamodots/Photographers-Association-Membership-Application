@@ -5,6 +5,7 @@ import FallbackLoadingComponent from "../../components/FallbackLoadingComponent/
 import { Oval } from "react-loader-spinner";
 import { dateFormater } from "../../util/DateFormater";
 import FeaturedEvents from "../../components/FeaturedEvents/FeaturedEvents";
+import Advertisment from "../../components/Advertisment/Advertisment";
 
 const API_URL = process.env.REACT_APP_CLIENT_URL;
 
@@ -151,6 +152,7 @@ function EventDetails() {
             <FeaturedEvents />
           </div>
         </section>
+        <Advertisment />
       </main>
     </div>
   );

@@ -12,6 +12,7 @@ import {
 } from "../../hooks/useFetchPayment";
 import { useCurrentUser } from "../../context/AdminContext";
 import HonorraryMemberCard from "../../components/HonorrayMmeberCard/HonorraryMemberCard";
+import Advertisment from "../../components/Advertisment/Advertisment";
 
 const NewMemberCard = lazy(
   () => import("../../components/Admin-Components/NewMemberCard/NewMemberCard")
@@ -269,6 +270,7 @@ function OverViewPage() {
           </div>
         )}
       </section>
+      <Advertisment />
     </main>
   );
 }

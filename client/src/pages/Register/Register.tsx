@@ -10,6 +10,7 @@ import { Formik, FormikHelpers } from "formik";
 
 import { Oval } from "react-loader-spinner";
 import toast from "react-hot-toast";
+import Advertisment from "../../components/Advertisment/Advertisment";
 
 const API_URL = process.env.REACT_APP_CLIENT_URL;
 interface RegisterValueProps {
@@ -217,6 +218,7 @@ function Register() {
         <img src={LoginAsset} className="w-[614px] h-full relative -right-8" />
       </div> */}
       </div>
+      <Advertisment />
     </main>
   );
 }

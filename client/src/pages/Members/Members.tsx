@@ -4,6 +4,7 @@ import TextInput from "../../components/Input/TextInput";
 import NewMemberCard from "../../components/Admin-Components/NewMemberCard/NewMemberCard";
 
 import { Link, useNavigate } from "react-router-dom";
+import Advertisment from "../../components/Advertisment/Advertisment";
 
 const API_URL = process.env.REACT_APP_CLIENT_URL;
 
@@ -193,6 +194,8 @@ function Members() {
           </div>
         </section>
       )}
+
+      <Advertisment />
     </main>
   );
 }
