@@ -5,6 +5,11 @@ import NewMemberCard from "../../components/Admin-Components/NewMemberCard/NewMe
 
 import { Link, useNavigate } from "react-router-dom";
 import Advertisment from "../../components/Advertisment/Advertisment";
+import { useCurrentUser } from "../../context/AdminContext";
+import {
+  useMembershipActive,
+  useWelfareActive,
+} from "../../hooks/useFetchPayment";
 
 const API_URL = process.env.REACT_APP_CLIENT_URL;
 
@@ -29,6 +34,9 @@ interface UserProps {
 }
 function Members() {
   // const [userData, setUserData] = useState(FAKE_MEMBERS);
+  const { currentUser } = useCurrentUser();
+  const [membershipItem] = useMembershipActive();
+  const [welfareItem] = useWelfareActive();
   const [userData, setUserData] = useState<UserProps[]>([]);
   const [text, setText] = useState("");
   const [showPopup, setShowPopUp] = useState(false);
@@ -36,6 +44,10 @@ function Members() {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
+  const showMembers =
+    (membershipItem?.status !== "active" ||
+      currentUser?.user.isHonouraryMember) &&
+    welfareItem?.status !== "active";
   const itemsPerPage = 12;
   console.log("user data", searchQuery);
   // Filter user base on search query
@@ -87,6 +99,13 @@ function Members() {
     getAllUsers();
   }, []);
 
+  if (showMembers) {
+    return (
+      <p className="text-sm text-center">
+        You cant view members!. You are not subcribed yet
+      </p>
+    );
+  }
   return (
     <main>
       <header>
