@@ -29,6 +29,8 @@ interface UserProps {
   membershipType: string;
   isHonouraryMember: boolean;
   title: string;
+  whatsappId: string;
+  profession: string;
 }
 
 function MembersDetails() {
@@ -61,10 +63,10 @@ function MembersDetails() {
           <table className="table-auto w-full border border-slate-400  border-collapse ">
             <tr>
               <th className="border pl-4 border-slate-300 py-2 bg-[#eaf1f4] px-3">
-                <td>Date of Birth:</td>
+                <td>Industry/Profession:</td>
               </th>
               <td className="border pl-4 border-slate-300">
-                {DOBFormater(user.Dob)}
+                {user.profession}
               </td>
             </tr>
             <tr>
@@ -75,9 +77,11 @@ function MembersDetails() {
             </tr>
             <tr>
               <th className="border pl-4 border-slate-300 py-2  px-3 bg-[#eaf1f4]">
-                <td>Address:</td>
+                <td>Phone:</td>
               </th>
-              <td className="border pl-4 border-slate-300">{user.address}</td>
+              <td className="border pl-4 border-slate-300">
+                {user.whatsappId}
+              </td>
             </tr>
             <tr>
               <th className="border pl-4 border-slate-300 py-2  px-3 bg-[#eaf1f4]">
