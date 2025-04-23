@@ -14,7 +14,7 @@ interface FamilyMember {
   whatsappId: string;
   emailId: string;
   image?: string;
-  gender: string;
+
   dateOfBirth: string;
   bloodgroup: string;
 }
@@ -40,7 +40,7 @@ interface User {
   password?: string;
   confirmPassword?: string;
   memberId?: string;
-  gender: string;
+
   bloodgroup: string;
 }
 
@@ -200,14 +200,16 @@ const FamilyMemberForm = ({
                 value={member.title}
                 onChange={(e) => onChange(index, "title", e.target.value)}
               >
-                <option value="">Select title</option>
-                <option value="MR">MR</option>
-                <option value="MRS">MRS</option>
-                <option value="MS">MS</option>
-                <option value="MASTER">MASTER</option>
-                <option value="DR">DR</option>
-                <option value="CHIEF">CHIEF</option>
-                <option value="OTHER">OTHER</option>
+                <option value="">--Select title--</option>
+                <option value="Mr">Mr</option>
+                <option value="Mrs">Mrs</option>
+                <option value="Ms">Ms</option>
+                <option value="Master">Master</option>
+                <option value="Dr">Dr</option>
+                <option value="Chief">Chief</option>
+                <option value="Otunba">Otunba</option>
+                <option value="Yeye">Yeye</option>
+                <option value="Other">Other</option>
               </select>
               {errors?.title && (
                 <p className="text-red-500 text-sm">{errors.title}</p>
@@ -264,7 +266,7 @@ const FamilyMemberForm = ({
                 <p className="text-red-500 text-sm">{errors.dateOfBirth}</p>
               )}
             </div>
-            <div>
+            {/* <div>
               <Lable label="Gender *" />
               <select
                 value={member.gender}
@@ -280,7 +282,7 @@ const FamilyMemberForm = ({
               {errors?.gender && (
                 <p className="text-red-500 text-sm">{errors.gender}</p>
               )}
-            </div>
+            </div> */}
             <div>
               <Lable label="Whatsapp Phone" />
               <input
@@ -348,7 +350,7 @@ function Profile() {
     password: "",
     confirmPassword: "",
     memberId: "",
-    gender: "",
+
     bloodgroup: "",
   });
 
@@ -520,7 +522,7 @@ function Profile() {
           whatsappId: "",
           emailId: "",
           image: "",
-          gender: "",
+
           dateOfBirth: "",
           bloodgroup: "",
         },
@@ -702,10 +704,10 @@ function Profile() {
         isValid = false;
       }
 
-      if (!member.gender) {
-        memberError.gender = "Gender is required";
-        isValid = false;
-      }
+      // if (!member.gender) {
+      //   memberError.gender = "Gender is required";
+      //   isValid = false;
+      // }
 
       if (!member.dateOfBirth) {
         memberError.dateOfBirth = "Date of birth is required";
@@ -1089,7 +1091,7 @@ function Profile() {
                 <Lable label="State *" />
                 <input
                   type="text"
-                  name="state"
+                  name="statesInIndia"
                   value={user.statesInIndia}
                   onChange={handleInputChange}
                   placeholder="State"
