@@ -33,6 +33,7 @@ const { BadRequestError } = require("./errors");
 const { generateReference } = require("./utils");
 const getExpiryDate = require("./utils/getExpiryDate");
 const sendMailFunc = require("./utils/sendMailFunc");
+const adsRoute = require("./routes/admin/advertismentRoutes");
 
 const app = express();
 app.disable("etag");
@@ -86,6 +87,7 @@ app.use("/api/v1/users/auth", usersAuthRoutes);
 app.use("/api/v1/users/profile", userProfileRoute);
 app.use("/api/v1/users/membershipdues", userDuesRoutes);
 app.use("/api/v1/secure/overview", overviewRoutes);
+app.use("/api/v1/secure/advertisment", adsRoute);
 
 //MEMBERSHIPD DUES
 app.post("/api/v1/secure/payments", async (req, res, next) => {
