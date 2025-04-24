@@ -161,11 +161,12 @@ const IdCardComponent: React.FC<{ member: any }> = ({ member }) => {
   const { appData } = useFetchAppData();
   const [membershipItem] = useMembershipActive();
   const [welfareItem] = useWelfareActive();
-  const showAlert =
-    (membershipItem?.status !== "active" ||
-      currentUser?.user.isHonouraryMember) &&
-    welfareItem?.status !== "active";
 
+  const showAlert = !(
+    (membershipItem?.status === "active" ||
+      currentUser?.user.isHonouraryMember) &&
+    welfareItem?.status === "active"
+  );
   // Download as PDF functionality
   const handleDownloadPDF = async () => {
     if (componentRef.current === null) return;

@@ -125,6 +125,7 @@ app.post("/api/v1/secure/payments", async (req, res, next) => {
 
     if (response.ok) {
       const data = await response.json();
+      console.log(data.data.access_code);
       res.status(200).json({
         message: "Welfare payment successful",
         access_code: data.data.access_code,
@@ -185,7 +186,7 @@ app.post("/api/v1/secure/payments/welfare", async (req, res, next) => {
       throw Error("Isseu happed");
     }
     const data = await response.json();
-
+    console.log("ACCESS CODE", data.data.access_code);
     res.status(200).json({
       message: "Welfare payment successful",
       access_code: data.data.access_code,
@@ -304,7 +305,7 @@ const verifyPaystackSignature = (req, res, next) => {
 //PAYSTACK WEBHOOK
 app.post("/paystack-webhook", verifyPaystackSignature, async (req, res) => {
   const { event, data } = req.body;
-
+  console.log("PAY STACK WEBHOOK:", event, data);
   if (event === "charge.success") {
     const { reference, amount, channel, paid_at, metadata, authorization } =
       data;
