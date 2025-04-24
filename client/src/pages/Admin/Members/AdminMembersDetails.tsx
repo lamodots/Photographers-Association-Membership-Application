@@ -17,6 +17,23 @@ type SocialLink = {
   linkedIn?: string;
 };
 type Interest = string[];
+// interface UserProps {
+//   _id: string;
+//   image: string;
+//   firstname: string;
+//   lastname: string;
+//   email: string;
+//   Dob: string;
+//   phone: string;
+//   location: string;
+//   address: string;
+//   aboutuser: string;
+//   social: SocialLink[];
+//   interest: Interest;
+//   membershipType: string;
+//   isHonouraryMember: boolean;
+//   title: string;
+// }
 interface UserProps {
   _id: string;
   image: string;
@@ -27,12 +44,34 @@ interface UserProps {
   phone: string;
   location: string;
   address: string;
-  aboutuser: string;
-  social: SocialLink[];
-  interest: Interest;
   membershipType: string;
   isHonouraryMember: boolean;
   title: string;
+  // Additional properties from user data
+  isVerified: boolean;
+  isOnboarded: boolean;
+  familyMembers: {
+    firstName: string;
+    lastName: string;
+    title: string;
+    dateOfEntry: string;
+    emailId: string;
+    whatsappId: string;
+    relationship: string;
+    dateOfBirth: string;
+    bloodgroup: string;
+    image: string;
+    _id: string;
+  }[];
+  addressInIndia: string;
+  dateOfEntry: string;
+  districtInIndia: string;
+  emergencyContactInIndia: string;
+  familyInLagos: boolean;
+  memberId: string;
+  whatsappId: string;
+  bloodgroup: string;
+  statesInIndia: string;
 }
 
 function AdminMembersDetails() {
@@ -96,7 +135,7 @@ function AdminMembersDetails() {
       </header>
       <main className="pt-8">
         <div className="bg-white p-8 rounded-lg shadow-sm">
-          <table className="table-auto w-full border border-slate-400  border-collapse ">
+          {/* <table className="table-auto w-full border border-slate-400  border-collapse ">
             <tr>
               <th className="border border-slate-300 py-2 bg-[#eaf1f4] px-3">
                 <td>Date of Birth:</td>
@@ -123,19 +162,216 @@ function AdminMembersDetails() {
               </th>
               <td className="border pl-4 border-slate-300">Normal memebers</td>
             </tr>
-            {/* <tr>
-              <th className="border border-slate-300 py-2  px-3 bg-[#eaf1f4]">
-                <td>Interests:</td>
-              </th>
-              <td className="border border-slate-300">
-                {user.interest.map((userInterests) => userInterests).join(", ")}
-              </td>
-            </tr> */}
+          </table> */}
+          <table className="table-auto w-full border border-slate-400 border-collapse">
+            <tbody>
+              <tr>
+                <th className="border border-slate-300 py-2 bg-gray-100 px-3">
+                  <td>Member ID:</td>
+                </th>
+                <td className="border pl-4 border-slate-300">
+                  {user.memberId}
+                </td>
+              </tr>
+              <tr>
+                <th className="border border-slate-300 py-2 bg-gray-100 px-3">
+                  <td>Full Name:</td>
+                </th>
+                <td className="border pl-4 border-slate-300">
+                  {user.title} {user.firstname} {user.lastname}
+                </td>
+              </tr>
+              <tr>
+                <th className="border border-slate-300 py-2 bg-gray-100 px-3">
+                  <td>Email:</td>
+                </th>
+                <td className="border pl-4 border-slate-300">{user.email}</td>
+              </tr>
+              <tr>
+                <th className="border border-slate-300 py-2 bg-gray-100 px-3">
+                  <td>Subscription Type:</td>
+                </th>
+                <td className="border pl-4 border-slate-300">
+                  Normal memebers
+                </td>
+              </tr>
+              <tr>
+                <th className="border border-slate-300 py-2 bg-gray-100 px-3">
+                  <td>Date of Birth:</td>
+                </th>
+                <td className="border pl-4 border-slate-300">
+                  {dateFormater(user.Dob)}
+                </td>
+              </tr>
+              <tr>
+                <th className="border border-slate-300 py-2 bg-gray-100 px-3">
+                  <td>Area:</td>
+                </th>
+                <td className="border pl-4 border-slate-300">
+                  {user.location}
+                </td>
+              </tr>
+              <tr>
+                <th className="border border-slate-300 py-2 bg-gray-100 px-3">
+                  <td>Address:</td>
+                </th>
+                <td className="border pl-4 border-slate-300">{user.address}</td>
+              </tr>
+              <tr>
+                <th className="border border-slate-300 py-2 bg-gray-100 px-3">
+                  <td>WhatsApp:</td>
+                </th>
+                <td className="border pl-4 border-slate-300">
+                  {user.whatsappId}
+                </td>
+              </tr>
+              <tr>
+                <th className="border border-slate-300 py-2 bg-gray-100 px-3">
+                  <td>Blood Group:</td>
+                </th>
+                <td className="border pl-4 border-slate-300">
+                  {user.bloodgroup}
+                </td>
+              </tr>
+              <tr>
+                <th className="border border-slate-300 py-2 bg-gray-100 px-3">
+                  <td>Date of Entry:</td>
+                </th>
+                <td className="border pl-4 border-slate-300">
+                  {dateFormater(user.dateOfEntry)}
+                </td>
+              </tr>
+              <tr>
+                <th className="border border-slate-300 py-2 bg-gray-100 px-3">
+                  <td>Address in India:</td>
+                </th>
+                <td className="border pl-4 border-slate-300">
+                  {user.addressInIndia}
+                </td>
+              </tr>
+              <tr>
+                <th className="border border-slate-300 py-2 bg-gray-100 px-3">
+                  <td>District in India:</td>
+                </th>
+                <td className="border pl-4 border-slate-300">
+                  {user.districtInIndia}
+                </td>
+              </tr>
+              <tr>
+                <th className="border border-slate-300 py-2 bg-gray-100 px-3">
+                  <td>State in India:</td>
+                </th>
+                <td className="border pl-4 border-slate-300">
+                  {user.statesInIndia}
+                </td>
+              </tr>
+              <tr>
+                <th className="border border-slate-300 py-2 bg-gray-100 px-3">
+                  <td>Emergency Contact in India:</td>
+                </th>
+                <td className="border pl-4 border-slate-300">
+                  {user.emergencyContactInIndia}
+                </td>
+              </tr>
+              <tr>
+                <th className="border border-slate-300 py-2 bg-gray-100 px-3">
+                  <td>Family in Lagos:</td>
+                </th>
+                <td className="border pl-4 border-slate-300">
+                  {user.familyInLagos || user.familyMembers.length > 0
+                    ? "Yes"
+                    : "No"}
+                </td>
+              </tr>
+              <tr>
+                <th className="border border-slate-300 py-2 bg-gray-100 px-3">
+                  <td>Verification Status:</td>
+                </th>
+                <td className="border pl-4 border-slate-300">
+                  {user.isVerified ? "Verified" : "Not Verified"}
+                </td>
+              </tr>
+              <tr>
+                <th className="border border-slate-300 py-2 bg-gray-100 px-3">
+                  <td>Onboarding Status:</td>
+                </th>
+                <td className="border pl-4 border-slate-300">
+                  {user.isOnboarded ? "Completed" : "Not Completed"}
+                </td>
+              </tr>
+            </tbody>
           </table>
           {/* <div className="pt-6">
             <h2 className="font-bold">About member</h2>
             <p className="mt-3 leading-6">{user.aboutuser}</p>
           </div> */}
+          <div className="mt-8">
+            <h2 className="text-xl font-bold mb-4">Family Members</h2>
+            <table className="table-auto w-full border border-slate-400 border-collapse">
+              <thead>
+                <tr className="bg-gray-100">
+                  <th className="border border-slate-300 py-2 px-3 text-left">
+                    Full Name
+                  </th>
+                  <th className="border border-slate-300 py-2 px-3 text-left">
+                    Relationship
+                  </th>
+                  <th className="border border-slate-300 py-2 px-3 text-left">
+                    Date of Birth
+                  </th>
+                  <th className="border border-slate-300 py-2 px-3 text-left">
+                    Email
+                  </th>
+                  <th className="border border-slate-300 py-2 px-3 text-left">
+                    WhatsApp
+                  </th>
+                  {/* <th className="border border-slate-300 py-2 px-3 text-left">
+                    Blood Group
+                  </th> */}
+                  <th className="border border-slate-300 py-2 px-3 text-left">
+                    Date of Entry
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {user.familyMembers.map((member) => (
+                  <tr key={member._id}>
+                    <td className="border border-slate-300 py-2 px-3">
+                      {member.title} {member.firstName} {member.lastName}
+                    </td>
+                    <td className="border border-slate-300 py-2 px-3">
+                      {member.relationship}
+                    </td>
+                    <td className="border border-slate-300 py-2 px-3">
+                      {dateFormater(member.dateOfBirth)}
+                    </td>
+                    <td className="border border-slate-300 py-2 px-3">
+                      {member.emailId}
+                    </td>
+                    <td className="border border-slate-300 py-2 px-3">
+                      {member.whatsappId}
+                    </td>
+                    {/* <td className="border border-slate-300 py-2 px-3">
+                      {member.bloodgroup || "N/A"}
+                    </td> */}
+                    <td className="border border-slate-300 py-2 px-3">
+                      {dateFormater(member.dateOfEntry)}
+                    </td>
+                  </tr>
+                ))}
+                {user.familyMembers.length === 0 && (
+                  <tr>
+                    <td
+                      colSpan={7}
+                      className="border border-slate-300 py-4 px-3 text-center"
+                    >
+                      No family members to display
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
           <div className="flex items-center justify-between mt-10">
             <div>
               <button
