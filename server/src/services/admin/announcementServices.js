@@ -10,10 +10,12 @@ async function createAnnouncmentsService(body) {
 }
 async function getAllAnnouncmentsService() {
   try {
-    const announcements = await AnnouncementModel.find({}).populate({
-      path: "createdBy",
-      select: "firstname lastname -_id",
-    });
+    const announcements = await AnnouncementModel.find({})
+      .populate({
+        path: "createdBy",
+        select: "firstname lastname -_id",
+      })
+      .sort({ createdAt: "desc" });
 
     return announcements;
   } catch (error) {

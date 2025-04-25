@@ -169,7 +169,7 @@ Need some beautiffication in ID card
 
 - Membership ID card design remaining
 - In Overview page - latest announcement can show, now the old announcement is showing
-- Search member is working - not able to search with family member name and id card number
+- Search member is working - not able to search with family member name and id card number ✔️
 
   ### ADMIN
 
