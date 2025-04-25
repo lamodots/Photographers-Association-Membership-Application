@@ -7,12 +7,14 @@ function AnnouncementList({
   venue,
   photoImage,
   createdBy,
+  createdAt,
 }: {
   description?: string;
   title: string;
   photoImage?: string;
   venue?: string;
   time?: string;
+  createdAt?: string;
   createdBy?: {
     firstname: string;
     lastname: string;
@@ -20,6 +22,7 @@ function AnnouncementList({
 }) {
   const textToShow = 172;
 
+  console.log("WAWWW!!", time);
   return (
     <div
       className={`w-full ${
@@ -36,8 +39,8 @@ function AnnouncementList({
       <h3 className="font-semibold text-base w-full capitalize mb-1">
         {title}
       </h3>
-      <small className="text-gray-500">{dateFormater(time)}</small>
-      <p className="text-gray-600 text-sm mb-2">{venue}</p>
+      <small className="text-gray-500">{dateFormater(createdAt)}</small>
+      {/* <p className="text-gray-600 text-sm mb-2">{venue}</p> */}
       {description && (
         <p
           className={`text-sm text-gray-700 ${

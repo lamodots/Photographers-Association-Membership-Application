@@ -13,6 +13,7 @@ interface AnnouncementProps {
   description: string;
   startDate: string;
   endDate: string;
+  createdAt: string;
   createdBy: {
     firstname: string;
     lastname: string;
@@ -155,6 +156,7 @@ function Announcement() {
                       description={announcement?.description}
                       title={announcement?.title}
                       createdBy={announcement.createdBy}
+                      createdAt={announcement?.createdAt}
                     />
                   </Link>
                 );

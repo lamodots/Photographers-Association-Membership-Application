@@ -83,7 +83,7 @@ function OverViewPage() {
         setError(true);
       }
       const { announcements } = await res.json();
-      console.log("ANNOUNCEMENT", announcements);
+
       setAnnouncementData(announcements[0]);
     } catch (error) {
       console.log("Something went wrong:", error);
