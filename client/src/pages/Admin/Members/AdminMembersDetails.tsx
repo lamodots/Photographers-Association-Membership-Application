@@ -192,7 +192,9 @@ function AdminMembersDetails() {
                   <td>Subscription Type:</td>
                 </th>
                 <td className="border pl-4 border-slate-300">
-                  Normal memebers
+                  {user.isHonouraryMember
+                    ? "Honorary member"
+                    : "Normal memebers"}
                 </td>
               </tr>
               <tr>

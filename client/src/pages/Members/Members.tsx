@@ -28,6 +28,7 @@ interface UserProps {
   phone: string;
   location: string;
   address: string;
+  memberId: string;
   aboutuser: string;
   social: SocialLink[];
   interest: Interest;
@@ -59,7 +60,10 @@ function Members() {
   const filterUser = userData.filter(
     (user) =>
       (user.email?.toLowerCase() ?? "").includes(searchQuery.toLowerCase()) ||
-      (user.firstname?.toLowerCase() ?? "").includes(searchQuery.toLowerCase())
+      (user.firstname?.toLowerCase() ?? "").includes(
+        searchQuery.toLowerCase()
+      ) ||
+      user.memberId?.toLocaleLowerCase().includes(searchQuery.toLowerCase())
   );
   // pagination
   const totalItems = filterUser.length;

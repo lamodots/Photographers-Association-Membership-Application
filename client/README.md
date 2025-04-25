@@ -145,7 +145,39 @@ Need some beautiffication in ID card
 
 ````
 
-//vercel.json file
+## 25th April 2025 Final View
+
+### USERS
+
+- resend email for verification - There is no feeling that i clicked on "resend" button until the pop up appeared
+
+- click the link for verifying mail - showing verification failed
+- States in india - can add remaining states also
+- Profile editing page - main person title not showing
+
+- Profile page family member title can show ✔️
+
+- profile page - if the person choose other - it can be hide
+- Annual membership payment online successes and mail receiving - But not applying member page
+
+- Can annual payment button disaapear if only welfare due is pending ? can welfare due also disappear if all payments completed ?
+
+- ID card is showing after only membership subscription - it should show after all dues completed ✔️
+
+- Members list also showing after only membership subscription - it should show after all dues completed ✔️
+- Other users are seeing honorary membership status as Annual member
+
+- Membership ID card design remaining
+- In Overview page - latest announcement can show, now the old announcement is showing
+- Search member is working - not able to search with family member name and id card number
+
+  ### ADMIN
+
+- Subscription type not picking
+- Search member place not working ✔️
+- Any possibility for admin or secretary can see the list of members not paid or partially paid ?
+
+  //vercel.json file
 
 # FEED BACK
 

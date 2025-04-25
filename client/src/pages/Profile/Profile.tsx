@@ -209,7 +209,6 @@ const FamilyMemberForm = ({
                 <option value="Chief">Chief</option>
                 <option value="Otunba">Otunba</option>
                 <option value="Yeye">Yeye</option>
-                <option value="Other">Other</option>
               </select>
               {errors?.title && (
                 <p className="text-red-500 text-sm">{errors.title}</p>
