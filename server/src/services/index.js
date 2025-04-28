@@ -61,6 +61,7 @@ const {
   getAPersonMembershipPaymentsServices,
   fetchAllMembershipPaymentsService,
   fetchAllWelfarePaymentsService,
+  fetchMemberDuesAndWelfareDuesServices,
 } = require("./userDuesServices");
 
 const fetchPaystackTransactionsServices = require("./paystackTransactionServices");
@@ -107,6 +108,7 @@ module.exports = {
   getAPersonMembershipPaymentsServices,
   fetchAllMembershipPaymentsService,
   fetchAllWelfarePaymentsService,
+  fetchMemberDuesAndWelfareDuesServices,
   fetchPaystackTransactionsServices,
   getOverviewStats,
 };

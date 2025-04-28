@@ -21,7 +21,8 @@ interface RegisterValueProps {
 function Register() {
   const [setAlert, isSetAlert] = useState(false);
   const [useremail, setUseremail] = useState("");
-  console.log(setAlert);
+  const [submitting, setSubmitting] = useState(false);
+
   const registerSchema = Yup.object().shape({
     email: Yup.string()
       .email("Please enter a valid email address.")
@@ -75,24 +76,52 @@ function Register() {
     }
   };
 
-  const handleResendEmail = async () => {
-    const res = await fetch(
-      `${API_URL}/api/v1/users/auth/resent-verify-email`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: useremail,
-        }),
-      }
-    );
+  // const handleResendEmail = async () => {
+  //   const res = await fetch(
+  //     `${API_URL}/api/v1/users/auth/resent-verify-email`,
+  //     {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         email: useremail,
+  //       }),
+  //     }
+  //   );
 
-    if (!res.ok) {
-      toast.error("failed to resend email");
+  //   if (!res.ok) {
+  //     toast.error("failed to resend email");
+  //   }
+  //   toast.success("Another email have been sent");
+  // };
+  const handleResendEmail = async () => {
+    setSubmitting(true);
+    try {
+      const res = await fetch(
+        `${API_URL}/api/v1/users/auth/resent-verify-email`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: useremail,
+          }),
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error("failed to resend email");
+      }
+      toast.success("Another email have been sent");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    } finally {
+      setSubmitting(false);
     }
-    toast.success("Another email have been sent");
   };
   return (
     <main className=" regpage bg-[#F4F6F7] w-screen  h-screen overflow-y-auto">
@@ -108,7 +137,7 @@ function Register() {
                 onClick={handleResendEmail}
                 className="text-blue-700 font-bold"
               >
-                Resend
+                {submitting ? "Resending email ..." : "Resend"}
               </button>
             </p>
           </div>

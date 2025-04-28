@@ -10,6 +10,8 @@ import Modal from "../../../components/modal/Modal";
 import OfflinePaymentProcessing from "../../../components/OfflinePaymentProcessing/OfflinePaymentProcessing";
 import ConfirmationModal from "../../../components/ConfirmationModal/ConfirmationModal";
 import toast from "react-hot-toast";
+import useFetchMembershipDues from "../../../hooks/useFetchMembershipDues";
+import { Oval } from "react-loader-spinner";
 
 const API_URL = process.env.REACT_APP_CLIENT_URL;
 type SocialLink = {
@@ -72,6 +74,7 @@ interface UserProps {
   whatsappId: string;
   bloodgroup: string;
   statesInIndia: string;
+  profession: string;
 }
 
 function AdminMembersDetails() {
@@ -80,7 +83,14 @@ function AdminMembersDetails() {
   const user: UserProps = location?.state;
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   console.log(user);
+  const {
+    loading: loadingDues,
+    error: dueError,
+    membershipDues,
+  } = useFetchMembershipDues(user._id);
 
+  console.log("DUES", membershipDues);
+  console.log("DUES USER ID", user._id);
   const handleGrandHonouraryMember = async () => {
     setShowConfirmationModal(true);
   };
@@ -192,9 +202,24 @@ function AdminMembersDetails() {
                   <td>Subscription Type:</td>
                 </th>
                 <td className="border pl-4 border-slate-300">
-                  {user.isHonouraryMember
-                    ? "Honorary member"
-                    : "Normal memebers"}
+                  {loadingDues ? (
+                    <Oval width={12} height={12} />
+                  ) : user.isHonouraryMember ? (
+                    "Honorary Member"
+                  ) : membershipDues?.membershipDues &&
+                    membershipDues.membershipDues.length > 0 ? (
+                    membershipDues.membershipDues[0].membershipType
+                  ) : (
+                    <span className="text-red-600">Requires Payment</span>
+                  )}
+                </td>
+              </tr>
+              <tr>
+                <th className="border border-slate-300 py-2 bg-gray-100 px-3">
+                  <td>Industry/Profession:</td>
+                </th>
+                <td className="border pl-4 border-slate-300">
+                  {user.profession}
                 </td>
               </tr>
               <tr>

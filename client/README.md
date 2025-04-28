@@ -168,7 +168,7 @@ Need some beautiffication in ID card
 - Other users are seeing honorary membership status as Annual member
 
 - Membership ID card design remaining
-- In Overview page - latest announcement can show, now the old announcement is showing
+- In Overview page - latest announcement can show, now the old announcement is showing ✔️
 - Search member is working - not able to search with family member name and id card number ✔️
 
   ### ADMIN

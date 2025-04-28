@@ -166,6 +166,75 @@ const getAPersonMembershipPaymentsServices = async (userId) => {
   }
 };
 
+// // Get any users dues by id
+const fetchMemberDuesAndWelfareDuesServices = async (userId) => {
+  try {
+    // Use Promise.all to fetch both datasets in parallel for efficiency
+    const [userMembershipDues, userWelfares] = await Promise.all([
+      MembershipDues.find({ userId, status: "active" })
+        .select("status membershipType createdAt expiryDate")
+        .sort({ createdAt: -1 }),
+
+      WelfareDues.find({ userId, status: "active" })
+        .select("status createdAt expiryDate")
+        .sort({ createdAt: -1 }),
+    ]);
+
+    // Combine the results in a clear, consistent way
+    const userSub = {
+      membershipDues: userMembershipDues,
+      welfareDues: userWelfares,
+    };
+
+    return userSub;
+  } catch (error) {
+    // Include original error details for easier debugging
+    console.log(error.message);
+    throw new Error(`Error retrieving user membership dues and welfare dues`);
+  }
+};
+// Get any users dues by id with flattened result
+// const fetchMemberDuesAndWelfareDuesServices = async (userId) => {
+//   try {
+//     // Use Promise.all to fetch both datasets in parallel for efficiency
+//     // Add sort by createdAt in descending order (-1) to get latest first
+//     const [userMembershipDues, userWelfares] = await Promise.all([
+//       MembershipDues.find({ userId, status: "active" })
+//         .select("status membershipType createdAt")
+//         .sort({ createdAt: -1 }),
+//       WelfareDues.find({ userId, status: "active" })
+//         .select("status membershipType createdAt")
+//         .sort({ createdAt: -1 }),
+//     ]);
+
+//     // Create a flattened array combining both types of dues
+//     const flattenedDues = [
+//       ...userMembershipDues.map((due) => ({
+//         _id: due._id,
+//         membershipType: due.membershipType || null,
+//         status: due.status,
+//         dueType: "membership",
+//         createdAt: due.createdAt,
+//       })),
+//       ...userWelfares.map((welfare) => ({
+//         _id: welfare._id,
+//         membershipType: welfare.membershipType || null,
+//         status: welfare.status,
+//         dueType: "welfare",
+//         createdAt: welfare.createdAt,
+//       })),
+//     ];
+
+//     // If you want the entire combined list sorted by latest first
+//     // Uncomment this line:
+//     // flattenedDues.sort((a, b) => b.createdAt - a.createdAt);
+
+//     return flattenedDues;
+//   } catch (error) {
+//     console.log(error.message);
+//     throw new Error(`Error retrieving user membership dues and welfare dues`);
+//   }
+// };
 // Fetch all Dues payments
 const fetchPayments = async (Model, filter, skip, parsedLimit) => {
   try {
@@ -193,4 +262,5 @@ module.exports = {
   getAPersonMembershipPaymentsServices,
   fetchAllMembershipPaymentsService,
   fetchAllWelfarePaymentsService,
+  fetchMemberDuesAndWelfareDuesServices,
 };

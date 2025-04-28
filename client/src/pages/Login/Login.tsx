@@ -21,6 +21,7 @@ function Login() {
   const { currentUser, setCurrentUser, fetchCurrentUser } = useCurrentUser();
   const [setAlert, isSetAlert] = useState(false);
   const [useremail, setuserEmail] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   const navigate = useNavigate();
 
@@ -82,23 +83,32 @@ function Login() {
   };
 
   const handleResendEmail = async () => {
-    const res = await fetch(
-      `${API_URL}/api/v1/users/auth/resent-verify-email`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: useremail,
-        }),
-      }
-    );
+    setSubmitting(true);
+    try {
+      const res = await fetch(
+        `${API_URL}/api/v1/users/auth/resent-verify-email`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: useremail,
+          }),
+        }
+      );
 
-    if (!res.ok) {
-      toast.error("failed to resend email");
+      if (!res.ok) {
+        throw new Error("failed to resend email");
+      }
+      toast.success("Another email have been sent");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    } finally {
+      setSubmitting(false);
     }
-    toast.success("Another email have been sent");
   };
   return (
     <main className=" overflow-hidden w-full">
@@ -118,7 +128,7 @@ function Login() {
                     onClick={handleResendEmail}
                     className="text-blue-700 font-bold"
                   >
-                    Resend
+                    {submitting ? "Resending email ..." : "Resend"}
                   </button>
                 </p>
               </div>

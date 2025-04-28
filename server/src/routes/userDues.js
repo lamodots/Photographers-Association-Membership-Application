@@ -8,6 +8,7 @@ const {
   getAPersonWelfarePayments,
   getAllMembershipPayments,
   getAllWelfarePayments,
+  fetchMemberDuesAndWelfareDuesController,
   fetchPaystackTransactionsController,
 } = require("../controllers");
 
@@ -44,6 +45,11 @@ membershipDuesRoute.get(
   authenticateUser,
   authorizaPermissions("admin", "moderator"),
   getAllWelfarePayments
+);
+membershipDuesRoute.get(
+  "/:userId",
+  authenticateUser,
+  fetchMemberDuesAndWelfareDuesController
 );
 membershipDuesRoute.get(
   "/paystack-transactions",

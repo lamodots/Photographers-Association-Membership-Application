@@ -5,6 +5,8 @@ import { useLocation } from "react-router-dom";
 import { DOBFormater } from "../../util/DOBFormater";
 import { useMembershipActive } from "../../hooks/useFetchPayment";
 import { useCurrentUser } from "../../context/AdminContext";
+import useFetchMembershipDues from "../../hooks/useFetchMembershipDues";
+import { Oval } from "react-loader-spinner";
 
 // const API_URL = process.env.REACT_APP_CLIENT_URL;
 
@@ -31,6 +33,7 @@ interface UserProps {
   title: string;
   whatsappId: string;
   profession: string;
+  statesInIndia: string;
 }
 
 function MembersDetails() {
@@ -39,6 +42,15 @@ function MembersDetails() {
 
   const location = useLocation();
   const user: UserProps = location?.state;
+  console.log("======", user);
+  const {
+    loading: loadingDues,
+    error: dueError,
+    membershipDues,
+  } = useFetchMembershipDues(user._id);
+
+  console.log("DUES", membershipDues);
+  console.log("DUES USER ID", user._id);
   return (
     <div>
       <header>
@@ -88,13 +100,31 @@ function MembersDetails() {
                 <td>Subscription Type:</td>
               </th>
               <td className="border pl-4 border-slate-300">
-                {membershipItem?.status === "active" ? (
+                {/* {membershipItem?.status === "active" ? (
                   membershipItem?.membershipType
                 ) : currentUser?.user.membershipType ==
                   "Honourary membership" ? (
                   currentUser.user.membershipType
                 ) : (
                   <span className="text-red-600">Requires payment</span>
+                )} */}
+                {/* {user.isHonouraryMember ? (
+                  <span className="font-bold">Honourary membership</span>
+                ) : membershipItem?.status === "active" ? (
+                  <span>{membershipItem?.membershipType}</span>
+                ) : (
+                  <span className="text-red-600">Requires payment</span>
+                )} */}
+
+                {loadingDues ? (
+                  <Oval width={12} height={12} />
+                ) : user.isHonouraryMember ? (
+                  "Honorary Member"
+                ) : membershipDues?.membershipDues &&
+                  membershipDues.membershipDues.length > 0 ? (
+                  membershipDues.membershipDues[0].membershipType
+                ) : (
+                  <span className="text-red-600">Requires Payment</span>
                 )}
               </td>
             </tr>

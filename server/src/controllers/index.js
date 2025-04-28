@@ -58,6 +58,7 @@ const {
   getAPersonWelfarePayments,
   getAllMembershipPayments,
   getAllWelfarePayments,
+  fetchMemberDuesAndWelfareDuesController,
 } = require("./userDuesController");
 
 const fetchPaystackTransactionsController = require("./paystactTransactionController");
@@ -110,6 +111,7 @@ module.exports = {
   getAPersonWelfarePayments,
   getAllMembershipPayments,
   getAllWelfarePayments,
+  fetchMemberDuesAndWelfareDuesController,
   fetchPaystackTransactionsController,
   getOverview,
 };

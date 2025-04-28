@@ -7,6 +7,7 @@ const {
   GetAllDuesService,
   fetchAllMembershipPaymentsService,
   fetchAllWelfarePaymentsService,
+  fetchMemberDuesAndWelfareDuesServices,
 } = require("../services");
 const { BadRequestError } = require("../errors");
 const { MembershipDues, WelfareDues } = require("../models");
@@ -124,6 +125,32 @@ const getAPersonMembershipPayments = async (req, res) => {
     // Map generic errors to HTTP-specific errors
     if (error.message === "Error retriving user membership dues") {
       return next(new BadRequestError("Failed to retrive Membership Dues"));
+    }
+
+    next(error);
+  }
+};
+
+// GET A USER DUES BY ID
+const fetchMemberDuesAndWelfareDuesController = async (req, res, next) => {
+  const userId = req.params.userId;
+  console.log(req);
+  try {
+    const userSub = await fetchMemberDuesAndWelfareDuesServices(userId);
+    console.log(userSub);
+    if (!userSub) {
+      return next(new BadRequestError("Failed to retrive Membership Dues"));
+    }
+    return res.status(StatusCodes.OK).json({ success: true, data: userSub });
+  } catch (error) {
+    if (
+      error.message === "Error retrieving user membership dues and welfare dues"
+    ) {
+      return next(
+        new BadRequestError(
+          "Failed to retrive membership dues and welfare dues"
+        )
+      );
     }
 
     next(error);
@@ -285,4 +312,5 @@ module.exports = {
   getAPersonMembershipPayments,
   getAllMembershipPayments,
   getAllWelfarePayments,
+  fetchMemberDuesAndWelfareDuesController,
 };
