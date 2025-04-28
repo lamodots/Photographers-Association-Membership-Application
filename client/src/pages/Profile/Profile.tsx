@@ -306,7 +306,7 @@ const FamilyMemberForm = ({
         ) : (
           <div>
             <h3 className="text-lg font-medium text-gray-800">
-              {member.firstName} {member.lastName}
+              {member.title} {member.firstName} {member.lastName}
             </h3>
             <p className="text-gray-600">Relationship: {member.relationship}</p>
             <p className="text-gray-600">WhatsApp: {member.whatsappId}</p>
@@ -936,7 +936,6 @@ function Profile() {
                   <option value="CHIEF">Chief</option>
                   <option value="Otunba">Otunba</option>
                   <option value="Yeye">Yeye</option>
-                  <option value="OTHER">Other</option>
                 </select>
                 {validationErrors.title && (
                   <p className="text-red-500 text-sm">
