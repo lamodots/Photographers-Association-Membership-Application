@@ -60,12 +60,13 @@ function Members() {
   const itemsPerPage = 12;
   console.log("user data", userData);
   // Filter user base on search query
-  const filterUser = userData?.filter(
-    (user) =>
-      user.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.firstname?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.memberId?.toLocaleLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filterUser =
+    userData?.filter(
+      (user) =>
+        user.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        user.firstname?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        user.memberId?.toLocaleLowerCase().includes(searchQuery.toLowerCase())
+    ) || [];
 
   // pagination
   const totalItems = filterUser.length;
@@ -210,47 +211,20 @@ function Members() {
                 handleInputChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            {/* the popup */}
-            <div>
-              <div
-                className="right py-3 px-2 bg-white rounded-lg shadow-lg flex items-center justify-center cursor-pointer"
-                onClick={() => setShowPopUp(!showPopup)}
-              >
-                <Filter />
-                <small>Filter</small>
-              </div>
-
-              {showPopup && (
-                <div className=" relative z-50">
-                  <ul className="absolute right-1 rounded-lg bg-white p-6 w-[162px] mt-1 flex flex-col gap-6">
-                    <li
-                      className="text-sm cursor-pointer"
-                      onClick={() => setShowPopUp(!showPopup)}
-                    >
-                      Normal Memeber{" "}
-                    </li>
-                    <li
-                      className="text-sm cursor-pointer"
-                      onClick={() => setShowPopUp(!showPopup)}
-                    >
-                      Life time Member
-                    </li>
-                    <li
-                      className="text-sm cursor-pointer"
-                      onClick={() => setShowPopUp(!showPopup)}
-                    >
-                      Honary members
-                    </li>
-                  </ul>
-                </div>
-              )}
-            </div>
-            {/* the popup end */}
+            {/* <div>
+              <select>
+                <option>--Filter--</option>
+                <option>Annual Membership</option>
+                <option>Life Membership</option>
+                <option>Honorary Mmebership</option>
+              </select>
+            </div> */}
           </div>
         </div>
       </header>
       <section className="py-8 space-y-24">
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+          {paginatedUsers.length == 0 && <p>No registered member yet!</p>}
           {paginatedUsers.map((user) => {
             return (
               <Link

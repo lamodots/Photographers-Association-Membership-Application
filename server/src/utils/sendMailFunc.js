@@ -52,7 +52,7 @@ const sendMailFunc = async (msg) => {
     await transporter.sendMail(msg);
     console.log("Email sent successfully.");
   } catch (error) {
-    console.error("Error:", error.message);
+    console.error("Error:", error);
   }
 };
 

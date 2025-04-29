@@ -57,6 +57,7 @@ const registerUserController = async (req, res, next) => {
       .status(StatusCodes.CREATED)
       .json({ ok: true, message: "User created sucessfully" });
   } catch (error) {
+    console.log(error);
     return next(error);
   }
 };

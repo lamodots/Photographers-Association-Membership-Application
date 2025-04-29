@@ -4,24 +4,23 @@ import { Link, useLocation } from "react-router-dom";
 
 const API_URL = process.env.REACT_APP_CLIENT_URL;
 
+const location = useLocation();
+
+const queryParams = new URLSearchParams(location.search);
+
 function EmailVerifcation() {
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false); // Start with false to avoid premature success message
+  const [success, setSuccess] = useState(true);
 
-  // Keep these hooks inside the component
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
   const token = queryParams.get("token");
   const email = queryParams.get("email");
 
-  console.log("TOKEN CHECK", email, token);
-
   useEffect(() => {
+    // Extract query parameters
+
     // Ensure both token and email exist before making the API call
-    if (!token || !email) {
-      // Changed to "||" to check if either is missing
-      setError("Both token and email are required for verification.");
-      return;
+    if (!token && !email) {
+      return setError("Invalid or missing token and email.");
     }
 
     async function verify() {
@@ -35,14 +34,14 @@ function EmailVerifcation() {
             token,
             email,
           }),
+
           credentials: "include",
         });
 
-        const data = await res.json();
-
+        const { message } = await res.json();
         if (!res.ok) {
           // Set error if verification fails
-          setError(data.message || "Verification failed.");
+          setError(message || "Verification failed.");
           setSuccess(false);
         } else {
           // Set success if verification is successful
@@ -59,25 +58,19 @@ function EmailVerifcation() {
 
     // Call the verify function
     verify();
-  }, [token, email]);
+  }, [token, email]); // Only run when the URL changes
 
+  const handleResendVerifyEmail = async () => {};
   return (
-    <div className="flex justify-center items-center w-full h-screen bg-white">
+    <div className=" flex justify-center items-center w-full h-screen bg-white">
       {error && <p className="text-center text-2xl text-red-500">{error}</p>}
-
-      {!success && !error && (
-        <div className="text-center">
-          <p className="text-xl">Verifying your email...</p>
-        </div>
-      )}
-
       {success && (
-        <div className="w-full md:w-[40%]">
+        <div className=" w-full md:w-[40%] ">
           <h2 className="text-center text-2xl">Email Verified!</h2>
           <img
             src={verifyGif}
             alt="Verification complete"
-            className="block w-full"
+            className=" block w-full"
           />
           <div className="space-y-4">
             <div className="text-center">
