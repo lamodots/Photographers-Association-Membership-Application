@@ -10,71 +10,149 @@ import {
 } from "../../hooks/useFetchPayment";
 import { Link } from "react-router-dom";
 import Advertisment from "../../components/Advertisment/Advertisment";
+import NewIDCard from "./NewIDCard";
+import { monthdayyearFormater } from "../../util/monthdayyearFormater";
 
 // ID Card Component
 const IdCard = React.forwardRef<
   HTMLDivElement,
-  { member: any; logo: string | File | null | undefined }
+  { member: any; logo: string | File | null | undefined; membership: any }
 >((props, ref) => (
-  <div ref={ref} style={{ padding: "10mm", backgroundColor: "#f5f7fa" }}>
-    {/* FRONT */}
-    <div className="w-[86mm] h-[54mm] border rounded-lg shadow-lg overflow-hidden m-auto">
-      <div className="bg-blue-900 text-white py-2 flex justify-between space-x-4 items-center px-4">
-        <div className="w-12 h-8 bg-gray-400">
+  <div
+    ref={ref}
+    style={{
+      padding: "10mm",
+      backgroundColor: "#f5f7fa",
+      display: "flex",
+      alignItems: "center",
+      gap: "16px",
+    }}
+  >
+    {/* // FRONT OF ID CARD */}
+
+    <div className="w-64 h-96 rounded-lg overflow-hidden shadow-lg relative">
+      {/* Background image */}
+      <div className="absolute inset-0">
+        <div className="h-full w-full">
           <img
-            src={props.logo?.toString()}
-            alt="Organization Logo"
+            src="/id-bg.png"
+            alt="ID Card Background"
             className="w-full h-full object-cover"
           />
         </div>
-        <div>
-          <h1 className="text-sm font-bold leading-none">
-            Kerala Samajam Nigeria
-          </h1>
-        </div>
       </div>
-      <div className="p-2">
-        <div className="flex justify-center mb-2">
-          <div className="w-16 h-16 rounded-md bg-gray-300">
+
+      {/* Content overlay */}
+      <div className="relative z-10 flex flex-col items-center p-3">
+        {/* Header with logo */}
+        <div className="flex justify-between items-center w-full">
+          {/* <div className="flex-1"></div> */}
+          <div className="flex-1 text-center font-bold text-black text-[10px] pt-8 ">
+            <p className="text-center">KERALA SAMAJAM NIGERIA</p>
+          </div>
+          <div className=" flex justify-end">
+            <img src="./id-logo.png" className="w-12 absolute top-4" />
+          </div>
+        </div>
+
+        {/* Photo placeholder */}
+        <div className="mt-2 w-32 h-28 bg-white border border-gray-300 overflow-hidden">
+          <div className="w-full h-full flex items-center justify-center text-gray-500 border-l-4 border-l-orange-500">
             <img
               src={props.member.image}
               alt="User"
-              className="w-full rounded-md h-full object-cover"
+              className="w-full h-full object-cover"
             />
           </div>
         </div>
-        <div className="text-center mb-2 ">
-          <p className="text-[18px] text-gray-700 leading-none">
-            {props.member.firstName || props.member.firstname}{" "}
-            {props.member.lastName || props.member.lastname}
-          </p>
+        {/* Malayalam text */}
+        <div className="mt-2 text-blue-900 font-bold text-sm">
+          കേരള സമാജം നൈജീരിയ
         </div>
-      </div>
-      <div className="bg-blue-900 text-white text-center py-1">
-        <h2 className="text-xs leading-none">
-          Please present this ID card upon request.
-        </h2>
+        {/* ID information */}
+        <div className="mt-1 w-full text-left text-[10px]">
+          <div className="flex mb-1">
+            <span className="font-semibold w-36">ID Number:</span>
+            <span className="text-[9px]">{props.member.memberId}</span>
+          </div>
+          <div className="flex mb-1">
+            <span className="font-semibold w-36">Name:</span>
+            <span className="text-[9px]">
+              {props.member.firstName || props.member.firstname}{" "}
+              {props.member.lastName || props.member.lastname}
+            </span>
+          </div>
+          <div className="flex mb-1">
+            <span className="font-semibold w-36">Membership Category:</span>
+            <span className="text-[9px]">
+              {props.membership.membershipType}
+            </span>
+          </div>
+          <div className="flex mb-1">
+            <span className="font-semibold w-36">Validity Period:</span>
+            <span className="text-[9px]">
+              {monthdayyearFormater(props.membership.expiryDate)}
+            </span>
+          </div>
+        </div>
+
+        {/* 25 Years badge */}
+        <div className="relative -left-[84px] -bottom-1 ">
+          <div className="w-16 h-16">
+            <img
+              src="/25-yrs.png"
+              alt="25 Years Badge"
+              className="w-full h-full object-contain"
+            />
+          </div>
+        </div>
       </div>
     </div>
 
-    {/* BACK */}
-    <div className="w-[86mm] h-[54mm] border rounded-lg shadow-lg overflow-hidden m-auto mt-4">
-      <div className="bg-blue-900 text-white text-center py-2">
-        <h1 className="text-sm font-bold leading-none">CONTACT INFORMATION</h1>
+    {/* NEW ID BACK */}
+    <div className="w-64 h-96 rounded-lg overflow-hidden shadow-lg relative">
+      {/* Background image */}
+      <div className="absolute inset-0">
+        <div className="h-full w-full">
+          <img
+            src="/id-bg.png"
+            alt="ID Card Background"
+            className="w-full h-full object-cover"
+          />
+        </div>
       </div>
-      <div className="p-3">
-        <p className="mb-6">If found kindly contact:</p>
-        <div className="text-left mb-2 space-y-2">
-          <p className="text-xs text-gray-700 leading-none">
-            <span className="font-bold">Phone:</span> {props.member.whatsappId}
-          </p>
-          <p className="text-xs text-gray-700 leading-none">
-            <span className="font-bold">Email:</span>{" "}
-            {props.member.emailId || props.member.email}
-          </p>
-          <p className="text-xs text-gray-700 leading-none">
-            <span className="font-bold">Address:</span> {props.member.address}
-          </p>
+
+      {/* Content overlay */}
+      <div className="relative z-10 flex flex-col items-center p-3">
+        {/* Header with logo */}
+        <div className="flex justify-between items-center w-full">
+          <div className="mb-3 mt-8">
+            <h3 className="font-semibold mb-1">Contact Information:</h3>
+            <div className="pl-2 text-xs">
+              <p className="mb-1">Phone:+2347060606060</p>
+              <p>Email:keralasamajamnigeria@gmail.com </p>
+            </div>
+          </div>
+        </div>
+        <div className="mt-2 w-full">
+          <h3 className="font-semibold text-xs mb-1">Terms & Conditions:</h3>
+          <ol className="text-xs pl-5 list-decimal">
+            <li className="mb-1">
+              This card remains the property of Kerala Samajam Nigeria.
+            </li>
+            <li className="mb-1">
+              If found, please return to Kerala Samajam Nigeria.
+            </li>
+            <li>Card is not transferable.</li>
+          </ol>
+        </div>
+        {/* Footer */}
+        <div className="absolute -bottom-10 text-center w-full">
+          <div className=" flex justify-center">
+            <img src="./id-logo.png" className="w-12 absolute top-10" />
+          </div>
+          <p className="text-xs font-semibold">Kerala Samajam Nigeria</p>
+          <p className="text-xs">www.keralasamajamnigeria.org</p>
         </div>
       </div>
     </div>
@@ -134,20 +212,24 @@ function PrintableIdCards() {
   // Render ID cards
   return (
     <div>
-      <div className="p-4 max-w-lg mx-auto">
+      <div className="p-4 w-full ">
         {user && (
           <>
-            <div className="mb-4">
+            <div className="mb-4 flex  items-center flex-col">
+              <h1 className="text-center text-2xl">
+                Download Membership ID Card
+              </h1>
               <IdCardComponent member={user} />
             </div>
             {user.familyMembers.map((member: any, index: number) => (
-              <div key={index} className="mb-4">
+              <div key={index} className="mb-4 flex  items-center flex-col">
                 <IdCardComponent member={member} />
               </div>
             ))}
           </>
         )}
       </div>
+
       <Advertisment />
     </div>
   );
@@ -188,7 +270,7 @@ const IdCardComponent: React.FC<{ member: any }> = ({ member }) => {
 
       // Create PDF (A4 size)
       const pdf = new jsPDF({
-        orientation: "portrait",
+        orientation: "landscape",
         unit: "mm",
         format: "a4",
       });
@@ -245,14 +327,18 @@ const IdCardComponent: React.FC<{ member: any }> = ({ member }) => {
 
   return (
     <main>
-      <h1 className="text-center text-2xl">Download Membership ID Card</h1>
       {showAlert ? (
         <div className="mt-10">
           <Alert />
         </div>
       ) : (
         <div>
-          <IdCard ref={componentRef} member={member} logo={appData?.applogo} />
+          <IdCard
+            ref={componentRef}
+            member={member}
+            logo={appData?.applogo}
+            membership={membershipItem}
+          />
           <div className="flex  justify-center mt-4 space-x-4">
             <button
               onClick={handleDownloadPDF}
