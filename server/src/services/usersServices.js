@@ -24,7 +24,8 @@ async function getAllUsersService() {
         model: "SubscriptionPlan",
         select: "name interval amount",
       },
-    });
+    })
+    .sort({ createdAt: -1 });
   return users;
 }
 

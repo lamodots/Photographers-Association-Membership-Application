@@ -10,7 +10,6 @@ import {
   useMembershipActive,
   useWelfareActive,
 } from "../../hooks/useFetchPayment";
-import { Oval } from "react-loader-spinner";
 
 const API_URL = process.env.REACT_APP_CLIENT_URL;
 
@@ -53,8 +52,9 @@ function Members() {
     : membershipItem?.status === "active" && welfareItem?.status === "active";
 
   const itemsPerPage = 12;
-
+  console.log("user data", searchQuery);
   // Filter user base on search query
+
   const filterUser = userData.filter(
     (user) =>
       (user.email?.toLowerCase() ?? "").includes(searchQuery.toLowerCase()) ||
@@ -63,7 +63,6 @@ function Members() {
       ) ||
       user.memberId?.toLocaleLowerCase().includes(searchQuery.toLowerCase())
   );
-
   // pagination
   const totalItems = filterUser.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -102,38 +101,22 @@ function Members() {
     getAllUsers();
   }, []);
 
-  if (loading) {
+  if (canViewMembers) {
     return (
-      <div className="flex justify-center items-center">
-        <Oval height={24} width={24} />
-      </div>
+      <p className="text-sm text-center">
+        You cant view members!. You are not subcribed yet
+      </p>
     );
   }
-  // If they CAN'T view members, show restriction message
-  if (!canViewMembers) {
-    return (
-      <div className="text-center p-6 bg-gray-50 rounded-lg shadow-sm my-8">
-        <p className="text-lg font-medium text-red-600 mb-2">
-          Access Restricted
-        </p>
-        <p className="text-gray-700">
-          {currentUser?.user.isHonouraryMember
-            ? "Honorary members need an active welfare subscription to view members."
-            : "You need both active membership and welfare subscriptions to view members."}
-        </p>
-      </div>
-    );
-  }
-
   return (
     <main>
       <header>
-        <h1 className="text-2xl text-[#212529] font-bold">Members List</h1>
+        <h1 className="text-2xl text-[#212529] font-bold">Memebers List</h1>
         <div className="flex justify-end items-center mt-10">
-          <div className="flex justify-between items-center gap-4 w-full max-w-[600px] mt-8">
+          <div className="flex  justify-between items-center gap-4 w-full max-w-[600px] mt-8">
             <div className="left w-full">
               <TextInput
-                className="w-full"
+                className=" w-full"
                 type="text"
                 name="searchQuery"
                 value={searchQuery}
@@ -141,32 +124,66 @@ function Members() {
                 handleInputChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            {/* Filter popup removed for clarity */}
+            {/* the popup */}
+            {/* <div>
+              <div
+                className="right py-3 px-2 bg-white rounded-lg shadow-lg flex items-center justify-center cursor-pointer"
+                onClick={() => setShowPopUp(!showPopup)}
+              >
+                <Filter />
+                <small>Filter</small>
+              </div>
+
+              {showPopup && (
+                <div className=" relative z-50">
+                  <ul className="absolute right-1 rounded-lg bg-white p-6 w-[162px] mt-1 flex flex-col gap-6">
+                    <li
+                      className="text-sm cursor-pointer"
+                      onClick={() => setShowPopUp(!showPopup)}
+                    >
+                      Normal Memeber{" "}
+                    </li>
+                    <li
+                      className="text-sm cursor-pointer"
+                      onClick={() => setShowPopUp(!showPopup)}
+                    >
+                      Life time Member
+                    </li>
+                    <li
+                      className="text-sm cursor-pointer"
+                      onClick={() => setShowPopUp(!showPopup)}
+                    >
+                      Honary members
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div> */}
+            {/* the popup end */}
           </div>
         </div>
       </header>
-      {loading ? (
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-        </div>
-      ) : paginatedUsers.length === 0 ? (
+      {paginatedUsers.length === 0 ? (
         <p className="my-6">No registered members yet</p>
       ) : (
         <section className="py-8 space-y-24">
           <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-            {paginatedUsers.map((user) => (
-              <Link
-                to={`/members/details/${user._id}`}
-                key={user._id}
-                state={user}
-              >
-                <NewMemberCard
-                  name={user.firstname}
-                  image={user.image}
-                  email={user.email}
-                />
-              </Link>
-            ))}
+            {paginatedUsers.map((user) => {
+              console.log("hey", user);
+              return (
+                <Link
+                  to={`/members/details/${user._id}`}
+                  key={user._id}
+                  state={user}
+                >
+                  <NewMemberCard
+                    name={user.firstname}
+                    image={user.image}
+                    email={user.email}
+                  />
+                </Link>
+              );
+            })}
           </div>
           {/* Pagination */}
           <div className="flex justify-center items-center space-x-4">
@@ -182,13 +199,13 @@ function Members() {
               Previous
             </button>
             <span>
-              Page {currentPage} of {totalPages || 1}
+              Page {currentPage} of {totalPages}
             </span>
             <button
-              disabled={currentPage === totalPages || totalPages === 0}
+              disabled={currentPage === totalPages}
               onClick={() => setCurrentPage((prev) => prev + 1)}
               className={`px-3 py-1 border rounded ${
-                currentPage === totalPages || totalPages === 0
+                currentPage === totalPages
                   ? "cursor-not-allowed text-gray-400"
                   : "hover:bg-gray-200"
               }`}

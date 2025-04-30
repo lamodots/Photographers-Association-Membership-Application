@@ -64,6 +64,9 @@ function OverViewPage() {
   const [loading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
 
+  const canViewMembers = currentUser?.user.isHonouraryMember
+    ? welfareItem?.status === "active"
+    : membershipItem?.status === "active" && welfareItem?.status === "active";
   /** Get all announcement */
 
   async function getAllAnnoucements() {
@@ -227,47 +230,62 @@ function OverViewPage() {
         )}
       </section>
       <section className="pt-8">
-        <div className="flex justify-between items-center">
-          <h2 className="text-lg text-[#1A4F83] font-bold capitalize ">
-            New members
-          </h2>
-
-          {userData.length === 0 ? (
-            ""
-          ) : (
-            <Link
-              to="/members"
-              className="border border-[#A5BCD4] text-[#1A4F83] font-bold px-2 py-1 rounded-lg"
-            >
-              View All
-            </Link>
-          )}
-        </div>
-
-        {userData.length === 0 ? (
-          <p className="my-6">No registered users yet</p>
-        ) : (
-          <div className="grid gap-6 grid-cols-1 md:grid-cols-3 mt-6">
-            {userData &&
-              userData.map((user) => {
-                return (
-                  <Suspense
-                    fallback={<FallbackLoadingComponent />}
-                    key={user._id}
-                  >
-                    <NewMemberCard
-                      image={user.image}
-                      name={user.firstname + " " + user.lastname}
-                      date={
-                        "Joined" +
-                        " " +
-                        formatDistanceToNowformat(user.createdAt)
-                      }
-                    />
-                  </Suspense>
-                );
-              })}
+        {!canViewMembers ? (
+          <div className="text-center p-6 bg-gray-50 rounded-lg shadow-sm my-8">
+            <p className="text-lg font-medium text-red-600 mb-2">
+              Access Restricted
+            </p>
+            <p className="text-gray-700">
+              {currentUser?.user.isHonouraryMember
+                ? "Honorary members need an active welfare subscription to view members."
+                : "You need both active membership and welfare subscriptions to view members."}
+            </p>
           </div>
+        ) : (
+          <>
+            <div className="flex justify-between items-center">
+              <h2 className="text-lg text-[#1A4F83] font-bold capitalize ">
+                New members
+              </h2>
+
+              {userData.length === 0 ? (
+                ""
+              ) : (
+                <Link
+                  to="/members"
+                  className="border border-[#A5BCD4] text-[#1A4F83] font-bold px-2 py-1 rounded-lg"
+                >
+                  View All
+                </Link>
+              )}
+            </div>
+
+            {userData.length === 0 ? (
+              <p className="my-6">No registered users yet</p>
+            ) : (
+              <div className="grid gap-6 grid-cols-1 md:grid-cols-3 mt-6">
+                {userData &&
+                  userData.map((user) => {
+                    return (
+                      <Suspense
+                        fallback={<FallbackLoadingComponent />}
+                        key={user._id}
+                      >
+                        <NewMemberCard
+                          image={user.image}
+                          name={user.firstname + " " + user.lastname}
+                          date={
+                            "Joined" +
+                            " " +
+                            formatDistanceToNowformat(user.createdAt)
+                          }
+                        />
+                      </Suspense>
+                    );
+                  })}
+              </div>
+            )}
+          </>
         )}
       </section>
       <Advertisment />

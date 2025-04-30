@@ -209,6 +209,7 @@ const FamilyMemberForm = ({
                 <option value="Chief">Chief</option>
                 <option value="Otunba">Otunba</option>
                 <option value="Yeye">Yeye</option>
+                <option value="Miss">Miss</option>
               </select>
               {errors?.title && (
                 <p className="text-red-500 text-sm">{errors.title}</p>
@@ -342,7 +343,6 @@ function Profile() {
     emergencyContactInIndia: "",
     districtInIndia: "",
     addressInIndia: "",
-
     statesInIndia: "",
     familyInLagos: false,
     familyMembers: [],
@@ -927,15 +927,16 @@ function Profile() {
                       : "border-gray-300"
                   } rounded px-3 py-2 w-full`}
                 >
-                  <option value="">Select title</option>
-                  <option value="MR">Mr</option>
-                  <option value="MRS">Mrs</option>
-                  <option value="MS">Ms</option>
-                  <option value="MASTER">Master</option>
-                  <option value="DR">Dr</option>
-                  <option value="CHIEF">Chief</option>
+                  <option value="">--Select title--</option>
+                  <option value="Mr">Mr</option>
+                  <option value="Mrs">Mrs</option>
+                  <option value="Ms">Ms</option>
+                  <option value="Master">Master</option>
+                  <option value="Dr">Dr</option>
+                  <option value="Chief">Chief</option>
                   <option value="Otunba">Otunba</option>
                   <option value="Yeye">Yeye</option>
+                  <option value="Miss">Miss</option>
                 </select>
                 {validationErrors.title && (
                   <p className="text-red-500 text-sm">

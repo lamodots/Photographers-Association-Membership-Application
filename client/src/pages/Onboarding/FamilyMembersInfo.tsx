@@ -94,7 +94,7 @@ function FamilyMembersInfo({
               <option value="Chief">Chief</option>
               <option value="Otunba">Otunba</option>
               <option value="Yeye">Yeye</option>
-              <option value="Other">Other</option>
+              <option value="Miss">Miss</option>
             </select>
             {Array.isArray(errors.familyMembers) &&
               errors.familyMembers[index]?.title && (

@@ -46,16 +46,17 @@ membershipDuesRoute.get(
   authorizaPermissions("admin", "moderator"),
   getAllWelfarePayments
 );
-membershipDuesRoute.get(
-  "/:userId",
-  authenticateUser,
-  fetchMemberDuesAndWelfareDuesController
-);
+
 membershipDuesRoute.get(
   "/paystack-transactions",
   authenticateUser,
   authorizaPermissions("admin", "moderator"),
   fetchPaystackTransactionsController
+);
+membershipDuesRoute.get(
+  "/:userId",
+  authenticateUser,
+  fetchMemberDuesAndWelfareDuesController
 );
 
 module.exports = membershipDuesRoute;

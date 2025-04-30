@@ -89,10 +89,10 @@ exports.verifyUserEmailTemplate = (
     from: `Kerala Samajam Nigeria <ksnmembersng@gmail.com>`,
     to: newUserEamil,
     subject: "Verify Email Address",
-    text: `Please Verify your email address!.\n\nEmail: ${newUserEamil}`,
+    text: `To complete your membership application, Please Verify your email address!.\n\nEmail: ${newUserEamil}`,
     html: `<h1>Kerala Samajam Nigeria!.</h1>
            <p><b>Welcome </b></p>\n\n
-           <p>Please click the button below to verify your email address.. </p>\n
+           <p>To complete your membership application, Please click the button below to verify your email address.. </p>\n
            <p><a href='${fullUrl}/verify?token=${verificationToken}&email=${newUserEamil}'>Confirm your email address</a></p>\n
            <p>If you did not create an account, no further action is required.</p>\n\n
            <p>Regards</p>
