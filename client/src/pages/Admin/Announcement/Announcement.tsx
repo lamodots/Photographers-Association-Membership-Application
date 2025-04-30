@@ -106,7 +106,7 @@ function Announcement() {
             />
           </div>
           {/* the popup */}
-          <div>
+          {/* <div>
             <div
               className="right py-3 px-2 bg-white rounded-lg shadow-lg flex items-center justify-center cursor-pointer"
               onClick={() => setShowPopUp(!showPopup)}
@@ -130,7 +130,7 @@ function Announcement() {
                 handleApply={() => handleApplyFilter()}
               />
             )}
-          </div>
+          </div> */}
           {/* the popup end */}
         </div>
       </header>
@@ -153,6 +153,7 @@ function Announcement() {
                       description={announcement?.description}
                       title={announcement?.title}
                       createdBy={announcement.createdBy}
+                      createdAt={announcement.startDate}
                     />
                   </Link>
                 );

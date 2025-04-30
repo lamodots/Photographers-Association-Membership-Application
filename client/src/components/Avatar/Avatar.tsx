@@ -18,7 +18,7 @@ function Avatar({
   return (
     <>
       <div
-        className={`${className} rounded-full relative over  cursor-pointer bg-slate-600 `}
+        className={`${className} rounded-full relative   cursor-pointer bg-slate-600 `}
         onClick={handlShowPopup}
       >
         <img

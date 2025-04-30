@@ -3,7 +3,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import TextInput from "../../../components/Input/TextInput";
 import NewMemberCard from "../../../components/Admin-Components/NewMemberCard/NewMemberCard";
 
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import Modal from "../../../components/modal/Modal";
 import toast from "react-hot-toast";
 import { useCurrentUser } from "../../../context/AdminContext";
@@ -187,7 +187,41 @@ function Members() {
   return (
     <main>
       <header>
-        <h1 className="text-2xl text-[#212529] font-bold">Memebers List</h1>
+        <div className="relative flex gap-8 items-center h-14 px-4">
+          {/* Container bottom border */}
+          <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gray-200" />
+
+          <NavLink
+            to="/secure/members/members-register" // Update to your actual path
+            className={({ isActive }) =>
+              `relative h-full flex items-center px-1 transition-colors duration-200 group ${
+                isActive ? "text-blue-700" : "text-gray-500 hover:text-blue-700"
+              }`
+            }
+          >
+            <span className="relative">
+              Members Register
+              {/* Hover/Active border */}
+              <span className="absolute left-0 right-0 -bottom-[15px] h-[2px] bg-blue-700 origin-left scale-x-0 transition-transform duration-200 group-hover:scale-x-100 aria-[current=page]:scale-x-100" />
+            </span>
+          </NavLink>
+
+          <NavLink
+            to="/secure/members/honorary-members" // Update to your actual path
+            className={({ isActive }) =>
+              `relative h-full flex items-center px-1 transition-colors duration-200 group ${
+                isActive ? "text-blue-700" : "text-gray-500 hover:text-blue-700"
+              }`
+            }
+          >
+            <span className="relative">
+              Honorary Members
+              {/* Hover/Active border */}
+              <span className="absolute left-0 right-0 -bottom-[15px] h-[2px] bg-blue-700 origin-left scale-x-0 transition-transform duration-200 group-hover:scale-x-100 aria-[current=page]:scale-x-100" />
+            </span>
+          </NavLink>
+        </div>
+        {/* <h1 className="text-2xl text-[#212529] font-bold">Memebers List</h1> */}
 
         <div className="flex justify-between items-center mt-10">
           {currentUser && currentUser?.user?.role === "admin" && (
@@ -211,6 +245,7 @@ function Members() {
                 handleInputChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
+
             {/* <div>
               <select>
                 <option>--Filter--</option>

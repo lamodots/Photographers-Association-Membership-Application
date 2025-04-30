@@ -147,6 +147,9 @@ export const AuthContext = ({ children }: AuthContextProps) => {
         setCurrentUser(null);
         // Consider adding a redirect here if needed
         window.location.href = "/login";
+      } else {
+        // Add error handling
+        console.error("Logout failed:", await res.text());
       }
     } catch (error) {
       console.log(error);

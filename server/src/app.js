@@ -44,13 +44,23 @@ app.disable("etag");
 // };
 // //Import exprss middlewares
 // app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: [
+//     "http://localhost:3000",
+//     "https://ksn.membersng.com",
+//     "https://www.ksn.membersng.com",
+//   ],
+//   credentials: true,
+// };
 const corsOptions = {
   origin: [
     "http://localhost:3000",
     "https://ksn.membersng.com",
-    "https://ksn-membership-app.onrender.com",
+    "https://www.ksn.membersng.com",
   ],
   credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 app.use(cors(corsOptions));

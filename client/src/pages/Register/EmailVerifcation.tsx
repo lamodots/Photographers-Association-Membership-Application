@@ -14,8 +14,6 @@ function EmailVerifcation() {
   const token = queryParams.get("token");
   const email = queryParams.get("email");
 
-  console.log("TOKEN CHECK", email, token);
-
   useEffect(() => {
     // Ensure both token and email exist before making the API call
     if (!token || !email) {
@@ -42,7 +40,7 @@ function EmailVerifcation() {
 
         if (!res.ok) {
           // Set error if verification fails
-          setError(data.message || "Verification failed.");
+          setError(data.message || "Seems you Already verified.");
           setSuccess(false);
         } else {
           // Set success if verification is successful
@@ -82,7 +80,7 @@ function EmailVerifcation() {
           <div className="space-y-4">
             <div className="text-center">
               <Link
-                to="/login"
+                to="https://www.ksn.membersng.com/login"
                 className="px-4 py-2 border rounded text-gray-700 hover:bg-gray-100"
               >
                 You Can Login Now

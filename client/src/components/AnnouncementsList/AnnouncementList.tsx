@@ -22,7 +22,7 @@ function AnnouncementList({
 }) {
   const textToShow = 172;
 
-  console.log("WAWWW!!", time);
+  console.log("WAWWW!!", createdAt);
   return (
     <div
       className={`w-full ${
