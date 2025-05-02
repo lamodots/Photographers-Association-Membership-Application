@@ -31,9 +31,9 @@ interface ValuesProps {
   pagelink: string[];
   applogo: File | null;
   sendgridapi: string;
-  welfare_fee: number | string;
-  lifetime_fee: number | string;
-  annual_fee: number | string;
+  welfare_fee: string;
+  lifetime_fee: string;
+  annual_fee: string;
   secretaries: SecretaryData[];
 }
 
@@ -65,9 +65,9 @@ function Settings() {
     sendgridapi: Yup.string().required("Sendgrid API key is required.").trim(),
     pagelink: Yup.array().of(Yup.string()),
     applogo: Yup.mixed().required("Event image is required"),
-    welfare_fee: Yup.number(),
-    lifetime_fee: Yup.number(),
-    annual_fee: Yup.number(),
+    welfare_fee: Yup.string(),
+    lifetime_fee: Yup.string(),
+    annual_fee: Yup.string(),
     secretaries: Yup.array().of(
       Yup.object().shape({
         name: Yup.string().required("Secretary name is required"),
@@ -85,9 +85,9 @@ function Settings() {
     pagelink: [],
     applogo: null,
     sendgridapi: appData?.sendgridapi || "",
-    welfare_fee: appData?.welfare_fee || 0,
-    lifetime_fee: appData?.lifetime_fee || 0,
-    annual_fee: appData?.annual_fee || 0,
+    welfare_fee: appData?.welfare_fee || "",
+    lifetime_fee: appData?.lifetime_fee || "",
+    annual_fee: appData?.annual_fee || "",
     secretaries: appData?.secretaries || [],
   };
 
@@ -126,9 +126,9 @@ function Settings() {
       formData.append("whatsappapi", values.whatsappapi);
       formData.append("applogo", values.applogo as File);
       formData.append("sendgridapi", values.sendgridapi);
-      formData.append("welfare_fee", values.welfare_fee.toLocaleString());
-      formData.append("lifetime_fee", values.lifetime_fee.toLocaleString());
-      formData.append("annual_fee", values.annual_fee.toLocaleString());
+      formData.append("welfare_fee", values.welfare_fee);
+      formData.append("lifetime_fee", values.lifetime_fee);
+      formData.append("annual_fee", values.annual_fee);
 
       // Add secretaries data to form data as JSON string
       formData.append("secretaries", JSON.stringify(values.secretaries));

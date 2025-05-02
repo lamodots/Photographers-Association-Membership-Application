@@ -25,9 +25,9 @@ function Login() {
 
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (currentUser) navigate("/");
-  // }, [currentUser, navigate]);
+  useEffect(() => {
+    if (currentUser) navigate("/");
+  }, [currentUser, navigate]);
 
   const loginSchema = Yup.object().shape({
     email: Yup.string()

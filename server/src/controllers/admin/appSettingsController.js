@@ -13,7 +13,7 @@ const cloudinary = require("cloudinary").v2;
 
 /** APP SETTINGS CONTROLLER -  Adds app settings to database.**/
 async function appSettingsController(req, res, next) {
-  console.log(req.body);
+  console.log("APP FORM SETINGS DATA", req.body);
   const {
     appname,
     appname_acronym,
@@ -45,6 +45,7 @@ async function appSettingsController(req, res, next) {
   const parsedSecretaries = JSON.parse(secretaries);
   try {
     const appLogoImage = req.files.applogo;
+
     if (!appLogoImage.mimetype.startsWith("image")) {
       return next(
         new BadRequestError(

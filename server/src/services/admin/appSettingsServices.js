@@ -4,7 +4,6 @@ async function appSettingsServices(body) {
   try {
     const appSettings = await AppSettingModel.findOneAndUpdate({}, body, {
       upsert: true,
-      setDefaultsOnInsert: true,
     });
 
     return appSettings;

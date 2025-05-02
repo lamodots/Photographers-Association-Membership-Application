@@ -43,7 +43,7 @@ function Subscription() {
     useState(false);
   const [error, setError] = useState({ valueError: "" });
   const navigate = useNavigate();
-  console.log("app setttings", appData);
+
   useEffect(() => {
     if (!currentUser) {
       fetchCurrentUser(); // Ensure currentUser is always fetched
@@ -57,8 +57,6 @@ function Subscription() {
     setShowManualPaymentOnline(true);
     setShowManualPayment(false);
   };
-
-  console.log(membershipItem?.membershipType);
 
   // Check if membership payment should be shown
   const shouldShowMembershipPayment = () => {

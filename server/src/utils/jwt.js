@@ -40,14 +40,14 @@ function isTokenValid(token) {
 function attachCookiesToResponse(res, user) {
   const token = createJWT({ payload: user });
   const oneDay = 1000 * 60 * 60 * 24;
-
+  const isProduction = process.env.NODE_ENV === "production";
   // For cross-domain cookies in production, sameSite must be 'None' and secure must be true
   res.cookie("token", token, {
     httpOnly: true,
     maxAge: oneDay,
-    secure: true, // Must be true for SameSite=None
+    secure: isProduction, // Use secure only in production
     signed: true,
-    sameSite: "None", // Required for cross-domain cookies
+    sameSite: isProduction ? "None" : "Lax", // Use "Lax" in development
     path: "/", // Make available on all paths
     // Don't set domain - let the browser handle it based on the responder
   });

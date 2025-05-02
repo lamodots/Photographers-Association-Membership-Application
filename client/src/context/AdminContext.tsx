@@ -37,6 +37,7 @@ interface User {
   membershipType: string;
   isHonouraryMember: boolean;
   title: string;
+  familyMembers?: Array<any>;
 }
 
 interface Plan {
@@ -139,20 +140,14 @@ export const AuthContext = ({ children }: AuthContextProps) => {
       const res = await fetch(`${API_URL}/api/v1/secure/auth/logout`, {
         method: "GET",
         credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
       });
-      if (res.ok) {
-        setCurrentUser(null);
-        // Consider adding a redirect here if needed
-        window.location.href = "/login";
-      } else {
-        // Add error handling
-        console.error("Logout failed:", await res.text());
-      }
+      // Regardless of response, clear user state
+      setCurrentUser(null);
+      window.location.href = "/login";
     } catch (error) {
-      console.log(error);
+      console.error("Logout error:", error);
+      setCurrentUser(null);
+      window.location.href = "/login";
     }
   }
   return (
