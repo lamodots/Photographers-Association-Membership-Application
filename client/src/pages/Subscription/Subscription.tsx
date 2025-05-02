@@ -155,7 +155,6 @@ function Subscription() {
 
         const popup = new PaystackPop();
         popup.resumeTransaction(data.access_code);
-        console.log("POPUPSYATAUC:", popup.resumeTransaction(data.access_code));
 
         // navigate("/subscription/dues");
       } else {

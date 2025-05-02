@@ -33,14 +33,13 @@ interface User {
   emergencyContactInIndia: string;
   districtInIndia: string;
   addressInIndia: string;
-
   statesInIndia: string;
   familyInLagos: boolean;
   familyMembers: FamilyMember[];
   password?: string;
   confirmPassword?: string;
   memberId?: string;
-
+  profession: string;
   bloodgroup: string;
 }
 
@@ -56,7 +55,7 @@ interface ValidationErrors {
   email?: string;
   emergencyContactInIndia?: string;
   addressInIndia?: string;
-
+  profession?: string;
   statesInIndia?: string;
   password?: string;
   confirmPassword?: string;
@@ -349,7 +348,7 @@ function Profile() {
     password: "",
     confirmPassword: "",
     memberId: "",
-
+    profession: "",
     bloodgroup: "",
   });
 
@@ -617,6 +616,10 @@ function Profile() {
 
     if (!user.title) {
       errors.title = "Title is required";
+      isValid = false;
+    }
+    if (!user.profession) {
+      errors.title = "Profession is required";
       isValid = false;
     }
 
@@ -944,7 +947,26 @@ function Profile() {
                   </p>
                 )}
               </div>
-
+              <div className="mb-2">
+                <Lable label="Profession/Industry *" />
+                <input
+                  type="text"
+                  name="profession"
+                  value={user.profession}
+                  onChange={handleInputChange}
+                  placeholder="Location"
+                  className={`border ${
+                    validationErrors.profession
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  } rounded px-3 py-2 w-full`}
+                />
+                {validationErrors.profession && (
+                  <p className="text-red-500 text-sm">
+                    {validationErrors.profession}
+                  </p>
+                )}
+              </div>
               <div className="mb-2">
                 <Lable label="Date of Birth *" />
                 <input
@@ -1156,6 +1178,9 @@ function Profile() {
                 <span className=" capitalize"> {user.title}</span>{" "}
                 {user.firstname} {user.lastname}
               </h1>
+              <p className="text-gray-600">
+                Profession/Industry: {user.profession}
+              </p>
               <p className="text-gray-600">
                 Date of Birth: {new Date(user.Dob).toLocaleDateString()}
               </p>

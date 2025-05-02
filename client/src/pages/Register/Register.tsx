@@ -181,10 +181,10 @@ function Register() {
                     </span>
                   </div>
                   <div className="password flex flex-col gap-2  w-full">
-                    <Lable label="Password" />
+                    <Lable label="Create your new password" />
                     <TextInput
                       type="password"
-                      placeholderText="Enter your password"
+                      placeholderText="Type your new password"
                       name="password"
                       value={values.password}
                       handleInputChange={handleChange}
@@ -195,10 +195,10 @@ function Register() {
                     </span>
                   </div>
                   <div className="password flex flex-col gap-2  w-full">
-                    <Lable label="Confirm password" />
+                    <Lable label="Confirm your new password" />
                     <TextInput
                       type="password"
-                      placeholderText="Confirm password"
+                      placeholderText="Retype your new password"
                       name="confirmPassword"
                       value={values.confirmPassword}
                       handleInputChange={handleChange}

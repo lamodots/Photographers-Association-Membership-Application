@@ -116,7 +116,7 @@ function Login() {
                   <Lable label="Password" />
                   <TextInput
                     type="password"
-                    placeholderText="Enter your email"
+                    placeholderText="Enter your password"
                     name="password"
                     value={values.password}
                     handleInputChange={handleChange}

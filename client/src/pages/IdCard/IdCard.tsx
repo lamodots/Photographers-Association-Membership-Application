@@ -129,7 +129,7 @@ const IdCard = React.forwardRef<
           <div className="mb-3 mt-8">
             <h3 className="font-semibold mb-1">Contact Information:</h3>
             <div className="pl-2 text-xs">
-              <p className="mb-1">Phone:+2347060606060</p>
+              <p className="mb-1">Phone:+2348099862222</p>
               <p>Email:keralasamajamnigeria@gmail.com </p>
             </div>
           </div>
