@@ -20,6 +20,7 @@ const { attachCookiesToResponse } = require("../utils/jwt");
 const { string } = require("yup");
 const sendWhatsMessage = require("../utils/facebookMessage");
 const sendMailFunc = require("../utils/sendMailFunc");
+const { NONAME } = require("dns");
 // const { sendWhatsMessage } = require("../utils/facebookMessage");
 
 const fullUrl = process.env.PROTOCOL_HOST;
@@ -187,12 +188,15 @@ const completeOnboarding = async (req, res) => {
 
 // PROD user Logout
 const logOutUserController = async (req, res) => {
-  const isProduction = process.env.NODE_ENV === "production";
-  res.clearCookie("token", {
+  const isSecure =
+    process.env.NODE_ENV === "production" ||
+    process.env.FORCE_SECURE === "true";
+  res.cookie("token", "logout", {
     httpOnly: true,
-    secure: isProduction,
+    secure: isSecure,
     signed: true,
-    sameSite: isProduction ? "None" : "Lax",
+    expires: new Date(Date.now()),
+    sameSite: isSecure ? "None" : "Lax",
     path: "/",
   });
 

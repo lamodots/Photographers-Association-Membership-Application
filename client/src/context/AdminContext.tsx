@@ -135,12 +135,14 @@ export const AuthContext = ({ children }: AuthContextProps) => {
   //     console.log(error);
   //   }
   // }
+
   async function handleLogout() {
     try {
       const res = await fetch(`${API_URL}/api/v1/secure/auth/logout`, {
         method: "GET",
         credentials: "include",
       });
+
       // Regardless of response, clear user state
       setCurrentUser(null);
       window.location.href = "/login";
@@ -150,6 +152,7 @@ export const AuthContext = ({ children }: AuthContextProps) => {
       window.location.href = "/login";
     }
   }
+
   return (
     <CurrentUserContext.Provider
       value={{

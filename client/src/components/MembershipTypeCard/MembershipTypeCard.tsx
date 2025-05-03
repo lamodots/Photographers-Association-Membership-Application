@@ -1,6 +1,7 @@
 import { Handshake } from "lucide-react";
 import React from "react";
 import { monthdayyearFormater } from "../../util/monthdayyearFormater";
+import { Link } from "react-router-dom";
 
 interface MembershipTypeCardProps {
   cardTitle: string;
@@ -40,7 +41,9 @@ function MembershipTypeCard({
       </div>
       <div className="flex items-center justify-between">
         {status !== "active" ? (
-          <p className="text-red-400">Requires payment </p>
+          <p className="text-red-400">
+            <Link to="/subscription">Requires payment</Link>
+          </p>
         ) : (
           status
         )}

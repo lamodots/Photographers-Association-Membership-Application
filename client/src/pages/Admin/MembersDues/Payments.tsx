@@ -86,7 +86,7 @@ function Payments() {
     fetchPaystackPayments();
   }, []);
 
-  console.log(transactions);
+  console.log("PAYSTACK TRANSACTIONS", transactions);
   return (
     <div>
       <h1 className="text-2xl text-zinc-800 font-medium mb-6">

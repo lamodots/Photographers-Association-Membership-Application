@@ -10,7 +10,6 @@ interface AdvertismentProps {
 function Advertisment() {
   const { loading, ads } = useAds();
   const advertisment = ads[0];
-  console.log(advertisment);
 
   return (
     <div className="ads my-10 w-full max-w-[1100px] mx-auto overflow-hidden">

@@ -16,7 +16,7 @@ function Popup({ className, handlShowPopup }: PopupProp) {
 
   const handleClick = async () => {
     await handleLogout();
-    navigate("/secure/login");
+    // navigate("/secure/login");
   };
 
   return (
