@@ -1,6 +1,7 @@
 require("./cron-jobs/membershipStatusCron");
 require("./cron-jobs/welfareStatusCron");
 const express = require("express");
+const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const path = require("path");
@@ -52,6 +53,7 @@ app.disable("etag");
 //   ],
 //   credentials: true,
 // };
+
 const corsOptions = {
   origin: [
     "http://localhost:3000",
@@ -63,6 +65,7 @@ const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
+app.use(helmet());
 app.use(cors(corsOptions));
 app.use(
   express.static(
