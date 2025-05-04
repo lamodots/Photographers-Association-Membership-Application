@@ -49,7 +49,7 @@ function attachCookiesToResponse(res, user) {
     expires: new Date(Date.now() + oneDay),
     secure: process.env.NODE_ENV === "production",
     signed: true,
-    sameSite: "lax",
+    sameSite: "None",
     path: "/",
     // sameSite: "Strict", // use locally
     // domain: ".membersng.com",
