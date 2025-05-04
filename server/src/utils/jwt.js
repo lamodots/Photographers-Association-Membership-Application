@@ -14,6 +14,29 @@ function isTokenValid(token) {
   return jwt.verify(token, process.env.JWT_SECRET);
 }
 
+// function attachCookiesToResponse(res, user) {
+//   // Generate access and refresh tokens
+//   const token = createJWT({ payload: user });
+
+//   // const oneDay = 1000 * 60 * 60 * 24;
+//   const oneDay = 1000 * 60 * 60 * 24;
+
+//   // Determine if we're in a cross-site context
+//   const isSecure =
+//     process.env.NODE_ENV === "production" ||
+//     process.env.FORCE_SECURE === "true";
+//   res.cookie("token", token, {
+//     httpOnly: true,
+//     expires: new Date(Date.now() + oneDay),
+//     secure: isSecure,
+//     signed: true,
+//     sameSite: isSecure ? "None" : "Lax",
+//     path: "/",
+//     // sameSite: "Strict", // use locally
+//   });
+// }
+
+// PRODUCTION READY
 function attachCookiesToResponse(res, user) {
   // Generate access and refresh tokens
   const token = createJWT({ payload: user });
@@ -21,18 +44,15 @@ function attachCookiesToResponse(res, user) {
   // const oneDay = 1000 * 60 * 60 * 24;
   const oneDay = 1000 * 60 * 60 * 24;
 
-  // Determine if we're in a cross-site context
-  const isSecure =
-    process.env.NODE_ENV === "production" ||
-    process.env.FORCE_SECURE === "true";
   res.cookie("token", token, {
     httpOnly: true,
     expires: new Date(Date.now() + oneDay),
-    secure: isSecure,
+    secure: true,
     signed: true,
-    sameSite: isSecure ? "None" : "Lax",
+    sameSite: "None",
     path: "/",
     // sameSite: "Strict", // use locally
+    // domain: ".membersng.com",
   });
 }
 /**PROD */
