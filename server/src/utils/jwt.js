@@ -47,12 +47,12 @@ function attachCookiesToResponse(res, user) {
   res.cookie("token", token, {
     httpOnly: true,
     expires: new Date(Date.now() + oneDay),
-    secure: true,
+    secure: process.env.NODE_ENV === "production",
     signed: true,
-    sameSite: "None",
+    sameSite: "lax",
     path: "/",
     // sameSite: "Strict", // use locally
-    domain: ".membersng.com",
+    // domain: ".membersng.com",
   });
 }
 /**PROD */
