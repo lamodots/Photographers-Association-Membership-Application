@@ -52,7 +52,7 @@ function attachCookiesToResponse(res, user) {
     sameSite: "None",
     path: "/",
     // sameSite: "Strict", // use locally
-    // domain: ".membersng.com",
+    domain: ".membersng.com",
   });
 }
 /**PROD */
