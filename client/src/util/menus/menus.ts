@@ -56,6 +56,12 @@ export const userDashboardMenus: userRoutes[] = [
     path: "id_card",
     menuIcon: "IdCard",
   },
+  {
+    key: "donate",
+    label: "Donate",
+    path: "donate",
+    menuIcon: "HandHeart",
+  },
   // {
   //   key: "settings",
   //   label: "Settings",
