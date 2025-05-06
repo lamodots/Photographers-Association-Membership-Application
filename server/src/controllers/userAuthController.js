@@ -144,7 +144,7 @@ const loginUserController = async (req, res, next) => {
 // Onboarding logic
 const completeOnboarding = async (req, res) => {
   const email = req.params.email;
-  console.log(email);
+
   // Extract user data from the request body
   const userData = req.body;
   // Parse familyMembers if it's a JSON string
@@ -154,7 +154,7 @@ const completeOnboarding = async (req, res) => {
   try {
     // Call the onboarding service to complete the onboarding process
     const user = await completeOnboardingService(email, userData);
-    console.log("CHECKING WHATSAPP", user);
+
     await sendWhatsMessage(user.whatsappId, user.firstname, user.memberId);
     // Return the updated user data in the response
     return res.status(200).json({

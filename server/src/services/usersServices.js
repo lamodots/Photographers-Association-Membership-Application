@@ -11,7 +11,7 @@ const {
   sendResetPassswordEmailTemplate,
   uploadImageToCloudinary,
 } = require("../utils");
-const membershipID = require("../utils/generateUniqueMembershipId");
+const generateMembershipID = require("../utils/generateUniqueMembershipId");
 const sanitizeInput = require("../utils/sanitizeInput");
 
 async function getAllUsersService() {
@@ -215,6 +215,7 @@ const completeOnboardingService = async (email, userData) => {
 
   // Process the user data (e.g., save to database)
   try {
+    const membershipID = generateMembershipID();
     const updatedUser = await User.findOneAndUpdate(
       { email },
       { ...sanitizedData, memberId: membershipID },

@@ -51,14 +51,15 @@ function Login() {
     try {
       const res = await fetch(`${API_URL}/api/v1/users/auth/login`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+
         body: JSON.stringify({
           email: values.email,
           password: values.password,
         }),
         credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
       const { msg, message, user } = await res.json();
