@@ -38,7 +38,7 @@ const IdCard = React.forwardRef<
     >
       {/* // FRONT OF ID CARD */}
 
-      <div className="w-64 h-96 rounded-lg overflow-hidden shadow-lg relative">
+      <div className="w-[420px] h-[640px] rounded-lg overflow-hidden shadow-lg relative">
         {/* Background image */}
         <div className="absolute inset-0">
           <div className="h-full w-full">
@@ -55,17 +55,23 @@ const IdCard = React.forwardRef<
           {/* Header with logo */}
           <div className="flex justify-between items-center w-full">
             {/* <div className="flex-1"></div> */}
-            <div className="flex-1 text-center font-bold text-black text-[10px] pt-8 ">
-              <p className="text-center">KERALA SAMAJAM NIGERIA</p>
+            <div className="flex-1 text-center font-bold text-black  pt-16 ">
+              <span className="text-[24px]">
+                {props.member.memberId}
+                {props.familyInLagos && props.memberId}
+              </span>
+              <p className="text-center text-[24px] text-orange-600">
+                KERALA SAMAJAM NIGERIA
+              </p>
             </div>
             <div className=" flex justify-end">
-              <img src="./id-logo.png" className="w-12 absolute top-4" />
+              <img src="./id-logo.png" className="w-16 absolute top-12" />
             </div>
           </div>
 
           {/* Photo placeholder */}
-          <div className="mt-2 w-32 h-28 bg-white border border-gray-300 overflow-hidden">
-            <div className="w-full h-full flex items-center justify-center text-gray-500 border-l-4 border-l-orange-500">
+          <div className="mt-2 w-[160px] h-[206px] bg-white border border-gray-300 overflow-hidden">
+            <div className="w-full h-full flex items-center justify-center text-gray-500">
               <img
                 src={props.member.image}
                 alt="User"
@@ -74,33 +80,39 @@ const IdCard = React.forwardRef<
             </div>
           </div>
           {/* Malayalam text */}
-          <div className="mt-2 text-blue-900 font-bold text-sm">
+          <div className="mt-2 text-blue-900 font-bold text-2xl">
             കേരള സമാജം നൈജീരിയ
           </div>
           {/* ID information */}
-          <div className="mt-1 w-full text-left text-[10px]">
-            <div className="flex mb-1">
+          <div className="mt-4 w-full text-left text-[14px]">
+            {/* <div className="flex gap-10 mb-1">
               <span className="font-semibold w-36">ID Number:</span>
               <span className="text-[9px]">
                 {props.member.memberId}
                 {props.familyInLagos && props.memberId}
               </span>
-            </div>
-            <div className="flex mb-1">
-              <span className="font-semibold w-36">Name:</span>
-              <span className="text-[9px]">
+            </div> */}
+            <div className="text-center mb-1">
+              {/* <span className="font-semibold w-36">Name:</span> */}
+              <span className="text-[24px] font-bold">
+                {props.member.title}{" "}
                 {props.member.firstName || props.member.firstname}{" "}
                 {props.member.lastName || props.member.lastname}
               </span>
             </div>
-            <div className="flex mb-1">
-              <span className="font-semibold w-36">Membership Category:</span>
-              <span className="text-[9px]">
-                {props.membership.membershipType}
+            <div className="flex justify-center mb-1">
+              {/* <span className="font-semibold w-36">Membership Category:</span> */}
+              <span className="text-[14px] font-bold">
+                {props.membership.membershipType.split("s")[0]}
               </span>
             </div>
-            <div className="flex mb-1">
-              <span className="font-semibold w-36">Validity Period:</span>
+            <div className="flex justify-center gap-1 mb-1">
+              <span>Area:</span>
+
+              <span className="text-center">{props.member.location}</span>
+            </div>
+            <div className="relative left-[150px] -bottom-8">
+              <span className="text-[9px] w-36">Valid till:</span>{" "}
               <span className="text-[9px]">
                 {monthdayyearFormater(props.membership.expiryDate)}
               </span>
@@ -108,7 +120,7 @@ const IdCard = React.forwardRef<
           </div>
 
           {/* 25 Years badge */}
-          <div className="relative -left-[84px] -bottom-1 ">
+          <div className="relative left-[160px] -bottom-2 ">
             <div className="w-16 h-16">
               <img
                 src="/25-yrs.png"
@@ -121,7 +133,7 @@ const IdCard = React.forwardRef<
       </div>
 
       {/* NEW ID BACK */}
-      <div className="w-64 h-96 rounded-lg overflow-hidden shadow-lg relative">
+      <div className="w-[420px] h-[640px] rounded-lg overflow-hidden shadow-lg relative">
         {/* Background image */}
         <div className="absolute inset-0">
           <div className="h-full w-full">
@@ -137,17 +149,21 @@ const IdCard = React.forwardRef<
         <div className="relative z-10 flex flex-col items-center p-3">
           {/* Header with logo */}
           <div className="flex justify-between items-center w-full">
-            <div className="mb-3 mt-8">
-              <h3 className="font-semibold mb-1">Contact Information:</h3>
-              <div className="pl-2 text-xs">
+            <div className="mb-3 mt-24">
+              <h3 className="font-semibold mb-1 text-2xl">
+                Contact Information:
+              </h3>
+              <div className="pl-2 text-base">
                 <p className="mb-1">Phone:+2348099862222</p>
-                <p>Email:keralasamajamnigeria@gmail.com </p>
+                <p>Email: keralasamajamnigeria@gmail.com </p>
               </div>
             </div>
           </div>
           <div className="mt-2 w-full">
-            <h3 className="font-semibold text-xs mb-1">Terms & Conditions:</h3>
-            <ol className="text-xs pl-5 list-decimal">
+            <h3 className="font-semibold text-[18px] mb-1">
+              Terms & Conditions:
+            </h3>
+            <ol className="text-base pl-5 list-decimal">
               <li className="mb-1">
                 This card remains the property of Kerala Samajam Nigeria.
               </li>
@@ -158,12 +174,12 @@ const IdCard = React.forwardRef<
             </ol>
           </div>
           {/* Footer */}
-          <div className="absolute -bottom-10 text-center w-full">
+          <div className="absolute -bottom-20 text-center w-full">
             <div className=" flex justify-center">
-              <img src="./id-logo.png" className="w-12 absolute top-10" />
+              <img src="./id-logo.png" className="w-24 absolute top-20" />
             </div>
-            <p className="text-xs font-semibold">Kerala Samajam Nigeria</p>
-            <p className="text-xs">www.keralasamajamnigeria.org</p>
+            <p className="text-[18px] font-semibold">Kerala Samajam Nigeria</p>
+            <p className="text-base">www.keralasamajamnigeria.org</p>
           </div>
         </div>
       </div>
@@ -284,6 +300,7 @@ const IdCardComponent: React.FC<{
         allowTaint: true,
         backgroundColor: "white",
         logging: false,
+        imageTimeout: 0,
       });
 
       const imgData = canvas.toDataURL("image/jpeg", 1.0);
@@ -292,7 +309,7 @@ const IdCardComponent: React.FC<{
       const pdf = new jsPDF({
         orientation: "landscape",
         unit: "mm",
-        format: "a4",
+        format: "a2",
       });
 
       const imgWidth = 210; // A4 width in mm

@@ -102,3 +102,10 @@ code {
 .swiper-slide {
   height: 20px;
 }
+
+@media print {
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}

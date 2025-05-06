@@ -128,6 +128,7 @@ const MyDues = lazy(() => import("./pages/Subscription/MyDues"));
 const Events = lazy(() => import("./pages/Events/Events"));
 const Certificate = lazy(() => import("./pages/Certificate/Certificate"));
 const IdCard = lazy(() => import("./pages/IdCard/IdCard"));
+const Donate = lazy(() => import("./pages/Donate/Donate"));
 const Settings = lazy(() => import("./pages/Settings/Settings"));
 const Announcement = lazy(() => import("./pages/Announcement/Announcement"));
 const AnnouncementDetails = lazy(
@@ -187,6 +188,7 @@ root.render(
                 <Route path="events" element={<Events />} />
                 {/* <Route path="certificate" element={<Certificate />} /> */}
                 <Route path="id_card" element={<IdCard />} />
+                <Route path="donate" element={<Donate />} />
                 <Route path="settings" element={<Settings />} />
                 <Route path="announcement" element={<Announcement />} />
                 <Route
