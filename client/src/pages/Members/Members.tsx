@@ -32,6 +32,7 @@ interface UserProps {
   memberId: string;
   aboutuser: string;
   social: SocialLink[];
+  title: string;
   interest: Interest;
 }
 function Members() {
@@ -161,9 +162,8 @@ function Members() {
                 state={user}
               >
                 <NewMemberCard
-                  name={user.firstname}
+                  name={user.title + " " + user.firstname + " " + user.lastname}
                   image={user.image}
-                  email={user.email}
                 />
               </Link>
             ))}

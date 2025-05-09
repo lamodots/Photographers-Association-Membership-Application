@@ -66,8 +66,6 @@ const uploadImageToCloudinary = async (file, folderName) => {
       public_id: dynamicFilename,
     });
 
-    console.log("Uploaded Image URL:", result.secure_url);
-
     // Delete temporary file
     fs.unlinkSync(file.tempFilePath);
     return result.secure_url;

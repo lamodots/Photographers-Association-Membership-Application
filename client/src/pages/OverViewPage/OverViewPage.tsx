@@ -50,7 +50,7 @@ interface UserProps {
   social: SocialLink[];
   interest: Interest;
   createdAt: string;
-
+  title: string;
   membershipType: string;
   isHonouraryMember: boolean;
 }
@@ -273,7 +273,13 @@ function OverViewPage() {
                       >
                         <NewMemberCard
                           image={user.image}
-                          name={user.firstname + " " + user.lastname}
+                          name={
+                            user.title +
+                            " " +
+                            user.firstname +
+                            " " +
+                            user.lastname
+                          }
                           date={
                             "Joined" +
                             " " +

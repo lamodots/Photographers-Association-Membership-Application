@@ -192,7 +192,7 @@ function Members() {
           <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gray-200" />
 
           <NavLink
-            to="/secure/members/members-register" // Update to your actual path
+            to="/secure/members-register" // Update to your actual path
             className={({ isActive }) =>
               `relative h-full flex items-center px-1 transition-colors duration-200 group ${
                 isActive ? "text-blue-700" : "text-gray-500 hover:text-blue-700"
@@ -207,7 +207,7 @@ function Members() {
           </NavLink>
 
           <NavLink
-            to="/secure/members/honorary-members" // Update to your actual path
+            to="/secure/honorary-members" // Update to your actual path
             className={({ isActive }) =>
               `relative h-full flex items-center px-1 transition-colors duration-200 group ${
                 isActive ? "text-blue-700" : "text-gray-500 hover:text-blue-700"

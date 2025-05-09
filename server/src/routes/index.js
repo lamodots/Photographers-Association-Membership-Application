@@ -9,6 +9,7 @@ const usersRoutes = require("./shared/userRoutes");
 const usersAuthRoutes = require("./userAuth");
 const userDuesRoutes = require("./userDues");
 const overviewRoutes = require("./admin/overviewRoutes");
+const memberRegisterRoutes = require("./admin/adminMemberRegisterRoutes");
 const userProfileRoute = require("./userProfile");
 
 module.exports = {
@@ -23,5 +24,6 @@ module.exports = {
   usersAuthRoutes,
   userDuesRoutes,
   overviewRoutes,
+  memberRegisterRoutes,
   userProfileRoute,
 };

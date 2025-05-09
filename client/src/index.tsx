@@ -48,7 +48,9 @@ const AdminMembers = lazy(() => import("./pages/Admin/Members/Members"));
 const AdminCreateMember = lazy(
   () => import("./pages/Admin/Members/CreateNewMember")
 );
-
+const AdminMemberRegisterList = lazy(
+  () => import("./pages/Admin/Members/MembersRegister")
+);
 const AdminMembersDetails = lazy(
   () => import("./pages/Admin/Members/AdminMembersDetails")
 );
@@ -226,6 +228,10 @@ root.render(
               <Route index element={<AdminOverViewPage />} />
               <Route path="content" element={<Content />} />
               <Route path="members" element={<AdminMembers />} />
+              <Route
+                path="members-register"
+                element={<AdminMemberRegisterList />}
+              />
               <Route path="members/create" element={<AdminCreateMember />} />
               <Route
                 path="members/details/:memberId"

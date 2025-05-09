@@ -25,6 +25,7 @@ const {
   userDuesRoutes,
   overviewRoutes,
   userProfileRoute,
+  memberRegisterRoutes,
 } = require("./routes");
 const { MembershipDues, WelfareDues } = require("./models");
 // const { getExpiryDate } = require("./utils/getExpiryDate");
@@ -101,6 +102,7 @@ app.use("/api/v1/users/profile", userProfileRoute);
 app.use("/api/v1/users/membershipdues", userDuesRoutes);
 app.use("/api/v1/secure/overview", overviewRoutes);
 app.use("/api/v1/secure/advertisment", adsRoute);
+app.use("/api/v1/secure/records", memberRegisterRoutes);
 
 //MEMBERSHIPD DUES
 app.post("/api/v1/secure/payments", async (req, res, next) => {

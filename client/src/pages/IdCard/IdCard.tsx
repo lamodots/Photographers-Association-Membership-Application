@@ -22,6 +22,7 @@ const IdCard = React.forwardRef<
     membership: any;
     memberId?: any;
     familyInLagos?: boolean;
+    welfare?: any;
   }
 >((props, ref) => {
   console.log(props);
@@ -33,6 +34,7 @@ const IdCard = React.forwardRef<
         backgroundColor: "#f5f7fa",
         display: "flex",
         alignItems: "center",
+        flexDirection: "column",
         gap: "16px",
       }}
     >
@@ -114,7 +116,8 @@ const IdCard = React.forwardRef<
             <div className="relative left-[150px] -bottom-8">
               <span className="text-[9px] w-36">Valid till:</span>{" "}
               <span className="text-[9px]">
-                {monthdayyearFormater(props.membership.expiryDate)}
+                {/* {monthdayyearFormater(props.membership.expiryDate)} */}
+                {monthdayyearFormater(props.welfare.expiryDate)}
               </span>
             </div>
           </div>
@@ -131,7 +134,6 @@ const IdCard = React.forwardRef<
           </div>
         </div>
       </div>
-
       {/* NEW ID BACK */}
       <div className="w-[420px] h-[640px] rounded-lg overflow-hidden shadow-lg relative">
         {/* Background image */}
@@ -307,9 +309,9 @@ const IdCardComponent: React.FC<{
 
       // Create PDF (A4 size)
       const pdf = new jsPDF({
-        orientation: "landscape",
+        orientation: "portrait",
         unit: "mm",
-        format: "a2",
+        format: "a1",
       });
 
       const imgWidth = 210; // A4 width in mm
@@ -375,6 +377,7 @@ const IdCardComponent: React.FC<{
             member={member}
             logo={appData?.applogo}
             membership={membershipItem}
+            welfare={welfareItem}
             memberId={memberId}
             familyInLagos={familyInLagos}
           />

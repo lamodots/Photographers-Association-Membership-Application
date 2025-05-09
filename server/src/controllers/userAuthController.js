@@ -97,6 +97,11 @@ const resendVerificationEmailController = async (req, res, next) => {
   }
 
   try {
+    if (newUser.verificationToken === " ") {
+      return next(
+        new BadRequestError("User Already verified , Proceed to login")
+      );
+    }
     const verifyTemplate = verifyUserEmailTemplate(
       fullUrl,
       newUser.email,

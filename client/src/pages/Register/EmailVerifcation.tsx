@@ -18,7 +18,7 @@ function EmailVerifcation() {
     // Ensure both token and email exist before making the API call
     if (!token || !email) {
       // Changed to "||" to check if either is missing
-      setError("Both token and email are required for verification.");
+      setError("Seems you already verified, try logging in");
       return;
     }
 

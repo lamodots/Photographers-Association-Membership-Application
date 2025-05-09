@@ -218,7 +218,7 @@ const completeOnboardingService = async (email, userData) => {
     const membershipID = generateMembershipID();
     const updatedUser = await User.findOneAndUpdate(
       { email },
-      { ...sanitizedData, memberId: membershipID },
+      { ...sanitizedData, memberId: membershipID, isOnboarded: true },
       {
         new: true,
       }
@@ -226,8 +226,8 @@ const completeOnboardingService = async (email, userData) => {
     if (!updatedUser) {
       throw new Error("User not found.");
     }
-    updatedUser.isOnboarded = true;
-    await updatedUser.save();
+    // updatedUser.isOnboarded = true;
+    // await updatedUser.save();
     return updatedUser;
   } catch (error) {
     throw new Error("Error completing onboarding process: " + error.message);
