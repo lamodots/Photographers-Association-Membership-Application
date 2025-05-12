@@ -613,7 +613,7 @@ const MembersRegister = () => {
     null
   );
   const [loading, setLoading] = useState<boolean>(false);
-
+  console.log(members);
   const getAllUsers = async () => {
     setLoading(true);
     try {
@@ -669,12 +669,13 @@ const MembersRegister = () => {
     // Filter by search term
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
-      result = result.filter(
-        (member) =>
-          member.location?.toLowerCase().includes(term) ||
-          member.fullName.toLowerCase().includes(term) ||
-          member.memberId.toLowerCase().includes(term)
-      );
+      result =
+        result.filter(
+          (member) =>
+            member.location?.toLowerCase().includes(term) ||
+            member.fullName?.toLowerCase().includes(term) ||
+            member.memberId?.toLowerCase().includes(term)
+        ) || [];
     }
 
     // Filter by year

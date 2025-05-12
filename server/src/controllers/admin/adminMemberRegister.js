@@ -13,7 +13,7 @@ const getAllUsers = async (req, res) => {
   try {
     // Pagination parameters
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    const limit = parseInt(req.query.limit) || 10000;
     const skip = (page - 1) * limit;
 
     // Filter parameters
@@ -258,12 +258,98 @@ const getAllUsers = async (req, res) => {
   }
 };
 
+// EXPORT DATA (When you are not intresreted in a nested data)
+// const exportUsersController = async (req, res) => {
+//   try {
+//     // Step 1: Fetch data from MongoDB
+//     const data = await User.find();
+
+//     // Step 2: Convert data to CSV
+//     const fields = [
+//       "firstname",
+//       "lastname",
+//       "memberId",
+//       "location",
+//       "whatsappId",
+//       "email",
+//     ];
+//     const parser = new Parser({ fields });
+//     const csv = parser.parse(data);
+
+//     // Step 3: Save CSV to a temporary file
+//     const filePath = path.join(__dirname, "data.csv");
+//     fs.writeFileSync(filePath, csv);
+
+//     // Step 4: Upload the file to Cloudinary
+//     const uploadResult = await cloudinary.uploader.upload(filePath, {
+//       resource_type: "raw", // Ensure Cloudinary treats it as a raw file
+//       public_id: "data", // Optional: Set a custom public ID
+//       folder: "lasppan-folder/exported-data",
+//     });
+
+//     // Step 5: Delete the temporary file
+//     fs.unlinkSync(filePath);
+
+//     // Step 6: Send the Cloudinary URL back to the client
+//     res.json({ fileUrl: uploadResult.secure_url });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send("Error generating or uploading file");
+//   }
+// };
+
 const exportUsersController = async (req, res) => {
   try {
     // Step 1: Fetch data from MongoDB
-    const data = await User.find();
+    const users = await User.find();
 
-    // Step 2: Convert data to CSV
+    // Step 2: Transform the data to flatten familyMembers
+    const flattenedData = users.map((user) => {
+      // Create the base user object without familyMembers
+      const baseUser = {
+        firstname: user.firstname,
+        lastname: user.lastname,
+        memberId: user.memberId,
+        location: user.location,
+        whatsappId: user.whatsappId,
+        email: user.email,
+        // Add empty values for family member fields as defaults
+        familyMember1_firstName: "",
+        familyMember1_lastName: "",
+        familyMember1_whatsappId: "",
+        familyMember1_relationship: "",
+        familyMember2_firstName: "",
+        familyMember2_lastName: "",
+        familyMember2_whatsappId: "",
+        familyMember2_relationship: "",
+        familyMember3_firstName: "",
+        familyMember3_lastName: "",
+        familyMember3_whatsappId: "",
+        familyMember3_relationship: "",
+      };
+
+      // If user has familyMembers, add them to the flattened object
+      if (user.familyMembers && user.familyMembers.length > 0) {
+        user.familyMembers.forEach((member, index) => {
+          // Only process up to 3 family members (you can adjust this number)
+          if (index < 3) {
+            const memberNum = index + 1;
+            baseUser[`familyMember${memberNum}_firstName`] =
+              member.firstName || "";
+            baseUser[`familyMember${memberNum}_lastName`] =
+              member.lastName || "";
+            baseUser[`familyMember${memberNum}_whatsappId`] =
+              member.whatsappId || "";
+            baseUser[`familyMember${memberNum}_relationship`] =
+              member.relationship || "";
+          }
+        });
+      }
+
+      return baseUser;
+    });
+
+    // Step 3: Define the CSV fields with the flattened structure
     const fields = [
       "firstname",
       "lastname",
@@ -271,25 +357,39 @@ const exportUsersController = async (req, res) => {
       "location",
       "whatsappId",
       "email",
+      "familyMember1_firstName",
+      "familyMember1_lastName",
+      "familyMember1_whatsappId",
+      "familyMember1_relationship",
+      "familyMember2_firstName",
+      "familyMember2_lastName",
+      "familyMember2_whatsappId",
+      "familyMember2_relationship",
+      "familyMember3_firstName",
+      "familyMember3_lastName",
+      "familyMember3_whatsappId",
+      "familyMember3_relationship",
     ];
-    const parser = new Parser({ fields });
-    const csv = parser.parse(data);
 
-    // Step 3: Save CSV to a temporary file
+    // Step 4: Convert flattened data to CSV
+    const parser = new Parser({ fields });
+    const csv = parser.parse(flattenedData);
+
+    // Step 5: Save CSV to a temporary file
     const filePath = path.join(__dirname, "data.csv");
     fs.writeFileSync(filePath, csv);
 
-    // Step 4: Upload the file to Cloudinary
+    // Step 6: Upload the file to Cloudinary
     const uploadResult = await cloudinary.uploader.upload(filePath, {
       resource_type: "raw", // Ensure Cloudinary treats it as a raw file
       public_id: "data", // Optional: Set a custom public ID
       folder: "lasppan-folder/exported-data",
     });
 
-    // Step 5: Delete the temporary file
+    // Step 7: Delete the temporary file
     fs.unlinkSync(filePath);
 
-    // Step 6: Send the Cloudinary URL back to the client
+    // Step 8: Send the Cloudinary URL back to the client
     res.json({ fileUrl: uploadResult.secure_url });
   } catch (error) {
     console.error(error);
