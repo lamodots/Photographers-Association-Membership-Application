@@ -50,6 +50,8 @@ interface OverviewStats {
   maleUsers: number;
   femaleUsers: number;
   totalMembers: number;
+  totalFamilyMembers: number;
+  totalUsersWithFamily: number;
 }
 
 function OverViewPage() {
@@ -158,6 +160,7 @@ function OverViewPage() {
                 <MemberStats
                   title="Total Members"
                   stats={overviewData?.totalMembers.toLocaleString()}
+                  familyStatus={overviewData?.totalFamilyMembers.toLocaleString()}
                 />
                 <MemberStats
                   title="Welfare Transactions"

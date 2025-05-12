@@ -8,15 +8,15 @@ function Chart({ male, female }: ChatData) {
   const data = {
     datasets: [
       {
-        backgroundColor: ["rgb(255,174,128)", "#CFDAE8"],
+        backgroundColor: ["rgb(255,174,128)", "purple"],
 
-        data: [female, male],
-        weight: 40,
+        data: [male, female],
+        weight: 20,
       },
     ],
 
     // These labels appear in the legend and in the tooltips when hovering different arcs
-    labels: [],
+    labels: ["Male", "Female"],
   };
 
   const options = { radius: "80%" };
@@ -26,10 +26,10 @@ function Chart({ male, female }: ChatData) {
       <h3 className="text-xs uppercase text-center text-[#1A4F83] font-bold">
         MEMBER DEMOGRAPHY
       </h3>
-      <p className="text-xs  text-center text-[#1A4F83] mt-2 ">
+      {/* <p className="text-xs  text-center text-[#1A4F83] mt-2 ">
         <span className="text-[#FFAE80] font-bold text-[18px]">Male</span> /
         Female
-      </p>
+      </p> */}
       <div className="flex justify-center mt-10 w-full">
         {/* <img src={chart} /> */}
         <Doughnut options={options} data={data} />

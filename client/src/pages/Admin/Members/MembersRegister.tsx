@@ -659,7 +659,7 @@ const MembersRegister = () => {
     return yearsInNigeria;
   };
 
-  const itemsPerPage = 5;
+  const itemsPerPage = 20;
 
   // Filter members based on search term and selected year
   useEffect(() => {
@@ -992,31 +992,40 @@ const MembersRegister = () => {
           )}
 
           {/* Pagination */}
+          {/* Pagination */}
           {!loading && (
             <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
               <div className="flex-1 flex justify-between sm:hidden">
-                <button
-                  onClick={prevPage}
-                  disabled={currentPage === 1}
-                  className={`relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
-                    currentPage === 1
-                      ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                      : "bg-white text-gray-700 hover:bg-gray-50"
-                  }`}
-                >
-                  Previous
-                </button>
-                <button
-                  onClick={nextPage}
-                  disabled={currentPage === totalPages || totalPages === 0}
-                  className={`ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
-                    currentPage === totalPages || totalPages === 0
-                      ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                      : "bg-white text-gray-700 hover:bg-gray-50"
-                  }`}
-                >
-                  Next
-                </button>
+                <div className="text-sm text-gray-700">
+                  Showing{" "}
+                  {filteredMembers.length > 0 ? indexOfFirstItem + 1 : 0} to{" "}
+                  {Math.min(indexOfLastItem, filteredMembers.length)} of{" "}
+                  {filteredMembers.length} results
+                </div>
+                <div>
+                  <button
+                    onClick={prevPage}
+                    disabled={currentPage === 1}
+                    className={`relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
+                      currentPage === 1
+                        ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                        : "bg-white text-gray-700 hover:bg-gray-50"
+                    }`}
+                  >
+                    Previous
+                  </button>
+                  <button
+                    onClick={nextPage}
+                    disabled={currentPage === totalPages || totalPages === 0}
+                    className={`ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
+                      currentPage === totalPages || totalPages === 0
+                        ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                        : "bg-white text-gray-700 hover:bg-gray-50"
+                    }`}
+                  >
+                    Next
+                  </button>
+                </div>
               </div>
               <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
                 <div>
@@ -1053,21 +1062,6 @@ const MembersRegister = () => {
                       <span className="sr-only">Previous</span>
                       <ChevronLeft className="h-5 w-5" />
                     </button>
-
-                    {/* Page Numbers */}
-                    {[...Array(totalPages)].map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => paginate(index + 1)}
-                        className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
-                          currentPage === index + 1
-                            ? "z-10 bg-blue-50 border-blue-500 text-blue-600"
-                            : "bg-white border-gray-300 text-gray-500 hover:bg-gray-50"
-                        }`}
-                      >
-                        {index + 1}
-                      </button>
-                    ))}
 
                     <button
                       onClick={nextPage}
