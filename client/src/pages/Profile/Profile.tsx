@@ -4,6 +4,7 @@ import { useCurrentUser } from "../../context/AdminContext";
 import toast from "react-hot-toast";
 import Lable from "../../components/Lable/Lable";
 import avatar from "../../assets/avatar_default.png";
+import useFetchAppData from "../../hooks/useFetchAppData";
 // Define interfaces for FamilyMember and User
 interface FamilyMember {
   firstName: string;
@@ -327,6 +328,12 @@ const API_URL = process.env.REACT_APP_CLIENT_URL;
 
 function Profile() {
   const { currentUser } = useCurrentUser();
+  const { appData } = useFetchAppData();
+  console.log();
+  // Fetch Location from Database
+  const area = appData?.secretaries.map((v, i) => (
+    <option key={i}>{v.area}</option>
+  ));
   // Initialize user state with a default structure to avoid undefined errors
   const [user, setUser] = useState<User>({
     _id: "",
@@ -954,7 +961,7 @@ function Profile() {
                   name="profession"
                   value={user.profession}
                   onChange={handleInputChange}
-                  placeholder="Location"
+                  placeholder="What you do for a living"
                   className={`border ${
                     validationErrors.profession
                       ? "border-red-500"
@@ -985,7 +992,7 @@ function Profile() {
 
               <div className="mb-2">
                 <Lable label="Location *" />
-                <input
+                {/* <input
                   type="text"
                   name="location"
                   value={user.location}
@@ -996,7 +1003,20 @@ function Profile() {
                       ? "border-red-500"
                       : "border-gray-300"
                   } rounded px-3 py-2 w-full`}
-                />
+                /> */}
+                <select
+                  name="location"
+                  value={user.location}
+                  onChange={handleInputChange}
+                  className={`border ${
+                    validationErrors.location
+                      ? "border-red-500"
+                      : "border-gray-300"
+                  } rounded px-3 py-2 w-full`}
+                >
+                  <option>Select your Area</option>
+                  {area}
+                </select>
                 {validationErrors.location && (
                   <p className="text-red-500 text-sm">
                     {validationErrors.location}

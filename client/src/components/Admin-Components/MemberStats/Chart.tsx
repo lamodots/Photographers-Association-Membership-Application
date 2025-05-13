@@ -26,10 +26,9 @@ function Chart({ male, female }: ChatData) {
       <h3 className="text-xs uppercase text-center text-[#1A4F83] font-bold">
         MEMBER DEMOGRAPHY
       </h3>
-      {/* <p className="text-xs  text-center text-[#1A4F83] mt-2 ">
-        <span className="text-[#FFAE80] font-bold text-[18px]">Male</span> /
-        Female
-      </p> */}
+      <p className="text-xs  text-center text-[#1A4F83] mt-2 ">
+        The stats of members who completed onboarding.
+      </p>
       <div className="flex justify-center mt-10 w-full">
         {/* <img src={chart} /> */}
         <Doughnut options={options} data={data} />

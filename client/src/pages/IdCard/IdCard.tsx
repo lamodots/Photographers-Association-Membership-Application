@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import Advertisment from "../../components/Advertisment/Advertisment";
 import NewIDCard from "./NewIDCard";
 import { monthdayyearFormater } from "../../util/monthdayyearFormater";
+import { yearsInNigeria } from "../../util/getYearsInNigeria";
 
 // ID Card Component
 const IdCard = React.forwardRef<
@@ -23,9 +24,10 @@ const IdCard = React.forwardRef<
     memberId?: any;
     familyInLagos?: boolean;
     welfare?: any;
+    location?: any;
   }
 >((props, ref) => {
-  console.log(props);
+  console.log("MY PROPS", props);
   return (
     <div
       ref={ref}
@@ -111,7 +113,14 @@ const IdCard = React.forwardRef<
             <div className="flex justify-center gap-1 mb-1">
               <span>Area:</span>
 
-              <span className="text-center">{props.member.location}</span>
+              <span className="text-center">{props?.member.location}</span>
+              <span>{props.location}</span>
+            </div>
+            <div className="flex justify-center gap-1 mb-1 text-gray-600">
+              <span>
+                Living in NG for {yearsInNigeria(props?.member.dateOfEntry)}{" "}
+                {"  "} yrs
+              </span>
             </div>
             <div className="relative left-[150px] -bottom-8">
               <span className="text-[9px] w-36">Valid till:</span>{" "}
@@ -257,6 +266,7 @@ function PrintableIdCards() {
                   member={member}
                   memberId={user.memberId}
                   familyInLagos={user.familyInLagos}
+                  location={user.location}
                 />
               </div>
             ))}
@@ -274,7 +284,8 @@ const IdCardComponent: React.FC<{
   member: any;
   memberId?: any;
   familyInLagos?: boolean;
-}> = ({ member, memberId, familyInLagos }) => {
+  location?: any;
+}> = ({ member, memberId, familyInLagos, location }) => {
   const { currentUser } = useCurrentUser();
   const componentRef = useRef<HTMLDivElement>(null);
   const [isDownloading, setIsDownloading] = useState(false);
@@ -379,6 +390,7 @@ const IdCardComponent: React.FC<{
             membership={membershipItem}
             welfare={welfareItem}
             memberId={memberId}
+            location={location}
             familyInLagos={familyInLagos}
           />
           <div className="flex  justify-center mt-4 space-x-4">

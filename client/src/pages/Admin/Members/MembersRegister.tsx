@@ -901,7 +901,8 @@ const MembersRegister = () => {
                           <div className="mt-1">
                             <span
                               className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                                member.currentMembership?.status === "active"
+                                member.currentMembership?.status === "active" ||
+                                member.isHonouraryMember
                                   ? "bg-green-100 text-green-800"
                                   : "bg-red-100 text-red-800"
                               }`}
