@@ -674,7 +674,9 @@ const MembersRegister = () => {
           (member) =>
             member.location?.toLowerCase().includes(term) ||
             member.fullName?.toLowerCase().includes(term) ||
-            member.memberId?.toLowerCase().includes(term)
+            member.memberId?.toLowerCase().includes(term) ||
+            member.membershipType?.toLowerCase().includes(term) ||
+            member.title?.toLowerCase().includes(term)
         ) || [];
     }
 

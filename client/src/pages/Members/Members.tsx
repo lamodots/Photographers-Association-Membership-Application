@@ -34,6 +34,7 @@ interface UserProps {
   social: SocialLink[];
   title: string;
   interest: Interest;
+  membershipType: string;
 }
 function Members() {
   // const [userData, setUserData] = useState(FAKE_MEMBERS);
@@ -62,7 +63,12 @@ function Members() {
       (user.firstname?.toLowerCase() ?? "").includes(
         searchQuery.toLowerCase()
       ) ||
-      user.memberId?.toLocaleLowerCase().includes(searchQuery.toLowerCase())
+      user.memberId?.toLocaleLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.title?.toLocaleLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.location?.toLocaleLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.membershipType
+        ?.toLocaleLowerCase()
+        .includes(searchQuery.toLowerCase())
   );
 
   // pagination

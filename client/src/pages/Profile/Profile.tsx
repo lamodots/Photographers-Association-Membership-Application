@@ -145,8 +145,12 @@ const FamilyMemberForm = ({
             >
               <Upload />
             </label>
-            <span className="text-xs absolute  bottom-0 left-0  text-orange-500">
+            {/* <span className="text-xs absolute  bottom-0 left-0  text-orange-500">
               Upload photo
+            </span> */}
+            <span className="text-xs  absolute  -bottom-8 left-3  text-orange-800">
+              Upload photo of <br />
+              35mm x 45mm size
             </span>
             <input
               id={`family-member-image-upload-${index}`}

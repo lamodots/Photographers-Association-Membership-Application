@@ -30,6 +30,8 @@ interface UserProps {
   aboutuser: string;
   social: SocialLink[];
   interest: Interest;
+  title: string;
+  membershipType: string;
 }
 function Members() {
   const { currentUser, fetchCurrentUser } = useCurrentUser();
@@ -65,7 +67,16 @@ function Members() {
       (user) =>
         user.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         user.firstname?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        user.memberId?.toLocaleLowerCase().includes(searchQuery.toLowerCase())
+        user.memberId
+          ?.toLocaleLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        user.location
+          ?.toLocaleLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        user.membershipType
+          ?.toLocaleLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        user.title?.toLocaleLowerCase().includes(searchQuery.toLowerCase())
     ) || [];
 
   // pagination
@@ -205,21 +216,6 @@ function Members() {
               <span className="absolute left-0 right-0 -bottom-[15px] h-[2px] bg-blue-700 origin-left scale-x-0 transition-transform duration-200 group-hover:scale-x-100 aria-[current=page]:scale-x-100" />
             </span>
           </NavLink>
-
-          <NavLink
-            to="/secure/honorary-members" // Update to your actual path
-            className={({ isActive }) =>
-              `relative h-full flex items-center px-1 transition-colors duration-200 group ${
-                isActive ? "text-blue-700" : "text-gray-500 hover:text-blue-700"
-              }`
-            }
-          >
-            <span className="relative">
-              Honorary Members
-              {/* Hover/Active border */}
-              <span className="absolute left-0 right-0 -bottom-[15px] h-[2px] bg-blue-700 origin-left scale-x-0 transition-transform duration-200 group-hover:scale-x-100 aria-[current=page]:scale-x-100" />
-            </span>
-          </NavLink>
         </div>
         {/* <h1 className="text-2xl text-[#212529] font-bold">Memebers List</h1> */}
 
@@ -268,7 +264,7 @@ function Members() {
                 state={user}
               >
                 <NewMemberCard
-                  name={user?.firstname}
+                  name={user.title + " " + user.firstname + " " + user.lastname}
                   image={user?.image}
                   email={user?.email}
                 />

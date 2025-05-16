@@ -29,7 +29,7 @@ function Advertisment() {
           </a>
         )}
       </div>
-      <div className="ads_bottom grid grid-cols-1 md:grid-cols-2 gap-1">
+      <div className="ads_bottom grid grid-cols-2 md:grid-cols-2 gap-1">
         <div className="left">
           {loading ? (
             <Oval height={16} width={16} />
