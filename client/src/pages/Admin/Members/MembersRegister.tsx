@@ -676,7 +676,8 @@ const MembersRegister = () => {
             member.fullName?.toLowerCase().includes(term) ||
             member.memberId?.toLowerCase().includes(term) ||
             member.membershipType?.toLowerCase().includes(term) ||
-            member.title?.toLowerCase().includes(term)
+            member.title?.toLowerCase().includes(term) ||
+            member.profession?.toLowerCase().includes(term)
         ) || [];
     }
 

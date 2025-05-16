@@ -35,6 +35,7 @@ interface UserProps {
   title: string;
   interest: Interest;
   membershipType: string;
+  profession: string;
 }
 function Members() {
   // const [userData, setUserData] = useState(FAKE_MEMBERS);
@@ -68,7 +69,8 @@ function Members() {
       user.location?.toLocaleLowerCase().includes(searchQuery.toLowerCase()) ||
       user.membershipType
         ?.toLocaleLowerCase()
-        .includes(searchQuery.toLowerCase())
+        .includes(searchQuery.toLowerCase()) ||
+      user.profession?.toLocaleLowerCase().includes(searchQuery.toLowerCase())
   );
 
   // pagination

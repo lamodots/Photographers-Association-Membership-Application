@@ -32,6 +32,7 @@ interface UserProps {
   interest: Interest;
   title: string;
   membershipType: string;
+  profession: string;
 }
 function Members() {
   const { currentUser, fetchCurrentUser } = useCurrentUser();
@@ -76,7 +77,8 @@ function Members() {
         user.membershipType
           ?.toLocaleLowerCase()
           .includes(searchQuery.toLowerCase()) ||
-        user.title?.toLocaleLowerCase().includes(searchQuery.toLowerCase())
+        user.title?.toLocaleLowerCase().includes(searchQuery.toLowerCase()) ||
+        user.profession?.toLocaleLowerCase().includes(searchQuery.toLowerCase())
     ) || [];
 
   // pagination
