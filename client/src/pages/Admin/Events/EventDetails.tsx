@@ -302,7 +302,9 @@ function EventDetails() {
                 <h3 className="text-xl font-bold text-shark-950">
                   About this event
                 </h3>
-                <p className="text-shark-600">{annoucementData?.description}</p>
+                <p className="text-shark-600 text-justify">
+                  {annoucementData?.description}
+                </p>
               </header>
             </Suspense>
             <Link

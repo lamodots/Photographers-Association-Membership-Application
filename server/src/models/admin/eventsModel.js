@@ -33,6 +33,8 @@ const eventsSchema = new mongoose.Schema(
         ref: "Applicants",
       },
     ],
+    is_paid_event: { type: Boolean, default: false },
+    amount: Number,
 
     createdBy: {
       type: mongoose.Types.ObjectId,

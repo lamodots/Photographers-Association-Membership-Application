@@ -107,7 +107,7 @@ const IdCard = React.forwardRef<
             <div className="flex justify-center mb-1">
               {/* <span className="font-semibold w-36">Membership Category:</span> */}
               <span className="text-[14px] font-bold">
-                {props.membership.membershipType.split("s")[0]}
+                {props?.membership?.membershipType.split("s")[0]}
               </span>
             </div>
             <div className="flex justify-center gap-1 mb-1">

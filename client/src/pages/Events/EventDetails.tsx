@@ -6,6 +6,11 @@ import { Oval } from "react-loader-spinner";
 import { dateFormater } from "../../util/DateFormater";
 import FeaturedEvents from "../../components/FeaturedEvents/FeaturedEvents";
 import Advertisment from "../../components/Advertisment/Advertisment";
+import { useCurrentUser } from "../../context/AdminContext";
+import {
+  useMembershipActive,
+  useWelfareActive,
+} from "../../hooks/useFetchPayment";
 
 const API_URL = process.env.REACT_APP_CLIENT_URL;
 
@@ -18,11 +23,19 @@ interface AnnouncementProps {
   endDate: string;
   time: string;
   venue: string;
+  amount: string;
+  is_paid_event: boolean;
 }
 function EventDetails() {
+  const { currentUser } = useCurrentUser();
+  const [membershipItem] = useMembershipActive();
+  const [welfareItem] = useWelfareActive();
   const [annoucementData, setAnnouncementData] = useState<AnnouncementProps>();
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleteting, setIsDeleteting] = useState(false);
+  const activeMember = currentUser?.user.isHonouraryMember
+    ? welfareItem?.status === "active"
+    : membershipItem?.status === "active" && welfareItem?.status === "active";
   const { id } = useParams();
 
   console.log(annoucementData?.photoImage);
@@ -54,6 +67,29 @@ function EventDetails() {
     getAnnoucement();
   }, [id]);
 
+  // check when to show pay and reserver button
+  const shouldShowPayButton = () => {
+    // Not logged in - always pay for any event
+    if (!currentUser) return true;
+
+    // Logged in user:
+    // - Paid event: always pay
+    // - Free event: pay only if not active member
+    if (annoucementData?.is_paid_event) return true;
+    if (!annoucementData?.is_paid_event && !activeMember) return true;
+
+    return false;
+  };
+  function handlePayment() {
+    console.log("log");
+    if (!currentUser) {
+      console.log("FORM TO FILL EMAIL");
+      return <p>Form to fill email and continue</p>;
+    } else {
+      // call paystack payout
+      console.log("Paystackk function");
+    }
+  }
   return (
     <div>
       <main>
@@ -116,7 +152,7 @@ function EventDetails() {
                   <h3 className="text-xl font-bold text-shark-950 mt-6">
                     About this event
                   </h3>
-                  <p className="text-shark-600">
+                  <p className="text-shark-600 text-justify">
                     {annoucementData?.description}
                   </p>
                   <div className="mt-6 flex items-center justify-center bg-gradient-to-r from-indigo-50 via-purple-50 rounded-lg to-pink-50 mb-6">
@@ -130,15 +166,35 @@ function EventDetails() {
                 <div>
                   {/* // side */}
 
-                  <div className="p-8 bg-white border border-zinc-300 rounded-lg">
-                    <Link
-                      to={`/events/${annoucementData?._id}/register`}
-                      state={{ annoucementData }}
-                      className="px-6 mt-6 cursor-pointer rounded-lg h-14 flex justify-center items-center bg-[#1A4F83] text-center text-sm font-bold text-[#F4F6F7] "
-                    >
-                      Reserve a spot
-                    </Link>
-                  </div>
+                  {shouldShowPayButton() ? (
+                    <div>
+                      <p className="font-bold">
+                        Fee: ₦{annoucementData?.amount}
+                      </p>
+                      <small className="text-[10px]">
+                        You are seeing Fee because you are not logged in or
+                        don't have active subscription
+                      </small>
+                      <div className="p-8 bg-white border border-zinc-300 rounded-lg">
+                        <button
+                          onClick={handlePayment}
+                          className="px-6 mt-6 w-full cursor-pointer rounded-lg h-14 flex justify-center items-center bg-[#1A4F83] text-center text-sm font-bold text-[#F4F6F7]"
+                        >
+                          Pay
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="p-8 bg-white border border-zinc-300 rounded-lg">
+                      <Link
+                        to={`/events/${annoucementData?._id}/register`}
+                        state={{ annoucementData }}
+                        className="px-6 mt-6 cursor-pointer rounded-lg h-14 flex justify-center items-center bg-[#1A4F83] text-center text-sm font-bold text-[#F4F6F7]"
+                      >
+                        Reserve a spot
+                      </Link>
+                    </div>
+                  )}
                 </div>
               </div>
             </Suspense>

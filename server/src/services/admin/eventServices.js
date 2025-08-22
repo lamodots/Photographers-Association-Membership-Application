@@ -2,6 +2,7 @@ const { BadRequestError } = require("../../errors");
 const { EventsModel } = require("../../models");
 
 async function createEventService(body) {
+  console.log("servicesss", body);
   const event = new EventsModel(body);
 
   await event.save();
@@ -10,11 +11,12 @@ async function createEventService(body) {
 }
 async function getAllEventService() {
   try {
-    const event = await EventsModel.find({}).populate({
-      path: "createdBy",
-      select: "firstname lastname -_id",
-    });
-
+    const event = await EventsModel.find({})
+      .populate({
+        path: "createdBy",
+        select: "firstname lastname -_id",
+      })
+      .sort({ createdAt: -1 });
     return event;
   } catch (error) {
     throw new Error("Failed to fetch Events. Please try again later.");

@@ -228,6 +228,12 @@ const completeOnboardingService = async (email, userData) => {
     }
     // updatedUser.isOnboarded = true;
     // await updatedUser.save();
+    // Send WhatsApp message only after successful DB update
+    await sendWhatsMessage(
+      updatedUser.whatsappId,
+      updatedUser.firstname,
+      updatedUser.memberId
+    );
     return updatedUser;
   } catch (error) {
     throw new Error("Error completing onboarding process: " + error.message);

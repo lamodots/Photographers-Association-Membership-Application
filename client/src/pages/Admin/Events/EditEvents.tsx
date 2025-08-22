@@ -9,6 +9,7 @@ import Button from "../../../components/Button/Button";
 import useWordCount from "../../../hooks/useWordCount";
 import { formatTimeWithAmPm } from "../../../util/formatTimeWithAMPM";
 import { useNavigate, useParams } from "react-router-dom";
+import Switch from "../../../components/Switch/Switch";
 
 const API_URL = process.env.REACT_APP_CLIENT_URL;
 
@@ -20,12 +21,14 @@ interface EventProps {
   time: string;
   venue: string;
   description: string;
+  amount: string;
 }
 
 function EditEvents() {
   const { wordCount, handleWordCount } = useWordCount();
   const [eventData, setEventData] = useState<EventProps | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isEnabled, setIsEnabled] = useState(false);
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -40,10 +43,8 @@ function EditEvents() {
     photoImage: Yup.mixed().required("Event image is required"),
     time: Yup.string().required("Event time required"),
     venue: Yup.string().required("Where is the Event happening ? Add venue"),
-    description: Yup.string()
-      .trim()
-      .max(400)
-      .required("Event description is required"),
+    amount: Yup.string().required("Add event Fee "),
+    description: Yup.string().trim().required("Event description is required"),
   });
 
   // const initialValues: EventProps = {
@@ -68,6 +69,7 @@ function EditEvents() {
     time: eventData?.time ? eventData?.time.split(" ")[0] : "",
     venue: eventData?.venue || "",
     description: eventData?.description || "",
+    amount: eventData?.amount || "",
   };
 
   async function getEvent() {
@@ -106,6 +108,8 @@ function EditEvents() {
       formData.append("time", formatTimeWithAmPm(values.time));
       formData.append("venue", values.venue);
       formData.append("description", values.description);
+      formData.append("amount", values.amount);
+      formData.append("is_paid_event", isEnabled.toString());
 
       await new Promise((resolve) => setTimeout(resolve, 500));
       const res = await fetch(`${API_URL}/api/v1/secure/events/${id}`, {
@@ -133,7 +137,7 @@ function EditEvents() {
   return (
     <main>
       <section>
-        <h1 className="text-2xl text-[#212529] font-bold">Create Event</h1>
+        <h1 className="text-2xl text-[#212529] font-bold">Edit Event</h1>
         <div className="form mt-8 w-full max-w-[600px]">
           <Formik
             initialValues={initialValues}
@@ -246,6 +250,20 @@ function EditEvents() {
                       {errors.venue && errors.venue}
                     </span>
                   </div>
+                  <div className="space-y-2 ">
+                    <Lable label="Event Fee *" className="text-xs" />
+                    <TextInput
+                      type="number"
+                      name="amount"
+                      value={values.amount}
+                      handleInputChange={handleChange}
+                      placeholderText="Enter event Fee"
+                      className="w-full"
+                    />
+                    <span className="text-[10px] text-red-400">
+                      {errors.amount && errors.amount}
+                    </span>
+                  </div>
                   <div className="space-y-2">
                     <Lable label="Event Description *" className="text-xs" />
                     <div>
@@ -270,6 +288,13 @@ function EditEvents() {
                           {wordCount}/400
                         </small>
                       </div>
+                    </div>
+                    <div>
+                      <p className="mb-6">Event Type:</p>
+                      <Lable label="FREE " />
+                      <Switch value={isEnabled} onChange={setIsEnabled} />
+
+                      <Lable label="PAID" />
                     </div>
                   </div>
                 </div>

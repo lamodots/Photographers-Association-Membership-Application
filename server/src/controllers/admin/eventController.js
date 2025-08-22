@@ -14,10 +14,23 @@ const cloudinary = require("cloudinary").v2;
 const crypto = require("crypto");
 
 async function createEvents(req, res, next) {
-  const { title, startDate, endDate, time, venue, description } = req.body;
-  if (!title || !startDate || !endDate || !time || !venue || !description) {
+  console.log(req.body);
+  const { title, startDate, endDate, time, venue, amount, description } =
+    req.body;
+  if (
+    !title ||
+    !startDate ||
+    !endDate ||
+    !time ||
+    !venue ||
+    !amount ||
+    !description
+  ) {
     return next(new BadRequestError("All fileds are required"));
   }
+
+  //Parse back value of is_padi_event to boolean
+  const isPaidEvent = req.body.is_paid_event === "true";
 
   try {
     const eventImage = req.files.photoImage;
@@ -80,7 +93,9 @@ async function createEvents(req, res, next) {
       endDate: endDate,
       description: description,
       time: time,
+      amount: parseInt(amount),
       venue: venue,
+      is_paid_event: isPaidEvent,
       photoImage: result.secure_url,
       createdBy: req.user.userId,
     });
@@ -108,7 +123,7 @@ async function getAllEvents(req, res, next) {
 async function getSingleEvent(req, res, next) {
   try {
     const { id } = req.params;
-    console.log(typeof id);
+
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return next(new BadRequestError("ID is not a valid ID"));
     }
@@ -123,7 +138,12 @@ async function getSingleEvent(req, res, next) {
 async function editEvent(req, res, next) {
   const { id } = req.params;
   // const body = req.body;
-  const { title, startDate, endDate, time, venue, description } = req.body;
+  const { title, startDate, endDate, time, venue, amount, description } =
+    req.body;
+
+  //Parse back value of is_padi_event to boolean
+  const isPaidEvent = req.body.is_paid_event === "true";
+
   try {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return next(new BadRequestError("ID is not a valid ID"));
@@ -181,6 +201,8 @@ async function editEvent(req, res, next) {
       description: description,
       time: time,
       venue: venue,
+      amount: parseInt(amount),
+      is_paid_event: isPaidEvent,
       photoImage: result.secure_url,
       createdBy: req.user.userId,
     });

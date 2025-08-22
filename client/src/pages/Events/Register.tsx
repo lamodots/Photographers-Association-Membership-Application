@@ -8,6 +8,11 @@ import { useLocation, useParams } from "react-router-dom";
 import { dateFormater } from "../../util/DateFormater";
 import { Calendar, Locate } from "lucide-react";
 import Advertisment from "../../components/Advertisment/Advertisment";
+import { useCurrentUser } from "../../context/AdminContext";
+import {
+  useMembershipActive,
+  useWelfareActive,
+} from "../../hooks/useFetchPayment";
 
 const API_URL = process.env.REACT_APP_CLIENT_URL;
 
@@ -26,6 +31,9 @@ interface Attendee {
 }
 
 function RegisterEvent() {
+  const { currentUser } = useCurrentUser();
+  const [membershipItem] = useMembershipActive();
+  const [welfareItem] = useWelfareActive();
   const [attendees, setAttendees] = useState<Attendee[]>([]); // Start with no attendees
   const [formValues, setFormValues] = useState<FormValues>({
     fullname: "",
@@ -184,6 +192,17 @@ function RegisterEvent() {
       setIsSubmitting(false);
     }
   };
+
+  const activeMember = currentUser?.user.isHonouraryMember
+    ? welfareItem?.status === "active"
+    : membershipItem?.status === "active" && welfareItem?.status === "active";
+
+  if (
+    (!eventData?.is_paid_event && !activeMember) ||
+    eventData?.is_paid_event
+  ) {
+    return <p>The event is </p>;
+  }
 
   return (
     <div className="p-6 max-w-4xl mx-auto bg-zinc-50 rounded-lg shadow-sm font-sans">
