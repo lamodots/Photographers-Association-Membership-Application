@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const { sendEmailSendGridServices } = require("../config");
 const { BadRequestError } = require("../errors");
 // const { sanitizeInput } = require("../utils/sanitizeInput");
@@ -13,6 +14,7 @@ const {
 } = require("../utils");
 const generateMembershipID = require("../utils/generateUniqueMembershipId");
 const sanitizeInput = require("../utils/sanitizeInput");
+const sendWhatsMessage = require("../utils/facebookMessage");
 
 async function getAllUsersService() {
   const users = await User.find({ role: "user", isVerified: true })
@@ -214,28 +216,62 @@ const completeOnboardingService = async (email, userData) => {
   }
 
   // Process the user data (e.g., save to database)
+  // try {
+  //   const membershipID = generateMembershipID();
+  //   const updatedUser = await User.findOneAndUpdate(
+  //     { email },
+  //     { ...sanitizedData, memberId: membershipID, isOnboarded: true },
+  //     {
+  //       new: true,
+  //     }
+  //   );
+  //   if (!updatedUser) {
+  //     throw new Error("User not found.");
+  //   }
+  //   // updatedUser.isOnboarded = true;
+  //   // await updatedUser.save();
+  //   // Send WhatsApp message only after successful DB update
+  //   await sendWhatsMessage(
+  //     updatedUser.whatsappId,
+  //     updatedUser.firstname,
+  //     updatedUser.memberId
+  //   );
+  //   return updatedUser;
+  // } catch (error) {
+  //   throw new Error("Error completing onboarding process: " + error.message);
+  // }
+  // Transactional update
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try {
-    const membershipID = generateMembershipID();
-    const updatedUser = await User.findOneAndUpdate(
-      { email },
-      { ...sanitizedData, memberId: membershipID, isOnboarded: true },
-      {
-        new: true,
-      }
-    );
-    if (!updatedUser) {
+    const existingUser = await User.findOne({ email }).session(session);
+    if (!existingUser) {
       throw new Error("User not found.");
     }
-    // updatedUser.isOnboarded = true;
-    // await updatedUser.save();
-    // Send WhatsApp message only after successful DB update
+
+    // Update user with sanitized data
+    Object.assign(existingUser, sanitizedData, { isOnboarded: true });
+    await existingUser.save({ session });
+
+    // Generate and assign memberId
+    const membershipID = generateMembershipID();
+    existingUser.memberId = membershipID;
+    await existingUser.save({ session });
+
+    // Commit transaction
+    await session.commitTransaction();
+    session.endSession();
+    // Send WhatsApp message after successful commit
     await sendWhatsMessage(
-      updatedUser.whatsappId,
-      updatedUser.firstname,
-      updatedUser.memberId
+      existingUser.whatsappId,
+      existingUser.firstname,
+      existingUser.memberId
     );
-    return updatedUser;
+    return existingUser;
   } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
     throw new Error("Error completing onboarding process: " + error.message);
   }
 };
