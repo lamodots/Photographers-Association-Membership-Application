@@ -333,7 +333,6 @@ const API_URL = process.env.REACT_APP_CLIENT_URL;
 function Profile() {
   const { currentUser } = useCurrentUser();
   const { appData } = useFetchAppData();
-  console.log();
   // Fetch Location from Database
   const area = appData?.secretaries.map((v, i) => (
     <option key={i}>{v.area}</option>
