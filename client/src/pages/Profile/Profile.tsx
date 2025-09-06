@@ -330,6 +330,7 @@ const FamilyMemberForm = ({
 
 const API_URL = process.env.REACT_APP_CLIENT_URL;
 
+console.log("api link", API_URL);
 function Profile() {
   const { currentUser } = useCurrentUser();
   const { appData } = useFetchAppData();
@@ -786,6 +787,11 @@ function Profile() {
         formData.append(`familyMemberImage_${index}`, file);
       });
 
+      if (!currentUser?.user?._id) {
+        console.error("User ID is missing");
+        return;
+      }
+      console.log("USER ID in profile", currentUser?.user?._id);
       // Send the request
       const response = await fetch(
         `${API_URL}/api/v1/users/profile/${currentUser?.user._id}`,
