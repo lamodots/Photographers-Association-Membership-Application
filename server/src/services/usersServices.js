@@ -15,7 +15,10 @@ const {
 const generateMembershipID = require("../utils/generateUniqueMembershipId");
 const sanitizeInput = require("../utils/sanitizeInput");
 const sendWhatsMessage = require("../utils/facebookMessage");
+const EmailServices = require("./email.services");
 
+const fullUrl = process.env.PROTOCOL_HOST;
+const sendEmail = new EmailServices();
 async function getAllUsersService() {
   const users = await User.find({ role: "user", isVerified: true })
     .select("-password")
@@ -39,8 +42,13 @@ async function registerUserService(body) {
       throw new BadRequestError("Email Already Exist");
     }
 
-    const user = await User(body);
+    const user = new User(body);
     await user.save();
+    await sendEmail.sendVerificationEmail({
+      fullUrl,
+      newUserEamil: user.email,
+      verificationToken: user.verificationToken,
+    });
     return user;
   } catch (error) {
     if (error.name === "ValidationError") {

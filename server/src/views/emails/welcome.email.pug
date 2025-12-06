@@ -1,0 +1,26 @@
+doctype
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Verify Your Email Address
+    body
+        p
+        span(style=" color: #080808; font-size: 14px ") Kerala Samajam Nigeria
+        h1(style="background-color: #333333; padding: 12px 24px ; color: #ffffff; ") Verify Your Email Address 
+        p We are excited to have you on board !
+        h2 Confirm Your Email 
+        p Thank you for signing up with KSN! To complete your registration and start using your account, please verify your email address by clicking the button below .
+        a(href=fullUrl + '/verify?token=' + verificationToken + '&email=' + newUserEamil,
+ target="_blank", rel="noopener noreferrer", style="background-color: #333333; padding: 12px  24px; border-radius: 8px; color: #ffffff ; text-decoration: none;") Verify Email Address
+        p If you did not create an account, no further action is required.
+        p If the button above does not work, copy and paste the following link into your browser: 
+        code #{fullUrl}/verify?token=#{verificationToken}&email=#{newUserEamil}
+        p Regards 
+        p KSN Team
+        footer
+            .container
+                p
+                | &copy; #{new Date().getFullYear()} | All rights reserved
+                
+
