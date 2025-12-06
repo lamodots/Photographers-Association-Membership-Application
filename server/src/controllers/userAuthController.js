@@ -21,9 +21,11 @@ const { string } = require("yup");
 const sendWhatsMessage = require("../utils/facebookMessage");
 const sendMailFunc = require("../utils/sendMailFunc");
 const { NONAME } = require("dns");
+const EmailServices = require("../services/email.services");
 // const { sendWhatsMessage } = require("../utils/facebookMessage");
 
 const fullUrl = process.env.PROTOCOL_HOST;
+const sendEmail = new EmailServices(); // from new email services i made
 
 const registerUserController = async (req, res, next) => {
   // const fullUrl = `${req.protocol}://${req.get("host")}`;
@@ -41,19 +43,26 @@ const registerUserController = async (req, res, next) => {
   try {
     const verificationToken = crypto.randomBytes(40).toString("hex");
 
-    const newUser = await registerUserService({
+    await registerUserService({
       email,
       password,
       verificationToken,
     });
+    // used before new email servies
+    // const newUser = await registerUserService({
+    //   email,
+    //   password,
+    //   verificationToken,
+    // });
 
-    const verifyTemplate = verifyUserEmailTemplate(
-      fullUrl,
-      newUser.email,
-      newUser.verificationToken
-    );
+    //  used before new email servies
+    // const verifyTemplate = verifyUserEmailTemplate(
+    //   fullUrl,
+    //   newUser.email,
+    //   newUser.verificationToken
+    // );
     // await sendEmailSendGridServices(verifyTemplate);
-    await sendMailFunc(verifyTemplate);
+    // await sendMailFunc(verifyTemplate); used before new email servies
     return res
       .status(StatusCodes.CREATED)
       .json({ ok: true, message: "User created sucessfully" });
